@@ -15,6 +15,7 @@
 		58F7476D220E43590060A5D3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58F7476B220E43590060A5D3 /* Main.storyboard */; };
 		58F7476F220E435B0060A5D3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58F7476E220E435B0060A5D3 /* Assets.xcassets */; };
 		58F74772220E435B0060A5D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58F74770220E435B0060A5D3 /* LaunchScreen.storyboard */; };
+		58F7477A220E439C0060A5D3 /* AnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F74779220E439C0060A5D3 /* AnalogJoystick.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		58F7476E220E435B0060A5D3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		58F74771220E435B0060A5D3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		58F74773220E435B0060A5D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		58F74779220E439C0060A5D3 /* AnalogJoystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogJoystick.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				58F74761220E43590060A5D3 /* AppDelegate.swift */,
+				58F74779220E439C0060A5D3 /* AnalogJoystick.swift */,
 				58F74763220E43590060A5D3 /* GameScene.sks */,
 				58F74765220E43590060A5D3 /* Actions.sks */,
 				58F74767220E43590060A5D3 /* GameScene.swift */,
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58F74768220E43590060A5D3 /* GameScene.swift in Sources */,
+				58F7477A220E439C0060A5D3 /* AnalogJoystick.swift in Sources */,
 				58F7476A220E43590060A5D3 /* GameViewController.swift in Sources */,
 				58F74762220E43590060A5D3 /* AppDelegate.swift in Sources */,
 			);

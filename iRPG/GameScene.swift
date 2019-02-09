@@ -16,26 +16,27 @@ class GameScene: SKScene {
         //Carga de las imagenes del joystick
         var joystickStickImageEnabled = true {
             didSet {
-                let image = joystickStickImageEnabled ? UIImage(named: "jStick") : nil
+                let image = joystickStickImageEnabled ? UIImage(named: "jStick2") : nil
+                
                 rotateAnalogStick.stick.image = image
             }
         }
         
         var joystickSubstrateImageEnabled = true {
             didSet {
-                let image = joystickSubstrateImageEnabled ? UIImage(named: "jSubstrate") : nil
+                let image = joystickSubstrateImageEnabled ? UIImage(named: "jSubstrate2") : nil
                 rotateAnalogStick.substrate.image = image
             }
         }
         //Creacion del Joystick
-        let rotateAnalogStick = AnalogJoystick(diameter: 110) // from Class
+        let rotateAnalogStick = AnalogJoystick(diameter: 160) // from Class
         
         
         override func didMove(to view: SKView) {
             /* Setup your scene here */
             backgroundColor = UIColor.white
             physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
-            rotateAnalogStick.position = CGPoint(x:-self.frame.maxY/2+rotateAnalogStick.radius, y:-self.frame.maxX/2+rotateAnalogStick.radius+10)
+            rotateAnalogStick.position = CGPoint(x:-self.frame.maxX+rotateAnalogStick.radius+70, y:-self.frame.maxY+rotateAnalogStick.radius+70)
             addChild(rotateAnalogStick)
             
             //al mover el Joystick cambia la orientacion del jugador

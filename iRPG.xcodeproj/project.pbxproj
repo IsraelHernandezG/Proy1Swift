@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		58088CD1223AB10700BFF480 /* Niveles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58088CD0223AB10700BFF480 /* Niveles.xcassets */; };
 		58735FFA220E5EF4001C8075 /* CavernRockSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58735FF9220E5EF4001C8075 /* CavernRockSet.sks */; };
+		589F7A0D22370CEA0019DF1D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F7A0C22370CEA0019DF1D /* Player.swift */; };
+		589F7A0F223715270019DF1D /* TileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F7A0E223715270019DF1D /* TileMap.swift */; };
+		589F7A11223738200019DF1D /* GameUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F7A10223738200019DF1D /* GameUI.swift */; };
 		58F74762220E43590060A5D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F74761220E43590060A5D3 /* AppDelegate.swift */; };
 		58F74764220E43590060A5D3 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58F74763220E43590060A5D3 /* GameScene.sks */; };
 		58F74766220E43590060A5D3 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58F74765220E43590060A5D3 /* Actions.sks */; };
@@ -20,7 +24,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		58088CD0223AB10700BFF480 /* Niveles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Niveles.xcassets; sourceTree = "<group>"; };
 		58735FF9220E5EF4001C8075 /* CavernRockSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CavernRockSet.sks; sourceTree = "<group>"; };
+		589F7A0C22370CEA0019DF1D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		589F7A0E223715270019DF1D /* TileMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileMap.swift; sourceTree = "<group>"; };
+		589F7A10223738200019DF1D /* GameUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUI.swift; sourceTree = "<group>"; };
 		58F7475E220E43590060A5D3 /* iRPG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iRPG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F74761220E43590060A5D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58F74763220E43590060A5D3 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -64,8 +72,11 @@
 		58F74760220E43590060A5D3 /* iRPG */ = {
 			isa = PBXGroup;
 			children = (
-				58F74761220E43590060A5D3 /* AppDelegate.swift */,
 				58F74779220E439C0060A5D3 /* AnalogJoystick.swift */,
+				589F7A0E223715270019DF1D /* TileMap.swift */,
+				589F7A0C22370CEA0019DF1D /* Player.swift */,
+				589F7A10223738200019DF1D /* GameUI.swift */,
+				58F74761220E43590060A5D3 /* AppDelegate.swift */,
 				58F74763220E43590060A5D3 /* GameScene.sks */,
 				58F74765220E43590060A5D3 /* Actions.sks */,
 				58F74767220E43590060A5D3 /* GameScene.swift */,
@@ -75,6 +86,7 @@
 				58735FF9220E5EF4001C8075 /* CavernRockSet.sks */,
 				58F74770220E435B0060A5D3 /* LaunchScreen.storyboard */,
 				58F74773220E435B0060A5D3 /* Info.plist */,
+				58088CD0223AB10700BFF480 /* Niveles.xcassets */,
 			);
 			path = iRPG;
 			sourceTree = "<group>";
@@ -111,6 +123,7 @@
 				TargetAttributes = {
 					58F7475D220E43590060A5D3 = {
 						CreatedOnToolsVersion = 10.0;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -137,6 +150,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58088CD1223AB10700BFF480 /* Niveles.xcassets in Resources */,
 				58F7476D220E43590060A5D3 /* Main.storyboard in Resources */,
 				58F74764220E43590060A5D3 /* GameScene.sks in Resources */,
 				58735FFA220E5EF4001C8075 /* CavernRockSet.sks in Resources */,
@@ -155,7 +169,10 @@
 			files = (
 				58F74768220E43590060A5D3 /* GameScene.swift in Sources */,
 				58F7477A220E439C0060A5D3 /* AnalogJoystick.swift in Sources */,
+				589F7A11223738200019DF1D /* GameUI.swift in Sources */,
 				58F7476A220E43590060A5D3 /* GameViewController.swift in Sources */,
+				589F7A0D22370CEA0019DF1D /* Player.swift in Sources */,
+				589F7A0F223715270019DF1D /* TileMap.swift in Sources */,
 				58F74762220E43590060A5D3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,6 +319,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HYV9W4894X;
 				INFOPLIST_FILE = iRPG/Info.plist;
@@ -311,6 +329,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.IsraelHG.iRPG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iRPG/iRPG-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -320,6 +340,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = HYV9W4894X;
 				INFOPLIST_FILE = iRPG/Info.plist;
@@ -329,6 +350,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.IsraelHG.iRPG;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "iRPG/iRPG-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

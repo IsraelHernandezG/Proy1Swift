@@ -48,7 +48,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let texturePlayerNW = SKTexture(image: UIImage(named: "07-vistaNW")!)
         let texturePlayerMask = SKTexture(image: UIImage(named: "Mascara")!)
         let playerCategory: UInt32 = 0x01 << 0
-        //
+        //Elementos de la intefaz
+        var intefaz = SKNode()
         let textureMenuButton = SKTexture(image: UIImage(named: "menuButton")!)
         let textureMenuButtonPressed = SKTexture(image: UIImage(named: "menuButtonPressed")!)
         let textureButtonUp = SKTexture(image: UIImage(named: "shadedLightUp")!)
@@ -64,6 +65,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var buttonDown = SKSpriteNode()
         var buttonRight = SKSpriteNode()
         var buttonLeft = SKSpriteNode()
+    
+        // Elementos del Menu
+        var contextoMenu = SKNode()
+        let textureLeftTop = SKTexture(image: UIImage(named: "LeftFrameTop")!)
+        let textureCenterTop = SKTexture(image: UIImage(named: "centerFrameTop")!)
+        let textureRightTop = SKTexture(image: UIImage(named: "rightFrameTop")!)
+        let textureMenuWinButton = SKTexture(image: UIImage(named: "buttonFrameTop")!)
+        let textureMenuWinButtonPres = SKTexture(image: UIImage(named: "buttonFrameTopPres")!)
+        var menuWinButton = SKSpriteNode()
     
         // Manejo de archivos
         let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
@@ -97,15 +107,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             loadLevel(1)
             
             //Camara
-            cam = GameUI.init(self.frame).cam
-            
+            cam=SKCameraNode()
+            //Elementos de la UI
+            let nodo: GameUI = GameUI.init(self.frame)
+            intefaz.addChild(nodo.statusBar)
+            //cam!.addChild(nodo.statusBar)
             
             //Joystick
             rotateAnalogStick.position = CGPoint(x:-self.frame.maxX+rotateAnalogStick.radius+65, y:-self.frame.maxY+rotateAnalogStick.radius+65)
             rotateAnalogStick.zPosition = 3
-            cam!.addChild(rotateAnalogStick)
+            intefaz.addChild(rotateAnalogStick)
+            //cam!.addChild(rotateAnalogStick)
+            
             
             createUI()
+            createMenu()
+            
+            cam!.addChild(intefaz)
             
             self.camera=cam
             self.addChild(cam!)
@@ -181,18 +199,65 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             view.isMultipleTouchEnabled = true
+            
         }
+    
+    func createMenu(){
+        
+        let leftTopMenu = SKSpriteNode(texture: textureLeftTop)
+        leftTopMenu.zPosition = 4
+        leftTopMenu.xScale = 2
+        leftTopMenu.yScale = 2
+        leftTopMenu.position = CGPoint(x: -self.frame.maxX+180, y: self.frame.maxY-80)
+        contextoMenu.addChild(leftTopMenu)
+        let centerTopMenu = SKSpriteNode(texture: textureCenterTop)
+        centerTopMenu.zPosition = 4
+        centerTopMenu.xScale = 25
+        centerTopMenu.yScale = 2
+        centerTopMenu.anchorPoint = CGPoint(x: 0, y: 0.5)
+        centerTopMenu.position = CGPoint(x: leftTopMenu.position.x+leftTopMenu.size.width/2, y: leftTopMenu.position.y)
+        contextoMenu.addChild(centerTopMenu)
+        let rightTopMenu = SKSpriteNode(texture: textureRightTop)
+        rightTopMenu.zPosition = 4
+        rightTopMenu.xScale = 2
+        rightTopMenu.yScale = 2
+        rightTopMenu.anchorPoint = CGPoint(x: 0, y: 0.5)
+        rightTopMenu.position = CGPoint(x: centerTopMenu.position.x+centerTopMenu.size.width, y: centerTopMenu.position.y)
+        contextoMenu.addChild(rightTopMenu)
+        menuWinButton = SKSpriteNode(texture: textureMenuWinButton)
+        menuWinButton.name = "MenuWin"
+        menuWinButton.zPosition = 4
+        menuWinButton.xScale = 2
+        menuWinButton.yScale = 2
+        menuWinButton.anchorPoint = CGPoint(x: 0, y: 0.5)
+        menuWinButton.position = CGPoint(x: rightTopMenu.position.x, y: rightTopMenu.position.y)
+        contextoMenu.addChild(menuWinButton)
+        
+        
+    }
+    
+    func lanzaMenu(){
+        
+        self.cam!.addChild(contextoMenu)
+        
+    }
+    
+    func cierramenu(){
+        contextoMenu.removeFromParent()
+    }
+    
+    
     
     func createUI(){
         
-        // Menu Button
+        //Menu Button
         menuButton = SKSpriteNode(texture: textureMenuButton)
         menuButton.name = "Menu"
         menuButton.zPosition = 3
         menuButton.xScale = 2
         menuButton.yScale = 2
         menuButton.position = CGPoint(x: self.frame.maxX-80, y: self.frame.maxY-80)
-        cam!.addChild(menuButton)
+        intefaz.addChild(menuButton)
         
         // Action Buttons
         buttonUp = SKSpriteNode(texture: textureButtonUp)
@@ -200,18 +265,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         buttonUp.zPosition = 3
         buttonUp.xScale = 1.2
         buttonUp.yScale = 1.2
-        buttonUp.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         buttonUp.position = CGPoint(x: self.frame.maxX-150, y: -self.frame.maxY+190)
-        cam!.addChild(buttonUp)
+        intefaz.addChild(buttonUp)
         
         buttonDown = SKSpriteNode(texture: textureButtonDown)
         buttonDown.name = "Abajo"
         buttonDown.zPosition = 3
         buttonDown.xScale = 1.2
         buttonDown.yScale = 1.2
-        buttonDown.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         buttonDown.position = CGPoint(x: buttonUp.position.x, y: buttonUp.position.y-110)
-        cam!.addChild(buttonDown)
+        intefaz.addChild(buttonDown)
         
         buttonRight = SKSpriteNode(texture: textureButtonRight)
         buttonRight.name = "Der"
@@ -219,7 +282,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         buttonRight.xScale = 1.2
         buttonRight.yScale = 1.2
         buttonRight.position = CGPoint(x: buttonUp.position.x+50, y: buttonUp.position.y-55)
-        cam!.addChild(buttonRight)
+        intefaz.addChild(buttonRight)
         
         buttonLeft = SKSpriteNode(texture: textureButtonLeft)
         buttonLeft.name = "Izq"
@@ -227,7 +290,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         buttonLeft.xScale = 1.2
         buttonLeft.yScale = 1.2
         buttonLeft.position = CGPoint(x: buttonUp.position.x-50, y: buttonUp.position.y-55)
-        cam!.addChild(buttonLeft)
+        intefaz.addChild(buttonLeft)
         
        
     }
@@ -235,8 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func readFile() -> NSString{
         
-        let level1Dir = "/Users/israel/Desktop/Proys Xcode/iRPG/iRPG/iRPG/Niveles.xcassets/nivel_1.txt"
-        //let level1Dir = "/Users/Israel/Desktop/Proys Xcode/iRPG/iRPG/Documents/Niveles/nivel_1.txt"
+        let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivel_1.txt"
         
         let file: FileHandle? = FileHandle(forReadingAtPath: level1Dir)
         let vacio = NSString(string: "")
@@ -379,7 +441,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let name = touchedNode.name
             {
                 if name == "Menu"{
-                    self.menuButton.run(SKAction.setTexture(textureMenuButtonPressed))
+                    intefaz.childNode(withName: "Menu")?.run(SKAction.setTexture(textureMenuButtonPressed))
+                    lanzaMenu()
+                    intefaz.removeFromParent()
                 }else if name == "Arriba"{
                     self.buttonUp.run(SKAction.setTexture(textureButtonUpPres))
                 }else if name == "Abajo"{
@@ -388,11 +452,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.buttonRight.run(SKAction.setTexture(textureButtonRightPres))
                 }else if name == "Izq"{
                     self.buttonLeft.run(SKAction.setTexture(textureButtonLeftPres))
+                }else if name == "MenuWin"{
+                    self.menuWinButton.run(SKAction.setTexture(textureMenuWinButtonPres))
+                    
                 }
-                
-                
-                
-                
                 
             }
         }
@@ -405,13 +468,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        self.menuButton.run(SKAction.setTexture(textureMenuButton))
-        self.buttonUp.run(SKAction.setTexture(textureButtonUp))
-        self.buttonDown.run(SKAction.setTexture(textureButtonDown))
-        self.buttonRight.run(SKAction.setTexture(textureButtonRight))
-        self.buttonLeft.run(SKAction.setTexture(textureButtonLeft))
-        
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        for t in touches {
+            
+            
+            //self.touchUp(atPoint: t.location(in: self))
+            let positionInScene = t.location(in: self)
+            let touchedNode = self.atPoint(positionInScene)
+            
+            if let name = touchedNode.name
+            {
+                
+                if name == "Arriba"{
+                    self.buttonUp.run(SKAction.setTexture(textureButtonUp))
+                }else if name == "Abajo"{
+                     self.buttonDown.run(SKAction.setTexture(textureButtonDown))
+                }else if name == "Der"{
+                     self.buttonRight.run(SKAction.setTexture(textureButtonRight))
+                }else if name == "Izq"{
+                     self.buttonLeft.run(SKAction.setTexture(textureButtonLeft))
+                }else if name == "MenuWin"{
+                    cierramenu()
+                    self.menuWinButton.run(SKAction.setTexture(textureMenuWinButton))
+                    self.menuButton.run(SKAction.setTexture(textureMenuButton))
+                    cam!.addChild(intefaz)
+                }
+                
+            }
+            
+            
+            
+        }
         
     }
     

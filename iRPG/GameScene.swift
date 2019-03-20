@@ -232,6 +232,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         menuWinButton.anchorPoint = CGPoint(x: 0, y: 0.5)
         menuWinButton.position = CGPoint(x: rightTopMenu.position.x, y: rightTopMenu.position.y)
         contextoMenu.addChild(menuWinButton)
+        //Etiqueta del menu
+        let labelMenu = SKLabelNode(text: "Inventario")
+        labelMenu.zPosition = 4.1
+        labelMenu.fontSize = 58
+        //labelMenu.fontName = "Romulus"
+        labelMenu.fontName = "Alagard"
+        labelMenu.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelMenu.position = CGPoint(x: leftTopMenu.position.x+2*leftTopMenu.size.width+60, y: leftTopMenu.position.y-20)
+        contextoMenu.addChild(labelMenu)
+        
+       /* for family in UIFont.familyNames.sorted() {
+            let names = UIFont.fontNames(forFamilyName: family)
+            print("Family: \(family) Font names: \(names)")
+        }*/
+        
+        
         
         
     }
@@ -445,15 +461,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     lanzaMenu()
                     intefaz.removeFromParent()
                 }else if name == "Arriba"{
-                    self.buttonUp.run(SKAction.setTexture(textureButtonUpPres))
+                    intefaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(textureButtonUpPres))
                 }else if name == "Abajo"{
-                    self.buttonDown.run(SKAction.setTexture(textureButtonDownPres))
+                    intefaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(textureButtonDownPres))
                 }else if name == "Der"{
-                    self.buttonRight.run(SKAction.setTexture(textureButtonRightPres))
+                    intefaz.childNode(withName: "Der")?.run(SKAction.setTexture(textureButtonRightPres))
                 }else if name == "Izq"{
-                    self.buttonLeft.run(SKAction.setTexture(textureButtonLeftPres))
+                    intefaz.childNode(withName: "Izq")?.run(SKAction.setTexture(textureButtonLeftPres))
                 }else if name == "MenuWin"{
-                    self.menuWinButton.run(SKAction.setTexture(textureMenuWinButtonPres))
+                    intefaz.childNode(withName: "MenuWin")?.run(SKAction.setTexture(textureMenuWinButtonPres))
                     
                 }
                 
@@ -479,17 +495,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             {
                 
                 if name == "Arriba"{
-                    self.buttonUp.run(SKAction.setTexture(textureButtonUp))
+                    intefaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(textureButtonUp))
                 }else if name == "Abajo"{
-                     self.buttonDown.run(SKAction.setTexture(textureButtonDown))
+                    intefaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(textureButtonDown))
                 }else if name == "Der"{
-                     self.buttonRight.run(SKAction.setTexture(textureButtonRight))
+                     intefaz.childNode(withName: "Der")?.run(SKAction.setTexture(textureButtonRight))
                 }else if name == "Izq"{
-                     self.buttonLeft.run(SKAction.setTexture(textureButtonLeft))
+                     intefaz.childNode(withName: "Izq")?.run(SKAction.setTexture(textureButtonLeft))
                 }else if name == "MenuWin"{
                     cierramenu()
-                    self.menuWinButton.run(SKAction.setTexture(textureMenuWinButton))
-                    self.menuButton.run(SKAction.setTexture(textureMenuButton))
+                    intefaz.childNode(withName: "MenuWin")?.run(SKAction.setTexture(textureMenuWinButton))
+                    intefaz.childNode(withName: "Menu")?.run(SKAction.setTexture(textureMenuButton))
                     cam!.addChild(intefaz)
                 }
                 

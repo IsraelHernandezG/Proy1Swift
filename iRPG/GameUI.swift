@@ -29,6 +29,12 @@ open class GameUI {
     let textureRightSP = SKTexture(image: UIImage(named: "rightSP")!)
     let textureCenterSP = SKTexture(image: UIImage(named: "centerSP")!)
     
+    let textureMenuButton = SKTexture(image: UIImage(named: "menuButton")!)
+    let textureButtonUp = SKTexture(image: UIImage(named: "shadedLightUp")!)
+    let textureButtonDown = SKTexture(image: UIImage(named: "shadedLightDown")!)
+    let textureButtonLeft = SKTexture(image: UIImage(named: "shadedLightLeft")!)
+    let textureButtonRight = SKTexture(image: UIImage(named: "shadedLightRight")!)
+    
     let barScale: CGFloat = 2.0
     var lifePlayer: CGFloat  = 1.0
     var staminaPlayer: CGFloat  = 1.0
@@ -141,7 +147,55 @@ open class GameUI {
         
     }
     
+    open func createUI(_ ventana: CGRect, _ interfaz: SKNode) -> SKNode{
+        
+        //Menu Button
+        let menuButton = SKSpriteNode(texture: textureMenuButton)
+        menuButton.name = "Menu"
+        menuButton.zPosition = 3
+        menuButton.xScale = 2
+        menuButton.yScale = 2
+        menuButton.position = CGPoint(x: ventana.maxX-80, y: ventana.maxY-80)
+        interfaz.addChild(menuButton)
+        
+        // Action Buttons
+        let buttonUp = SKSpriteNode(texture: textureButtonUp)
+        buttonUp.name = "Arriba"
+        buttonUp.zPosition = 3
+        buttonUp.xScale = 1.2
+        buttonUp.yScale = 1.2
+        buttonUp.position = CGPoint(x: ventana.maxX-150, y: -ventana.maxY+190)
+        interfaz.addChild(buttonUp)
+        
+        let buttonDown = SKSpriteNode(texture: textureButtonDown)
+        buttonDown.name = "Abajo"
+        buttonDown.zPosition = 3
+        buttonDown.xScale = 1.2
+        buttonDown.yScale = 1.2
+        buttonDown.position = CGPoint(x: buttonUp.position.x, y: buttonUp.position.y-110)
+        interfaz.addChild(buttonDown)
+        
+        let buttonRight = SKSpriteNode(texture: textureButtonRight)
+        buttonRight.name = "Der"
+        buttonRight.zPosition = 3
+        buttonRight.xScale = 1.2
+        buttonRight.yScale = 1.2
+        buttonRight.position = CGPoint(x: buttonUp.position.x+50, y: buttonUp.position.y-55)
+        interfaz.addChild(buttonRight)
+        
+        let buttonLeft = SKSpriteNode(texture: textureButtonLeft)
+        buttonLeft.name = "Izq"
+        buttonLeft.zPosition = 3
+        buttonLeft.xScale = 1.2
+        buttonLeft.yScale = 1.2
+        buttonLeft.position = CGPoint(x: buttonUp.position.x-50, y: buttonUp.position.y-55)
+        interfaz.addChild(buttonLeft)
+        
+        return interfaz
+        
+    }
    
+    
     
     
     

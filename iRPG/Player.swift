@@ -24,7 +24,7 @@ open class Player {
     
     let escala: CGFloat = 6.0
     // Controles de la fisica
-    var playerNode: SKSpriteNode
+    var playerNode = SKSpriteNode()
     
      // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
@@ -51,6 +51,9 @@ open class Player {
         playerNode.zPosition = 1
         playerNode.setScale(escala)
 
+    }
+    
+    init(){
     }
     
 }

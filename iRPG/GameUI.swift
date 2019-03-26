@@ -12,7 +12,13 @@ import SpriteKit
 open class GameUI {
     
     //Camera
-    var cam: SKCameraNode?
+    //var cam: SKCameraNode?
+    // Menu
+    var interfaz = SKNode()
+    var contextoMenu = SKNode()
+    var statusBar = SKNode()  // Las barras de estado estan compuestas por varios sprites, por lo que
+                                // se crea un objeto que los contendra a todos
+    
     // UI Textures
     let textureHud = SKTexture(image: UIImage(named: "Hud")!)
     
@@ -30,18 +36,79 @@ open class GameUI {
     let textureCenterSP = SKTexture(image: UIImage(named: "centerSP")!)
     
     let textureMenuButton = SKTexture(image: UIImage(named: "menuButton")!)
+    let textureMenuButtonPressed = SKTexture(image: UIImage(named: "menuButtonPressed")!)
+    
     let textureButtonUp = SKTexture(image: UIImage(named: "shadedLightUp")!)
     let textureButtonDown = SKTexture(image: UIImage(named: "shadedLightDown")!)
     let textureButtonLeft = SKTexture(image: UIImage(named: "shadedLightLeft")!)
     let textureButtonRight = SKTexture(image: UIImage(named: "shadedLightRight")!)
     
+    let textureButtonUpPres = SKTexture(image: UIImage(named: "shadedLightUpPressed")!)
+    let textureButtonDownPres = SKTexture(image: UIImage(named: "shadedLightDownPressed")!)
+    let textureButtonLeftPres = SKTexture(image: UIImage(named: "shadedLightLeftPressed")!)
+    let textureButtonRightPres = SKTexture(image: UIImage(named: "shadedLightRightPressed")!)
+    
+    // Elementos del Menu
+    let textureMenuTitleLeft = SKTexture(image: UIImage(named: "botonMenuIzq1")!)
+    let textureMenuTitleCenter = SKTexture(image: UIImage(named: "menuText1")!)
+    let textureMenuTitleRight = SKTexture(image: UIImage(named: "menuTextDer1")!)
+    let textureHorizontalButton = SKTexture(image: UIImage(named: "menuBotonID")!)
+    let textureTop1 =  SKTexture(image: UIImage(named: "Frame1")!)
+    let textureTop2 =  SKTexture(image: UIImage(named: "Frame2")!)
+    let textureTop3 =  SKTexture(image: UIImage(named: "Frame3")!)
+    let textureMiddle1 =  SKTexture(image: UIImage(named: "menuMedio1")!)
+    let textureMiddle2 =  SKTexture(image: UIImage(named: "menuMedio2")!)
+    let textureMiddle3 =  SKTexture(image: UIImage(named: "menuMedio3")!)
+    let textureBottom1 =  SKTexture(image: UIImage(named: "menuBot1")!)
+    let textureBottom2 =  SKTexture(image: UIImage(named: "menuBot2")!)
+    let textureBottom3 =  SKTexture(image: UIImage(named: "menuBot3")!)
+    //botones
+    let textureBotonAzulFijo =  SKTexture(image: UIImage(named: "botonAzulFijo")!)
+    
+    let textureMenuWinButton = SKTexture(image: UIImage(named: "botonRojo")!)
+    let textureMenuWinButtonPres = SKTexture(image: UIImage(named: "botonRojoPress")!)
+    let textureMenuButtonRight = SKTexture(image: UIImage(named: "buttonSettings")!)
+    let textureMenuButtonCenter = SKTexture(image: UIImage(named: "CenterGenButton")!)
+    let textureMenuButtonLeft = SKTexture(image: UIImage(named: "equipmentButton")!)
+    let textureMenuButtonRightPress = SKTexture(image: UIImage(named: "buttonSettingsPress")!)
+    let textureMenuButtonCenterPress = SKTexture(image: UIImage(named: "CenterGenButtonPress")!)
+    let textureMenuButtonLeftPress = SKTexture(image: UIImage(named: "equipmentButtonPress")!)
+    //Labels
+    var labelName = SKLabelNode()
+    
+    //Escalas para los objetos
     let barScale: CGFloat = 2.0
     var lifePlayer: CGFloat  = 1.0
     var staminaPlayer: CGFloat  = 1.0
-    var statusBar = SKNode()  // Las barras de estado estan compuestas por varios sprites, por lo que
-                            // se crea un objeto que los contendra a todos
     
-    init(_ ventana: CGRect){
+    
+    
+   
+    
+    //Carga de las imagenes del joystick
+    var joystickStickImageEnabled = true {
+        didSet {
+            let image = joystickStickImageEnabled ? UIImage(named: "shadedLightStick") : nil
+            rotateAnalogStick.stick.image = image
+        }
+    }
+    
+    var joystickSubstrateImageEnabled = true {
+        didSet {
+            let image = joystickSubstrateImageEnabled ? UIImage(named: "shadedLightSubstrate") : nil
+            rotateAnalogStick.substrate.image = image
+        }
+    }
+    //Creacion del Joystick
+    let rotateAnalogStick = AnalogJoystick(diameter: 160) // from Class
+    
+    
+    init(){
+        
+    }
+    
+    
+    open func createStatusBar(_ ventana: CGRect){
         
         // Status Bars
         let originBar = SKSpriteNode(texture: textureHud)
@@ -49,7 +116,7 @@ open class GameUI {
         originBar.xScale = barScale
         originBar.yScale = barScale
         originBar.position = CGPoint(x: -ventana.maxX+100, y: ventana.maxY-80)
-        self.statusBar.addChild(originBar) // despues de que se crea cada sprite con su correspondiente textura,
+        statusBar.addChild(originBar) // despues de que se crea cada sprite con su correspondiente textura,
                                     // dimensiones y posicion se agrega al nodo principal lifebar
         
         //Life bar
@@ -62,35 +129,35 @@ open class GameUI {
                                                         // cuando se escalen los objetos, su punto de origen
                                                         // no se modifique
         centerHPBar.position = CGPoint(x: originBar.position.x + originBar.size.width/2, y: originBar.position.y+40)
-        self.statusBar.addChild(centerHPBar)
+        statusBar.addChild(centerHPBar)
         let rightHPBar = SKSpriteNode(texture: textureRightHPBar)
         rightHPBar.zPosition = 3
         rightHPBar.xScale = barScale
         rightHPBar.yScale = barScale
         rightHPBar.anchorPoint = CGPoint(x: 0, y: 0.5)
         rightHPBar.position = CGPoint(x: centerHPBar.position.x + centerHPBar.size.width, y: centerHPBar.position.y)
-        self.statusBar.addChild(rightHPBar)
+        statusBar.addChild(rightHPBar)
         let leftHP = SKSpriteNode(texture: textureLeftHP)
         leftHP.zPosition = 3.1
         leftHP.xScale = barScale
         leftHP.yScale = barScale
         leftHP.anchorPoint = CGPoint(x: 0, y: 0.5)
         leftHP.position = CGPoint(x: centerHPBar.position.x-3, y: centerHPBar.position.y)
-        self.statusBar.addChild(leftHP)
+        statusBar.addChild(leftHP)
         let centerHP = SKSpriteNode(texture: textureCenterHP)
         centerHP.zPosition = 3.1
         centerHP.xScale = barScale * 4.0 * lifePlayer //crear variable aparte
         centerHP.yScale = barScale
         centerHP.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerHP.position = CGPoint(x: leftHP.position.x + leftHP.size.width/2, y: leftHP.position.y)
-        self.statusBar.addChild(centerHP)
+        statusBar.addChild(centerHP)
         let rightHP = SKSpriteNode(texture: textureRightHP)
         rightHP.zPosition = 3.1
         rightHP.xScale = barScale
         rightHP.yScale = barScale
         rightHP.anchorPoint = CGPoint(x: 0, y: 0.5)
         rightHP.position = CGPoint(x: centerHP.position.x + centerHP.size.width, y: centerHP.position.y)
-        self.statusBar.addChild(rightHP)
+        statusBar.addChild(rightHP)
         //Stamina Bar
         let centerBar2 = SKSpriteNode(texture: textureCenterBar)
         centerBar2.zPosition = 3
@@ -98,14 +165,14 @@ open class GameUI {
         centerBar2.yScale = barScale
         centerBar2.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerBar2.position = CGPoint(x: originBar.position.x + originBar.size.width/2, y: originBar.position.y)
-        self.statusBar.addChild(centerBar2)
+        statusBar.addChild(centerBar2)
         let rightBar2 = SKSpriteNode(texture: textureRightSPBar)
         rightBar2.zPosition = 3
         rightBar2.xScale = barScale
         rightBar2.yScale = barScale
         rightBar2.anchorPoint = CGPoint(x: 0, y: 0.5)
         rightBar2.position = CGPoint(x: centerBar2.position.x + centerBar2.size.width, y: centerBar2.position.y)
-        self.statusBar.addChild(rightBar2)
+        statusBar.addChild(rightBar2)
         
         let leftSP = SKSpriteNode(texture: textureLeftSP)
         leftSP.zPosition = 3.1
@@ -113,21 +180,21 @@ open class GameUI {
         leftSP.yScale = barScale
         leftSP.anchorPoint = CGPoint(x: 0, y: 0.5)
         leftSP.position = CGPoint(x: centerBar2.position.x-3, y: centerBar2.position.y)
-        self.statusBar.addChild(leftSP)
+        statusBar.addChild(leftSP)
         let centerSP = SKSpriteNode(texture: textureCenterSP)
         centerSP.zPosition = 3.1
         centerSP.xScale = barScale * 2.8 * staminaPlayer //crear variable aparte
         centerSP.yScale = barScale
         centerSP.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerSP.position = CGPoint(x: leftSP.position.x + leftSP.size.width/2, y: leftSP.position.y)
-        self.statusBar.addChild(centerSP)
+        statusBar.addChild(centerSP)
         let rightSP = SKSpriteNode(texture: textureRightSP)
         rightSP.zPosition = 3.1
         rightSP.xScale = barScale
         rightSP.yScale = barScale
         rightSP.anchorPoint = CGPoint(x: 0, y: 0.5)
         rightSP.position = CGPoint(x: centerSP.position.x + centerSP.size.width, y: centerSP.position.y)
-        self.statusBar.addChild(rightSP)
+        statusBar.addChild(rightSP)
         // Mana Bar
         let centerBar3 = SKSpriteNode(texture: textureCenterBar)
         centerBar3.zPosition = 3
@@ -135,19 +202,19 @@ open class GameUI {
         centerBar3.yScale = barScale
         centerBar3.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerBar3.position = CGPoint(x: originBar.position.x + originBar.size.width/2, y: originBar.position.y-40)
-        self.statusBar.addChild(centerBar3)
+        statusBar.addChild(centerBar3)
         let rightBar3 = SKSpriteNode(texture: textureRightMPBar)
         rightBar3.zPosition = 3
         rightBar3.xScale = barScale
         rightBar3.yScale = barScale
         rightBar3.anchorPoint = CGPoint(x: 0, y: 0.5)
         rightBar3.position = CGPoint(x: centerBar3.position.x + centerBar3.size.width, y: centerBar3.position.y)
-        self.statusBar.addChild(rightBar3)
+        statusBar.addChild(rightBar3)
         
         
     }
     
-    open func createUI(_ ventana: CGRect, _ interfaz: SKNode) -> SKNode{
+    open func createUI(_ ventana: CGRect){
         
         //Menu Button
         let menuButton = SKSpriteNode(texture: textureMenuButton)
@@ -191,11 +258,178 @@ open class GameUI {
         buttonLeft.position = CGPoint(x: buttonUp.position.x-50, y: buttonUp.position.y-55)
         interfaz.addChild(buttonLeft)
         
-        return interfaz
         
+        //Joystick
+        rotateAnalogStick.position = CGPoint(x:-ventana.maxX+rotateAnalogStick.radius+65, y:-ventana.maxY+rotateAnalogStick.radius+65)
+        rotateAnalogStick.zPosition = 3
+        interfaz.addChild(rotateAnalogStick)
+        
+        createStatusBar(ventana)
+        interfaz.addChild(statusBar)
+
     }
    
-    
+    open func createMenu(_ ventana: CGRect){
+        
+        let escalaMenu = CGFloat(2.4)
+
+        //Encabezado Menu (Estatico)
+        let TopMenu1 = SKSpriteNode(texture: textureTop1)
+        TopMenu1.zPosition = 4
+        TopMenu1.xScale = escalaMenu
+        TopMenu1.yScale = escalaMenu
+        TopMenu1.position = CGPoint(x: -ventana.maxX+180, y: ventana.maxY-80)
+        contextoMenu.addChild(TopMenu1)
+        
+        let TopMenu2 = SKSpriteNode(texture: textureTop2)
+        TopMenu2.zPosition = 4
+        TopMenu2.xScale = escalaMenu * 10
+        TopMenu2.yScale = escalaMenu
+        TopMenu2.anchorPoint = CGPoint(x: 0, y: 0.5)
+        TopMenu2.position = CGPoint(x: TopMenu1.position.x+TopMenu1.size.width/2, y: TopMenu1.position.y)
+        contextoMenu.addChild(TopMenu2)
+        
+        let TopMenu3 = SKSpriteNode(texture: textureTop3)
+        TopMenu3.zPosition = 4
+        TopMenu3.xScale = escalaMenu
+        TopMenu3.yScale = escalaMenu
+        TopMenu3.anchorPoint = CGPoint(x: 0, y: 0.5)
+        TopMenu3.position = CGPoint(x: TopMenu2.position.x+TopMenu2.size.width, y: TopMenu2.position.y)
+        contextoMenu.addChild(TopMenu3)
+        // Title Bar
+        let MenuTitleLeft = SKSpriteNode(texture: textureMenuTitleLeft)
+        MenuTitleLeft.zPosition = 4.1
+        MenuTitleLeft.xScale = escalaMenu
+        MenuTitleLeft.yScale = escalaMenu
+        MenuTitleLeft.anchorPoint = CGPoint(x: 0, y: 0.0)
+        MenuTitleLeft.position = CGPoint(x: TopMenu1.position.x-16, y: TopMenu1.position.y+2)
+        contextoMenu.addChild(MenuTitleLeft)
+        let MenuTitleCenter = SKSpriteNode(texture: textureMenuTitleCenter)
+        MenuTitleCenter.zPosition = 4.1
+        MenuTitleCenter.xScale = escalaMenu * 2
+        MenuTitleCenter.yScale = escalaMenu
+        MenuTitleCenter.anchorPoint = CGPoint(x: 0, y: 0)
+        MenuTitleCenter.position = CGPoint(x: MenuTitleLeft.position.x+MenuTitleLeft.size.width, y: MenuTitleLeft.position.y)
+        contextoMenu.addChild(MenuTitleCenter)
+        let MenuTitleRight = SKSpriteNode(texture: textureMenuTitleRight)
+        MenuTitleRight.zPosition = 4.1
+        MenuTitleRight.xScale = escalaMenu
+        MenuTitleRight.yScale = escalaMenu
+        MenuTitleRight.anchorPoint = CGPoint(x: 0, y: 0)
+        MenuTitleRight.position = CGPoint(x: MenuTitleCenter.position.x+MenuTitleCenter.size.width, y: MenuTitleCenter.position.y)
+        contextoMenu.addChild(MenuTitleRight)
+        // Button Title Bar
+        let MenuTitleButton = SKSpriteNode(texture: textureBotonAzulFijo)
+        MenuTitleButton.zPosition = 4.2
+        MenuTitleButton.xScale = escalaMenu
+        MenuTitleButton.yScale = escalaMenu
+        MenuTitleButton.anchorPoint = CGPoint(x: 0, y: 0)
+        MenuTitleButton.position = CGPoint(x: MenuTitleLeft.position.x+12, y: MenuTitleLeft.position.y+14)
+        contextoMenu.addChild(MenuTitleButton)
+        // Button Close Menu
+        let MenuCloseFrame = SKSpriteNode(texture: textureHorizontalButton)
+        MenuCloseFrame.zPosition = 4.1
+        MenuCloseFrame.xScale = escalaMenu
+        MenuCloseFrame.yScale = escalaMenu
+        MenuCloseFrame.anchorPoint = CGPoint(x: 0, y: 0)
+        MenuCloseFrame.position = CGPoint(x: TopMenu3.position.x-8, y: TopMenu3.position.y+2)
+        contextoMenu.addChild(MenuCloseFrame)
+        
+        let MenuCloseButton = SKSpriteNode(texture: textureMenuWinButton)
+        MenuCloseButton.name = "MenuWin"
+        MenuCloseButton.zPosition = 4.2
+        MenuCloseButton.xScale = escalaMenu
+        MenuCloseButton.yScale = escalaMenu
+        MenuCloseButton.anchorPoint = CGPoint(x: 0, y: 0)
+        MenuCloseButton.position = CGPoint(x: TopMenu3.position.x+4, y: TopMenu3.position.y+14)
+        contextoMenu.addChild(MenuCloseButton)
+        
+        let menuBottom1 = SKSpriteNode(texture: textureBottom1)
+        menuBottom1.zPosition = 3.9
+        menuBottom1.xScale = escalaMenu
+        menuBottom1.yScale = escalaMenu
+        menuBottom1.position = CGPoint(x: TopMenu1.position.x, y: TopMenu1.position.y-TopMenu1.size.width/2)
+        contextoMenu.addChild(menuBottom1)
+        let menuBottom2 = SKSpriteNode(texture: textureBottom2)
+        menuBottom2.zPosition = 3.9
+        menuBottom2.xScale = escalaMenu * 10
+        menuBottom2.yScale = escalaMenu
+        menuBottom2.anchorPoint = CGPoint(x: 0, y: 0.5)
+        menuBottom2.position = CGPoint(x: menuBottom1.position.x+menuBottom1.size.width/2, y: menuBottom1.position.y)
+        contextoMenu.addChild(menuBottom2)
+        let menuBottom3 = SKSpriteNode(texture: textureBottom3)
+        menuBottom3.zPosition = 4.1
+        menuBottom3.xScale = escalaMenu
+        menuBottom3.yScale = escalaMenu
+        menuBottom3.anchorPoint = CGPoint(x: 0, y: 0.5)
+        menuBottom3.position = CGPoint(x: menuBottom2.position.x+menuBottom2.size.width, y: menuBottom2.position.y)
+        contextoMenu.addChild(menuBottom3)
+        
+        // Botones de Navegacion
+        let MenuButton1 = SKSpriteNode(texture: textureMenuButtonRight)
+        MenuButton1.name = "MenuButton1"
+        MenuButton1.zPosition = 4.2
+        MenuButton1.xScale = escalaMenu * 3/4
+        MenuButton1.yScale = escalaMenu * 3/4
+        MenuButton1.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        MenuButton1.position = CGPoint(x: menuBottom3.position.x, y: menuBottom3.position.y+8)
+        contextoMenu.addChild(MenuButton1)
+        let MenuButton2 = SKSpriteNode(texture: textureMenuButtonCenter)
+        MenuButton2.name = "MenuButton2"
+        MenuButton2.zPosition = 4.2
+        MenuButton2.xScale = escalaMenu
+        MenuButton2.yScale = escalaMenu
+        MenuButton2.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        MenuButton2.position = CGPoint(x: MenuButton1.position.x-MenuButton1.size.width, y: MenuButton1.position.y)
+        contextoMenu.addChild(MenuButton2)
+        let MenuButton3 = SKSpriteNode(texture: textureMenuButtonCenter)
+        MenuButton3.name = "MenuButton3"
+        MenuButton3.zPosition = 4.2
+        MenuButton3.xScale = escalaMenu
+        MenuButton3.yScale = escalaMenu
+        MenuButton3.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        MenuButton3.position = CGPoint(x: MenuButton2.position.x-MenuButton2.size.width, y: MenuButton2.position.y)
+        contextoMenu.addChild(MenuButton3)
+        
+        
+        
+        let MenuButton4 = SKSpriteNode(texture: textureMenuButtonLeftPress)
+        MenuButton4.name = "MenuButton4"
+        MenuButton4.zPosition = 4.2
+        MenuButton4.xScale = escalaMenu * 3/4
+        MenuButton4.yScale = escalaMenu * 3/4
+        MenuButton4.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        MenuButton4.position = CGPoint(x: MenuButton3.position.x-MenuButton3.size.width, y: MenuButton3.position.y)
+        contextoMenu.addChild(MenuButton4)
+        
+        //Etiqueta del menu
+        let labelMenu = SKLabelNode(text: "Player 1")
+        labelMenu.zPosition = 4.3
+        labelMenu.fontSize = 30
+        //labelMenu.fontName = "Romulus"
+        labelMenu.fontName = "Alagard"
+        labelMenu.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelMenu.position = CGPoint(x: MenuTitleCenter.position.x+50, y: MenuTitleCenter.position.y+20)
+        contextoMenu.addChild(labelMenu)
+        
+        // Nombre del menu
+        labelName = SKLabelNode(text: "Equipo")
+        labelName.zPosition = 4.3
+        labelName.fontSize = 58
+        labelName.fontName = "Alagard"
+        labelName.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left // Alineacion a la izquierda
+        // labelName.text = "Intentario"
+        labelName.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelName.position = CGPoint(x: menuBottom1.position.x, y: menuBottom1.position.y-10)
+        contextoMenu.addChild(labelName)
+        
+        
+        /* for family in UIFont.familyNames.sorted() {
+         let names = UIFont.fontNames(forFamilyName: family)
+         print("Family: \(family) Font names: \(names)")
+         }*/
+        
+    }
     
     
     

@@ -18,6 +18,10 @@ open class GameUI {
     var contextoMenu = SKNode()
     var statusBar = SKNode()  // Las barras de estado estan compuestas por varios sprites, por lo que
                                 // se crea un objeto que los contendra a todos
+    var ventana1 = SKNode()
+    var ventana2 = SKNode()
+    var ventana3 = SKNode()
+    var ventana4 = SKNode()
     
     // UI Textures
     let textureHud = SKTexture(image: UIImage(named: "Hud")!)
@@ -429,9 +433,161 @@ open class GameUI {
          print("Family: \(family) Font names: \(names)")
          }*/
         
+        //Ventana Intentario de Equipo
+        let ventana1Top1 = SKSpriteNode(texture: textureTop1)
+        ventana1Top1.zPosition = 4
+        ventana1Top1.xScale = escalaMenu
+        ventana1Top1.yScale = escalaMenu
+        ventana1Top1.position = CGPoint(x: -ventana.maxX+180, y: ventana.maxY-210)
+        ventana1.addChild(ventana1Top1)
+        
+        let ventana1Top2 = SKSpriteNode(texture: textureTop2)
+        ventana1Top2.zPosition = 4
+        ventana1Top2.xScale = escalaMenu * 4
+        ventana1Top2.yScale = escalaMenu
+        ventana1Top2.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ventana1Top2.position = CGPoint(x: ventana1Top1.position.x+ventana1Top1.size.width/2, y: ventana1Top1.position.y)
+        ventana1.addChild(ventana1Top2)
+        
+        let ventana1Top3 = SKSpriteNode(texture: textureTop3)
+        ventana1Top3.zPosition = 4
+        ventana1Top3.xScale = escalaMenu
+        ventana1Top3.yScale = escalaMenu
+        ventana1Top3.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ventana1Top3.position = CGPoint(x: ventana1Top2.position.x+ventana1Top2.size.width, y: ventana1Top2.position.y)
+        ventana1.addChild(ventana1Top3)
+        
+        let ventana1Middle1 = SKSpriteNode(texture: textureMiddle1)
+        ventana1Middle1.zPosition = 4.1
+        ventana1Middle1.xScale = escalaMenu
+        ventana1Middle1.yScale = escalaMenu * 4
+        ventana1Middle1.anchorPoint = CGPoint(x: 0.5, y: 1)
+        ventana1Middle1.position = CGPoint(x: ventana1Top1.position.x, y: ventana1Top1.position.y-ventana1Top1.size.width/2)
+        ventana1.addChild(ventana1Middle1)
+        let ventana1Middle2 = SKSpriteNode(texture: textureMiddle2)
+        ventana1Middle2.zPosition = 4.1
+        ventana1Middle2.xScale = escalaMenu * 4
+        ventana1Middle2.yScale = escalaMenu * 4
+        ventana1Middle2.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana1Middle2.position = CGPoint(x: ventana1Middle1.position.x+ventana1Middle1.size.width/2, y: ventana1Middle1.position.y)
+        ventana1.addChild(ventana1Middle2)
+        let ventana1Middle3 = SKSpriteNode(texture: textureMiddle3)
+        ventana1Middle3.zPosition = 4.1
+        ventana1Middle3.xScale = escalaMenu
+        ventana1Middle3.yScale = escalaMenu * 4
+        ventana1Middle3.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana1Middle3.position = CGPoint(x: ventana1Middle2.position.x+ventana1Middle2.size.width, y: ventana1Middle2.position.y)
+        ventana1.addChild(ventana1Middle3)
+        
+        let ventana1Bottom1 = SKSpriteNode(texture: textureBottom1)
+        ventana1Bottom1.zPosition = 4.1
+        ventana1Bottom1.xScale = escalaMenu
+        ventana1Bottom1.yScale = escalaMenu
+        ventana1Bottom1.anchorPoint = CGPoint(x: 0.5, y: 1)
+        ventana1Bottom1.position = CGPoint(x: ventana1Middle1.position.x, y: ventana1Middle1.position.y-4*ventana1Middle1.size.width)
+        ventana1.addChild(ventana1Bottom1)
+        let ventana1Bottom2 = SKSpriteNode(texture: textureBottom2)
+        ventana1Bottom2.zPosition = 4.1
+        ventana1Bottom2.xScale = escalaMenu * 4
+        ventana1Bottom2.yScale = escalaMenu
+        ventana1Bottom2.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana1Bottom2.position = CGPoint(x: ventana1Bottom1.position.x+ventana1Bottom1.size.width/2, y: ventana1Bottom1.position.y)
+        ventana1.addChild(ventana1Bottom2)
+        let ventana1Bottom3 = SKSpriteNode(texture: textureBottom3)
+        ventana1Bottom3.zPosition = 4.1
+        ventana1Bottom3.xScale = escalaMenu
+        ventana1Bottom3.yScale = escalaMenu
+        ventana1Bottom3.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana1Bottom3.position = CGPoint(x: ventana1Bottom2.position.x+ventana1Bottom2.size.width, y: ventana1Bottom2.position.y)
+        ventana1.addChild(ventana1Bottom3)
+        
+        //Ventana Equipo ranuras
+        let ventana2Top3 = SKSpriteNode(texture: textureTop3)
+        ventana2Top3.zPosition = 4
+        ventana2Top3.xScale = escalaMenu
+        ventana2Top3.yScale = escalaMenu
+        ventana2Top3.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ventana2Top3.position = CGPoint(x: menuBottom3.position.x, y: ventana.maxY-210)
+        ventana1.addChild(ventana2Top3)
+        
+        let ventana2Top2 = SKSpriteNode(texture: textureTop2)
+        ventana2Top2.zPosition = 4
+        ventana2Top2.xScale = escalaMenu * 3
+        ventana2Top2.yScale = escalaMenu
+        ventana2Top2.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ventana2Top2.position = CGPoint(x: ventana2Top3.position.x, y: ventana2Top3.position.y)
+        ventana1.addChild(ventana2Top2)
+        
+        let ventana2Top1 = SKSpriteNode(texture: textureTop1)
+        ventana2Top1.zPosition = 4
+        ventana2Top1.xScale = escalaMenu
+        ventana2Top1.yScale = escalaMenu
+        ventana2Top1.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ventana2Top1.position = CGPoint(x: ventana2Top2.position.x-ventana2Top2.size.width, y: ventana2Top2.position.y)
+        ventana1.addChild(ventana2Top1)
+        
+        let ventana2Middle1 = SKSpriteNode(texture: textureMiddle1)
+        ventana2Middle1.zPosition = 4.1
+        ventana2Middle1.xScale = escalaMenu
+        ventana2Middle1.yScale = escalaMenu * 4
+        ventana2Middle1.anchorPoint = CGPoint(x: 1, y: 1)
+        ventana2Middle1.position = CGPoint(x: ventana2Top1.position.x, y: ventana2Top1.position.y-ventana2Top1.size.width/2)
+        ventana1.addChild(ventana2Middle1)
+        let ventana2Middle2 = SKSpriteNode(texture: textureMiddle2)
+        ventana2Middle2.zPosition = 4.1
+        ventana2Middle2.xScale = escalaMenu * 3
+        ventana2Middle2.yScale = escalaMenu * 4
+        ventana2Middle2.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana2Middle2.position = CGPoint(x: ventana2Middle1.position.x, y: ventana2Middle1.position.y)
+        ventana1.addChild(ventana2Middle2)
+        let ventana2Middle3 = SKSpriteNode(texture: textureMiddle3)
+        ventana2Middle3.zPosition = 4.1
+        ventana2Middle3.xScale = escalaMenu
+        ventana2Middle3.yScale = escalaMenu * 4
+        ventana2Middle3.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana2Middle3.position = CGPoint(x: ventana2Middle2.position.x+ventana2Middle2.size.width, y: ventana2Middle2.position.y)
+        ventana1.addChild(ventana2Middle3)
+        
+        let ventana2Bottom1 = SKSpriteNode(texture: textureBottom1)
+        ventana2Bottom1.zPosition = 4.1
+        ventana2Bottom1.xScale = escalaMenu
+        ventana2Bottom1.yScale = escalaMenu
+        ventana2Bottom1.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana2Bottom1.position = CGPoint(x: ventana2Middle1.position.x-ventana2Middle1.size.width, y: ventana2Middle1.position.y-4*ventana2Middle1.size.width)
+        ventana1.addChild(ventana2Bottom1)
+        let ventana2Bottom2 = SKSpriteNode(texture: textureBottom2)
+        ventana2Bottom2.zPosition = 4.1
+        ventana2Bottom2.xScale = escalaMenu * 3
+        ventana2Bottom2.yScale = escalaMenu
+        ventana2Bottom2.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana2Bottom2.position = CGPoint(x: ventana2Bottom1.position.x+ventana2Middle1.size.width, y: ventana2Bottom1.position.y)
+        ventana1.addChild(ventana2Bottom2)
+        let ventana2Bottom3 = SKSpriteNode(texture: textureBottom3)
+        ventana2Bottom3.zPosition = 4.1
+        ventana2Bottom3.xScale = escalaMenu
+        ventana2Bottom3.yScale = escalaMenu
+        ventana2Bottom3.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana2Bottom3.position = CGPoint(x: ventana2Bottom2.position.x+ventana2Bottom2.size.width, y: ventana2Bottom2.position.y)
+        ventana1.addChild(ventana2Bottom3)
+        
+        
+        lanzaMenuEquip()
+        
+        
+        
+        
     }
     
+    open func lanzaMenuEquip(){
+        contextoMenu.addChild(ventana1)
+        //contextoMenu.addChild(ventana2)
     
+    }
+    
+    open func cierraMenuEquip(){
+        ventana1.removeFromParent()
+        //ventana2.removeFromParent()
+    }
     
     
 }

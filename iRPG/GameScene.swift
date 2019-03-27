@@ -308,6 +308,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
+                    
+                    nodo.cierraMenuEquip()
+                    
                 }else if name == "MenuButton2"{
                     nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenterPress))
                     //
@@ -315,6 +318,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
+                    
+                    nodo.cierraMenuEquip()
                 }else if name == "MenuButton3"{
                     nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenterPress))
                     //
@@ -322,6 +327,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     //nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
+                    
+                    nodo.cierraMenuEquip()
+                    
                 }else if name == "MenuButton4"{
                     nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeftPress))
                     //
@@ -329,6 +337,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     //nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
+                    
+                    nodo.lanzaMenuEquip()
                 }
             
                 

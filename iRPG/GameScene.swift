@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Camera
         var cam: SKCameraNode?
         // Mapa
-        var map = SKNode()
+        var tileMap = TileMap()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
         //TileMapCategories
@@ -65,7 +65,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(cam!)
             
             //Creando al jugador
-            myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
+            //myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
+            myPlayer = Player.init(CGPoint(x: 0, y: 0))
             //Agregando los sprites del jugador a la escena
             playerNode = myPlayer.playerNode
             addChild(playerNode)
@@ -129,6 +130,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 self.playerNode.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
                 self.playerNode.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
+                
+                
+                
             }
             
             nodo.joystickStickImageEnabled = true
@@ -151,6 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func readFile() -> NSString{
         
         let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivel_1.txt"
+        //let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
         
         let file: FileHandle? = FileHandle(forReadingAtPath: level1Dir)
         let vacio = NSString(string: "")
@@ -178,11 +183,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let maplevel = readFile()
             if maplevel != ""{
                 let cadena = maplevel as String
-                map = TileMap.init(cadena).map
+                tileMap = TileMap.init(cadena)
+                tileMap.map.xScale = 6.0
+                tileMap.map.yScale = 6.0
+                tileMap.temp.xScale = 6.0
+                tileMap.temp.yScale = 6.0
                 //se agrega map a la vista
-                self.addChild(map)
-                map.xScale = 6.0
-                map.yScale = 6.0
+                self.addChild(tileMap.map)
+                
                 
                 print("Done")
             }
@@ -339,8 +347,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
                     
                     nodo.lanzaMenuEquip()
+                }else if (name == "ranura0" || name == "ranura1" || name == "ranura2") {
+                    nodo.ranuraSel(1)
+                }else if (name == "ranura3" || name == "ranura4" || name == "ranura5") {
+                    nodo.ranuraSel(2)
+                }else if (name == "ranura6" || name == "ranura7" || name == "ranura8") {
+                    nodo.ranuraSel(3)
+                }else if (name == "ranura9" || name == "ranura10" || name == "ranura11") {
+                    nodo.ranuraSel(4)
+                }else if name == "helmet"{
+                    nodo.selEquip(1)
+                }else if name == "amulet"{
+                    nodo.selEquip(2)
+                }else if name == "armor"{
+                    nodo.selEquip(3)
+                }else if name == "weapon"{
+                    nodo.selEquip(4)
+                }else if name == "shield"{
+                    nodo.selEquip(5)
+                }else if name == "graves"{
+                    nodo.selEquip(6)
+                }else if name == "ring1"{
+                    nodo.selEquip(7)
+                }else if name == "ring2"{
+                    nodo.selEquip(8)
+                }else if name == "ring3"{
+                    nodo.selEquip(9)
+                }else if (name == "botonEquip1" || name == "botonEquip2" || name == "botonEquip3" || name == "labelBoton") {
+                    
+                    nodo.ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(nodo.textureMenuTitleLeftPress))
+                    nodo.ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(nodo.textureMenuTitleCenterPress))
+                    nodo.ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(nodo.textureMenuTitleRightPress))
+                    
+                    nodo.labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
                 }
-            
                 
             }
         }
@@ -380,19 +420,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     nodo.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(nodo.textureMenuWinButton))
                     cam!.addChild(nodo.interfaz)
                 }else if name == "MenuButton1"{
-                    //nodo.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(nodo.textureMenuButtonRight))
-                   
-                    
                     nodo.labelName.text = "Ajustes"
                 }else if name == "MenuButton2"{
-                    
                     nodo.labelName.text = "Menu X"
                 }else if name == "MenuButton3"{
-                    
                      nodo.labelName.text = "Inventario"
                 }else if name == "MenuButton4"{
-                    
                     nodo.labelName.text = "Equipo"
+                }else if (name == "botonEquip1" || name == "botonEquip2" || name == "botonEquip3" || name == "labelBoton") {
+                    nodo.equiparItem()
                 }
                 
             }
@@ -413,6 +449,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.update(currentTime)
         
         let posJugador = playerNode.position
+        
+        tileMap.dibujarTiles(posJugador)
         
         if let camera = cam{
             camera.position=posJugador

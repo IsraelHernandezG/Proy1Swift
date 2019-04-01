@@ -11,8 +11,6 @@ import SpriteKit
 
 open class GameUI {
     
-    //Camera
-    //var cam: SKCameraNode?
     // Menu
     var interfaz = SKNode()
     var contextoMenu = SKNode()
@@ -53,9 +51,13 @@ open class GameUI {
     let textureButtonRightPres = SKTexture(image: UIImage(named: "shadedLightRightPressed")!)
     
     // Elementos del Menu
-    let textureMenuTitleLeft = SKTexture(image: UIImage(named: "botonMenuIzq1")!)
-    let textureMenuTitleCenter = SKTexture(image: UIImage(named: "menuText1")!)
-    let textureMenuTitleRight = SKTexture(image: UIImage(named: "menuTextDer1")!)
+    let textureMenuTitle = SKTexture(image: UIImage(named: "botonMenuIzq1")!)
+    let textureMenuTitleLeft = SKTexture(image: UIImage(named: "menuBar2")!)
+    let textureMenuTitleLeftPress = SKTexture(image: UIImage(named: "menuBar1")!)
+    let textureMenuTitleCenter = SKTexture(image: UIImage(named: "menuText2")!)
+    let textureMenuTitleCenterPress = SKTexture(image: UIImage(named: "menuText1")!)
+    let textureMenuTitleRight = SKTexture(image: UIImage(named: "menuTextDer2")!)
+    let textureMenuTitleRightPress = SKTexture(image: UIImage(named: "menuTextDer1")!)
     let textureHorizontalButton = SKTexture(image: UIImage(named: "menuBotonID")!)
     let textureTop1 =  SKTexture(image: UIImage(named: "Frame1")!)
     let textureTop2 =  SKTexture(image: UIImage(named: "Frame2")!)
@@ -77,17 +79,44 @@ open class GameUI {
     let textureMenuButtonRightPress = SKTexture(image: UIImage(named: "buttonSettingsPress")!)
     let textureMenuButtonCenterPress = SKTexture(image: UIImage(named: "CenterGenButtonPress")!)
     let textureMenuButtonLeftPress = SKTexture(image: UIImage(named: "equipmentButtonPress")!)
+    //Ranura Inventario
+    let textureRanura1 = SKTexture(image: UIImage(named: "ranuraItemSquare")!)
+    let textureRanura1Press = SKTexture(image: UIImage(named: "ranuraItemSquarePress")!)
+    let textureRanura2 = SKTexture(image: UIImage(named: "ranuraItemLeft")!)
+    let textureRanura2Press = SKTexture(image: UIImage(named: "ranuraItemLeftPress")!)
+    let textureRanura3 = SKTexture(image: UIImage(named: "ranuraItemCenter")!)
+    let textureRanura3Press = SKTexture(image: UIImage(named: "ranuraItemCenterPress")!)
+    let textureRanura4 = SKTexture(image: UIImage(named: "ranuraItemRight")!)
+    let textureRanura4Press = SKTexture(image: UIImage(named: "ranuraItemRightPress")!)
+    
+    //Ranuras Equipo
+    let textureRanuraArmor = SKTexture(image: UIImage(named: "ranuraArmor")!)
+    let textureRanuraArmorPress = SKTexture(image: UIImage(named: "ranuraArmorPress")!)
+    let textureRanuraHelmet = SKTexture(image: UIImage(named: "ranuraHelmet")!)
+    let textureRanuraHelmetPress = SKTexture(image: UIImage(named: "ranuraHelmetPress")!)
+    let textureRanuraWeapon = SKTexture(image: UIImage(named: "ranuraWeapon")!)
+    let textureRanuraWeaponPress = SKTexture(image: UIImage(named: "ranuraWeaponPress")!)
+    let textureRanuraShield = SKTexture(image: UIImage(named: "ranuraShield")!)
+    let textureRanuraShieldPress = SKTexture(image: UIImage(named: "ranuraShieldPress")!)
+    let textureRanuraGraves = SKTexture(image: UIImage(named: "ranuraGraves")!)
+    let textureRanuraGravesPress = SKTexture(image: UIImage(named: "ranuraGravesPress")!)
+    let textureRanuraAmulet = SKTexture(image: UIImage(named: "ranuraAmulet")!)
+    let textureRanuraAmuletPress = SKTexture(image: UIImage(named: "ranuraAmuletPress")!)
+    let textureRanuraRing = SKTexture(image: UIImage(named: "ranuraRing")!)
+    let textureRanuraRingPress = SKTexture(image: UIImage(named: "ranuraRingPress")!)
     //Labels
     var labelName = SKLabelNode()
-    
+    var labelEquip = SKLabelNode()
     //Escalas para los objetos
     let barScale: CGFloat = 2.0
-    var lifePlayer: CGFloat  = 1.0
-    var staminaPlayer: CGFloat  = 1.0
+    var lifePlayer: CGFloat = 1.0
+    var staminaPlayer: CGFloat = 1.0
+    let escalaMenu: CGFloat = 2.4
     
+    // banderas
+    var banderaEquipo = 0
     
-    
-   
+
     
     //Carga de las imagenes del joystick
     var joystickStickImageEnabled = true {
@@ -275,7 +304,7 @@ open class GameUI {
    
     open func createMenu(_ ventana: CGRect){
         
-        let escalaMenu = CGFloat(2.4)
+        
 
         //Encabezado Menu (Estatico)
         let TopMenu1 = SKSpriteNode(texture: textureTop1)
@@ -301,7 +330,7 @@ open class GameUI {
         TopMenu3.position = CGPoint(x: TopMenu2.position.x+TopMenu2.size.width, y: TopMenu2.position.y)
         contextoMenu.addChild(TopMenu3)
         // Title Bar
-        let MenuTitleLeft = SKSpriteNode(texture: textureMenuTitleLeft)
+        let MenuTitleLeft = SKSpriteNode(texture: textureMenuTitle)
         MenuTitleLeft.zPosition = 4.1
         MenuTitleLeft.xScale = escalaMenu
         MenuTitleLeft.yScale = escalaMenu
@@ -433,6 +462,15 @@ open class GameUI {
          print("Family: \(family) Font names: \(names)")
          }*/
         
+        createEquipWindow(ventana, menuBottom3.position)
+        
+        
+    }
+    
+    open func createEquipWindow(_ ventana: CGRect, _ position: CGPoint){
+        
+        //ventana1.name = "ventana1"
+        
         //Ventana Intentario de Equipo
         let ventana1Top1 = SKSpriteNode(texture: textureTop1)
         ventana1Top1.zPosition = 4
@@ -458,48 +496,231 @@ open class GameUI {
         ventana1.addChild(ventana1Top3)
         
         let ventana1Middle1 = SKSpriteNode(texture: textureMiddle1)
-        ventana1Middle1.zPosition = 4.1
+        ventana1Middle1.zPosition = 4
         ventana1Middle1.xScale = escalaMenu
-        ventana1Middle1.yScale = escalaMenu * 4
+        ventana1Middle1.yScale = escalaMenu * 4.3
         ventana1Middle1.anchorPoint = CGPoint(x: 0.5, y: 1)
         ventana1Middle1.position = CGPoint(x: ventana1Top1.position.x, y: ventana1Top1.position.y-ventana1Top1.size.width/2)
         ventana1.addChild(ventana1Middle1)
         let ventana1Middle2 = SKSpriteNode(texture: textureMiddle2)
-        ventana1Middle2.zPosition = 4.1
+        ventana1Middle2.zPosition = 4
         ventana1Middle2.xScale = escalaMenu * 4
-        ventana1Middle2.yScale = escalaMenu * 4
+        ventana1Middle2.yScale = escalaMenu * 4.3
         ventana1Middle2.anchorPoint = CGPoint(x: 0, y: 1)
         ventana1Middle2.position = CGPoint(x: ventana1Middle1.position.x+ventana1Middle1.size.width/2, y: ventana1Middle1.position.y)
         ventana1.addChild(ventana1Middle2)
         let ventana1Middle3 = SKSpriteNode(texture: textureMiddle3)
-        ventana1Middle3.zPosition = 4.1
+        ventana1Middle3.zPosition = 4
         ventana1Middle3.xScale = escalaMenu
-        ventana1Middle3.yScale = escalaMenu * 4
+        ventana1Middle3.yScale = escalaMenu * 4.3
         ventana1Middle3.anchorPoint = CGPoint(x: 0, y: 1)
         ventana1Middle3.position = CGPoint(x: ventana1Middle2.position.x+ventana1Middle2.size.width, y: ventana1Middle2.position.y)
         ventana1.addChild(ventana1Middle3)
         
         let ventana1Bottom1 = SKSpriteNode(texture: textureBottom1)
-        ventana1Bottom1.zPosition = 4.1
+        ventana1Bottom1.zPosition = 4
         ventana1Bottom1.xScale = escalaMenu
         ventana1Bottom1.yScale = escalaMenu
         ventana1Bottom1.anchorPoint = CGPoint(x: 0.5, y: 1)
-        ventana1Bottom1.position = CGPoint(x: ventana1Middle1.position.x, y: ventana1Middle1.position.y-4*ventana1Middle1.size.width)
+        ventana1Bottom1.position = CGPoint(x: ventana1Middle1.position.x, y: ventana1Middle1.position.y-ventana1Middle1.size.height)
         ventana1.addChild(ventana1Bottom1)
         let ventana1Bottom2 = SKSpriteNode(texture: textureBottom2)
-        ventana1Bottom2.zPosition = 4.1
+        ventana1Bottom2.zPosition = 4
         ventana1Bottom2.xScale = escalaMenu * 4
         ventana1Bottom2.yScale = escalaMenu
         ventana1Bottom2.anchorPoint = CGPoint(x: 0, y: 1)
         ventana1Bottom2.position = CGPoint(x: ventana1Bottom1.position.x+ventana1Bottom1.size.width/2, y: ventana1Bottom1.position.y)
         ventana1.addChild(ventana1Bottom2)
         let ventana1Bottom3 = SKSpriteNode(texture: textureBottom3)
-        ventana1Bottom3.zPosition = 4.1
+        ventana1Bottom3.zPosition = 4
         ventana1Bottom3.xScale = escalaMenu
         ventana1Bottom3.yScale = escalaMenu
         ventana1Bottom3.anchorPoint = CGPoint(x: 0, y: 1)
         ventana1Bottom3.position = CGPoint(x: ventana1Bottom2.position.x+ventana1Bottom2.size.width, y: ventana1Bottom2.position.y)
         ventana1.addChild(ventana1Bottom3)
+        
+        // Boton Equipar/Desequipar item
+        let buttonEquipLeft = SKSpriteNode(texture: textureMenuTitleLeft)
+        buttonEquipLeft.name = "botonEquip1"
+        buttonEquipLeft.zPosition = 4.3
+        buttonEquipLeft.xScale = escalaMenu
+        buttonEquipLeft.yScale = escalaMenu
+        buttonEquipLeft.position = CGPoint(x: ventana1Bottom1.position.x+ventana1Bottom1.size.width/4, y: ventana1Bottom1.position.y-ventana1Bottom1.size.height+5)
+        ventana1.addChild(buttonEquipLeft)
+        
+        let buttonEquipCenter = SKSpriteNode(texture: textureMenuTitleCenter)
+        buttonEquipCenter.name = "botonEquip2"
+        buttonEquipCenter.zPosition = 4.3
+        buttonEquipCenter.xScale = escalaMenu * 2
+        buttonEquipCenter.yScale = escalaMenu
+        buttonEquipCenter.anchorPoint = CGPoint(x: 0, y: 0.5)
+        buttonEquipCenter.position = CGPoint(x: buttonEquipLeft.position.x+buttonEquipLeft.size.width/2, y: buttonEquipLeft.position.y)
+        ventana1.addChild(buttonEquipCenter)
+        
+        let buttonEquipRight = SKSpriteNode(texture: textureMenuTitleRight)
+        buttonEquipRight.name = "botonEquip3"
+        buttonEquipRight.zPosition = 4.3
+        buttonEquipRight.xScale = escalaMenu
+        buttonEquipRight.yScale = escalaMenu
+        buttonEquipRight.anchorPoint = CGPoint(x: 0, y: 0.5)
+        buttonEquipRight.position = CGPoint(x: buttonEquipCenter.position.x+buttonEquipCenter.size.width, y: buttonEquipCenter.position.y)
+        ventana1.addChild(buttonEquipRight)
+        
+        // label Equipar/Desequipar item
+        labelEquip = SKLabelNode(text: "Equipar")
+        labelEquip.name = "labelBoton"
+        labelEquip.zPosition = 4.4
+        labelEquip.fontSize = 30
+        labelEquip.fontName = "Alagard"
+        labelEquip.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left // Alineacion a la izquierda
+        // labelName.text = "Intentario"
+        labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelEquip.position = CGPoint(x: buttonEquipCenter.position.x, y: buttonEquipCenter.position.y-10)
+        ventana1.addChild(labelEquip)
+        
+        
+        //Leer de una archivo los objetos del personaje y obtener los elementos para contruir el inventario
+        //Ranura 1
+        let ranura1Square = SKSpriteNode(texture: textureRanura1)
+        ranura1Square.zPosition = 4.1
+        ranura1Square.xScale = escalaMenu
+        ranura1Square.yScale = escalaMenu
+        ranura1Square.position = CGPoint(x: ventana1Top1.position.x+ventana1Top1.size.width/2, y: ventana1Top1.position.y-ventana1Top1.size.width/2)
+        ventana1.addChild(ranura1Square)
+        
+        let ranura1Left = SKSpriteNode(texture: textureRanura2)
+        ranura1Left.name = "ranura0"
+        ranura1Left.zPosition = 4.1
+        ranura1Left.xScale = escalaMenu
+        ranura1Left.yScale = escalaMenu
+        ranura1Left.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura1Left.position = CGPoint(x: ranura1Square.position.x+ranura1Square.size.width/2, y: ranura1Square.position.y)
+        ventana1.addChild(ranura1Left)
+        
+        let ranura1Center = SKSpriteNode(texture: textureRanura3)
+        ranura1Center.name = "ranura1"
+        ranura1Center.zPosition = 4.1
+        ranura1Center.xScale = escalaMenu * 6
+        ranura1Center.yScale = escalaMenu
+        ranura1Center.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura1Center.position = CGPoint(x: ranura1Left.position.x+ranura1Left.size.width/2, y: ranura1Left.position.y)
+        ventana1.addChild(ranura1Center)
+        
+        let ranura1Right = SKSpriteNode(texture: textureRanura4)
+        ranura1Right.name = "ranura2"
+        ranura1Right.zPosition = 4.1
+        ranura1Right.xScale = escalaMenu
+        ranura1Right.yScale = escalaMenu
+        ranura1Right.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura1Right.position = CGPoint(x: ranura1Center.position.x+ranura1Center.size.width, y: ranura1Center.position.y)
+        ventana1.addChild(ranura1Right)
+        
+        //ranura 2
+        let ranura2Square = SKSpriteNode(texture: textureRanura1)
+        ranura2Square.zPosition = 4.1
+        ranura2Square.xScale = escalaMenu
+        ranura2Square.yScale = escalaMenu
+        ranura2Square.position = CGPoint(x: ranura1Square.position.x, y: ranura1Square.position.y-ranura1Square.size.width-8)
+        ventana1.addChild(ranura2Square)
+        
+        let ranura2Left = SKSpriteNode(texture: textureRanura2)
+        ranura2Left.name = "ranura3"
+        ranura2Left.zPosition = 4.1
+        ranura2Left.xScale = escalaMenu
+        ranura2Left.yScale = escalaMenu
+        ranura2Left.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura2Left.position = CGPoint(x: ranura2Square.position.x+ranura2Square.size.width/2, y: ranura2Square.position.y)
+        ventana1.addChild(ranura2Left)
+        
+        let ranura2Center = SKSpriteNode(texture: textureRanura3)
+        ranura2Center.name = "ranura4"
+        ranura2Center.zPosition = 4.1
+        ranura2Center.xScale = escalaMenu * 6
+        ranura2Center.yScale = escalaMenu
+        ranura2Center.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura2Center.position = CGPoint(x: ranura2Left.position.x+ranura2Left.size.width/2, y: ranura2Left.position.y)
+        ventana1.addChild(ranura2Center)
+        
+        let ranura2Right = SKSpriteNode(texture: textureRanura4)
+        ranura2Right.name = "ranura5"
+        ranura2Right.zPosition = 4.1
+        ranura2Right.xScale = escalaMenu
+        ranura2Right.yScale = escalaMenu
+        ranura2Right.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura2Right.position = CGPoint(x: ranura2Center.position.x+ranura2Center.size.width, y: ranura2Center.position.y)
+        ventana1.addChild(ranura2Right)
+        
+        //ranura 3
+        let ranura3Square = SKSpriteNode(texture: textureRanura1)
+        ranura3Square.zPosition = 4.1
+        ranura3Square.xScale = escalaMenu
+        ranura3Square.yScale = escalaMenu
+        ranura3Square.position = CGPoint(x: ranura2Square.position.x, y: ranura2Square.position.y-ranura2Square.size.width-8)
+        ventana1.addChild(ranura3Square)
+        
+        let ranura3Left = SKSpriteNode(texture: textureRanura2)
+        ranura3Left.name = "ranura6"
+        ranura3Left.zPosition = 4.1
+        ranura3Left.xScale = escalaMenu
+        ranura3Left.yScale = escalaMenu
+        ranura3Left.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura3Left.position = CGPoint(x: ranura3Square.position.x+ranura3Square.size.width/2, y: ranura3Square.position.y)
+        ventana1.addChild(ranura3Left)
+        
+        let ranura3Center = SKSpriteNode(texture: textureRanura3)
+        ranura3Center.name = "ranura7"
+        ranura3Center.zPosition = 4.1
+        ranura3Center.xScale = escalaMenu * 6
+        ranura3Center.yScale = escalaMenu
+        ranura3Center.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura3Center.position = CGPoint(x: ranura3Left.position.x+ranura3Left.size.width/2, y: ranura3Left.position.y)
+        ventana1.addChild(ranura3Center)
+        
+        let ranura3Right = SKSpriteNode(texture: textureRanura4)
+        ranura3Right.name = "ranura8"
+        ranura3Right.zPosition = 4.1
+        ranura3Right.xScale = escalaMenu
+        ranura3Right.yScale = escalaMenu
+        ranura3Right.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura3Right.position = CGPoint(x: ranura3Center.position.x+ranura3Center.size.width, y: ranura3Center.position.y)
+        ventana1.addChild(ranura3Right)
+        
+        //ranura 4
+        let ranura4Square = SKSpriteNode(texture: textureRanura1)
+        ranura4Square.zPosition = 4.1
+        ranura4Square.xScale = escalaMenu
+        ranura4Square.yScale = escalaMenu
+        ranura4Square.position = CGPoint(x: ranura3Square.position.x, y: ranura3Square.position.y-ranura3Square.size.width-8)
+        ventana1.addChild(ranura4Square)
+        
+        let ranura4Left = SKSpriteNode(texture: textureRanura2)
+        ranura4Left.name = "ranura9"
+        ranura4Left.zPosition = 4.1
+        ranura4Left.xScale = escalaMenu
+        ranura4Left.yScale = escalaMenu
+        ranura4Left.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura4Left.position = CGPoint(x: ranura4Square.position.x+ranura4Square.size.width/2, y: ranura4Square.position.y)
+        ventana1.addChild(ranura4Left)
+        
+        let ranura4Center = SKSpriteNode(texture: textureRanura3)
+        ranura4Center.name = "ranura10"
+        ranura4Center.zPosition = 4.1
+        ranura4Center.xScale = escalaMenu * 6
+        ranura4Center.yScale = escalaMenu
+        ranura4Center.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura4Center.position = CGPoint(x: ranura4Left.position.x+ranura4Left.size.width/2, y: ranura4Left.position.y)
+        ventana1.addChild(ranura4Center)
+        
+        let ranura4Right = SKSpriteNode(texture: textureRanura4)
+        ranura4Right.name = "ranura11"
+        ranura4Right.zPosition = 4.1
+        ranura4Right.xScale = escalaMenu
+        ranura4Right.yScale = escalaMenu
+        ranura4Right.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ranura4Right.position = CGPoint(x: ranura4Center.position.x+ranura4Center.size.width, y: ranura4Center.position.y)
+        ventana1.addChild(ranura4Right)
+        
+        
         
         //Ventana Equipo ranuras
         let ventana2Top3 = SKSpriteNode(texture: textureTop3)
@@ -507,7 +728,7 @@ open class GameUI {
         ventana2Top3.xScale = escalaMenu
         ventana2Top3.yScale = escalaMenu
         ventana2Top3.anchorPoint = CGPoint(x: 0, y: 0.5)
-        ventana2Top3.position = CGPoint(x: menuBottom3.position.x, y: ventana.maxY-210)
+        ventana2Top3.position = CGPoint(x: position.x, y: ventana.maxY-210)
         ventana1.addChild(ventana2Top3)
         
         let ventana2Top2 = SKSpriteNode(texture: textureTop2)
@@ -527,66 +748,245 @@ open class GameUI {
         ventana1.addChild(ventana2Top1)
         
         let ventana2Middle1 = SKSpriteNode(texture: textureMiddle1)
-        ventana2Middle1.zPosition = 4.1
+        ventana2Middle1.zPosition = 4
         ventana2Middle1.xScale = escalaMenu
-        ventana2Middle1.yScale = escalaMenu * 4
+        ventana2Middle1.yScale = escalaMenu * 4.3
         ventana2Middle1.anchorPoint = CGPoint(x: 1, y: 1)
         ventana2Middle1.position = CGPoint(x: ventana2Top1.position.x, y: ventana2Top1.position.y-ventana2Top1.size.width/2)
         ventana1.addChild(ventana2Middle1)
         let ventana2Middle2 = SKSpriteNode(texture: textureMiddle2)
-        ventana2Middle2.zPosition = 4.1
+        ventana2Middle2.zPosition = 4
         ventana2Middle2.xScale = escalaMenu * 3
-        ventana2Middle2.yScale = escalaMenu * 4
+        ventana2Middle2.yScale = escalaMenu * 4.3
         ventana2Middle2.anchorPoint = CGPoint(x: 0, y: 1)
         ventana2Middle2.position = CGPoint(x: ventana2Middle1.position.x, y: ventana2Middle1.position.y)
         ventana1.addChild(ventana2Middle2)
         let ventana2Middle3 = SKSpriteNode(texture: textureMiddle3)
-        ventana2Middle3.zPosition = 4.1
+        ventana2Middle3.zPosition = 4
         ventana2Middle3.xScale = escalaMenu
-        ventana2Middle3.yScale = escalaMenu * 4
+        ventana2Middle3.yScale = escalaMenu * 4.3
         ventana2Middle3.anchorPoint = CGPoint(x: 0, y: 1)
         ventana2Middle3.position = CGPoint(x: ventana2Middle2.position.x+ventana2Middle2.size.width, y: ventana2Middle2.position.y)
         ventana1.addChild(ventana2Middle3)
         
         let ventana2Bottom1 = SKSpriteNode(texture: textureBottom1)
-        ventana2Bottom1.zPosition = 4.1
+        ventana2Bottom1.zPosition = 4
         ventana2Bottom1.xScale = escalaMenu
         ventana2Bottom1.yScale = escalaMenu
         ventana2Bottom1.anchorPoint = CGPoint(x: 0, y: 1)
-        ventana2Bottom1.position = CGPoint(x: ventana2Middle1.position.x-ventana2Middle1.size.width, y: ventana2Middle1.position.y-4*ventana2Middle1.size.width)
+        ventana2Bottom1.position = CGPoint(x: ventana2Middle1.position.x-ventana2Middle1.size.width, y: ventana2Middle1.position.y-ventana2Middle1.size.height)
         ventana1.addChild(ventana2Bottom1)
         let ventana2Bottom2 = SKSpriteNode(texture: textureBottom2)
-        ventana2Bottom2.zPosition = 4.1
+        ventana2Bottom2.zPosition = 4
         ventana2Bottom2.xScale = escalaMenu * 3
         ventana2Bottom2.yScale = escalaMenu
         ventana2Bottom2.anchorPoint = CGPoint(x: 0, y: 1)
         ventana2Bottom2.position = CGPoint(x: ventana2Bottom1.position.x+ventana2Middle1.size.width, y: ventana2Bottom1.position.y)
         ventana1.addChild(ventana2Bottom2)
         let ventana2Bottom3 = SKSpriteNode(texture: textureBottom3)
-        ventana2Bottom3.zPosition = 4.1
+        ventana2Bottom3.zPosition = 4
         ventana2Bottom3.xScale = escalaMenu
         ventana2Bottom3.yScale = escalaMenu
         ventana2Bottom3.anchorPoint = CGPoint(x: 0, y: 1)
         ventana2Bottom3.position = CGPoint(x: ventana2Bottom2.position.x+ventana2Bottom2.size.width, y: ventana2Bottom2.position.y)
         ventana1.addChild(ventana2Bottom3)
         
+        //Ranuras del Equipo
+        let ranuraHelmet = SKSpriteNode(texture: textureRanuraHelmetPress)
+        ranuraHelmet.name = "helmet"
+        ranuraHelmet.zPosition = 4.1
+        ranuraHelmet.xScale = escalaMenu
+        ranuraHelmet.yScale = escalaMenu
+        ranuraHelmet.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraHelmet.position = CGPoint(x: ventana2Top2.position.x-ventana2Top2.size.height+8, y: ventana2Top2.position.y-ventana2Top2.size.height/2)
+        ventana1.addChild(ranuraHelmet)
+        
+        let ranuraAmulet = SKSpriteNode(texture: textureRanuraAmulet)
+        ranuraAmulet.name = "amulet"
+        ranuraAmulet.zPosition = 4.1
+        ranuraAmulet.xScale = escalaMenu
+        ranuraAmulet.yScale = escalaMenu
+        ranuraAmulet.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraAmulet.position = CGPoint(x: ranuraHelmet.position.x+ranuraHelmet.size.width+12, y: ranuraHelmet.position.y-ranuraHelmet.size.height/2)
+        ventana1.addChild(ranuraAmulet)
+        
+        let ranuraArmor = SKSpriteNode(texture: textureRanuraArmor)
+        ranuraArmor.name = "armor"
+        ranuraArmor.zPosition = 4.1
+        ranuraArmor.xScale = escalaMenu
+        ranuraArmor.yScale = escalaMenu
+        ranuraArmor.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraArmor.position = CGPoint(x: ranuraHelmet.position.x, y: ranuraHelmet.position.y-ranuraHelmet.size.height-12)
+        ventana1.addChild(ranuraArmor)
+        
+        let ranuraWeapon = SKSpriteNode(texture: textureRanuraWeapon)
+        ranuraWeapon.name = "weapon"
+        ranuraWeapon.zPosition = 4.1
+        ranuraWeapon.xScale = escalaMenu
+        ranuraWeapon.yScale = escalaMenu
+        ranuraWeapon.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraWeapon.position = CGPoint(x: ranuraArmor.position.x-ranuraArmor.size.width-12, y: ranuraArmor.position.y-ranuraArmor.size.height/2)
+        ventana1.addChild(ranuraWeapon)
+        
+        let ranuraShield = SKSpriteNode(texture: textureRanuraShield)
+        ranuraShield.name = "shield"
+        ranuraShield.zPosition = 4.1
+        ranuraShield.xScale = escalaMenu
+        ranuraShield.yScale = escalaMenu
+        ranuraShield.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraShield.position = CGPoint(x: ranuraArmor.position.x+ranuraArmor.size.width+12, y: ranuraArmor.position.y-ranuraArmor.size.height/2)
+        ventana1.addChild(ranuraShield)
+        
+        let ranuraGraves = SKSpriteNode(texture: textureRanuraGraves)
+        ranuraGraves.name = "graves"
+        ranuraGraves.zPosition = 4.1
+        ranuraGraves.xScale = escalaMenu
+        ranuraGraves.yScale = escalaMenu
+        ranuraGraves.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraGraves.position = CGPoint(x: ranuraArmor.position.x, y: ranuraArmor.position.y-ranuraArmor.size.height-12)
+        ventana1.addChild(ranuraGraves)
+        
+        let ranuraRing2 = SKSpriteNode(texture: textureRanuraRing)
+        ranuraRing2.name = "ring2"
+        ranuraRing2.zPosition = 4.1
+        ranuraRing2.xScale = escalaMenu
+        ranuraRing2.yScale = escalaMenu
+        ranuraRing2.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraRing2.position = CGPoint(x: ranuraGraves.position.x, y: ranuraGraves.position.y-ranuraGraves.size.height-16)
+        ventana1.addChild(ranuraRing2)
+        
+        let ranuraRing1 = SKSpriteNode(texture: textureRanuraRing)
+        ranuraRing1.name = "ring1"
+        ranuraRing1.zPosition = 4.1
+        ranuraRing1.xScale = escalaMenu
+        ranuraRing1.yScale = escalaMenu
+        ranuraRing1.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraRing1.position = CGPoint(x: ranuraRing2.position.x-ranuraRing2.size.width-12, y: ranuraRing2.position.y)
+        ventana1.addChild(ranuraRing1)
+        
+        let ranuraRing3 = SKSpriteNode(texture: textureRanuraRing)
+        ranuraRing3.name = "ring3"
+        ranuraRing3.zPosition = 4.1
+        ranuraRing3.xScale = escalaMenu
+        ranuraRing3.yScale = escalaMenu
+        ranuraRing3.anchorPoint = CGPoint(x: 1, y: 0.5)
+        ranuraRing3.position = CGPoint(x: ranuraRing2.position.x+ranuraRing2.size.width+12, y: ranuraRing2.position.y)
+        ventana1.addChild(ranuraRing3)
         
         lanzaMenuEquip()
         
+    }
+    
+    open func equiparItem(){
+        ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(textureMenuTitleLeft))
+        ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(textureMenuTitleCenter))
+        ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(textureMenuTitleRight))
+        labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
         
+        if (banderaEquipo == 0){
+             labelEquip.text = "Desequipar"
+            banderaEquipo = 1
+        }else{
+             labelEquip.text = "Equipar"
+            banderaEquipo = 0
+        }
+       
         
         
     }
     
+    
     open func lanzaMenuEquip(){
+        //
         contextoMenu.addChild(ventana1)
-        //contextoMenu.addChild(ventana2)
     
     }
     
     open func cierraMenuEquip(){
         ventana1.removeFromParent()
-        //ventana2.removeFromParent()
+    }
+    
+    open func selEquip(_ numRanura: Int){
+        resetEquip()
+        switch numRanura {
+        case 1:
+            ventana1.childNode(withName: "helmet")?.run(SKAction.setTexture(textureRanuraHelmetPress))
+        case 2:
+            ventana1.childNode(withName: "amulet")?.run(SKAction.setTexture(textureRanuraAmuletPress))
+        case 3:
+            ventana1.childNode(withName: "armor")?.run(SKAction.setTexture(textureRanuraArmorPress))
+        case 4:
+            ventana1.childNode(withName: "weapon")?.run(SKAction.setTexture(textureRanuraWeaponPress))
+        case 5:
+            ventana1.childNode(withName: "shield")?.run(SKAction.setTexture(textureRanuraShieldPress))
+        case 6:
+            ventana1.childNode(withName: "graves")?.run(SKAction.setTexture(textureRanuraGravesPress))
+        case 7:
+            ventana1.childNode(withName: "ring1")?.run(SKAction.setTexture(textureRanuraRingPress))
+        case 8:
+            ventana1.childNode(withName: "ring2")?.run(SKAction.setTexture(textureRanuraRingPress))
+        case 9:
+            ventana1.childNode(withName: "ring3")?.run(SKAction.setTexture(textureRanuraRingPress))
+        default:
+            print("default")
+            //
+        }
+        
+    }
+    
+    open func resetEquip(){
+        ventana1.childNode(withName: "helmet")?.run(SKAction.setTexture(textureRanuraHelmet))
+        ventana1.childNode(withName: "amulet")?.run(SKAction.setTexture(textureRanuraAmulet))
+        ventana1.childNode(withName: "armor")?.run(SKAction.setTexture(textureRanuraArmor))
+        ventana1.childNode(withName: "weapon")?.run(SKAction.setTexture(textureRanuraWeapon))
+        ventana1.childNode(withName: "shield")?.run(SKAction.setTexture(textureRanuraShield))
+        ventana1.childNode(withName: "graves")?.run(SKAction.setTexture(textureRanuraGraves))
+        ventana1.childNode(withName: "ring1")?.run(SKAction.setTexture(textureRanuraRing))
+        ventana1.childNode(withName: "ring2")?.run(SKAction.setTexture(textureRanuraRing))
+        ventana1.childNode(withName: "ring3")?.run(SKAction.setTexture(textureRanuraRing))
+    }
+    
+    
+    open func ranuraSel(_ numRanura: Int){
+        resetRanura()
+        switch numRanura {
+        case 1:
+            ventana1.childNode(withName: "ranura0")?.run(SKAction.setTexture(textureRanura2Press))
+            ventana1.childNode(withName: "ranura1")?.run(SKAction.setTexture(textureRanura3Press))
+            ventana1.childNode(withName: "ranura2")?.run(SKAction.setTexture(textureRanura4Press))
+        case 2:
+            ventana1.childNode(withName: "ranura3")?.run(SKAction.setTexture(textureRanura2Press))
+            ventana1.childNode(withName: "ranura4")?.run(SKAction.setTexture(textureRanura3Press))
+            ventana1.childNode(withName: "ranura5")?.run(SKAction.setTexture(textureRanura4Press))
+        case 3:
+            ventana1.childNode(withName: "ranura6")?.run(SKAction.setTexture(textureRanura2Press))
+            ventana1.childNode(withName: "ranura7")?.run(SKAction.setTexture(textureRanura3Press))
+            ventana1.childNode(withName: "ranura8")?.run(SKAction.setTexture(textureRanura4Press))
+        case 4:
+            ventana1.childNode(withName: "ranura9")?.run(SKAction.setTexture(textureRanura2Press))
+            ventana1.childNode(withName: "ranura10")?.run(SKAction.setTexture(textureRanura3Press))
+            ventana1.childNode(withName: "ranura11")?.run(SKAction.setTexture(textureRanura4Press))
+        default:
+            print("default")
+            //
+        }
+        
+    }
+    
+    open func resetRanura(){
+        ventana1.childNode(withName: "ranura0")?.run(SKAction.setTexture(textureRanura2))
+        ventana1.childNode(withName: "ranura1")?.run(SKAction.setTexture(textureRanura3))
+        ventana1.childNode(withName: "ranura2")?.run(SKAction.setTexture(textureRanura4))
+        ventana1.childNode(withName: "ranura3")?.run(SKAction.setTexture(textureRanura2))
+        ventana1.childNode(withName: "ranura4")?.run(SKAction.setTexture(textureRanura3))
+        ventana1.childNode(withName: "ranura5")?.run(SKAction.setTexture(textureRanura4))
+        ventana1.childNode(withName: "ranura6")?.run(SKAction.setTexture(textureRanura2))
+        ventana1.childNode(withName: "ranura7")?.run(SKAction.setTexture(textureRanura3))
+        ventana1.childNode(withName: "ranura8")?.run(SKAction.setTexture(textureRanura4))
+        ventana1.childNode(withName: "ranura9")?.run(SKAction.setTexture(textureRanura2))
+        ventana1.childNode(withName: "ranura10")?.run(SKAction.setTexture(textureRanura3))
+        ventana1.childNode(withName: "ranura11")?.run(SKAction.setTexture(textureRanura4))
+
     }
     
     

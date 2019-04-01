@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		58086BD12242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD02242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf */; };
 		58086BD32242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD22242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf */; };
-		58088CD1223AB10700BFF480 /* Niveles.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58088CD0223AB10700BFF480 /* Niveles.xcassets */; };
 		58735FFA220E5EF4001C8075 /* CavernRockSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58735FF9220E5EF4001C8075 /* CavernRockSet.sks */; };
 		589F7A0D22370CEA0019DF1D /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F7A0C22370CEA0019DF1D /* Player.swift */; };
 		589F7A0F223715270019DF1D /* TileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F7A0E223715270019DF1D /* TileMap.swift */; };
@@ -29,7 +28,6 @@
 /* Begin PBXFileReference section */
 		58086BD02242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "_bitmap_font____romulus_by_pix3m-d6aokem.ttf"; sourceTree = "<group>"; };
 		58086BD22242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "alagard_by_pix3m-d6awiwp.ttf"; sourceTree = "<group>"; };
-		58088CD0223AB10700BFF480 /* Niveles.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Niveles.xcassets; sourceTree = "<group>"; };
 		58735FF9220E5EF4001C8075 /* CavernRockSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CavernRockSet.sks; sourceTree = "<group>"; };
 		589F7A0C22370CEA0019DF1D /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		589F7A0E223715270019DF1D /* TileMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileMap.swift; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 				58F74770220E435B0060A5D3 /* LaunchScreen.storyboard */,
 				58F74773220E435B0060A5D3 /* Info.plist */,
 				58F58398223C78FE00D5A66C /* Assets.xcassets */,
-				58088CD0223AB10700BFF480 /* Niveles.xcassets */,
 			);
 			path = iRPG;
 			sourceTree = "<group>";
@@ -167,7 +164,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				58088CD1223AB10700BFF480 /* Niveles.xcassets in Resources */,
 				58F7476D220E43590060A5D3 /* Main.storyboard in Resources */,
 				58086BD32242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf in Resources */,
 				58F74764220E43590060A5D3 /* GameScene.sks in Resources */,

@@ -131,6 +131,11 @@ open class AnalogJoystick: SKNode {
     private var tracking = false
     private(set) var data = AnalogJoystickData()
     
+    var myPlayer = Player()
+    //
+    
+    
+    
     var disabled: Bool {
         get {
             return !isUserInteractionEnabled
@@ -173,6 +178,7 @@ open class AnalogJoystick: SKNode {
         addChild(substrate)
         self.stick = stick
         stick.zPosition = substrate.zPosition + 1
+        stick.name = "stick"
         addChild(stick)
         disabled = false
         let velocityLoop = CADisplayLink(target: self, selector: #selector(listen))
@@ -209,7 +215,12 @@ open class AnalogJoystick: SKNode {
         if let touch = touches.first, stick == atPoint(touch.location(in: self)) {
             tracking = true
             beginHandler?()
+            
         }
+        
+        
+        
+        
     }
     
     open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -225,16 +236,21 @@ open class AnalogJoystick: SKNode {
             realDistantion = sqrt(pow(location.x, 2) + pow(location.y, 2)),
             needPosition = realDistantion <= maxDistantion ? CGPoint(x: location.x, y: location.y) : CGPoint(x: location.x / realDistantion * maxDistantion, y: location.y / realDistantion * maxDistantion)
             stick.position = needPosition
+            myPlayer.animateMove()
             data = AnalogJoystickData(velocity: needPosition, angular: -atan2(needPosition.x, needPosition.y))
+            
         }
     }
     
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         resetStick()
+        myPlayer.resetpersonaje()
+        myPlayer.orientarPersonaje()
     }
     
     open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         resetStick()
+        
     }
     
     // CustomStringConvertible protocol

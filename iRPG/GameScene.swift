@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Camera
         var cam: SKCameraNode?
         // Mapa
-        var tileMap = TileMap()
+        var map = SKNode()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
         //TileMapCategories
@@ -25,6 +25,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Player
         var playerNode = SKSpriteNode()
         var myPlayer = Player()
+        
+        //Direccion Personaje
+        var direccionPersonaje = 0
+    
         //Interfaz
         var nodo = GameUI()
         // Controles de la fisica
@@ -65,14 +69,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(cam!)
             
             //Creando al jugador
-            //myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
-            myPlayer = Player.init(CGPoint(x: 0, y: 0))
+            myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
             //Agregando los sprites del jugador a la escena
             playerNode = myPlayer.playerNode
             addChild(playerNode)
             
+            nodo.rotateAnalogStick.myPlayer = myPlayer
             
-            // Movimiento del mapa
+            
+            
+            // Movimiento del personaje
             var movX = 0.0
             var movY = 0.0
             //al mover el Joystick cambia la orientacion del jugador
@@ -80,52 +86,64 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if (jData.angular >= -0.375 && jData.angular < 0.375){
                     //vista N
-                    self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerN))
+                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerN))
                     movX += 0.0
                     movY += 1.0 * self.velocidadYp
+                    self.direccionPersonaje = 1
+                     //self.myPlayer.orientacionPersonaje = 1
                     
                 }else if (jData.angular >= 0.375 && jData.angular < 1.125){
                     //vista NW
-                    self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNW))
+                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNW))
                     movX -= 0.7072 * self.velocidadXm
                     movY += 0.7072 * self.velocidadYp
                     
+                     self.direccionPersonaje = 0
                     
                 }else if (jData.angular >= 1.125 && jData.angular < 1.875){
                    //vista W
-                    self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerW))
+                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerW))
+                    
                     movX -= 1.0 * self.velocidadXm
                     movY += 0.0
+                    self.direccionPersonaje = 2
                     
                 }else if (jData.angular >= 1.875 && jData.angular < 2.675){
                     //vista SW
-                    self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSW))
+                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSW))
                     movX -= 0.7072 * self.velocidadXm
                     movY -= 0.7072 * self.velocidadYm
+                    self.direccionPersonaje = 0
                     
                 }else if (jData.angular >= 2.625 || jData.angular < -2.625){
                     //vista S
-                    self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerS))
+                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerS))
+                    
                     movX += 0.0
                     movY -= 1.0 * self.velocidadYm
+                    self.direccionPersonaje = 3
                     
                 }else if (jData.angular >= -2.625 && jData.angular < -1.875){
                     //vista SE
-                    self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSE))
+                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSE))
                     movX += 0.7072 * self.velocidadXp
                     movY -= 0.7072 * self.velocidadYm
+                    self.direccionPersonaje = 0
                     
                 }else if (jData.angular >= -1.875 && jData.angular < -1.125){
                     //vista E
-                    self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerE))
+                    
+                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerE))
                     movX += 1.0 * self.velocidadXp
                     movY += 0.0
+                    self.direccionPersonaje = 4
                     
                 }else if (jData.angular >= -1.125 && jData.angular < -0.375){
                     //vista NE
-                    self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNE))
+                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNE))
                     movX += 0.7072 * self.velocidadXp
                     movY += 0.7072 * self.velocidadYp
+                    self.direccionPersonaje = 0
                 }
                 
                 self.playerNode.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
@@ -137,10 +155,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             nodo.joystickStickImageEnabled = true
             nodo.joystickSubstrateImageEnabled = true
+            //animateMove(1)
     
             view.isMultipleTouchEnabled = true
             
         }
+    
+    
+    
+    
     
    
     
@@ -183,12 +206,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let maplevel = readFile()
             if maplevel != ""{
                 let cadena = maplevel as String
-                tileMap = TileMap.init(cadena)
-                tileMap.map.xScale = 6.0
-                tileMap.map.yScale = 6.0
+                map = TileMap.init(cadena).map
                 //se agrega map a la vista
-                self.addChild(tileMap.map)
-                
+                self.addChild(map)
+                map.xScale = 6.0
+                map.yScale = 6.0
                 
                 print("Done")
             }
@@ -300,12 +322,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     nodo.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(nodo.textureMenuButtonPressed))
                 }else if name == "Arriba"{
                     nodo.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(nodo.textureButtonUpPres))
+                    playerNode.run(SKAction.repeatForever(SKAction.animate(with: myPlayer.playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
                 }else if name == "Abajo"{
                     nodo.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(nodo.textureButtonDownPres))
+                    playerNode.run(SKAction.repeatForever(SKAction.animate(with: myPlayer.playerWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
                 }else if name == "Der"{
                     nodo.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(nodo.textureButtonRightPres))
+                    playerNode.run(SKAction.repeatForever(SKAction.animate(with: myPlayer.playerWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
                 }else if name == "Izq"{
                     nodo.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(nodo.textureButtonLeftPres))
+                    playerNode.run(SKAction.repeatForever(SKAction.animate(with: myPlayer.playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
                 }else if name == "MenuWin"{
                     nodo.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(nodo.textureMenuWinButtonPres))
                 }else if name == "MenuButton1"{
@@ -407,12 +433,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     nodo.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(nodo.textureMenuButton))
                 }else if name == "Arriba"{
                     nodo.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(nodo.textureButtonUp))
+                    myPlayer.resetpersonaje()
+                    playerNode.run(SKAction.setTexture(myPlayer.texturePlayerN))
                 }else if name == "Abajo"{
                     nodo.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(nodo.textureButtonDown))
+                    myPlayer.resetpersonaje()
+                    playerNode.run(SKAction.setTexture(myPlayer.texturePlayerS))
                 }else if name == "Der"{
-                     nodo.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(nodo.textureButtonRight))
+                    nodo.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(nodo.textureButtonRight))
+                    myPlayer.resetpersonaje()
+                    playerNode.run(SKAction.setTexture(myPlayer.texturePlayerE))
                 }else if name == "Izq"{
-                     nodo.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(nodo.textureButtonLeft))
+                    nodo.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(nodo.textureButtonLeft))
+                    myPlayer.resetpersonaje()
+                    playerNode.run(SKAction.setTexture(myPlayer.texturePlayerW))
                 }else if name == "MenuWin"{
                     cierramenu()
                     nodo.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(nodo.textureMenuWinButton))
@@ -422,7 +456,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "MenuButton2"{
                     nodo.labelName.text = "Menu X"
                 }else if name == "MenuButton3"{
-                     nodo.labelName.text = "Inventario"
+                    nodo.labelName.text = "Inventario"
                 }else if name == "MenuButton4"{
                     nodo.labelName.text = "Equipo"
                 }else if (name == "botonEquip1" || name == "botonEquip2" || name == "botonEquip3" || name == "labelBoton") {
@@ -437,18 +471,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         super.update(currentTime)
         
         let posJugador = playerNode.position
-        
-        //tileMap.dibujarTiles(posJugador)
+        nodo.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
         
         if let camera = cam{
             camera.position=posJugador

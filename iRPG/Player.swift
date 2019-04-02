@@ -11,18 +11,24 @@ import SpriteKit
 
 open class Player {
     // Texturas jugador
-    let texturePlayerN = SKTexture(image: UIImage(named: "00-vistaN")!)
-    let texturePlayerNE = SKTexture(image: UIImage(named: "01-vistaNE")!)
-    let texturePlayerE = SKTexture(image: UIImage(named: "02-vistaE")!)
-    let texturePlayerSE = SKTexture(image: UIImage(named: "03-vistaSE")!)
-    let texturePlayerS = SKTexture(image: UIImage(named: "04-vistaS")!)
-    let texturePlayerSW = SKTexture(image: UIImage(named: "05-vistaSW")!)
-    let texturePlayerW = SKTexture(image: UIImage(named: "06-vistaW")!)
-    let texturePlayerNW = SKTexture(image: UIImage(named: "07-vistaNW")!)
-    let texturePlayerMask = SKTexture(image: UIImage(named: "Mascara")!)
+    let texturePlayerN = SKTexture(image: UIImage(named: "nakedN")!)
+    //let texturePlayerNE = SKTexture(image: UIImage(named: "01-vistaNE")!)
+    let texturePlayerE = SKTexture(image: UIImage(named: "nakedE")!)
+    //let texturePlayerSE = SKTexture(image: UIImage(named: "03-vistaSE")!)
+    let texturePlayerS = SKTexture(image: UIImage(named: "nakedS")!)
+    //let texturePlayerSW = SKTexture(image: UIImage(named: "05-vistaSW")!)
+    let texturePlayerW = SKTexture(image: UIImage(named: "nakedW")!)
+    //let texturePlayerNW = SKTexture(image: UIImage(named: "07-vistaNW")!)
+    let texturePlayerMask = SKTexture(image: UIImage(named: "nakedN")!)
     
+    var playerWalkingFramesN: [SKTexture] = []
+    var playerWalkingFramesS: [SKTexture] = []
+    var playerWalkingFramesE: [SKTexture] = []
+    var playerWalkingFramesW: [SKTexture] = []
     
-    let escala: CGFloat = 6.0
+    var orientacionPersonaje: Int = 0
+    
+    let escala: CGFloat = 3.0
     // Controles de la fisica
     var playerNode = SKSpriteNode()
     
@@ -50,10 +56,78 @@ open class Player {
         playerNode.position = position
         playerNode.zPosition = 1
         playerNode.setScale(escala)
+        
+        walkPlayer()
 
     }
     
     init(){
+    }
+    
+    func walkPlayer() {
+        let playerWalk = SKTextureAtlas(named: "anima")
+        
+        for i in 1...8 {
+            let playerTextureName1 = "nakedN\(i)"
+            playerWalkingFramesN.append(playerWalk.textureNamed(playerTextureName1))
+            let playerTextureName2 = "nakedS\(i)"
+            playerWalkingFramesS.append(playerWalk.textureNamed(playerTextureName2))
+            let playerTextureName3 = "nakedE\(i)"
+            playerWalkingFramesE.append(playerWalk.textureNamed(playerTextureName3))
+            let playerTextureName4 = "nakedW\(i)"
+            playerWalkingFramesW.append(playerWalk.textureNamed(playerTextureName4))
+        }
+    }
+    
+    func animateMove() {
+        //resetpersonaje()
+        
+        switch orientacionPersonaje {
+        case 1:
+            playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            //playerNode.run(SKAction.animate(with: playerWalkingFramesN, timePerFrame: 0.1))
+        case 2:
+            playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            //playerNode.run(SKAction.animate(with: playerWalkingFramesW, timePerFrame: 0.1))
+        case 3:
+            playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            //playerNode.run(SKAction.animate(with: playerWalkingFramesS, timePerFrame: 0.1))
+        case 4:
+            playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            //playerNode.run(SKAction.animate(with: playerWalkingFramesE, timePerFrame: 0.1))
+        default:
+            
+            break
+        }
+        
+        
+        
+    }
+    
+    func orientarPersonaje() {
+        //resetpersonaje()
+        
+        switch orientacionPersonaje {
+        case 1:
+            playerNode.run(SKAction.setTexture(texturePlayerN))
+        case 2:
+            playerNode.run(SKAction.setTexture(texturePlayerW))
+        case 3:
+            playerNode.run(SKAction.setTexture(texturePlayerS))
+        case 4:
+            playerNode.run(SKAction.setTexture(texturePlayerE))
+        default:
+            
+            break
+        }
+        
+        
+        
+    }
+    
+    
+    func resetpersonaje(){
+        playerNode.removeAllActions()
     }
     
 }

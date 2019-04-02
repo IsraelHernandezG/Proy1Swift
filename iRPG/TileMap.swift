@@ -47,14 +47,13 @@ open class TileMap{
     //Player Category:
     let playerCategory: UInt32 = 0x01 << 0
     
-    var map = SKNode()  // En este objeto se iran añadiendo los tiles para formar el mapa
-    var temp = SKNode()
-    var columns = 0
-    var rows = 0
+    let map = SKNode()  // En este objeto se iran añadiendo los tiles para formar el mapa
+    
     
     init(){
         
     }
+    
     
     //El Constructor recibe una cadena
     init(_ bitmap: String){
@@ -63,14 +62,10 @@ open class TileMap{
         
         let tileSize = CGSize(width: 32, height: 32) //Los tiles tienen tamaño fijo de 32x32
         //Se obtienen las dimensiones del mapa a partir del arreglo que contiene las cadenas
-        columns = arreglo[0].count  // num de elem de un renglon
-        rows = arreglo.count    // num de renglones = num de elementos del arreglo
+        let columns = arreglo[0].count  // num de elem de un renglon
+        let rows = arreglo.count    // num de renglones = num de elementos del arreglo
         let halfWidth = CGFloat(columns) / 2.0 * tileSize.width //Valor del centro del mapa en x en pixeles
         let halfHeight = CGFloat(rows) / 2.0 * tileSize.height  //Valor del centro del mapa en y en pixeles
-        
-        
-        
-        //var arrayTiles = Set<SKNode>()
         
         //ciclos for anidados para recorrer la matriz del mapa
         // el ciclo externo recorre las lineas
@@ -88,14 +83,13 @@ open class TileMap{
                 _ = CGRect(x: 0, y: 0, width: tileSize.width, height: tileSize.height)
                 //es importante recordar que los tiles se posicionan a partir de su centro.
                 
-                let tileID = col + row * columns
+                
                 // switch case para las texturas y los phyisics bodies, dependiendo de la letra
                 // en linea[col], se tiene un tile o un conjunto apilado de tiles
                 switch linea[col]{
                 case "x":
                     let tileTexture = textureVacio
                     let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.name = "\(tileID)"
                     tileNode.position = CGPoint(x: x, y: y) // cada tile se posiciona en las coordenadas
                                                             //calculadas anteriormente
                     tileNode.zPosition = 2  // la posicion en z ayuda a determinar que tiles estan
@@ -104,10 +98,8 @@ open class TileMap{
                 case "r":
                     let tileTexture = textureEsquina8
                     let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.name = "\(tileID)"
                     tileNode.position = CGPoint(x: x, y: y)
                     map.addChild(tileNode)
-                    //arrayTiles.insert(tileNode)
                 case "w":
                     // como hay distintas versiones para este tile se utiliza una funcion random
                     let num:Int = Int(arc4random_uniform(2))
@@ -122,104 +114,84 @@ open class TileMap{
                         tileTexture = textureBorde4
                     }
                     let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.name = "\(tileID)"
                     tileNode.position = CGPoint(x: x, y: y)
                     map.addChild(tileNode)
-                    //arrayTiles.insert(tileNode)
                 case "z":
                     let tileTexture = textureEsquina7
                     let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.name = "\(tileID)"
                     tileNode.position = CGPoint(x: x, y: y)
                     map.addChild(tileNode)
-                     //arrayTiles.insert(tileNode)
                 case "(":
                     // A partir de este punto la mayoria de las casillas estan compuestas por
                     //dos o mas tiles apilados, con diferentes profundidades en el eje z
-                    let superNodo = SKNode()
-                    superNodo.addChild(setLeftWall(CGPoint(x: x, y: y),2,tileID))
-                    superNodo.addChild(setWall(CGPoint(x: x, y: y),tileID))
-                    
-                    //map.addChild(setLeftWall(CGPoint(x: x, y: y),2,tileID)) // esta funcion ademas de la poscion del
+                    map.addChild(setLeftWall(CGPoint(x: x, y: y),2)) // esta funcion ademas de la poscion del
                                                                      // tile en x y y, recibe la posicion en
                                                                      // z, ya que el mismo tile sera utilizado
                                                                      // en distinas profundidades mas adelante
-                    //map.addChild(setWall(CGPoint(x: x, y: y),tileID))      // esta funcion solo recibe la posicion en
+                    map.addChild(setWall(CGPoint(x: x, y: y)))      // esta funcion solo recibe la posicion en
                                                                     // x y y, ya que aunque se usa en distintas
                                                                     // ocasiones, no varia nunca su posicion en z
-                     //arrayTiles.insert(superNodo)
-                    map.addChild(superNodo)
                 case "0":
-                    map.addChild(setWall(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setWall(CGPoint(x: x, y: y)))
                 case ")":
-                    map.addChild(setRightWall(CGPoint(x: x, y: y),2,tileID))
-                    map.addChild(setWall(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setRightWall(CGPoint(x: x, y: y),2))
+                    map.addChild(setWall(CGPoint(x: x, y: y)))
                 case "[":
-                    map.addChild(setBase(CGPoint(x: x, y: y), tileID))
-                    map.addChild(setLeftWall(CGPoint(x: x, y: y),2,tileID))
-                    map.addChild(setFloor(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setBase(CGPoint(x: x, y: y)))
+                    map.addChild(setLeftWall(CGPoint(x: x, y: y),2))
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                 case "]":
-                    map.addChild(setBase(CGPoint(x: x, y: y), tileID))
-                    map.addChild(setRightWall(CGPoint(x: x, y: y),2,tileID))
-                    map.addChild(setFloor(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setBase(CGPoint(x: x, y: y)))
+                    map.addChild(setRightWall(CGPoint(x: x, y: y),2))
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                 case "-":
-                    map.addChild(setBase(CGPoint(x: x, y: y), tileID))
-                    map.addChild(setFloor(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setBase(CGPoint(x: x, y: y)))
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                 case "l":
-                    map.addChild(setLeftWall(CGPoint(x: x, y: y),2,tileID))
-                    map.addChild(setFloor(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setLeftWall(CGPoint(x: x, y: y),2))
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                 case "/":
-                    map.addChild(setRightWall(CGPoint(x: x, y: y),2,tileID))
-                    map.addChild(setFloor(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setRightWall(CGPoint(x: x, y: y),2))
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                 case "c":
                     let tileTexture = textureEsquina6
                     let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.name = "\(tileID)"
                     tileNode.position = CGPoint(x: x, y: y)
                     tileNode.zPosition = 2
                     map.addChild(tileNode)
-                    
-                    map.addChild(setWallInf(CGPoint(x: x, y: y),-1.1, tileID))
-                    map.addChild(setLeftWall(CGPoint(x: x, y: y),-1.2,tileID))
-                    map.addChild(setFloor(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setWallInf(CGPoint(x: x, y: y),-1.1))
+                    map.addChild(setLeftWall(CGPoint(x: x, y: y),-1.2))
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                 case "j":
                     let tileTexture = textureEsquina5
                     let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.name = "\(tileID)"
                     tileNode.position = CGPoint(x: x, y: y)
                     tileNode.zPosition = 2
                     map.addChild(tileNode)
                     
-                    map.addChild(setRightWall(CGPoint(x: x, y: y),-1.1,tileID))
-                    map.addChild(setWallInf(CGPoint(x: x, y: y),-1.2, tileID))
+                    map.addChild(setRightWall(CGPoint(x: x, y: y),-1.1))
+                    map.addChild(setWallInf(CGPoint(x: x, y: y),-1.2))
                     
-                    map.addChild(setFloor(CGPoint(x: x, y: y),tileID))
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                 case "m":
                     
-                    map.addChild(setWallInf(CGPoint(x: x, y: y),2, tileID))
+                    map.addChild(setWallInf(CGPoint(x: x, y: y),2))
                     
-                    map.addChild(setFloor(CGPoint(x: x, y: y), tileID))
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                     
                 default:
                     
-                    temp.addChild(setFloor(CGPoint(x: x, y: y), tileID))
-                    print("tile \(tileID)= x:\(x), y:\(y)")
+                    map.addChild(setFloor(CGPoint(x: x, y: y)))
                     
                 }
                 
                 
             }
-            
-            let tileNode = SKSpriteNode(texture: textureCentro1)
-            tileNode.position = CGPoint(x: 0, y: 0)
-            tileNode.zPosition = -2
-            map.addChild(tileNode)
-            
         }
         
     }
     
-    func setFloor(_ position: CGPoint, _ nombre: Int) -> SKSpriteNode{
+    func setFloor(_ position: CGPoint) -> SKSpriteNode{
         
         let num:Int = Int(arc4random_uniform(10))
         let tileTexture: SKTexture
@@ -239,7 +211,6 @@ open class TileMap{
             
         }
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.name = "\(nombre)"
         tileNode.position = CGPoint(x: position.x, y: position.y)
         tileNode.zPosition = -1
         
@@ -247,11 +218,10 @@ open class TileMap{
         
     }
     
-    func setLeftWall(_ position: CGPoint, _ prof: CGFloat, _ nombre: Int) -> SKSpriteNode{
+    func setLeftWall(_ position: CGPoint, _ prof: CGFloat) -> SKSpriteNode{
         
         let tileTexture = textureBorde3
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.name = "\(nombre)"
         // Se añande un physicsbody al tile
         tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*0.3, height: tileTexture.size().height), center: CGPoint(x: -10, y: 0))
         tileNode.physicsBody!.isDynamic = false // es necesario que sea falso esta propiedad
@@ -265,11 +235,10 @@ open class TileMap{
         return tileNode
     }
     
-    func setRightWall(_ position: CGPoint, _ prof: CGFloat, _ nombre: Int) -> SKSpriteNode{
+    func setRightWall(_ position: CGPoint, _ prof: CGFloat) -> SKSpriteNode{
         
         let tileTexture = textureBorde2
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.name = "\(nombre)"
         tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*0.3, height: tileTexture.size().height), center: CGPoint(x: 10, y: 0))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall3Category
@@ -280,11 +249,10 @@ open class TileMap{
         return tileNode
     }
     
-    func setWall(_ position: CGPoint, _ nombre: Int) -> SKSpriteNode{
+    func setWall(_ position: CGPoint) -> SKSpriteNode{
         
         let tileTexture = texturePared2
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.name = "\(nombre)"
         tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.8))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall1Category
@@ -296,20 +264,18 @@ open class TileMap{
         
     }
     
-    func setBase(_ position: CGPoint, _ nombre: Int) -> SKSpriteNode{
+    func setBase(_ position: CGPoint) -> SKSpriteNode{
         let tileTexture = textureBase2
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.name = "\(nombre)"
         tileNode.position = CGPoint(x: position.x, y: position.y)
         tileNode.zPosition = 0
         
         return tileNode
     }
     
-    func setWallInf(_ position: CGPoint, _ prof: CGFloat, _ nombre: Int) -> SKSpriteNode{
+    func setWallInf(_ position: CGPoint, _ prof: CGFloat) -> SKSpriteNode{
         let tileTexture = textureBorde1
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.name = "\(nombre)"
         tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.4), center: CGPoint(x: 0, y: -25))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall4Category
@@ -321,35 +287,6 @@ open class TileMap{
         return tileNode
     }
     
-    open func dibujarTiles(_ posicionPersonaje: CGPoint){
-        
-        //map.childNode(withName: <#T##String#>).p
-        let tamanioMapa = rows * columns
-        
-        
-        for elem in 0..<tamanioMapa {
-            if let nodoPrueba = temp.childNode(withName: "\(elem)") {
-                if ( (nodoPrueba.position.x) <= posicionPersonaje.x/6+32*2 && (nodoPrueba.position.x) >= posicionPersonaje.x/6-32*2 && (nodoPrueba.position.y) <= posicionPersonaje.y/6+32*2 && (nodoPrueba.position.y) >= posicionPersonaje.y/6-32*2){
-                    //print("parado sobre el nodo \(elem), pos= x:\(nodoPrueba.position.x), y:\(nodoPrueba.position.y)")
-                    //print("Pos jugador= x:\(posicionPersonaje.x), y:\(posicionPersonaje.y)")
-                    nodoPrueba.removeFromParent()
-                    map.addChild(nodoPrueba)
-                    //break
-                }
-            }
-            if let nodoPrueba2 = map.childNode(withName: "\(elem)") {
-                if ( (nodoPrueba2.position.x) >= posicionPersonaje.x/6+32*2 || (nodoPrueba2.position.x) <= posicionPersonaje.x/6-32*2 || (nodoPrueba2.position.y) >= posicionPersonaje.y/6+32*2 || (nodoPrueba2.position.y) <= posicionPersonaje.y/6-32*2){
-                    
-                    nodoPrueba2.removeFromParent()
-                    temp.addChild(nodoPrueba2)
-                    //break
-                }
-            }
-            
-            
-        }
-        
-    }
     
     
 }

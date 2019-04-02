@@ -154,8 +154,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func readFile() -> NSString{
         
-        let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivel_1.txt"
-        //let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
+        //let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivel_1.txt"
+        let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
         
         let file: FileHandle? = FileHandle(forReadingAtPath: level1Dir)
         let vacio = NSString(string: "")
@@ -186,8 +186,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 tileMap = TileMap.init(cadena)
                 tileMap.map.xScale = 6.0
                 tileMap.map.yScale = 6.0
-                tileMap.temp.xScale = 6.0
-                tileMap.temp.yScale = 6.0
                 //se agrega map a la vista
                 self.addChild(tileMap.map)
                 
@@ -450,7 +448,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let posJugador = playerNode.position
         
-        tileMap.dibujarTiles(posJugador)
+        //tileMap.dibujarTiles(posJugador)
         
         if let camera = cam{
             camera.position=posJugador

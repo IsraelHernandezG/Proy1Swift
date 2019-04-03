@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/israel/Desktop/iRPG/iRPG/_bitmap_font____romulus_by_pix3m-d6aokem.ttf">
-   </FileRef>
-   <FileRef
       location = "self:iRPG.xcodeproj">
    </FileRef>
 </Workspace>

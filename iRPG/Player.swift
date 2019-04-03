@@ -26,6 +26,11 @@ open class Player {
     var playerWalkingFramesE: [SKTexture] = []
     var playerWalkingFramesW: [SKTexture] = []
     
+    var swordAttackingFramesN: [SKTexture] = []
+    var swordAttackingFramesS: [SKTexture] = []
+    var swordAttackingFramesE: [SKTexture] = []
+    var swordAttackingFramesW: [SKTexture] = []
+    
     var orientacionPersonaje: Int = 0
     
     let escala: CGFloat = 3.0
@@ -78,6 +83,20 @@ open class Player {
             playerWalkingFramesW.append(playerWalk.textureNamed(playerTextureName4))
         }
     }
+    func moveSword() {
+        let swordMove = SKTextureAtlas(named: "anima")
+        
+        for i in 1... {
+            let playerTextureName1 = "AttackN\(i)"
+            swordAttackingFramesN.append(swordMove.textureNamed(playerTextureName1))
+            let playerTextureName2 = "AttackS\(i)"
+            swordAttackingFramesS.append(swordMove.textureNamed(playerTextureName2))
+            let playerTextureName3 = "AttackE\(i)"
+            swordAttackingFramesE.append(swordMove.textureNamed(playerTextureName3))
+            let playerTextureName4 = "AttackW\(i)"
+            swordAttackingFramesW.append(swordMove.textureNamed(playerTextureName4))
+        }
+    }
     
     func animateMove() {
         //resetpersonaje()
@@ -104,6 +123,30 @@ open class Player {
         
     }
     
+    func animateAttack() {
+        //resetpersonaje()
+        
+        switch orientacionPersonaje {
+        case 1:
+            playerNode.run(SKAction.repeatForever(SKAction.animate(with: swordAttackingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"AttackingSword")
+        //playerNode.run(SKAction.animate(with: playerWalkingFramesN, timePerFrame: 0.1))
+        case 2:
+            playerNode.run(SKAction.repeatForever(SKAction.animate(with: swordAttackingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"AttackingSword")
+        //playerNode.run(SKAction.animate(with: playerWalkingFramesW, timePerFrame: 0.1))
+        case 3:
+            playerNode.run(SKAction.repeatForever(SKAction.animate(with: swordAttackingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"AttackingSword")
+        //playerNode.run(SKAction.animate(with: playerWalkingFramesS, timePerFrame: 0.1))
+        case 4:
+            playerNode.run(SKAction.repeatForever(SKAction.animate(with: swordAttackingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"AttackingSword")
+        //playerNode.run(SKAction.animate(with: playerWalkingFramesE, timePerFrame: 0.1))
+        default:
+            
+            break
+        }
+        
+        
+        
+    }
     func orientarPersonaje() {
         //resetpersonaje()
         
@@ -125,7 +168,7 @@ open class Player {
         
     }
     
-    
+   
     func resetpersonaje(){
         playerNode.removeAllActions()
     }

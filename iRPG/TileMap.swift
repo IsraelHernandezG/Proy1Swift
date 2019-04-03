@@ -47,6 +47,12 @@ open class TileMap{
     //Player Category:
     let playerCategory: UInt32 = 0x01 << 0
     
+    //bonfire
+    var bonfire = SKSpriteNode()
+    var bonfireOffAnimation: [SKTexture] = []
+    var bonfireOnAnimation: [SKTexture] = []
+    var bonfireAnimation: [SKTexture] = []
+    
     let map = SKNode()  // En este objeto se iran añadiendo los tiles para formar el mapa
     
     
@@ -66,6 +72,9 @@ open class TileMap{
         let rows = arreglo.count    // num de renglones = num de elementos del arreglo
         let halfWidth = CGFloat(columns) / 2.0 * tileSize.width //Valor del centro del mapa en x en pixeles
         let halfHeight = CGFloat(rows) / 2.0 * tileSize.height  //Valor del centro del mapa en y en pixeles
+        
+        createFireAnimations()
+        animateFire()
         
         //ciclos for anidados para recorrer la matriz del mapa
         // el ciclo externo recorre las lineas
@@ -287,6 +296,32 @@ open class TileMap{
         return tileNode
     }
     
+    
+    
+    
+    func createFireAnimations() {
+        let bonfireAnimation = SKTextureAtlas(named: "bonfire")
+        for i in 1...3 {
+            let bonfireOff = "bonfireOff-\(i)"
+            bonfireOffAnimation.append(bonfireAnimation.textureNamed(bonfireOff))
+            let bonfireOn = "bonfireOn-\(i)"
+            bonfireOnAnimation.append(bonfireAnimation.textureNamed(bonfireOn))
+        }
+    }
+    
+    func animateFire() {
+        bonfire = SKSpriteNode(imageNamed: "bonfireOff-1")
+        bonfire.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
+        bonfire.physicsBody?.categoryBitMask = 0
+        bonfire.physicsBody?.collisionBitMask = 0
+        bonfire.physicsBody?.contactTestBitMask = 0
+        bonfire.run(SKAction.repeatForever(SKAction.animate(with: bonfireOffAnimation, timePerFrame: 0.1)))
+        bonfire.xScale = 0.3
+        bonfire.yScale = 0.3
+        bonfire.position = CGPoint(x: 0, y: 0)
+        bonfire.zPosition = 1
+        map.addChild(bonfire)
+    }
     
     
 }

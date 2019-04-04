@@ -877,6 +877,14 @@ open class GameUI {
         
     }
     
+    open func ventanaEmergente(){
+        
+        
+        
+        
+    }
+    
+    
     open func equiparItem(){
         ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(textureMenuTitleLeft))
         ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(textureMenuTitleCenter))
@@ -894,6 +902,9 @@ open class GameUI {
         
         
     }
+    
+    
+    
     
     
     open func lanzaMenuEquip(){
@@ -988,6 +999,9 @@ open class GameUI {
         ventana1.childNode(withName: "ranura11")?.run(SKAction.setTexture(textureRanura4))
 
     }
+    
+    
+    
     
     
 }

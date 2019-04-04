@@ -14,14 +14,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Camera
         var cam: SKCameraNode?
         // Mapa
+        var myMapa = TileMap()
+    
         var map = SKNode()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
         //TileMapCategories
-        let Wall1Category: UInt32 = 0x01 << 1
-        let Wall2Category: UInt32 = 0x01 << 2
-        let Wall3Category: UInt32 = 0x01 << 3
-        let Wall4Category: UInt32 = 0x01 << 4
+       // let Wall1Category: UInt32 = 0x01 << 1
+        //let Wall2Category: UInt32 = 0x01 << 2
+       // let Wall3Category: UInt32 = 0x01 << 3
+       // let Wall4Category: UInt32 = 0x01 << 4
         //Player
         var playerNode = SKSpriteNode()
         var myPlayer = Player()
@@ -44,6 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var bandera2 = 0
         var bandera3 = 0
         var bandera4 = 0
+        var banderaHoguera = 0
     
     
     
@@ -84,7 +87,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //al mover el Joystick cambia la orientacion del jugador
             nodo.rotateAnalogStick.trackingHandler = { [unowned self] jData in
                 
-                if (jData.angular >= -0.375 && jData.angular < 0.375){
+                
+                if (jData.angular == 0){
+                    movX += 0.0
+                    movY += 0.0
+                }else if (jData.angular >= -0.375 && jData.angular < 0.375){
                     //vista N
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerN))
                     movX += 0.0
@@ -98,7 +105,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movX -= 0.7072 * self.velocidadXm
                     movY += 0.7072 * self.velocidadYp
                     
-                     self.direccionPersonaje = 0
+                     self.direccionPersonaje = 1
                     
                 }else if (jData.angular >= 1.125 && jData.angular < 1.875){
                    //vista W
@@ -113,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSW))
                     movX -= 0.7072 * self.velocidadXm
                     movY -= 0.7072 * self.velocidadYm
-                    self.direccionPersonaje = 0
+                    self.direccionPersonaje = 2
                     
                 }else if (jData.angular >= 2.625 || jData.angular < -2.625){
                     //vista S
@@ -128,7 +135,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSE))
                     movX += 0.7072 * self.velocidadXp
                     movY -= 0.7072 * self.velocidadYm
-                    self.direccionPersonaje = 0
+                    self.direccionPersonaje = 3
                     
                 }else if (jData.angular >= -1.875 && jData.angular < -1.125){
                     //vista E
@@ -143,7 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNE))
                     movX += 0.7072 * self.velocidadXp
                     movY += 0.7072 * self.velocidadYp
-                    self.direccionPersonaje = 0
+                    self.direccionPersonaje = 4
                 }
                 
                 self.playerNode.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
@@ -177,8 +184,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func readFile() -> NSString{
         
-        //let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivel_1.txt"
-        let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
+        let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
+        //let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
         
         let file: FileHandle? = FileHandle(forReadingAtPath: level1Dir)
         let vacio = NSString(string: "")
@@ -206,7 +213,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let maplevel = readFile()
             if maplevel != ""{
                 let cadena = maplevel as String
-                map = TileMap.init(cadena).map
+                myMapa = TileMap.init(cadena)
+                map = myMapa.map
                 //se agrega map a la vista
                 self.addChild(map)
                 map.xScale = 6.0
@@ -240,8 +248,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        if ((firstBody.categoryBitMask & playerCategory != 0) &&
-            (secondBody.categoryBitMask & Wall1Category != 0)){
+        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+            (secondBody.categoryBitMask & myMapa.Wall1Category != 0)){
             
             if (topeYp == 0.0){
                 velocidadYp = 0.0
@@ -252,8 +260,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if ((firstBody.categoryBitMask & playerCategory != 0) &&
-            (secondBody.categoryBitMask & Wall2Category != 0)){
+        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+            (secondBody.categoryBitMask & myMapa.Wall2Category != 0)){
             
             //print("\nLeft Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
             if (topeXm == 0.0){
@@ -266,8 +274,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if ((firstBody.categoryBitMask & playerCategory != 0) &&
-            (secondBody.categoryBitMask & Wall3Category != 0)){
+        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+            (secondBody.categoryBitMask & myMapa.Wall3Category != 0)){
             
             //print("\nRight Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
             if (topeXp == 0.0){
@@ -281,8 +289,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        if ((firstBody.categoryBitMask & playerCategory != 0) &&
-            (secondBody.categoryBitMask & Wall4Category != 0)){
+        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+            (secondBody.categoryBitMask & myMapa.Wall4Category != 0)){
             
             if (topeYm == 0.0){
                 velocidadYm = 0.0
@@ -292,6 +300,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 bandera4 = 1
             }
         }
+        
+        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+            (secondBody.categoryBitMask & myMapa.fireCategory != 0)){
+            
+            print("Encender la hoguera?")
+            
+        }
+        
+        
         
         
     }

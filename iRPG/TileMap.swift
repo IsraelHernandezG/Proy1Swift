@@ -44,6 +44,8 @@ open class TileMap{
     let Wall2Category: UInt32 = 0x01 << 2
     let Wall3Category: UInt32 = 0x01 << 3
     let Wall4Category: UInt32 = 0x01 << 4
+    // fire category
+    let fireCategory: UInt32 = 0x01 << 5
     //Player Category:
     let playerCategory: UInt32 = 0x01 << 0
     
@@ -339,13 +341,13 @@ open class TileMap{
     func animateFire() {
         bonfire = SKSpriteNode(imageNamed: "bonfireOff-1")
         bonfire.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
-        bonfire.physicsBody?.categoryBitMask = 0
+        bonfire.physicsBody?.categoryBitMask = fireCategory
+        bonfire.physicsBody?.contactTestBitMask = playerCategory
         bonfire.physicsBody?.collisionBitMask = 0
-        bonfire.physicsBody?.contactTestBitMask = 0
         bonfire.run(SKAction.repeatForever(SKAction.animate(with: bonfireOffAnimation, timePerFrame: 0.1)))
         bonfire.xScale = 0.3
         bonfire.yScale = 0.3
-        bonfire.position = CGPoint(x: 0, y: 0)
+        bonfire.position = CGPoint(x: 80, y: 40)
         bonfire.zPosition = 1
         map.addChild(bonfire)
     }

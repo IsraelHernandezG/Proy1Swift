@@ -34,6 +34,7 @@ open class Player {
     
     var orientacionPersonaje: Int = 0
     
+    
     let escala: CGFloat = 3.0
     // Controles de la fisica
     var playerNode = SKSpriteNode()
@@ -46,6 +47,8 @@ open class Player {
     let Wall4Category: UInt32 = 0x01 << 4
     //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
+    //ArmsCategory
+    let armsCategory: UInt32 = 0x01 << 5
     
     init(_ position: CGPoint){
         
@@ -142,3 +145,100 @@ open class Player {
     
 }
 
+open class Sword {
+    var sword = SKSpriteNode()
+    var orientacionEspada: Int = 0
+    var swordAttackingFramesN: [SKTexture] = []
+    var swordAttackingFramesS: [SKTexture] = []
+    var swordAttackingFramesE: [SKTexture] = []
+    var swordAttackingFramesW: [SKTexture] = []
+    
+    // Texturas espada
+    let textureSwordN = SKTexture(image: UIImage(named: "IdleSwordN")!)
+    
+    
+    let textureSwordE = SKTexture(image: UIImage(named: "IdleSwordE")!)
+    
+   
+    let textureSwordS = SKTexture(image: UIImage(named: "IdleSwordS")!)
+    
+    
+    let textureSwordW = SKTexture(image: UIImage(named: "IdleSwordW")!)
+    
+    
+    let textureSwordMask = SKTexture(image: UIImage(named: "IdleSwordN")!)
+    let escala: CGFloat = 3.0
+    
+    // CategoriesitMasks: Determinan que objetos colisionan con que
+    //TileMapCategories
+    let Wall1Category: UInt32 = 0x01 << 1
+    let Wall2Category: UInt32 = 0x01 << 2
+    let Wall3Category: UInt32 = 0x01 << 3
+    let Wall4Category: UInt32 = 0x01 << 4
+    //PlayerCategory
+    let playerCategory: UInt32 = 0x01 << 0
+    //ArmsCategory
+    let armsCategory: UInt32 = 0x01 << 5
+    init(){
+    }
+    init(_ position: CGPoint){
+        
+        sword = SKSpriteNode(texture: textureSwordS) //textura inicial del arma
+        // se añade un physicsbody al jugador para detectar colisiones
+        sword.physicsBody = SKPhysicsBody(texture: textureSwordMask, size: sword.size)
+        
+        sword.physicsBody!.categoryBitMask = armsCategory // categoria del arma
+        // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+        sword.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category
+        sword.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
+        // estas configuraciones tambien son necesarias
+        sword.physicsBody!.isDynamic=true
+        
+        sword.position = position
+        sword.zPosition = 0.9
+        sword.setScale(escala)
+        createSwordAnimations()
+    
+        
+    }
+    func createSwordAnimations() {
+    let attackAnimation = SKTextureAtlas(named: "anima")
+    for i in 1...3 {
+        let swordTextureName1 = "AttackN\(i)"
+        swordAttackingFramesN.append(attackAnimation.textureNamed(swordTextureName1))
+        let swordTextureName2 = "AttackS\(i)"
+        swordAttackingFramesS.append(attackAnimation.textureNamed(swordTextureName2))
+        let swordTextureName3 = "AttackE\(i)"
+        swordAttackingFramesE.append(attackAnimation.textureNamed(swordTextureName3))
+        let swordTextureName4 = "AttackW\(i)"
+        swordAttackingFramesW.append(attackAnimation.textureNamed(swordTextureName4))
+    }
+}
+func createSword() {
+    sword = SKSpriteNode(imageNamed: "IdleSwordN")
+    sword.physicsBody?.categoryBitMask = 0
+    sword.physicsBody?.collisionBitMask = 0
+    sword.physicsBody?.contactTestBitMask = 0
+    
+   
+    
+    
+}
+    func orientarEspada() {
+        //resetpersonaje()
+        
+        switch orientacionEspada {
+        case 1:
+            sword.run(SKAction.setTexture(textureSwordN))
+        case 2:
+            sword.run(SKAction.setTexture(textureSwordW))
+        case 3:
+            sword.run(SKAction.setTexture(textureSwordS))
+        case 4:
+            sword.run(SKAction.setTexture(textureSwordE))
+        default:
+            
+            break
+        }
+}
+}

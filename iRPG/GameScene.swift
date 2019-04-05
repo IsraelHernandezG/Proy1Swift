@@ -28,6 +28,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Direccion Personaje
         var direccionPersonaje = 0
+        //Direccion Espada
+        var direccionEspada = 0
     
         //Interfaz
         var nodo = GameUI()
@@ -44,7 +46,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var bandera2 = 0
         var bandera3 = 0
         var bandera4 = 0
-    
+    //espada
+        var sword = SKSpriteNode()
+        var firstSword = Sword()
     
     
     
@@ -70,12 +74,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Creando al jugador
             myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
+            firstSword = Sword.init(CGPoint(x: frame.midX, y: frame.midY))
             //Agregando los sprites del jugador a la escena
             playerNode = myPlayer.playerNode
+            sword = firstSword.sword
+        
             addChild(playerNode)
+            addChild(sword)
+           
             
             nodo.rotateAnalogStick.myPlayer = myPlayer
-            
+            nodo.rotateAnalogStick.firstSword = firstSword
             
             
             // Movimiento del personaje
@@ -90,6 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movX += 0.0
                     movY += 1.0 * self.velocidadYp
                     self.direccionPersonaje = 1
+                    self.direccionEspada = 1
                      //self.myPlayer.orientacionPersonaje = 1
                     
                 }else if (jData.angular >= 0.375 && jData.angular < 1.125){
@@ -99,7 +109,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movY += 0.7072 * self.velocidadYp
                     
                      self.direccionPersonaje = 0
-                    
+                     self.direccionEspada = 0
                 }else if (jData.angular >= 1.125 && jData.angular < 1.875){
                    //vista W
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerW))
@@ -107,14 +117,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movX -= 1.0 * self.velocidadXm
                     movY += 0.0
                     self.direccionPersonaje = 2
-                    
+                    self.direccionEspada = 2
                 }else if (jData.angular >= 1.875 && jData.angular < 2.675){
                     //vista SW
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSW))
                     movX -= 0.7072 * self.velocidadXm
                     movY -= 0.7072 * self.velocidadYm
                     self.direccionPersonaje = 0
-                    
+                    self.direccionEspada = 0
                 }else if (jData.angular >= 2.625 || jData.angular < -2.625){
                     //vista S
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerS))
@@ -122,14 +132,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movX += 0.0
                     movY -= 1.0 * self.velocidadYm
                     self.direccionPersonaje = 3
-                    
+                    self.direccionEspada = 3
                 }else if (jData.angular >= -2.625 && jData.angular < -1.875){
                     //vista SE
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSE))
                     movX += 0.7072 * self.velocidadXp
                     movY -= 0.7072 * self.velocidadYm
                     self.direccionPersonaje = 0
-                    
+                    self.direccionEspada = 0
                 }else if (jData.angular >= -1.875 && jData.angular < -1.125){
                     //vista E
                     
@@ -137,18 +147,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movX += 1.0 * self.velocidadXp
                     movY += 0.0
                     self.direccionPersonaje = 4
-                    
+                    self.direccionEspada = 4
                 }else if (jData.angular >= -1.125 && jData.angular < -0.375){
                     //vista NE
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNE))
                     movX += 0.7072 * self.velocidadXp
                     movY += 0.7072 * self.velocidadYp
                     self.direccionPersonaje = 0
+                    self.direccionEspada = 0
                 }
                 
                 self.playerNode.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
                 self.playerNode.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
-                
+                self.sword.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
+                self.sword.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
                 
                 
             }
@@ -165,7 +177,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
-   
     
     func lanzaMenu(){
         self.cam!.addChild(nodo.contextoMenu)
@@ -441,8 +452,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     playerNode.run(SKAction.setTexture(myPlayer.texturePlayerS))
                 }else if name == "Der"{
                     nodo.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(nodo.textureButtonRight))
-                    myPlayer.resetpersonaje()
-                    playerNode.run(SKAction.setTexture(myPlayer.texturePlayerE))
+                    firstSword.createSwordAnimations()
+                    
                 }else if name == "Izq"{
                     nodo.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(nodo.textureButtonLeft))
                     myPlayer.resetpersonaje()
@@ -477,8 +488,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.update(currentTime)
         
         let posJugador = playerNode.position
-        nodo.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
         
+        nodo.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
+        nodo.rotateAnalogStick.firstSword.orientacionEspada = direccionEspada
         if let camera = cam{
             camera.position=posJugador
             if (bandera == 1){

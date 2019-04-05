@@ -52,12 +52,7 @@ open class TileMap{
     var bonfireOffAnimation: [SKTexture] = []
     var bonfireOnAnimation: [SKTexture] = []
     var bonfireAnimation: [SKTexture] = []
-    //espada
-    var sword = SKSpriteNode()
-    var swordAttackingFramesN: [SKTexture] = []
-    var swordAttackingFramesS: [SKTexture] = []
-    var swordAttackingFramesE: [SKTexture] = []
-    var swordAttackingFramesW: [SKTexture] = []
+    
     
     let map = SKNode()  // En este objeto se iran añadiendo los tiles para formar el mapa
     
@@ -314,28 +309,8 @@ open class TileMap{
             bonfireOnAnimation.append(bonfireAnimation.textureNamed(bonfireOn))
         }
     }
-    func createSwordAnimations() {
-        let attackAnimation = SKTextureAtlas(named: "attack")
-        for i in 1...3 {
-            let swordTextureName1 = "AttackN\(i)"
-            swordAttackingFramesN.append(attackAnimation.textureNamed(swordTextureName1))
-            let swordTextureName2 = "AttackS\(i)"
-            swordAttackingFramesS.append(attackAnimation.textureNamed(swordTextureName2))
-            let swordTextureName3 = "AttackE\(i)"
-            swordAttackingFramesE.append(attackAnimation.textureNamed(swordTextureName3))
-            let swordTextureName4 = "AttackW\(i)"
-            swordAttackingFramesW.append(attackAnimation.textureNamed(swordTextureName4))
-        }
-    }
-    func createSword() {
-        sword = SKSpriteNode(imageNamed: "IdleSwordN")
-        sword.physicsBody?.categoryBitMask = 0
-        sword.physicsBody?.collisionBitMask = 0
-        sword.physicsBody?.contactTestBitMask = 0
-       
-        sword.zPosition = 0.9
-        
-    }
+    
+    
     func animateFire() {
         bonfire = SKSpriteNode(imageNamed: "bonfireOff-1")
         bonfire.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))

@@ -19,11 +19,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var map = SKNode()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
-        //TileMapCategories
-       // let Wall1Category: UInt32 = 0x01 << 1
-        //let Wall2Category: UInt32 = 0x01 << 2
-       // let Wall3Category: UInt32 = 0x01 << 3
-       // let Wall4Category: UInt32 = 0x01 << 4
         //Player
         var playerNode = SKSpriteNode()
         var myPlayer = Player()
@@ -62,6 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             super.didMove(to: view)
             self.physicsWorld.contactDelegate = self
             self.physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
+            
             
             loadLevel(1)
             
@@ -217,8 +213,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func readFile() -> NSString{
         
-        //let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
-        let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
+        let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
+        //let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
         
         let file: FileHandle? = FileHandle(forReadingAtPath: level1Dir)
         let vacio = NSString(string: "")
@@ -269,7 +265,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Manejo de colisiones
     func didBegin(_ contact: SKPhysicsContact) {
         
-         var firstBody: SKPhysicsBody
+        var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
         
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {

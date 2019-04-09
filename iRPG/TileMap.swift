@@ -291,7 +291,7 @@ open class TileMap{
         tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.4), center: CGPoint(x: 0, y: -25))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall4Category
-        tileNode.physicsBody!.contactTestBitMask = playerCategory
+        tileNode.physicsBody!.contactTestBitMask = playerCategory 
         tileNode.physicsBody!.collisionBitMask = 0
         tileNode.position = CGPoint(x: position.x, y: position.y)
         tileNode.zPosition = prof

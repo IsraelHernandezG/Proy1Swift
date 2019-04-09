@@ -74,7 +74,7 @@ open class Player {
         
         let weaponAtack = SKTextureAtlas(named: "short_sword")
         
-        weapon = SKSpriteNode(texture: weaponAtack.textureNamed("sword_N-1"))
+        weapon = SKSpriteNode(texture: weaponAtack.textureNamed("sword_S-1"))
         weapon.position = position
         weapon.zPosition = 1.1
         weapon.setScale(escala)
@@ -138,9 +138,9 @@ open class Player {
             swordSlashW.append(weaponAtack.textureNamed(playerTextureName4))
         }
         swordSlashN.append(weaponAtack.textureNamed("sword_N-1"))
-        swordSlashS.append(weaponAtack.textureNamed("sword_N-1"))
-        swordSlashE.append(weaponAtack.textureNamed("sword_N-1"))
-        swordSlashW.append(weaponAtack.textureNamed("sword_N-1"))
+        swordSlashS.append(weaponAtack.textureNamed("sword_S-1"))
+        swordSlashE.append(weaponAtack.textureNamed("sword_E-1"))
+        swordSlashW.append(weaponAtack.textureNamed("sword_W-1"))
         
         
     }
@@ -152,12 +152,20 @@ open class Player {
         switch orientacionPersonaje {
         case 1:
             playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            weapon.zPosition = 0.9
+            weapon.texture = SKTexture(imageNamed: "sword_N-1")
         case 2:
             playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            weapon.zPosition = 0.9
+            weapon.texture = SKTexture(imageNamed: "sword_W-1")
         case 3:
             playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            weapon.zPosition = 1.1
+            weapon.texture = SKTexture(imageNamed: "sword_S-1")
         case 4:
             playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            weapon.zPosition = 0.9
+            weapon.texture = SKTexture(imageNamed: "sword_E-1")
         default:
             break
         }

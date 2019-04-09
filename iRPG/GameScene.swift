@@ -44,8 +44,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var bandera3 = 0
         var bandera4 = 0
     //espada
-        var sword = SKSpriteNode()
-        var firstSword = Sword()
+        //var sword = SKSpriteNode()
+        //var firstSword = Sword()
 
         var banderaHoguera = 0
     
@@ -76,17 +76,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Creando al jugador
             myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
-            firstSword = Sword.init(CGPoint(x: frame.midX, y: frame.midY))
+            //firstSword = Sword.init(CGPoint(x: frame.midX, y: frame.midY))
             //Agregando los sprites del jugador a la escena
             playerNode = myPlayer.playerNode
-            sword = firstSword.sword
+            //sword = firstSword.sword
         
             addChild(playerNode)
-            addChild(sword)
+            //addChild(sword)
+            
+            let armaJugador = myPlayer.weapon
+            addChild(armaJugador)
            
             
             nodo.rotateAnalogStick.myPlayer = myPlayer
-            nodo.rotateAnalogStick.firstSword = firstSword
+            //nodo.rotateAnalogStick.firstSword = firstSword
             
             
             // Movimiento del personaje
@@ -184,8 +187,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 self.playerNode.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
                 self.playerNode.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
-                self.sword.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
-                self.sword.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
+                //self.sword.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
+                //self.sword.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
                 
                 
             }
@@ -368,16 +371,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     nodo.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(nodo.textureMenuButtonPressed))
                 }else if name == "Arriba"{
                     nodo.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(nodo.textureButtonUpPres))
-                    playerNode.run(SKAction.repeatForever(SKAction.animate(with: myPlayer.playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+                    
                 }else if name == "Abajo"{
                     nodo.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(nodo.textureButtonDownPres))
-                    playerNode.run(SKAction.repeatForever(SKAction.animate(with: myPlayer.playerWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+                    
                 }else if name == "Der"{
                     nodo.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(nodo.textureButtonRightPres))
-                    playerNode.run(SKAction.repeatForever(SKAction.animate(with: myPlayer.playerWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+                    myPlayer.atack()
                 }else if name == "Izq"{
                     nodo.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(nodo.textureButtonLeftPres))
-                    playerNode.run(SKAction.repeatForever(SKAction.animate(with: myPlayer.playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+                    
                 }else if name == "MenuWin"{
                     nodo.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(nodo.textureMenuWinButtonPres))
                 }else if name == "MenuButton1"{
@@ -479,20 +482,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     nodo.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(nodo.textureMenuButton))
                 }else if name == "Arriba"{
                     nodo.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(nodo.textureButtonUp))
-                    myPlayer.resetpersonaje()
-                    playerNode.run(SKAction.setTexture(myPlayer.texturePlayerN))
+                    
                 }else if name == "Abajo"{
                     nodo.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(nodo.textureButtonDown))
-                    myPlayer.resetpersonaje()
-                    playerNode.run(SKAction.setTexture(myPlayer.texturePlayerS))
+                    
                 }else if name == "Der"{
                     nodo.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(nodo.textureButtonRight))
-                    firstSword.createSwordAnimations()
+                    //firstSword.createSwordAnimations()
                     
                 }else if name == "Izq"{
                     nodo.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(nodo.textureButtonLeft))
-                    myPlayer.resetpersonaje()
-                    playerNode.run(SKAction.setTexture(myPlayer.texturePlayerW))
+                    
                 }else if name == "MenuWin"{
                     cierramenu()
                     nodo.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(nodo.textureMenuWinButton))
@@ -523,9 +523,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.update(currentTime)
         
         let posJugador = playerNode.position
+        myPlayer.weapon.position = posJugador
         
         nodo.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
-        nodo.rotateAnalogStick.firstSword.orientacionEspada = direccionEspada
+        //nodo.rotateAnalogStick.firstSword.orientacionEspada = direccionEspada
         if let camera = cam{
             camera.position=posJugador
             if (bandera == 1){

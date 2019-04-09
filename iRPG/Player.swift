@@ -11,33 +11,38 @@ import SpriteKit
 
 open class Player {
     // Texturas jugador
-    let texturePlayerN = SKTexture(image: UIImage(named: "nakedN")!)
+    let texturePlayerN = SKTexture(image: UIImage(named: "male_N-1")!)
+    let texturePlayerE = SKTexture(image: UIImage(named: "male_E-1")!)
+    let texturePlayerS = SKTexture(image: UIImage(named: "male_S-1")!)
+    let texturePlayerW = SKTexture(image: UIImage(named: "male_W-1")!)
+    let texturePlayerMask = SKTexture(image: UIImage(named: "male_N-1")!)
     
-    //let texturePlayerNE = SKTexture(image: UIImage(named: "01-vistaNE")!)
-    let texturePlayerE = SKTexture(image: UIImage(named: "nakedE")!)
-   
-    //let texturePlayerSE = SKTexture(image: UIImage(named: "03-vistaSE")!)
-    let texturePlayerS = SKTexture(image: UIImage(named: "nakedS")!)
-   
-    //let texturePlayerSW = SKTexture(image: UIImage(named: "05-vistaSW")!)
-    let texturePlayerW = SKTexture(image: UIImage(named: "nakedW")!)
     
-    //let texturePlayerNW = SKTexture(image: UIImage(named: "07-vistaNW")!)
-    let texturePlayerMask = SKTexture(image: UIImage(named: "nakedN")!)
     
     var playerWalkingFramesN: [SKTexture] = []
     var playerWalkingFramesS: [SKTexture] = []
     var playerWalkingFramesE: [SKTexture] = []
     var playerWalkingFramesW: [SKTexture] = []
     
+    var playerSlashN: [SKTexture] = []
+    var playerSlashS: [SKTexture] = []
+    var playerSlashE: [SKTexture] = []
+    var playerSlashW: [SKTexture] = []
+    
+    var swordSlashN: [SKTexture] = []
+    var swordSlashS: [SKTexture] = []
+    var swordSlashE: [SKTexture] = []
+    var swordSlashW: [SKTexture] = []
    
     
-    var orientacionPersonaje: Int = 0
+    var orientacionPersonaje: Int = 3
     
     
     let escala: CGFloat = 3.0
     // Controles de la fisica
+    var Jugador = SKNode()
     var playerNode = SKSpriteNode()
+    var weapon = SKSpriteNode()
     
      // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
@@ -67,7 +72,19 @@ open class Player {
         playerNode.zPosition = 1
         playerNode.setScale(escala)
         
-        walkPlayer()
+        let weaponAtack = SKTextureAtlas(named: "short_sword")
+        
+        weapon = SKSpriteNode(texture: weaponAtack.textureNamed("sword_N-1"))
+        weapon.position = position
+        weapon.zPosition = 1.1
+        weapon.setScale(escala)
+        
+        
+        createAnimations()
+        animateWeapon()
+        
+        
+        
 
     }
     
@@ -75,19 +92,57 @@ open class Player {
     init(){
     }
     
-    func walkPlayer() {
-        let playerWalk = SKTextureAtlas(named: "anima")
+    func createAnimations() {
+        let playerWalk = SKTextureAtlas(named: "male_walk")
         
-        for i in 1...8 {
-            let playerTextureName1 = "nakedN\(i)"
+        for i in 2...9 {
+            let playerTextureName1 = "male_N-\(i)"
             playerWalkingFramesN.append(playerWalk.textureNamed(playerTextureName1))
-            let playerTextureName2 = "nakedS\(i)"
+            let playerTextureName2 = "male_S-\(i)"
             playerWalkingFramesS.append(playerWalk.textureNamed(playerTextureName2))
-            let playerTextureName3 = "nakedE\(i)"
+            let playerTextureName3 = "male_E-\(i)"
             playerWalkingFramesE.append(playerWalk.textureNamed(playerTextureName3))
-            let playerTextureName4 = "nakedW\(i)"
+            let playerTextureName4 = "male_W-\(i)"
             playerWalkingFramesW.append(playerWalk.textureNamed(playerTextureName4))
         }
+        
+        let playerSlash = SKTextureAtlas(named: "male_slash")
+        for i in 1...6 {
+            let playerTextureName1 = "slash_male_N-\(i)"
+            playerSlashN.append(playerSlash.textureNamed(playerTextureName1))
+            let playerTextureName2 = "slash_male_S-\(i)"
+            playerSlashS.append(playerSlash.textureNamed(playerTextureName2))
+            let playerTextureName3 = "slash_male_E-\(i)"
+            playerSlashE.append(playerSlash.textureNamed(playerTextureName3))
+            let playerTextureName4 = "slash_male_W-\(i)"
+            playerSlashW.append(playerSlash.textureNamed(playerTextureName4))
+        }
+        playerSlashN.append(playerWalk.textureNamed("male_N-1"))
+        playerSlashS.append(playerWalk.textureNamed("male_S-1"))
+        playerSlashE.append(playerWalk.textureNamed("male_E-1"))
+        playerSlashW.append(playerWalk.textureNamed("male_W-1"))
+        
+    }
+    
+    func animateWeapon(){
+        let weaponAtack = SKTextureAtlas(named: "short_sword")
+        
+        for i in 1...6 {
+            let playerTextureName1 = "sword_N-\(i)"
+            swordSlashN.append(weaponAtack.textureNamed(playerTextureName1))
+            let playerTextureName2 = "sword_S-\(i)"
+            swordSlashS.append(weaponAtack.textureNamed(playerTextureName2))
+            let playerTextureName3 = "sword_E-\(i)"
+            swordSlashE.append(weaponAtack.textureNamed(playerTextureName3))
+            let playerTextureName4 = "sword_W-\(i)"
+            swordSlashW.append(weaponAtack.textureNamed(playerTextureName4))
+        }
+        swordSlashN.append(weaponAtack.textureNamed("sword_N-1"))
+        swordSlashS.append(weaponAtack.textureNamed("sword_N-1"))
+        swordSlashE.append(weaponAtack.textureNamed("sword_N-1"))
+        swordSlashW.append(weaponAtack.textureNamed("sword_N-1"))
+        
+        
     }
     
     
@@ -97,23 +152,36 @@ open class Player {
         switch orientacionPersonaje {
         case 1:
             playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
-            //playerNode.run(SKAction.animate(with: playerWalkingFramesN, timePerFrame: 0.1))
         case 2:
             playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
-            //playerNode.run(SKAction.animate(with: playerWalkingFramesW, timePerFrame: 0.1))
         case 3:
             playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
-            //playerNode.run(SKAction.animate(with: playerWalkingFramesS, timePerFrame: 0.1))
         case 4:
             playerNode.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
-            //playerNode.run(SKAction.animate(with: playerWalkingFramesE, timePerFrame: 0.1))
         default:
-            
             break
         }
-        
-        
-        
+
+    }
+    
+    func atack(){
+        switch orientacionPersonaje {
+        case 1:
+            playerNode.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: swordSlashN, timePerFrame: 0.1))
+        case 2:
+            playerNode.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: swordSlashW, timePerFrame: 0.1))
+        case 3:
+            playerNode.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: swordSlashS, timePerFrame: 0.1))
+        case 4:
+            playerNode.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: swordSlashE, timePerFrame: 0.1))
+        default:
+            break
+        }
+        orientarPersonaje()
     }
     
     
@@ -134,8 +202,6 @@ open class Player {
             break
         }
         
-        
-        
     }
     
    
@@ -145,7 +211,7 @@ open class Player {
     
 }
 
-open class Sword {
+/*open class Sword {
     var sword = SKSpriteNode()
     var orientacionEspada: Int = 0
     var swordAttackingFramesN: [SKTexture] = []
@@ -242,3 +308,4 @@ func createSword() {
         }
 }
 }
+*/

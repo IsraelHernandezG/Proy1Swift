@@ -11,12 +11,12 @@
 		58086BD12242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD02242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf */; };
 		58086BD32242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD22242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf */; };
 		5819EE0C2253C322000AE359 /* AnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819EE0B2253C322000AE359 /* AnalogJoystick.swift */; };
-		5819EE0E2253C33D000AE359 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819EE0D2253C33D000AE359 /* Player.swift */; };
-		5819EE102253C359000AE359 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819EE0F2253C359000AE359 /* GameScene.swift */; };
 		58735FFA220E5EF4001C8075 /* CavernRockSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58735FF9220E5EF4001C8075 /* CavernRockSet.sks */; };
 		589F7A11223738200019DF1D /* GameUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F7A10223738200019DF1D /* GameUI.swift */; };
+		58A50BBD225F85410043EE0B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A50BBC225F85410043EE0B /* Player.swift */; };
+		58A50BBF225F859E0043EE0B /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A50BBE225F859E0043EE0B /* GameScene.swift */; };
+		58A50BC2225F93E50043EE0B /* Strings1.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58A50BC1225F93E50043EE0B /* Strings1.strings */; };
 		58F58399223C78FE00D5A66C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58F58398223C78FE00D5A66C /* Assets.xcassets */; };
-		58F5839B223C7AB300D5A66C /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F5839A223C7AB300D5A66C /* Button.swift */; };
 		58F74762220E43590060A5D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F74761220E43590060A5D3 /* AppDelegate.swift */; };
 		58F74764220E43590060A5D3 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58F74763220E43590060A5D3 /* GameScene.sks */; };
 		58F74766220E43590060A5D3 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58F74765220E43590060A5D3 /* Actions.sks */; };
@@ -30,12 +30,13 @@
 		58086BD02242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "_bitmap_font____romulus_by_pix3m-d6aokem.ttf"; sourceTree = "<group>"; };
 		58086BD22242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "alagard_by_pix3m-d6awiwp.ttf"; sourceTree = "<group>"; };
 		5819EE0B2253C322000AE359 /* AnalogJoystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogJoystick.swift; sourceTree = "<group>"; };
-		5819EE0D2253C33D000AE359 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		5819EE0F2253C359000AE359 /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		58735FF9220E5EF4001C8075 /* CavernRockSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CavernRockSet.sks; sourceTree = "<group>"; };
 		589F7A10223738200019DF1D /* GameUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUI.swift; sourceTree = "<group>"; };
+		58A50BBC225F85410043EE0B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		58A50BBE225F859E0043EE0B /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameScene.swift; path = /Users/israel/Desktop/iRPG/iRPG/GameScene.swift; sourceTree = "<absolute>"; };
+		58A50BC1225F93E50043EE0B /* Strings1.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Strings1.strings; sourceTree = "<group>"; };
+		58A50BC3225F94800043EE0B /* Texts.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Texts.rtf; path = /Users/israel/Desktop/iRPG/iRPG/Niveles/Texts.rtf; sourceTree = "<absolute>"; };
 		58F58398223C78FE00D5A66C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		58F5839A223C7AB300D5A66C /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		58F7475E220E43590060A5D3 /* iRPG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iRPG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F74761220E43590060A5D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		58F74763220E43590060A5D3 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -66,6 +67,15 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		58A50BC0225F93D50043EE0B /* Niveles */ = {
+			isa = PBXGroup;
+			children = (
+				58A50BC3225F94800043EE0B /* Texts.rtf */,
+				58A50BC1225F93E50043EE0B /* Strings1.strings */,
+			);
+			path = Niveles;
+			sourceTree = "<group>";
+		};
 		58F74755220E43590060A5D3 = {
 			isa = PBXGroup;
 			children = (
@@ -85,15 +95,15 @@
 		58F74760220E43590060A5D3 /* iRPG */ = {
 			isa = PBXGroup;
 			children = (
+				58A50BC0225F93D50043EE0B /* Niveles */,
 				58086BCF2242CE9B002C9049 /* Fonts */,
 				5819EE0B2253C322000AE359 /* AnalogJoystick.swift */,
-				589F7A10223738200019DF1D /* GameUI.swift */,
-				58F5839A223C7AB300D5A66C /* Button.swift */,
 				58F74761220E43590060A5D3 /* AppDelegate.swift */,
+				589F7A10223738200019DF1D /* GameUI.swift */,
 				5802C54A22554FC1009A4B6A /* TileMap.swift */,
-				5819EE0D2253C33D000AE359 /* Player.swift */,
-				5819EE0F2253C359000AE359 /* GameScene.swift */,
+				58A50BBC225F85410043EE0B /* Player.swift */,
 				58F74763220E43590060A5D3 /* GameScene.sks */,
+				58A50BBE225F859E0043EE0B /* GameScene.swift */,
 				58F74765220E43590060A5D3 /* Actions.sks */,
 				58F74769220E43590060A5D3 /* GameViewController.swift */,
 				58F7476B220E43590060A5D3 /* Main.storyboard */,
@@ -168,6 +178,7 @@
 				58086BD32242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf in Resources */,
 				58F74764220E43590060A5D3 /* GameScene.sks in Resources */,
 				58086BD12242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf in Resources */,
+				58A50BC2225F93E50043EE0B /* Strings1.strings in Resources */,
 				58735FFA220E5EF4001C8075 /* CavernRockSet.sks in Resources */,
 				58F58399223C78FE00D5A66C /* Assets.xcassets in Resources */,
 				58F74772220E435B0060A5D3 /* LaunchScreen.storyboard in Resources */,
@@ -184,10 +195,9 @@
 			files = (
 				5819EE0C2253C322000AE359 /* AnalogJoystick.swift in Sources */,
 				589F7A11223738200019DF1D /* GameUI.swift in Sources */,
-				5819EE102253C359000AE359 /* GameScene.swift in Sources */,
-				58F5839B223C7AB300D5A66C /* Button.swift in Sources */,
+				58A50BBF225F859E0043EE0B /* GameScene.swift in Sources */,
 				5802C54B22554FC1009A4B6A /* TileMap.swift in Sources */,
-				5819EE0E2253C33D000AE359 /* Player.swift in Sources */,
+				58A50BBD225F85410043EE0B /* Player.swift in Sources */,
 				58F7476A220E43590060A5D3 /* GameViewController.swift in Sources */,
 				58F74762220E43590060A5D3 /* AppDelegate.swift in Sources */,
 			);

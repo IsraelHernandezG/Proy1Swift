@@ -2,6 +2,15 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:iRPG.xcodeproj">
+      location = "group:/Users/israel/Desktop/iRPG/iRPG/Niveles/Texts.rtf">
+   </FileRef>
+   <FileRef
+      location = "group:../iRPG/Strings1.strings">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/israel/Desktop/iRPG/iRPG/GameScene.swift">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

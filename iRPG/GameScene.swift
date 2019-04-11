@@ -20,16 +20,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
         //Player
-        var playerNode = SKSpriteNode()
+        var Player1 = SKNode()
         var myPlayer = Player()
         
         //Direccion Personaje
-        var direccionPersonaje = 0
+        var direccionPersonaje = 3
         //Direccion Espada
-        var direccionEspada = 0
+        var direccionEspada = 3
     
         //Interfaz
-        var nodo = GameUI()
+        var myInterface = GameUI()
         // Controles de la fisica
         var velocidadXp = 5.0
         var velocidadXm = 5.0
@@ -64,12 +64,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Camara
             cam=SKCameraNode()
             //Elementos de la Interfaz Grafica
-            nodo.createUI(self.frame)
+            myInterface.createUI(self.frame)
             //El Menu se crea de una vez pero no se agrega a la escena
-            nodo.createMenu(self.frame)
+            myInterface.createMenu(self.frame)
 
             //El objeto resultante se agrega a la camara
-            cam!.addChild(nodo.interfaz)
+            cam!.addChild(myInterface.interfaz)
             
             self.camera=cam
             self.addChild(cam!)
@@ -78,17 +78,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
             //firstSword = Sword.init(CGPoint(x: frame.midX, y: frame.midY))
             //Agregando los sprites del jugador a la escena
-            playerNode = myPlayer.playerNode
+            Player1 = myPlayer.Jugador
+            addChild(Player1)
+            
+            
+            //playerNode = myPlayer.avatarPlayer
             //sword = firstSword.sword
         
-            addChild(playerNode)
+            //addChild(playerNode)
             //addChild(sword)
             
-            let armaJugador = myPlayer.weapon
-            addChild(armaJugador)
+            //let armaJugador = myPlayer.weapon
+            //addChild(armaJugador)
            
             
-            nodo.rotateAnalogStick.myPlayer = myPlayer
+            myInterface.rotateAnalogStick.myPlayer = myPlayer
             //nodo.rotateAnalogStick.firstSword = firstSword
             
             
@@ -96,7 +100,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             var movX = 0.0
             var movY = 0.0
             //al mover el Joystick cambia la orientacion del jugador
-            nodo.rotateAnalogStick.trackingHandler = { [unowned self] jData in
+            myInterface.rotateAnalogStick.trackingHandler = { [unowned self] jData in
                 
                 
                 if (jData.angular == 0){
@@ -185,17 +189,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
                 }
                 
-                self.playerNode.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
-                self.playerNode.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
-                //self.sword.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
-                //self.sword.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
+
+                
+                self.Player1.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
+                self.Player1.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
+                
                 
                 
             }
             
-            nodo.joystickStickImageEnabled = true
-            nodo.joystickSubstrateImageEnabled = true
-            //animateMove(1)
+            myInterface.joystickStickImageEnabled = true
+            myInterface.joystickSubstrateImageEnabled = true
     
             view.isMultipleTouchEnabled = true
             
@@ -207,17 +211,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func lanzaMenu(){
-        self.cam!.addChild(nodo.contextoMenu)
+        self.cam!.addChild(myInterface.contextoMenu)
     }
     
     func cierramenu(){
-        nodo.contextoMenu.removeFromParent()
+        myInterface.contextoMenu.removeFromParent()
     }
     
     func readFile() -> NSString{
         
-        //let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
-        let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
+        let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
+        //let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
         
         let file: FileHandle? = FileHandle(forReadingAtPath: level1Dir)
         let vacio = NSString(string: "")
@@ -285,7 +289,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if (topeYp == 0.0){
                 velocidadYp = 0.0
-                topeYp = playerNode.position.y
+                topeYp = Player1.position.y
                 bandera = 1
             }else{
                 bandera = 1
@@ -298,7 +302,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //print("\nLeft Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
             if (topeXm == 0.0){
                 velocidadXm = 0.0
-                topeXm = playerNode.position.x
+                topeXm = Player1.position.x
                 bandera2 = 1
                 
             }else{
@@ -312,7 +316,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //print("\nRight Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
             if (topeXp == 0.0){
                 velocidadXp = 0.0
-                topeXp = playerNode.position.x
+                topeXp = Player1.position.x
                 bandera3 = 1
              
              }else{
@@ -326,7 +330,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if (topeYm == 0.0){
                 velocidadYm = 0.0
-                topeYm = playerNode.position.y
+                topeYm = Player1.position.y
                 bandera4 = 1
             }else{
                 bandera4 = 1
@@ -368,91 +372,91 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let name = touchedNode.name
             {
                 if name == "Menu"{
-                    nodo.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(nodo.textureMenuButtonPressed))
+                    myInterface.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(myInterface.textureMenuButtonPressed))
                 }else if name == "Arriba"{
-                    nodo.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(nodo.textureButtonUpPres))
+                    myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUpPres))
                     
                 }else if name == "Abajo"{
-                    nodo.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(nodo.textureButtonDownPres))
+                    myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDownPres))
                     
                 }else if name == "Der"{
-                    nodo.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(nodo.textureButtonRightPres))
+                    myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRightPres))
                     myPlayer.atack()
                 }else if name == "Izq"{
-                    nodo.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(nodo.textureButtonLeftPres))
+                    myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeftPres))
                     
                 }else if name == "MenuWin"{
-                    nodo.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(nodo.textureMenuWinButtonPres))
+                    myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButtonPres))
                 }else if name == "MenuButton1"{
-                    nodo.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(nodo.textureMenuButtonRightPress))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRightPress))
                     //
-                    nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
-                    nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
-                    nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
                     
-                    nodo.cierraMenuEquip()
+                    myInterface.cierraMenuEquip()
                     
                 }else if name == "MenuButton2"{
-                    nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenterPress))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenterPress))
                     //
-                    nodo.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(nodo.textureMenuButtonRight))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRight))
                     //nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
-                    nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
-                    nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
                     
-                    nodo.cierraMenuEquip()
+                    myInterface.cierraMenuEquip()
                 }else if name == "MenuButton3"{
-                    nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenterPress))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenterPress))
                     //
-                    nodo.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(nodo.textureMenuButtonRight))
-                    nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRight))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
                     //nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
-                    nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
                     
-                    nodo.cierraMenuEquip()
+                    myInterface.cierraMenuEquip()
                     
                 }else if name == "MenuButton4"{
-                    nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeftPress))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeftPress))
                     //
-                    nodo.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(nodo.textureMenuButtonRight))
-                    nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
-                    nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRight))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
+                    myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
                     //nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
                     
-                    nodo.lanzaMenuEquip()
+                    myInterface.lanzaMenuEquip()
                 }else if (name == "ranura0" || name == "ranura1" || name == "ranura2") {
-                    nodo.ranuraSel(1)
+                    myInterface.ranuraSel(1)
                 }else if (name == "ranura3" || name == "ranura4" || name == "ranura5") {
-                    nodo.ranuraSel(2)
+                    myInterface.ranuraSel(2)
                 }else if (name == "ranura6" || name == "ranura7" || name == "ranura8") {
-                    nodo.ranuraSel(3)
+                    myInterface.ranuraSel(3)
                 }else if (name == "ranura9" || name == "ranura10" || name == "ranura11") {
-                    nodo.ranuraSel(4)
+                    myInterface.ranuraSel(4)
                 }else if name == "helmet"{
-                    nodo.selEquip(1)
+                    myInterface.selEquip(1)
                 }else if name == "amulet"{
-                    nodo.selEquip(2)
+                    myInterface.selEquip(2)
                 }else if name == "armor"{
-                    nodo.selEquip(3)
+                    myInterface.selEquip(3)
                 }else if name == "weapon"{
-                    nodo.selEquip(4)
+                    myInterface.selEquip(4)
                 }else if name == "shield"{
-                    nodo.selEquip(5)
+                    myInterface.selEquip(5)
                 }else if name == "graves"{
-                    nodo.selEquip(6)
+                    myInterface.selEquip(6)
                 }else if name == "ring1"{
-                    nodo.selEquip(7)
+                    myInterface.selEquip(7)
                 }else if name == "ring2"{
-                    nodo.selEquip(8)
+                    myInterface.selEquip(8)
                 }else if name == "ring3"{
-                    nodo.selEquip(9)
+                    myInterface.selEquip(9)
                 }else if (name == "botonEquip1" || name == "botonEquip2" || name == "botonEquip3" || name == "labelBoton") {
                     
-                    nodo.ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(nodo.textureMenuTitleLeftPress))
-                    nodo.ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(nodo.textureMenuTitleCenterPress))
-                    nodo.ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(nodo.textureMenuTitleRightPress))
+                    myInterface.ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(myInterface.textureMenuTitleLeftPress))
+                    myInterface.ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(myInterface.textureMenuTitleCenterPress))
+                    myInterface.ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(myInterface.textureMenuTitleRightPress))
                     
-                    nodo.labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
+                    myInterface.labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
                 }
                 
             }
@@ -478,35 +482,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if name == "Menu"{
                     lanzaMenu()
-                    nodo.interfaz.removeFromParent()
-                    nodo.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(nodo.textureMenuButton))
+                    myInterface.interfaz.removeFromParent()
+                    myInterface.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(myInterface.textureMenuButton))
                 }else if name == "Arriba"{
-                    nodo.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(nodo.textureButtonUp))
+                    myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUp))
                     
                 }else if name == "Abajo"{
-                    nodo.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(nodo.textureButtonDown))
+                    myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDown))
                     
                 }else if name == "Der"{
-                    nodo.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(nodo.textureButtonRight))
+                    myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRight))
                     //firstSword.createSwordAnimations()
                     
                 }else if name == "Izq"{
-                    nodo.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(nodo.textureButtonLeft))
+                    myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeft))
                     
                 }else if name == "MenuWin"{
                     cierramenu()
-                    nodo.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(nodo.textureMenuWinButton))
-                    cam!.addChild(nodo.interfaz)
+                    myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButton))
+                    cam!.addChild(myInterface.interfaz)
                 }else if name == "MenuButton1"{
-                    nodo.labelName.text = "Ajustes"
+                    myInterface.labelName.text = "Ajustes"
                 }else if name == "MenuButton2"{
-                    nodo.labelName.text = "Menu X"
+                    myInterface.labelName.text = "Menu X"
                 }else if name == "MenuButton3"{
-                    nodo.labelName.text = "Inventario"
+                    myInterface.labelName.text = "Inventario"
                 }else if name == "MenuButton4"{
-                    nodo.labelName.text = "Equipo"
+                    myInterface.labelName.text = "Equipo"
                 }else if (name == "botonEquip1" || name == "botonEquip2" || name == "botonEquip3" || name == "labelBoton") {
-                    nodo.equiparItem()
+                    myInterface.equiparItem()
                 }
                 
             }
@@ -522,10 +526,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         super.update(currentTime)
         
-        let posJugador = playerNode.position
-        myPlayer.weapon.position = posJugador
+        let posJugador = Player1.position
+        //myPlayer.weapon.position = posJugador
         
-        nodo.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
+        myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
         //nodo.rotateAnalogStick.firstSword.orientacionEspada = direccionEspada
         if let camera = cam{
             camera.position=posJugador

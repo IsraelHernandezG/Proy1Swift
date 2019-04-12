@@ -31,10 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Interfaz
         var myInterface = GameUI()
         // Controles de la fisica
-        var velocidadXp = 5.0
-        var velocidadXm = 5.0
-        var velocidadYp = 5.0
-        var velocidadYm = 5.0
+        
         var topeYp: CGFloat = 0.0
         var topeYm: CGFloat = 0.0
         var topeXp: CGFloat = 0.0
@@ -43,9 +40,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var bandera2 = 0
         var bandera3 = 0
         var bandera4 = 0
-    //espada
-        //var sword = SKSpriteNode()
-        //var firstSword = Sword()
 
         var banderaHoguera = 0
     
@@ -76,21 +70,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Creando al jugador
             myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
-            //firstSword = Sword.init(CGPoint(x: frame.midX, y: frame.midY))
             //Agregando los sprites del jugador a la escena
             Player1 = myPlayer.Jugador
             addChild(Player1)
-            
-            
-            //playerNode = myPlayer.avatarPlayer
-            //sword = firstSword.sword
-        
-            //addChild(playerNode)
-            //addChild(sword)
-            
-            //let armaJugador = myPlayer.weapon
-            //addChild(armaJugador)
-           
             
             myInterface.rotateAnalogStick.myPlayer = myPlayer
             //nodo.rotateAnalogStick.firstSword = firstSword
@@ -108,18 +90,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movY += 0.0
                 }else if (jData.angular >= -0.375 && jData.angular < 0.375){
                     //vista N
-                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerN))
                     movX += 0.0
-                    movY += 1.0 * self.velocidadYp
+                    movY += 1.0 * self.myPlayer.velocidadYp
                     self.direccionPersonaje = 1
                     self.direccionEspada = 1
-                     //self.myPlayer.orientacionPersonaje = 1
                     
                 }else if (jData.angular >= 0.375 && jData.angular < 1.125){
                     //vista NW
-                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNW))
-                    movX -= 0.7072 * self.velocidadXm
-                    movY += 0.7072 * self.velocidadYp
+                    movX -= 0.7072 * self.myPlayer.velocidadXm
+                    movY += 0.7072 * self.myPlayer.velocidadYp
                     
 
                      self.direccionPersonaje = 0
@@ -130,17 +109,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
                 }else if (jData.angular >= 1.125 && jData.angular < 1.875){
                    //vista W
-                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerW))
-                    
-                    movX -= 1.0 * self.velocidadXm
+                    movX -= 1.0 * self.myPlayer.velocidadXm
                     movY += 0.0
                     self.direccionPersonaje = 2
                     self.direccionEspada = 2
                 }else if (jData.angular >= 1.875 && jData.angular < 2.675){
                     //vista SW
-                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSW))
-                    movX -= 0.7072 * self.velocidadXm
-                    movY -= 0.7072 * self.velocidadYm
+                    movX -= 0.7072 * self.myPlayer.velocidadXm
+                    movY -= 0.7072 * self.myPlayer.velocidadYm
 
                     self.direccionPersonaje = 0
                     self.direccionEspada = 0
@@ -150,17 +126,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
                 }else if (jData.angular >= 2.625 || jData.angular < -2.625){
                     //vista S
-                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerS))
-                    
                     movX += 0.0
-                    movY -= 1.0 * self.velocidadYm
+                    movY -= 1.0 * self.myPlayer.velocidadYm
                     self.direccionPersonaje = 3
                     self.direccionEspada = 3
                 }else if (jData.angular >= -2.625 && jData.angular < -1.875){
                     //vista SE
-                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSE))
-                    movX += 0.7072 * self.velocidadXp
-                    movY -= 0.7072 * self.velocidadYm
+                    movX += 0.7072 * self.myPlayer.velocidadXp
+                    movY -= 0.7072 * self.myPlayer.velocidadYm
 
                     self.direccionPersonaje = 0
                     self.direccionEspada = 0
@@ -170,17 +143,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
                 }else if (jData.angular >= -1.875 && jData.angular < -1.125){
                     //vista E
-                    
-                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerE))
-                    movX += 1.0 * self.velocidadXp
+                    movX += 1.0 * self.myPlayer.velocidadXp
                     movY += 0.0
                     self.direccionPersonaje = 4
                     self.direccionEspada = 4
                 }else if (jData.angular >= -1.125 && jData.angular < -0.375){
                     //vista NE
-                    //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNE))
-                    movX += 0.7072 * self.velocidadXp
-                    movY += 0.7072 * self.velocidadYp
+                    movX += 0.7072 * self.myPlayer.velocidadXp
+                    movY += 0.7072 * self.myPlayer.velocidadYp
 
                     self.direccionPersonaje = 0
                     self.direccionEspada = 0
@@ -189,12 +159,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
                 }
                 
-
-                
                 self.Player1.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
                 self.Player1.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
-                
-                
                 
             }
             
@@ -288,7 +254,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & myMapa.Wall1Category != 0)){
             
             if (topeYp == 0.0){
-                velocidadYp = 0.0
+                myPlayer.velocidadYp = 0.0
                 topeYp = Player1.position.y
                 bandera = 1
             }else{
@@ -301,7 +267,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //print("\nLeft Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
             if (topeXm == 0.0){
-                velocidadXm = 0.0
+                myPlayer.velocidadXm = 0.0
                 topeXm = Player1.position.x
                 bandera2 = 1
                 
@@ -315,7 +281,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //print("\nRight Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
             if (topeXp == 0.0){
-                velocidadXp = 0.0
+                myPlayer.velocidadXp = 0.0
                 topeXp = Player1.position.x
                 bandera3 = 1
              
@@ -329,7 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & myMapa.Wall4Category != 0)){
             
             if (topeYm == 0.0){
-                velocidadYm = 0.0
+                myPlayer.velocidadYm = 0.0
                 topeYm = Player1.position.y
                 bandera4 = 1
             }else{
@@ -378,7 +344,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Abajo"{
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDownPres))
-                    
+                    myPlayer.muertePersonaje()
                 }else if name == "Der"{
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRightPres))
                     myPlayer.atack()
@@ -535,7 +501,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             camera.position=posJugador
             if (bandera == 1){
                 if (posJugador.y >= topeYp){
-                    velocidadYp = 0.0
+                    myPlayer.velocidadYp = 0.0
                     
                 }else if (posJugador.y < topeYp){
                     //
@@ -543,12 +509,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }else{
                 topeYp = 0.0
-                velocidadYp = 5.0
+                myPlayer.velocidadYp = 5.0
             }
             //+++++++++++++++++++++++
             if (bandera2 == 1){
                 if (posJugador.x <= topeXm){
-                    velocidadXm = 0.0
+                    myPlayer.velocidadXm = 0.0
                     
                 }else if (posJugador.x > topeXm){
                     //
@@ -556,12 +522,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }else{
                 topeXm = 0.0
-                velocidadXm = 5.0
+                myPlayer.velocidadXm = 5.0
             }
             //**************************
             if (bandera3 == 1){
                 if (posJugador.x >= topeXp){
-                    velocidadXp = 0.0
+                    myPlayer.velocidadXp = 0.0
                     
                 }else if (posJugador.x < topeXp){
                     //
@@ -569,12 +535,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }else{
                 topeXp = 0.0
-                velocidadXp = 5.0
+                myPlayer.velocidadXp = 5.0
             }
             //---------------------------
             if (bandera4 == 1){
                 if (posJugador.y <= topeYm){
-                    velocidadYm = 0.0
+                    myPlayer.velocidadYm = 0.0
                     
                 }else if (posJugador.y > topeYm){
                     //
@@ -582,7 +548,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }else{
                 topeYm = 0.0
-                velocidadYm = 5.0
+                myPlayer.velocidadYm = 5.0
             }
             
         }

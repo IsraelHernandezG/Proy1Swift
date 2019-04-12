@@ -17,7 +17,8 @@ open class Player {
     let texturePlayerW = SKTexture(image: UIImage(named: "male_W-1")!)
     let texturePlayerMask = SKTexture(image: UIImage(named: "male_N-1")!)
     let playerWalk = SKTextureAtlas(named: "male_walk")
-    let hairWalk  = SKTextureAtlas(named: "male_hair")
+    let playerSlash = SKTextureAtlas(named: "male_slash")
+    let hairFrames  = SKTextureAtlas(named: "male_hair")
     
     var playerWalkingFramesN: [SKTexture] = []
     var playerWalkingFramesS: [SKTexture] = []
@@ -29,13 +30,20 @@ open class Player {
     var hairWalkingFramesE: [SKTexture] = []
     var hairWalkingFramesW: [SKTexture] = []
     
+    var hairSlashN: [SKTexture] = []
+    var hairSlashS: [SKTexture] = []
+    var hairSlashE: [SKTexture] = []
+    var hairSlashW: [SKTexture] = []
+    
     var playerSlashN: [SKTexture] = []
     var playerSlashS: [SKTexture] = []
     var playerSlashE: [SKTexture] = []
     var playerSlashW: [SKTexture] = []
     
-    var orientacionPersonaje: Int = 3
+    var deadPlayer: [SKTexture] = []
+    var deadPlayerHair: [SKTexture] = []
     
+    var orientacionPersonaje: Int = 3
     
     let escala: CGFloat = 3.0
     // Controles de la fisica
@@ -45,7 +53,11 @@ open class Player {
     var myWeapon = Weapon()
     var hair = SKSpriteNode()
     
-    
+    //Movimiento personaje
+    var velocidadXp = 5.0
+    var velocidadXm = 5.0
+    var velocidadYp = 5.0
+    var velocidadYm = 5.0
     
      // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
@@ -76,7 +88,7 @@ open class Player {
         weapon = myWeapon.weapon
         
         //Apariencia
-        hair =  SKSpriteNode(texture: hairWalk.textureNamed("male_hair_S-1"))
+        hair =  SKSpriteNode(texture: hairFrames.textureNamed("male_hair_S-1"))
         hair.zPosition = 1.1
         
         
@@ -90,10 +102,6 @@ open class Player {
         
         
         createAnimations()
-       
-        
-        
-        
 
     }
     
@@ -105,7 +113,7 @@ open class Player {
         
         
         for i in 2...9 {
-            //Player
+            //Body
             let playerTextureName1 = "male_N-\(i)"
             playerWalkingFramesN.append(playerWalk.textureNamed(playerTextureName1))
             let playerTextureName2 = "male_S-\(i)"
@@ -116,18 +124,17 @@ open class Player {
             playerWalkingFramesW.append(playerWalk.textureNamed(playerTextureName4))
             //hair
             let hairTextureName1 = "male_hair_N-\(i)"
-            hairWalkingFramesN.append(hairWalk.textureNamed(hairTextureName1))
+            hairWalkingFramesN.append(hairFrames.textureNamed(hairTextureName1))
             let hairTextureName2 = "male_hair_S-\(i)"
-            hairWalkingFramesS.append(hairWalk.textureNamed(hairTextureName2))
+            hairWalkingFramesS.append(hairFrames.textureNamed(hairTextureName2))
             let hairTextureName3 = "male_hair_E-\(i)"
-            hairWalkingFramesE.append(hairWalk.textureNamed(hairTextureName3))
+            hairWalkingFramesE.append(hairFrames.textureNamed(hairTextureName3))
             let hairTextureName4 = "male_hair_W-\(i)"
-            hairWalkingFramesW.append(hairWalk.textureNamed(hairTextureName4))
-            
+            hairWalkingFramesW.append(hairFrames.textureNamed(hairTextureName4))
         }
         
-        let playerSlash = SKTextureAtlas(named: "male_slash")
-        for i in 1...6 {
+        for i in 1...7 {
+            //body
             let playerTextureName1 = "slash_male_N-\(i)"
             playerSlashN.append(playerSlash.textureNamed(playerTextureName1))
             let playerTextureName2 = "slash_male_S-\(i)"
@@ -136,20 +143,27 @@ open class Player {
             playerSlashE.append(playerSlash.textureNamed(playerTextureName3))
             let playerTextureName4 = "slash_male_W-\(i)"
             playerSlashW.append(playerSlash.textureNamed(playerTextureName4))
+            //hair
+            let hairTextureName1 = "male_hair_slash_N-\(i)"
+            hairSlashN.append(hairFrames.textureNamed(hairTextureName1))
+            let hairTextureName2 = "male_hair_slash_S-\(i)"
+            hairSlashS.append(hairFrames.textureNamed(hairTextureName2))
+            let hairTextureName3 = "male_hair_slash_E-\(i)"
+            hairSlashE.append(hairFrames.textureNamed(hairTextureName3))
+            let hairTextureName4 = "male_hair_slash_W-\(i)"
+            hairSlashW.append(hairFrames.textureNamed(hairTextureName4))
         }
-        playerSlashN.append(playerWalk.textureNamed("male_N-1"))
-        playerSlashS.append(playerWalk.textureNamed("male_S-1"))
-        playerSlashE.append(playerWalk.textureNamed("male_E-1"))
-        playerSlashW.append(playerWalk.textureNamed("male_W-1"))
+        for i in 1...6 {
+            let deadBody = "male_dead-\(i)"
+            deadPlayer.append(playerWalk.textureNamed(deadBody))
+            let deadHair = "male_hair_dead-\(i)"
+            deadPlayerHair.append(hairFrames.textureNamed(deadHair))
+        }
+        
         
     }
     
-    
-    
-    
     func animateMove() {
-        //resetpersonaje()
-        
         switch orientacionPersonaje {
         case 1:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
@@ -174,15 +188,19 @@ open class Player {
         case 1:
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashN, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: hairSlashN, timePerFrame: 0.1))
         case 2:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashW, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: hairSlashW, timePerFrame: 0.1))
         case 3:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashS, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: hairSlashS, timePerFrame: 0.1))
         case 4:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashE, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: hairSlashE, timePerFrame: 0.1))
         default:
             break
         }
@@ -196,16 +214,16 @@ open class Player {
         switch orientacionPersonaje {
         case 1:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_N-1")))
-            hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_N-1")))
+            hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_N-1")))
         case 2:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_W-1")))
-            hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_W-1")))
+            hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_W-1")))
         case 3:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_S-1")))
-            hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_S-1")))
+            hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_S-1")))
         case 4:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_E-1")))
-            hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_E-1")))
+            hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_E-1")))
         default:
             
             break
@@ -213,10 +231,16 @@ open class Player {
         
     }
     
+    func muertePersonaje(){
+        avatarPlayer.run(SKAction.animate(with: deadPlayer, timePerFrame: 0.1))
+        hair.run(SKAction.animate(with: deadPlayerHair, timePerFrame: 0.1))
+    }
+    
    
     func resetpersonaje(){
         avatarPlayer.removeAllActions()
         hair.removeAllActions()
+        //terminar juego
     }
     
 }

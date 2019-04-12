@@ -19,6 +19,7 @@ open class Player {
     let playerWalk = SKTextureAtlas(named: "male_walk")
     let playerSlash = SKTextureAtlas(named: "male_slash")
     let hairFrames  = SKTextureAtlas(named: "male_hair")
+    let helmFrames = SKTextureAtlas(named: "Helmet")
     
     var playerWalkingFramesN: [SKTexture] = []
     var playerWalkingFramesS: [SKTexture] = []
@@ -202,18 +203,22 @@ open class Player {
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashN, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashN, timePerFrame: 0.1))
+            helm.run(SKAction.animate(with: myHelm.helmMoveN, timePerFrame: 0.1))
         case 2:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashW, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashW, timePerFrame: 0.1))
+             helm.run(SKAction.animate(with: myHelm.helmMoveW, timePerFrame: 0.1))
         case 3:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashS, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashS, timePerFrame: 0.1))
+             helm.run(SKAction.animate(with: myHelm.helmMoveS, timePerFrame: 0.1))
         case 4:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashE, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashE, timePerFrame: 0.1))
+             helm.run(SKAction.animate(with: myHelm.helmMoveE, timePerFrame: 0.1))
         default:
             break
         }
@@ -227,17 +232,20 @@ open class Player {
         switch orientacionPersonaje {
         case 1:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_N-1")))
-
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_N-1")))
+            helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_N_1")))
         case 2:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_W-1")))
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_W-1")))
+            helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_W_I")))
         case 3:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_S-1")))
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_S-1")))
+            helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_S_I")))
         case 4:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_E-1")))
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_E-1")))
+            helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_E_I")))
 
         default:
             

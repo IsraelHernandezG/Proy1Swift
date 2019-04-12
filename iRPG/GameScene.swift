@@ -27,6 +27,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var direccionPersonaje = 3
         //Direccion Espada
         var direccionEspada = 3
+        //Direccion Casco
+        var direccionCasco = 3
     
         //Interfaz
         var myInterface = GameUI()
@@ -113,6 +115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movY += 1.0 * self.velocidadYp
                     self.direccionPersonaje = 1
                     self.direccionEspada = 1
+                    self.direccionCasco = 1
                      //self.myPlayer.orientacionPersonaje = 1
                     
                 }else if (jData.angular >= 0.375 && jData.angular < 1.125){
@@ -122,10 +125,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movY += 0.7072 * self.velocidadYp
                     
 
-                     self.direccionPersonaje = 0
-                     self.direccionEspada = 0
-
+                    
+                     self.direccionEspada = 1
                      self.direccionPersonaje = 1
+                     self.direccionCasco = 1
                     
 
                 }else if (jData.angular >= 1.125 && jData.angular < 1.875){
@@ -142,9 +145,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movX -= 0.7072 * self.velocidadXm
                     movY -= 0.7072 * self.velocidadYm
 
-                    self.direccionPersonaje = 0
-                    self.direccionEspada = 0
-
+                    self.direccionEspada = 2
+                     self.direccionCasco = 2
                     self.direccionPersonaje = 2
                     
 
@@ -156,16 +158,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movY -= 1.0 * self.velocidadYm
                     self.direccionPersonaje = 3
                     self.direccionEspada = 3
+                     self.direccionCasco = 3
                 }else if (jData.angular >= -2.625 && jData.angular < -1.875){
                     //vista SE
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerSE))
                     movX += 0.7072 * self.velocidadXp
                     movY -= 0.7072 * self.velocidadYm
 
-                    self.direccionPersonaje = 0
-                    self.direccionEspada = 0
-
+                
+                    self.direccionEspada = 3
                     self.direccionPersonaje = 3
+                     self.direccionCasco = 3
                     
 
                 }else if (jData.angular >= -1.875 && jData.angular < -1.125){
@@ -176,15 +179,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movY += 0.0
                     self.direccionPersonaje = 4
                     self.direccionEspada = 4
+                     self.direccionCasco = 4
+                    
                 }else if (jData.angular >= -1.125 && jData.angular < -0.375){
                     //vista NE
                     //self.playerNode.run(SKAction.setTexture(self.myPlayer.texturePlayerNE))
                     movX += 0.7072 * self.velocidadXp
                     movY += 0.7072 * self.velocidadYp
 
-                    self.direccionPersonaje = 0
-                    self.direccionEspada = 0
-
+                    
+                    self.direccionEspada = 4
+                    self.direccionCasco = 4
                     self.direccionPersonaje = 4
 
                 }

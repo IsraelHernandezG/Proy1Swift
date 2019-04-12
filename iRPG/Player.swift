@@ -44,6 +44,8 @@ open class Player {
     var weapon = SKSpriteNode()
     var myWeapon = Weapon()
     var hair = SKSpriteNode()
+    var helm = SKSpriteNode()
+    var myHelm = Armor()
     
     
     
@@ -74,6 +76,8 @@ open class Player {
         //Equipo del jugador
         myWeapon = Weapon(nombre: "short_sword")
         weapon = myWeapon.weapon
+        myHelm = Armor(nombre: "bronce_helm")
+        helm = myHelm.helm
         
         //Apariencia
         hair =  SKSpriteNode(texture: hairWalk.textureNamed("male_hair_S-1"))
@@ -84,6 +88,7 @@ open class Player {
         Jugador.addChild(avatarPlayer)
         Jugador.addChild(weapon)
         Jugador.addChild(hair)
+        Jugador.addChild(helm)
         
         Jugador.position = position
         Jugador.setScale(escala)
@@ -154,15 +159,23 @@ open class Player {
         case 1:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
+            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
         case 2:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
+            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
+
+            
         case 3:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
+            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
+
         case 4:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
+            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
+
         default:
             break
         }
@@ -197,15 +210,24 @@ open class Player {
         case 1:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_N-1")))
             hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_N-1")))
+            
+
         case 2:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_W-1")))
             hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_W-1")))
+            helm.run(SKAction.setTexture(hairWalk.textureNamed("Helm_W_1")))
+
+            
         case 3:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_S-1")))
             hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_S-1")))
+            helm.run(SKAction.setTexture(hairWalk.textureNamed("Helm_S_1")))
+
         case 4:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_E-1")))
             hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_E-1")))
+            helm.run(SKAction.setTexture(hairWalk.textureNamed("Helm_W_1")))
+
         default:
             
             break
@@ -217,6 +239,7 @@ open class Player {
     func resetpersonaje(){
         avatarPlayer.removeAllActions()
         hair.removeAllActions()
+        helm.removeAllActions()
     }
     
 }
@@ -300,23 +323,83 @@ open class Weapon {
     
     
     
-    /*func orientarEspada() {
-
-        //resetpersonaje()
-        
-        switch orientacionEspada {
-        case 1:
-            sword.run(SKAction.setTexture(textureSwordN))
-        case 2:
-            sword.run(SKAction.setTexture(textureSwordW))
-        case 3:
-            sword.run(SKAction.setTexture(textureSwordS))
-        case 4:
-            sword.run(SKAction.setTexture(textureSwordE))
-        default:
-            
-            break
-        }
-     }*/
+   
 }
+/******************************************/
+
+
+open class Armor {
+    var helm = SKSpriteNode()
+    var orientacionCasco: Int = 0
+    
+    var helmMoveN: [SKTexture] = []
+    var helmMoveS: [SKTexture] = []
+    var helmMoveE: [SKTexture] = []
+    var helmMoveW: [SKTexture] = []
+    
+    // Texturas espada
+    /*let textureSwordN = SKTexture(image: UIImage(named: "IdleSwordN")!)
+     let textureSwordE = SKTexture(image: UIImage(named: "IdleSwordE")!)
+     let textureSwordS = SKTexture(image: UIImage(named: "IdleSwordS")!)
+     let textureSwordW = SKTexture(image: UIImage(named: "IdleSwordW")!)*/
+    //let textureSwordMask = SKTexture(image: UIImage(named: "IdleSwordN")!)
+    
+    let helmMoves = SKTextureAtlas(named: "Helmet")
+   
+    
+    init(){
+        
+    }
+    
+    init(nombre: String){
+        
+        let helmMove = SKTextureAtlas(named: "Helmet")
+        
+        helm = SKSpriteNode(texture: helmMove.textureNamed("Helm_S_I")) //textura inicial del arma
+        /*
+         // se añade un physicsbody al jugador para detectar colisiones
+         sword.physicsBody = SKPhysicsBody(texture: textureSwordMask, size: sword.size)
+         
+         sword.physicsBody!.categoryBitMask = armsCategory // categoria del arma
+         // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+         sword.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category
+         sword.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
+         // estas configuraciones tambien son necesarias
+         sword.physicsBody!.isDynamic=true
+         
+         */
+        helm.zPosition = 1.2
+        
+        animateHelm()
+        
+        
+    }
+    
+    
+    func animateHelm(){
+        
+        
+        for i in 1...8 {
+            let playerTextureName1 = "Helm_N_\(i)"
+            helmMoveN.append(helmMoves.textureNamed(playerTextureName1))
+            let playerTextureName2 = "Helm_S_\(i)"
+            helmMoveS.append(helmMoves.textureNamed(playerTextureName2))
+            let playerTextureName3 = "Helm_E_\(i)"
+            helmMoveE.append(helmMoves.textureNamed(playerTextureName3))
+            let playerTextureName4 = "Helm_W_\(i)"
+            helmMoveW.append(helmMoves.textureNamed(playerTextureName4))
+        }
+        helmMoveN.append(helmMoves.textureNamed("Helm_N_1"))
+        helmMoveS.append(helmMoves.textureNamed("Helm_S_1"))
+        helmMoveE.append(helmMoves.textureNamed("Helm_E_1"))
+        helmMoveW.append(helmMoves.textureNamed("Helm_W_1"))
+        
+        
+    }
+    
+    
+    
+    
+}
+
 

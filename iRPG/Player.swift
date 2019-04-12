@@ -203,22 +203,22 @@ open class Player {
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashN, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashN, timePerFrame: 0.1))
-            helm.run(SKAction.animate(with: myHelm.helmMoveN, timePerFrame: 0.1))
+            helm.run(SKAction.animate(with: myHelm.helmAttackN, timePerFrame: 0.1))
         case 2:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashW, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashW, timePerFrame: 0.1))
-             helm.run(SKAction.animate(with: myHelm.helmMoveW, timePerFrame: 0.1))
+             helm.run(SKAction.animate(with: myHelm.helmAttackW, timePerFrame: 0.1))
         case 3:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashS, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashS, timePerFrame: 0.1))
-             helm.run(SKAction.animate(with: myHelm.helmMoveS, timePerFrame: 0.1))
+             helm.run(SKAction.animate(with: myHelm.helmAttackS, timePerFrame: 0.1))
         case 4:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashE, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashE, timePerFrame: 0.1))
-             helm.run(SKAction.animate(with: myHelm.helmMoveE, timePerFrame: 0.1))
+             helm.run(SKAction.animate(with: myHelm.helmAttackE, timePerFrame: 0.1))
         default:
             break
         }
@@ -362,13 +362,11 @@ open class Armor {
     var helmMoveS: [SKTexture] = []
     var helmMoveE: [SKTexture] = []
     var helmMoveW: [SKTexture] = []
-    
-    // Texturas espada
-    /*let textureSwordN = SKTexture(image: UIImage(named: "IdleSwordN")!)
-     let textureSwordE = SKTexture(image: UIImage(named: "IdleSwordE")!)
-     let textureSwordS = SKTexture(image: UIImage(named: "IdleSwordS")!)
-     let textureSwordW = SKTexture(image: UIImage(named: "IdleSwordW")!)*/
-    //let textureSwordMask = SKTexture(image: UIImage(named: "IdleSwordN")!)
+    var helmAttackN: [SKTexture] = []
+    var helmAttackW: [SKTexture] = []
+    var helmAttackS: [SKTexture] = []
+    var helmAttackE: [SKTexture] = []
+  
     
     let helmMoves = SKTextureAtlas(named: "Helmet")
    
@@ -419,7 +417,21 @@ open class Armor {
         helmMoveS.append(helmMoves.textureNamed("Helm_S_1"))
         helmMoveE.append(helmMoves.textureNamed("Helm_E_1"))
         helmMoveW.append(helmMoves.textureNamed("Helm_W_1"))
+        for i in 1...6 {
+            let playerTextureName1 = "Helm_AN_\(i)"
+            helmAttackN.append(helmMoves.textureNamed(playerTextureName1))
+            let playerTextureName2 = "Helm_AS_\(i)"
+            helmAttackS.append(helmMoves.textureNamed(playerTextureName2))
+            let playerTextureName3 = "Helm_AE_\(i)"
+            helmAttackE.append(helmMoves.textureNamed(playerTextureName3))
+            let playerTextureName4 = "Helm_AW_\(i)"
+            helmAttackW.append(helmMoves.textureNamed(playerTextureName4))
+        }
         
+        helmAttackN.append(helmMoves.textureNamed("Helm_AN_1"))
+        helmAttackS.append(helmMoves.textureNamed("Helm_AS_1"))
+        helmAttackE.append(helmMoves.textureNamed("Helm_AE_1"))
+        helmAttackW.append(helmMoves.textureNamed("Helm_AW_1"))
         
     }
     

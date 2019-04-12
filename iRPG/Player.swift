@@ -227,27 +227,7 @@ open class Player {
         switch orientacionPersonaje {
         case 1:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_N-1")))
-<<<<<<< HEAD
-            hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_N-1")))
-            
 
-        case 2:
-            avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_W-1")))
-            hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_W-1")))
-            helm.run(SKAction.setTexture(hairWalk.textureNamed("Helm_W_1")))
-
-            
-        case 3:
-            avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_S-1")))
-            hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_S-1")))
-            helm.run(SKAction.setTexture(hairWalk.textureNamed("Helm_S_1")))
-
-        case 4:
-            avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_E-1")))
-            hair.run(SKAction.setTexture(hairWalk.textureNamed("male_hair_E-1")))
-            helm.run(SKAction.setTexture(hairWalk.textureNamed("Helm_W_1")))
-
-=======
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_N-1")))
         case 2:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_W-1")))
@@ -258,7 +238,7 @@ open class Player {
         case 4:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_E-1")))
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_E-1")))
->>>>>>> af1bcb3bef794f02757dad3e1836b5660745b177
+
         default:
             
             break
@@ -275,11 +255,9 @@ open class Player {
     func resetpersonaje(){
         avatarPlayer.removeAllActions()
         hair.removeAllActions()
-<<<<<<< HEAD
+
         helm.removeAllActions()
-=======
-        //terminar juego
->>>>>>> af1bcb3bef794f02757dad3e1836b5660745b177
+
     }
     
 }

@@ -96,11 +96,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     movY += 1.0 * self.myPlayer.velocidadYp
                     self.direccionPersonaje = 1
                     self.direccionEspada = 1
-<<<<<<< HEAD
-                    self.direccionCasco = 1
-                     //self.myPlayer.orientacionPersonaje = 1
-=======
->>>>>>> af1bcb3bef794f02757dad3e1836b5660745b177
+
                     
                 }else if (jData.angular >= 0.375 && jData.angular < 1.125){
                     //vista NW

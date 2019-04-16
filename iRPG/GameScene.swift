@@ -22,7 +22,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Player
         var Player1 = SKNode()
         var myPlayer = Player()
-        
+        // Enemigos
+        var Enemy1 = SKNode()
+        var enemyMob1 = Skeleton()
         //Direccion Personaje
         var direccionPersonaje = 3
         //Direccion Espada
@@ -71,10 +73,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(cam!)
             
             //Creando al jugador
-            myPlayer = Player.init(CGPoint(x: frame.midX, y: frame.midY))
+            myPlayer = Player.init(CGPoint(x: frame.midX + 100, y: frame.midY + 100))
+            enemyMob1 = Skeleton.init(CGPoint(x: frame.midX, y: frame.midY))
             //Agregando los sprites del jugador a la escena
             Player1 = myPlayer.Jugador
             addChild(Player1)
+            //Agregando enemigos a la escena
+            Enemy1 = enemyMob1.Enemy
+            addChild(Enemy1)
             
             myInterface.rotateAnalogStick.myPlayer = myPlayer
             //nodo.rotateAnalogStick.firstSword = firstSword
@@ -192,8 +198,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func readFile() -> NSString{
         
        // let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
-        let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
-        
+        //let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
+        let level1Dir = "/Users/pipin/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
         let file: FileHandle? = FileHandle(forReadingAtPath: level1Dir)
         let vacio = NSString(string: "")
         

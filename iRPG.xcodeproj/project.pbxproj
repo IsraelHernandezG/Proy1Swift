@@ -23,6 +23,7 @@
 		58F74772220E435B0060A5D3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58F74770220E435B0060A5D3 /* LaunchScreen.storyboard */; };
 		59BA8B72225FD1B00026CB2A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59BA8B71225FD1B00026CB2A /* GameScene.swift */; };
 		59BA8B74225FD29A0026CB2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 59BA8B73225FD2990026CB2A /* Assets.xcassets */; };
+		E68D70DE22663AEE001BF6DE /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = E68D70DD22663AEE001BF6DE /* Enemy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		58F74773220E435B0060A5D3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		59BA8B71225FD1B00026CB2A /* GameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		59BA8B73225FD2990026CB2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E68D70DD22663AEE001BF6DE /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				589F7A10223738200019DF1D /* GameUI.swift */,
 				5802C54A22554FC1009A4B6A /* TileMap.swift */,
 				58A50BBC225F85410043EE0B /* Player.swift */,
+				E68D70DD22663AEE001BF6DE /* Enemy.swift */,
 				58F74763220E43590060A5D3 /* GameScene.sks */,
 				59BA8B71225FD1B00026CB2A /* GameScene.swift */,
 				58F74765220E43590060A5D3 /* Actions.sks */,
@@ -197,6 +200,7 @@
 				589F7A11223738200019DF1D /* GameUI.swift in Sources */,
 				59BA8B72225FD1B00026CB2A /* GameScene.swift in Sources */,
 				5802C54B22554FC1009A4B6A /* TileMap.swift in Sources */,
+				E68D70DE22663AEE001BF6DE /* Enemy.swift in Sources */,
 				58A50BBD225F85410043EE0B /* Player.swift in Sources */,
 				58F7476A220E43590060A5D3 /* GameViewController.swift in Sources */,
 				58F74762220E43590060A5D3 /* AppDelegate.swift in Sources */,

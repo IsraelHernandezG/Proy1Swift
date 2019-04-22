@@ -48,11 +48,7 @@ open class Skeleton {
     var myHelm = Armor()
     var myLeggs = ArmorLeggs()
     
-    //Movimiento personaje
-    var velocidadXp = 5.0
-    var velocidadXm = 5.0
-    var velocidadYp = 5.0
-    var velocidadYm = 5.0
+   
     
     // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
@@ -74,7 +70,7 @@ open class Skeleton {
         avatarEnemy.physicsBody = SKPhysicsBody(texture: textureSkeletonMask, size: avatarEnemy.size)
         avatarEnemy.physicsBody!.categoryBitMask = enemyCategory // categoria del jugador
         // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-        avatarEnemy.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category
+        avatarEnemy.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | playerCategory
         avatarEnemy.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
         // estas configuraciones tambien son necesarias
         avatarEnemy.physicsBody!.isDynamic=true

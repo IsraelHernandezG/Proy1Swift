@@ -47,7 +47,8 @@ open class Skeleton {
     var leggs = SKSpriteNode()
     var myHelm = Armor()
     var myLeggs = ArmorLeggs()
-    
+    //vida
+    var vida = 100
    
     
     // CategoriesitMasks: Determinan que objetos colisionan con que

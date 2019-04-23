@@ -308,10 +308,8 @@ open class Weapon {
     var swordSlashW: [SKTexture] = []
     
     // Texturas espada
-    /*let textureSwordN = SKTexture(image: UIImage(named: "IdleSwordN")!)
-    let textureSwordE = SKTexture(image: UIImage(named: "IdleSwordE")!)
-    let textureSwordS = SKTexture(image: UIImage(named: "IdleSwordS")!)
-    let textureSwordW = SKTexture(image: UIImage(named: "IdleSwordW")!)*/
+    let textureSwordW = SKTexture(image: UIImage(named: "sword_W-5")!)
+    let textureWeaponMask = SKTexture(image: UIImage(named: "sword_W-5")!)
     //let textureSwordMask = SKTexture(image: UIImage(named: "IdleSwordN")!)
     
     // CategoriesitMasks: Determinan que objetos colisionan con que
@@ -322,9 +320,20 @@ open class Weapon {
     let Wall4Category: UInt32 = 0x01 << 4
     //ArmsCategory
     let armsCategory: UInt32 = 0x01 << 5
+    //enemy category
+    let enemyCategory: UInt32 = 0x01 << 6
     
     init(){
-        
+        weapon = SKSpriteNode(texture: textureSwordW) //textura inicial del jugador
+        // se añade un physicsbody al jugador para detectar colisiones
+        weapon.physicsBody = SKPhysicsBody(texture: textureWeaponMask, size: weapon.size)
+        weapon.physicsBody!.categoryBitMask = armsCategory // categoria del jugador
+        // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+        weapon.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+        weapon.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
+        // estas configuraciones tambien son necesarias
+        weapon.physicsBody!.isDynamic=true
+        weapon.zPosition = 1
     }
 
     init(nombre: String){

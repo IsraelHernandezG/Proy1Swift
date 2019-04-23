@@ -338,10 +338,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if myPlayer.vida <= 0 {
                 myPlayer.muertePersonaje()
             }
+            if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
+                (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
+                
+                 enemyMob1.vida = enemyMob1.vida - 10
+                print("OUCH!")
+                if enemyMob1.vida <= 0 {
+                    enemyMob1.muertePersonaje()                }
         }
         
         
-        
+        }
     }
     
     
@@ -453,8 +460,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     myInterface.labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
                 }
-                
             }
+            
         }
         
     }

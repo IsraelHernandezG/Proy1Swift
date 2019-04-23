@@ -63,6 +63,23 @@ open class TileMap{
         
     }
     
+    init(_ size: Int){
+        let tileSize = CGSize(width: 32, height: 32)
+        let columns = size// num de elem de un renglon
+        let rows = size // num de renglones = num de elementos del arreglo
+        let halfWidth = CGFloat(columns) / 2.0 * tileSize.width
+        let halfHeight = CGFloat(rows) / 2.0 * tileSize.height
+        
+        for row in 0..<rows {
+            for col in 0..<columns {
+                let x = CGFloat(col) * tileSize.width - halfWidth + (tileSize.width/2)
+                let y = CGFloat((rows-1)-row) * tileSize.height - halfHeight + (tileSize.height/2)
+                _ = CGRect(x: 0, y: 0, width: tileSize.width, height: tileSize.height)
+                map.addChild(setFloor(CGPoint(x: x, y: y)))
+            }
+        }
+    }
+            
     
     //El Constructor recibe una cadena
     init(_ bitmap: String){

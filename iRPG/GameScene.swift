@@ -197,10 +197,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func readFile() -> NSString{
         
-       // let level1Dir = "/Users/israel/Desktop/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
-        let level1Dir = "/Users/Javi/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
-        //let level1Dir = "/Users/pipin/Documents/GitHub/iRPG/iRPG/Niveles.xcassets/nivelPrueba.txt"
-        let file: FileHandle? = FileHandle(forReadingAtPath: level1Dir)
+        let FileName = "nivelPrueba"
+        
+        var dir = String()
+        
+        if let FilePath = Bundle.main.path(forResource: FileName, ofType: "txt") {
+            print(FilePath)
+            dir = FilePath
+        }
+    
+        let file: FileHandle? = FileHandle(forReadingAtPath: dir)
         let vacio = NSString(string: "")
         
         if file != nil {
@@ -212,6 +218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         } else {
             print("Ooops! Ha ocurrido un error!")
+            myMapa = TileMap.init(20)
         }
         
         return vacio

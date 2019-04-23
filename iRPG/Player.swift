@@ -20,6 +20,7 @@ open class Player {
     let playerSlash = SKTextureAtlas(named: "male_slash")
     let hairFrames  = SKTextureAtlas(named: "male_hair")
     let helmFrames = SKTextureAtlas(named: "Helmet")
+    let leggsFrames = SKTextureAtlas(named: "Leggs")
     
     var playerWalkingFramesN: [SKTexture] = []
     var playerWalkingFramesS: [SKTexture] = []
@@ -43,6 +44,7 @@ open class Player {
     
     var deadPlayer: [SKTexture] = []
     var deadPlayerHair: [SKTexture] = []
+    var deadPlayerLeggs: [SKTexture] = []
     
     var orientacionPersonaje: Int = 3
     
@@ -108,7 +110,7 @@ open class Player {
         Jugador.addChild(avatarPlayer)
         Jugador.addChild(weapon)
         Jugador.addChild(hair)
-        Jugador.addChild(helm)
+        //Jugador.addChild(helm)
         Jugador.addChild(leggs)
         
         Jugador.position = position
@@ -172,6 +174,8 @@ open class Player {
             deadPlayer.append(playerWalk.textureNamed(deadBody))
             let deadHair = "male_hair_dead-\(i)"
             deadPlayerHair.append(hairFrames.textureNamed(deadHair))
+            let deadLeggs = "Leggings_dead-\(i)"
+            deadPlayerLeggs.append(leggsFrames.textureNamed(deadLeggs))
         }
         
         
@@ -276,6 +280,7 @@ open class Player {
     func muertePersonaje(){
         avatarPlayer.run(SKAction.animate(with: deadPlayer, timePerFrame: 0.1))
         hair.run(SKAction.animate(with: deadPlayerHair, timePerFrame: 0.1))
+        leggs.run(SKAction.animate(with: deadPlayerLeggs, timePerFrame: 0.1))
     }
     
    
@@ -522,6 +527,7 @@ open class ArmorLeggs {
             let leggsTextureName4 = "Leggings_slash_W-\(i)"
             leggsAttackW.append(leggsMoves.textureNamed(leggsTextureName4))
         }
+        
         
     }
     

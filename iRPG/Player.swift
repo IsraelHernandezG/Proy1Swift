@@ -79,6 +79,8 @@ open class Player {
     //EnemyCategory
     let enemyCategory: UInt32 = 0x01 << 6
     
+    var vida = 100.1
+    
     init(_ position: CGPoint){
         
         avatarPlayer = SKSpriteNode(texture: texturePlayerS) //textura inicial del jugador

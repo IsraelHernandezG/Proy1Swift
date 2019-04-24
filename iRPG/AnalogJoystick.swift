@@ -132,9 +132,6 @@ open class AnalogJoystick: SKNode {
     private(set) var data = AnalogJoystickData()
     
     var myPlayer = Player()
-    //var firstSword = Sword()
-    //
-    
     
     
     var disabled: Bool {

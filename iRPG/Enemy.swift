@@ -49,7 +49,7 @@ open class Skeleton {
     var myLeggs = ArmorLeggs()
     //vida
     var vida = 100
-   
+    var isAlive: Bool  = true
     
     // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories

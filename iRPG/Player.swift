@@ -80,6 +80,7 @@ open class Player {
     let enemyCategory: UInt32 = 0x01 << 6
     
     var vida = 100.0
+    var isAlive: Bool = true
     
     init(_ position: CGPoint){
         
@@ -120,6 +121,7 @@ open class Player {
         
         
         createAnimations()
+        
 
     }
     
@@ -283,6 +285,7 @@ open class Player {
         avatarPlayer.run(SKAction.animate(with: deadPlayer, timePerFrame: 0.1))
         hair.run(SKAction.animate(with: deadPlayerHair, timePerFrame: 0.1))
         leggs.run(SKAction.animate(with: deadPlayerLeggs, timePerFrame: 0.1))
+       
     }
     
    

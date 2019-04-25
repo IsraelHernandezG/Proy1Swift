@@ -90,6 +90,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             //al mover el Joystick cambia la orientacion del jugador
+            
+            if myPlayer.isAlive == true {
             myInterface.rotateAnalogStick.trackingHandler = { [unowned self] jData in
                 
                 
@@ -177,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myInterface.joystickSubstrateImageEnabled = true
     
             view.isMultipleTouchEnabled = true
-            
+            }
         }
     
     
@@ -337,7 +339,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             if myPlayer.vida <= 0 {
+                myPlayer.resetpersonaje()
                 myPlayer.muertePersonaje()
+                myPlayer.isAlive = false
             }
             if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
                 (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
@@ -387,7 +391,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Der"{
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRightPres))
-                    myPlayer.atack()
+                     if (myPlayer.isAlive == true){
+                        myPlayer.atack()
+                    }
                     
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeftPres))
@@ -536,10 +542,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.Player1.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
         self.Player1.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
+        if myPlayer.vida > 0 {
+            myPlayer.isAlive = true
+        }
         
         let posJugador = Player1.position
         //myPlayer.weapon.position = posJugador
-        
+        if myPlayer.isAlive {
         myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
         //nodo.rotateAnalogStick.firstSword.orientacionEspada = direccionEspada
         if let camera = cam{
@@ -599,5 +608,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     
     }
-
+        
+    }
 }

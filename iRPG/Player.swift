@@ -79,7 +79,7 @@ open class Player {
     //EnemyCategory
     let enemyCategory: UInt32 = 0x01 << 6
     
-    var vida = 100.1
+    var vida = 100.0
     
     init(_ position: CGPoint){
         
@@ -292,6 +292,13 @@ open class Player {
         helm.removeAllActions()
         leggs.removeAllActions()
 
+    }
+    
+    func damage(_ value: Double){
+        vida -= value
+        //
+        
+        
     }
     
 }

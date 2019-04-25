@@ -155,7 +155,7 @@ open class GameUI {
         //Life bar
         let centerHPBar = SKSpriteNode(texture: textureCenterBar)
         centerHPBar.zPosition = 3
-        centerHPBar.xScale = barScale * 2 // crear variable aparte
+        centerHPBar.xScale = barScale * 2.08 // crear variable aparte
         centerHPBar.yScale = barScale
         centerHPBar.anchorPoint = CGPoint(x: 0, y: 0.5) // se cambia el punto de anclaje de los sprites
                                                         // del centro al extremo izquierdo del sprite, para
@@ -178,15 +178,16 @@ open class GameUI {
         leftHP.position = CGPoint(x: centerHPBar.position.x-3, y: centerHPBar.position.y)
         statusBar.addChild(leftHP)
         let centerHP = SKSpriteNode(texture: textureCenterHP)
+        centerHP.name = "lifeBar"
         centerHP.zPosition = 3.1
-        centerHP.xScale = barScale * 4.0 * lifePlayer //crear variable aparte
+        centerHP.xScale = barScale * 5.0 * lifePlayer //crear variable aparte
         centerHP.yScale = barScale
         centerHP.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerHP.position = CGPoint(x: leftHP.position.x + leftHP.size.width/2, y: leftHP.position.y)
         statusBar.addChild(centerHP)
         let rightHP = SKSpriteNode(texture: textureRightHP)
         rightHP.zPosition = 3.1
-        rightHP.xScale = barScale
+        rightHP.xScale = barScale * 0.0
         rightHP.yScale = barScale
         rightHP.anchorPoint = CGPoint(x: 0, y: 0.5)
         rightHP.position = CGPoint(x: centerHP.position.x + centerHP.size.width, y: centerHP.position.y)
@@ -194,7 +195,7 @@ open class GameUI {
         //Stamina Bar
         let centerBar2 = SKSpriteNode(texture: textureCenterBar)
         centerBar2.zPosition = 3
-        centerBar2.xScale = barScale * 1.5 // crear variable aparte
+        centerBar2.xScale = barScale * 1.4 // crear variable aparte
         centerBar2.yScale = barScale
         centerBar2.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerBar2.position = CGPoint(x: originBar.position.x + originBar.size.width/2, y: originBar.position.y)
@@ -216,7 +217,7 @@ open class GameUI {
         statusBar.addChild(leftSP)
         let centerSP = SKSpriteNode(texture: textureCenterSP)
         centerSP.zPosition = 3.1
-        centerSP.xScale = barScale * 2.8 * staminaPlayer //crear variable aparte
+        centerSP.xScale = barScale * 3.0 * staminaPlayer //crear variable aparte
         centerSP.yScale = barScale
         centerSP.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerSP.position = CGPoint(x: leftSP.position.x + leftSP.size.width/2, y: leftSP.position.y)
@@ -879,9 +880,6 @@ open class GameUI {
     
     open func ventanaEmergente(){
         
-        
-        
-        
     }
     
     
@@ -904,7 +902,19 @@ open class GameUI {
     }
     
     
+    func damage(_ vida: Double){
+        // normalizando la vida del jugador al rando de [0,1]
+        lifePlayer = CGFloat(vida*1.0/100)
+        if(lifePlayer >= 0.0){
+            //Redimencionando la barra de vida de acuerdo a la vida del jugador
+            statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 0.1))
+        }
+    }
     
+    func healt(){
+        lifePlayer=1.0
+        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 0.9))
+    }
     
     
     open func lanzaMenuEquip(){

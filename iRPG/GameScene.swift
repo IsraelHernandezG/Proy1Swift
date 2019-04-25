@@ -332,7 +332,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myPlayer.velocidadXp = 0.0
             myPlayer.velocidadYp = 0.0
             myPlayer.velocidadXm = 0.0
-           myPlayer.vida = myPlayer.vida - 10
+            myPlayer.vida -= 1
+            myInterface.damage(myPlayer.vida)
+            
+            
             if myPlayer.vida <= 0 {
                 myPlayer.muertePersonaje()
             }
@@ -491,7 +494,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "Arriba"{
                     myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUp))
                     myPlayer.vida = 100
-                   
+                    myInterface.healt()
                 }else if name == "Abajo"{
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDown))
                    

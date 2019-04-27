@@ -61,10 +61,11 @@ open class Player {
     var myLeggs = ArmorLeggs()
     
     //Movimiento personaje
-    var velocidadXp = 5.0
-    var velocidadXm = 5.0
-    var velocidadYp = 5.0
-    var velocidadYm = 5.0
+    var velocidadXp: CGFloat = 1.0
+    var velocidadXm: CGFloat = 1.0
+    var velocidadYp: CGFloat = 1.0
+    var velocidadYm: CGFloat = 1.0
+    var velocidad: CGFloat = 0.0
     
      // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
@@ -80,7 +81,9 @@ open class Player {
     let enemyCategory: UInt32 = 0x01 << 6
     
     var vida = 100.0
+    
     var isAlive: Bool = true
+    var inAction: Bool = false // variable para saber si el jugador esta atacando
     
     init(_ position: CGPoint){
         
@@ -187,24 +190,24 @@ open class Player {
     
     func animateMove() {
         switch orientacionPersonaje {
-        case 1:
+        case 1,5:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
-        case 2:
+        case 2,6:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             
-        case 3:
+        case 3,7:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
 
-        case 4:
+        case 4,8:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
@@ -217,26 +220,29 @@ open class Player {
     }
     
     func atack(){
+        
+        resetpersonaje()
+        orientarPersonaje()
         switch orientacionPersonaje {
-        case 1:
+        case 1,5:
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashN, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashN, timePerFrame: 0.1))
             helm.run(SKAction.animate(with: myHelm.helmAttackN, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggsAttackN, timePerFrame: 0.1))
-        case 2:
+        case 2,6:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashW, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashW, timePerFrame: 0.1))
              helm.run(SKAction.animate(with: myHelm.helmAttackW, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggsAttackW, timePerFrame: 0.1))
-        case 3:
+        case 3,7:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashS, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashS, timePerFrame: 0.1))
              helm.run(SKAction.animate(with: myHelm.helmAttackS, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggsAttackS, timePerFrame: 0.1))
-        case 4:
+        case 4,8:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.swordSlashE, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: hairSlashE, timePerFrame: 0.1))
@@ -246,6 +252,7 @@ open class Player {
             break
         }
         orientarPersonaje()
+        
     }
     
     
@@ -253,22 +260,22 @@ open class Player {
         //resetpersonaje()
         
         switch orientacionPersonaje {
-        case 1:
+        case 1,5:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_N-1")))
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_N-1")))
             helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_N_1")))
             leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_N-1")))
-        case 2:
+        case 2,6:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_W-1")))
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_W-1")))
             helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_W_I")))
             leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_W-1")))
-        case 3:
+        case 3,7:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_S-1")))
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_S-1")))
             helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_S_I")))
             leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_S-1")))
-        case 4:
+        case 4,8:
             avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_E-1")))
             hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_E-1")))
             helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_E_I")))
@@ -281,7 +288,43 @@ open class Player {
         
     }
     
+    //funcion que mueve el pesonaje a una coordenada del mapa
+    func movePlayerTo(x posX: CGFloat, y posY: CGFloat){
+        
+        Jugador.run(SKAction.moveTo(x: posX, duration: 0.1))
+        Jugador.run(SKAction.moveTo(y: posY, duration: 0.1))
+        
+    }
+    
+    //funcion que muve el personaje en una direccion
+    func movePlayer(){
+        if inAction == false {
+            switch orientacionPersonaje {
+            case 1: //N
+                Jugador.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
+            case 2: //W
+                Jugador.run(SKAction.moveBy(x: CGFloat(-1)*velocidad*velocidadXm, y: CGFloat(0), duration: 0.1))
+            case 3: //S
+                Jugador.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad*velocidadYm, duration: 0.1))
+            case 4: //E
+                Jugador.run(SKAction.moveBy(x: CGFloat(1)*velocidad*velocidadXp, y: CGFloat(0), duration: 0.1))
+            case 5: //NW
+                Jugador.run(SKAction.moveBy(x: CGFloat(-0.7072)*velocidad*velocidadXm, y: CGFloat(0.7072)*velocidad*velocidadYp, duration: 0.1))
+            case 6: //SW
+                Jugador.run(SKAction.moveBy(x: CGFloat(-0.7072)*velocidad*velocidadXm, y: CGFloat(-0.7072)*velocidad*velocidadYm, duration: 0.1))
+            case 7: //SE
+                Jugador.run(SKAction.moveBy(x: CGFloat(0.7072)*velocidad*velocidadXp, y: CGFloat(-0.7072)*velocidad*velocidadYm, duration: 0.1))
+            case 8: //NE
+                Jugador.run(SKAction.moveBy(x: CGFloat(0.7072)*velocidad*velocidadXp, y: CGFloat(0.7072)*velocidad*velocidadYp, duration: 0.1))
+            default:
+                break
+            }
+        }
+    }
+    
     func muertePersonaje(){
+        resetpersonaje()
+        isAlive = false
         avatarPlayer.run(SKAction.animate(with: deadPlayer, timePerFrame: 0.1))
         hair.run(SKAction.animate(with: deadPlayerHair, timePerFrame: 0.1))
         leggs.run(SKAction.animate(with: deadPlayerLeggs, timePerFrame: 0.1))
@@ -294,7 +337,7 @@ open class Player {
         hair.removeAllActions()
         helm.removeAllActions()
         leggs.removeAllActions()
-
+        inAction = false
     }
     
     func damage(_ value: Double){
@@ -363,7 +406,7 @@ open class Weapon {
          sword.physicsBody!.isDynamic=true
          
          */
-        weapon.zPosition = 1.1
+        weapon.zPosition = 1.2
        
         animateWeapon()
     

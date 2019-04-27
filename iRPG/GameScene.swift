@@ -20,7 +20,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
         //Player
-        var Player1 = SKNode()
+        //var Player1 = SKNode()
         var myPlayer = Player()
         // Enemigos
         var Enemy1 = SKNode()
@@ -35,6 +35,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Interfaz
         var myInterface = GameUI()
         // Controles de la fisica
+    
         
         var topeYp: CGFloat = 0.0
         var topeYm: CGFloat = 0.0
@@ -47,9 +48,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         var banderaHoguera = 0
     
-        // Movimiento del personaje
-        var movX = 0.0
-        var movY = 0.0
+        // Poscion del personaje en el mapa
+        var posX: CGFloat = 0.0
+        var posY: CGFloat = 0.0
     
     
     
@@ -76,17 +77,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Creando al jugador
             myPlayer = Player.init(CGPoint(x: frame.midX , y: frame.midY))
+            
             enemyMob1 = Skeleton.init(CGPoint(x: frame.midX + 100, y: frame.midY + 100))
             
             //Agregando enemigos a la escena
             Enemy1 = enemyMob1.Enemy
             addChild(Enemy1)
             //Agregando los sprites del jugador a la escena
-            Player1 = myPlayer.Jugador
-            addChild(Player1)
+            addChild(myPlayer.Jugador)
             myInterface.rotateAnalogStick.myPlayer = myPlayer
             //nodo.rotateAnalogStick.firstSword = firstSword
             
+            myInterface.healt(myPlayer.vida)
             
             
             //al mover el Joystick cambia la orientacion del jugador
@@ -96,82 +98,83 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 
                 if (jData.angular == 0){
-                    self.movX += 0.0
-                    self.movY += 0.0
-                }else if (jData.angular >= -0.375 && jData.angular < 0.375){
-                    //vista N
-                    self.movX += 0.0
-                    self.movY += 1.0 * self.myPlayer.velocidadYp
-                    self.direccionPersonaje = 1
-                    self.direccionEspada = 1
+                    //self.posX += 0.0
+                    //self.posY += 0.0
+                    self.myPlayer.velocidad = 0.0
+                }else{
+                    self.myPlayer.velocidad = 5.0
                     
-                    
-                }else if (jData.angular >= 0.375 && jData.angular < 1.125){
-                    //vista NW
-                    self.movX -= 0.7072 * self.myPlayer.velocidadXm
-                    self.movY += 0.7072 * self.myPlayer.velocidadYp
-                    
-                     self.direccionEspada = 1
-                     self.direccionPersonaje = 1
-                     self.direccionCasco = 1
-                    
+                    if (jData.angular >= -0.375 && jData.angular < 0.375){
+                        //vista N
+                        //self.posX += 0.0
+                        //self.posY += 1.0 * self.myPlayer.velocidadYp
+                        self.direccionPersonaje = 1
+                        self.direccionEspada = 1
+                        
+                        
+                    }else if (jData.angular >= 0.375 && jData.angular < 1.125){
+                        //vista NW
+                        //self.posX -= 0.7072 * self.myPlayer.velocidadXm
+                        //self.posY += 0.7072 * self.myPlayer.velocidadYp
+                        
+                         self.direccionEspada = 1
+                         self.direccionPersonaje = 5
+                         self.direccionCasco = 5
+                        
 
-                }else if (jData.angular >= 1.125 && jData.angular < 1.875){
-                   //vista W
-                   self.movX -= 1.0 * self.myPlayer.velocidadXm
-                    self.movY += 0.0
-                    self.direccionPersonaje = 2
-                    self.direccionEspada = 2
-                }else if (jData.angular >= 1.875 && jData.angular < 2.675){
-                    //vista SW
-                    self.movX -= 0.7072 * self.myPlayer.velocidadXm
-                   self.movY -= 0.7072 * self.myPlayer.velocidadYm
+                    }else if (jData.angular >= 1.125 && jData.angular < 1.875){
+                       //vista W
+                       //self.posX -= 1.0 * self.myPlayer.velocidadXm
+                        //self.posY += 0.0
+                        self.direccionPersonaje = 2
+                        self.direccionEspada = 2
+                    }else if (jData.angular >= 1.875 && jData.angular < 2.675){
+                        //vista SW
+                        //self.posX -= 0.7072 * self.myPlayer.velocidadXm
+                       //self.posY -= 0.7072 * self.myPlayer.velocidadYm
 
-                    self.direccionEspada = 2
-                     self.direccionCasco = 2
-                    self.direccionPersonaje = 2
-                    
+                        self.direccionEspada = 6
+                         self.direccionCasco = 6
+                        self.direccionPersonaje = 6
+                        
 
-                }else if (jData.angular >= 2.625 || jData.angular < -2.625){
-                    //vista S
-                    self.movX += 0.0
-                    self.movY -= 1.0 * self.myPlayer.velocidadYm
-                    self.direccionPersonaje = 3
-                    self.direccionEspada = 3
-                     self.direccionCasco = 3
-                }else if (jData.angular >= -2.625 && jData.angular < -1.875){
-                    //vista SE
-                    self.movX += 0.7072 * self.myPlayer.velocidadXp
-                    self.movY -= 0.7072 * self.myPlayer.velocidadYm
-
-                
-                    self.direccionEspada = 3
-                    self.direccionPersonaje = 3
-                     self.direccionCasco = 3
-                    
-
-                }else if (jData.angular >= -1.875 && jData.angular < -1.125){
-                    //vista E
-                    self.movX += 1.0 * self.myPlayer.velocidadXp
-                    self.movY += 0.0
-                    self.direccionPersonaje = 4
-                    self.direccionEspada = 4
-                     self.direccionCasco = 4
-                    
-                }else if (jData.angular >= -1.125 && jData.angular < -0.375){
-                    //vista NE
-                    self.movX += 0.7072 * self.myPlayer.velocidadXp
-                    self.movY += 0.7072 * self.myPlayer.velocidadYp
+                    }else if (jData.angular >= 2.625 || jData.angular < -2.625){
+                        //vista S
+                        //self.posX += 0.0
+                        //self.posY -= 1.0 * self.myPlayer.velocidadYm
+                        self.direccionPersonaje = 3
+                        self.direccionEspada = 3
+                         self.direccionCasco = 3
+                    }else if (jData.angular >= -2.625 && jData.angular < -1.875){
+                        //vista SE
+                        //self.posX += 0.7072 * self.myPlayer.velocidadXp
+                        //self.posY -= 0.7072 * self.myPlayer.velocidadYm
 
                     
-                    self.direccionEspada = 4
-                    self.direccionCasco = 4
-                    self.direccionPersonaje = 4
+                        self.direccionEspada = 7
+                        self.direccionPersonaje = 7
+                         self.direccionCasco = 7
+                        
 
+                    }else if (jData.angular >= -1.875 && jData.angular < -1.125){
+                        //vista E
+                        //self.posX += 1.0 * self.myPlayer.velocidadXp
+                        //self.posY += 0.0
+                        self.direccionPersonaje = 4
+                        self.direccionEspada = 4
+                         self.direccionCasco = 4
+                        
+                    }else if (jData.angular >= -1.125 && jData.angular < -0.375){
+                        //vista NE
+                        //self.posX += 0.7072 * self.myPlayer.velocidadXp
+                        //self.posY += 0.7072 * self.myPlayer.velocidadYp
+
+                        self.direccionEspada = 8
+                        self.direccionCasco = 8
+                        self.direccionPersonaje = 8
+
+                    }
                 }
-               
-                //self.Player1.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
-                //self.Player1.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
                 
             }
             
@@ -273,7 +276,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if (topeYp == 0.0){
                 myPlayer.velocidadYp = 0.0
-                topeYp = Player1.position.y
+                topeYp = myPlayer.Jugador.position.y
                 bandera = 1
             }else{
                 bandera = 1
@@ -286,7 +289,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //print("\nLeft Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
             if (topeXm == 0.0){
                 myPlayer.velocidadXm = 0.0
-                topeXm = Player1.position.x
+                topeXm = myPlayer.Jugador.position.x
                 bandera2 = 1
                 
             }else{
@@ -300,7 +303,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //print("\nRight Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
             if (topeXp == 0.0){
                 myPlayer.velocidadXp = 0.0
-                topeXp = Player1.position.x
+                topeXp = myPlayer.Jugador.position.x
                 bandera3 = 1
              
              }else{
@@ -314,7 +317,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if (topeYm == 0.0){
                 myPlayer.velocidadYm = 0.0
-                topeYm = Player1.position.y
+                topeYm = myPlayer.Jugador.position.y
                 bandera4 = 1
             }else{
                 bandera4 = 1
@@ -330,20 +333,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
             (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
             
-            myPlayer.velocidadYm = 0.0
-            myPlayer.velocidadXp = 0.0
-            myPlayer.velocidadYp = 0.0
-            myPlayer.velocidadXm = 0.0
+            
             myPlayer.vida -= 1
             myInterface.damage(myPlayer.vida)
             
             
             if myPlayer.vida <= 0 {
-                myPlayer.resetpersonaje()
+               
                 myPlayer.muertePersonaje()
-                myPlayer.isAlive = false
+                
             }
-            if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
+            /*if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
                 (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
                 
                  enemyMob1.vida = enemyMob1.vida - 10
@@ -352,9 +352,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     enemyMob1.muertePersonaje()
                     
                 }
-        }
-        
-        
+            }*/
         }
     }
     
@@ -387,11 +385,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                    
                 }else if name == "Abajo"{
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDownPres))
-                    myPlayer.muertePersonaje()
                     
                 }else if name == "Der"{
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRightPres))
                      if (myPlayer.isAlive == true){
+                        myPlayer.inAction = true
                         myPlayer.atack()
                     }
                     
@@ -500,13 +498,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "Arriba"{
                     myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUp))
                     myPlayer.vida = 100
-                    myInterface.healt()
+                    myInterface.healt(myPlayer.vida)
+                    myPlayer.isAlive = true
                 }else if name == "Abajo"{
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDown))
                    
                 }else if name == "Der"{
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRight))
-                    //firstSword.createSwordAnimations()
+                   
                     
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeft))
@@ -539,75 +538,78 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         super.update(currentTime)
-        
-        self.Player1.run(SKAction.moveTo(x: CGFloat(movX), duration: 0.1))
-        self.Player1.run(SKAction.moveTo(y: CGFloat(movY), duration: 0.1))
-        if myPlayer.vida > 0 {
+        /*if myPlayer.vida > 0 {
             myPlayer.isAlive = true
-        }
+        }*/
         
-        let posJugador = Player1.position
-        //myPlayer.weapon.position = posJugador
+        
         if myPlayer.isAlive {
-        myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
-        //nodo.rotateAnalogStick.firstSword.orientacionEspada = direccionEspada
-        if let camera = cam{
-            camera.position=posJugador
-            if (bandera == 1){
-                if (posJugador.y >= topeYp){
-                    myPlayer.velocidadYp = 0.0
-                    
-                }else if (posJugador.y < topeYp){
-                    //
-                    bandera = 0
-                }
-            }else{
-                topeYp = 0.0
-                myPlayer.velocidadYp = 5.0
-            }
-            //+++++++++++++++++++++++
-            if (bandera2 == 1){
-                if (posJugador.x <= topeXm){
-                    myPlayer.velocidadXm = 0.0
-                    
-                }else if (posJugador.x > topeXm){
-                    //
-                    bandera2 = 0
-                }
-            }else{
-                topeXm = 0.0
-                myPlayer.velocidadXm = 5.0
-            }
-            //**************************
-            if (bandera3 == 1){
-                if (posJugador.x >= topeXp){
-                    myPlayer.velocidadXp = 0.0
-                    
-                }else if (posJugador.x < topeXp){
-                    //
-                    bandera3 = 0
-                }
-            }else{
-                topeXp = 0.0
-                myPlayer.velocidadXp = 5.0
-            }
-            //---------------------------
-            if (bandera4 == 1){
-                if (posJugador.y <= topeYm){
-                    myPlayer.velocidadYm = 0.0
-                    
-                }else if (posJugador.y > topeYm){
-                    //
-                    bandera4 = 0
-                }
-            }else{
-                topeYm = 0.0
-                myPlayer.velocidadYm = 5.0
-            }
+            myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
+            //El personaje se mueve hacia una poscicion
+            //myPlayer.movePlayerTo(x: posX, y: posY)
             
-        }
-    
-    }
+            //El personaje se mueve en la direccion del vector de posicion
+            myPlayer.movePlayer()
+            
+            
+            let posJugador = myPlayer.Jugador.position
+            
         
+            if let camera = cam{
+                camera.position=posJugador
+                if (bandera == 1){
+                    if (posJugador.y >= topeYp){
+                        myPlayer.velocidadYp = 0.0
+                        
+                    }else if (posJugador.y < topeYp){
+                        //
+                        bandera = 0
+                    }
+                }else{
+                    topeYp = 0.0
+                    myPlayer.velocidadYp = 1.0
+                }
+                //+++++++++++++++++++++++
+                if (bandera2 == 1){
+                    if (posJugador.x <= topeXm){
+                        myPlayer.velocidadXm = 0.0
+                        
+                    }else if (posJugador.x > topeXm){
+                        //
+                        bandera2 = 0
+                    }
+                }else{
+                    topeXm = 0.0
+                    myPlayer.velocidadXm = 1.0
+                }
+                //**************************
+                if (bandera3 == 1){
+                    if (posJugador.x >= topeXp){
+                        myPlayer.velocidadXp = 0.0
+                        
+                    }else if (posJugador.x < topeXp){
+                        //
+                        bandera3 = 0
+                    }
+                }else{
+                    topeXp = 0.0
+                    myPlayer.velocidadXp = 1.0
+                }
+                //---------------------------
+                if (bandera4 == 1){
+                    if (posJugador.y <= topeYm){
+                        myPlayer.velocidadYm = 0.0
+                        
+                    }else if (posJugador.y > topeYm){
+                        //
+                        bandera4 = 0
+                    }
+                }else{
+                    topeYm = 0.0
+                    myPlayer.velocidadYm = 1.0
+                }
+                
+            }
+        }
     }
 }

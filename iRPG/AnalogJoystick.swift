@@ -245,6 +245,7 @@ open class AnalogJoystick: SKNode {
     
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         resetStick()
+        myPlayer.velocidad = 0.0
          if (myPlayer.isAlive == true){
         myPlayer.resetpersonaje()
         myPlayer.orientarPersonaje()

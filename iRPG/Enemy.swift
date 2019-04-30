@@ -190,28 +190,17 @@ open class Skeleton {
     func atack(){
         switch orientacionPersonaje {
         case 1:
-            avatarEnemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.swordSlashN, timePerFrame: 0.1))
-            helm.run(SKAction.animate(with: myHelm.helmAttackN, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.leggsAttackN, timePerFrame: 0.1))
+           Enemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
+            
         case 2:
-            avatarEnemy.run(SKAction.animate(with: skeletonSlashW, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.swordSlashW, timePerFrame: 0.1))
+            Enemy.run(SKAction.animate(with: skeletonSlashW, timePerFrame: 0.1))
             
-            helm.run(SKAction.animate(with: myHelm.helmAttackW, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.leggsAttackW, timePerFrame: 0.1))
         case 3:
-            avatarEnemy.run(SKAction.animate(with: skeletonSlashS, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.swordSlashS, timePerFrame: 0.1))
-           
-            helm.run(SKAction.animate(with: myHelm.helmAttackS, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.leggsAttackS, timePerFrame: 0.1))
-        case 4:
-            avatarEnemy.run(SKAction.animate(with: skeletonSlashE, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.swordSlashE, timePerFrame: 0.1))
+           Enemy.run(SKAction.animate(with: skeletonSlashS, timePerFrame: 0.1))
             
-            helm.run(SKAction.animate(with: myHelm.helmAttackE, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.leggsAttackE, timePerFrame: 0.1))
+        case 4:
+            Enemy.run(SKAction.animate(with: skeletonSlashE, timePerFrame: 0.1))
+           
         default:
             break
         }

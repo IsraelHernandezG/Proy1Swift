@@ -568,7 +568,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 enemyMob1.followPlayer()
             } else {
                 enemyMob1.orientaCaminata = 0
-                
+                enemyMob1.followPlayer()
             }
         }
         if myPlayer.isAlive {

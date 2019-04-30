@@ -18,12 +18,17 @@ open class Skeleton {
     let skeletonWalk = SKTextureAtlas(named: "Skeleton")
     let skeletonSlash = SKTextureAtlas(named: "Skeleton")
     let helmFrames = SKTextureAtlas(named: "Helmet")
+    //Velocidad enemigo
+    var velocidadXp: CGFloat = 1.0
+    var velocidadXm: CGFloat = 1.0
+    var velocidadYp: CGFloat = 1.0
+    var velocidadYm: CGFloat = 1.0
+    var velocidad: CGFloat = 0.5
     
     var skeletonWalkingFramesN: [SKTexture] = []
     var skeletonWalkingFramesS: [SKTexture] = []
     var skeletonWalkingFramesE: [SKTexture] = []
     var skeletonWalkingFramesW: [SKTexture] = []
-    
    
     
     var skeletonSlashN: [SKTexture] = []
@@ -48,7 +53,8 @@ open class Skeleton {
     var myHelm = Armor()
     var myLeggs = ArmorLeggs()
     //vida
-    var vida = 100
+    var vida = 200.0
+    var vidaMax = 200.0
     var isAlive: Bool  = true
     
     // CategoriesitMasks: Determinan que objetos colisionan con que
@@ -63,6 +69,11 @@ open class Skeleton {
     let armsCategory: UInt32 = 0x01 << 5
     //EnemyCategory
     let enemyCategory: UInt32 = 0x01 << 6
+    
+    var enemyxPosition: CGFloat = 0.0
+    var enemyyPosition: CGFloat = 0.0
+    
+    var orientaCaminata = 0
     
     init(_ position: CGPoint){
         
@@ -249,6 +260,30 @@ open class Skeleton {
         leggs.removeAllActions()
         
     }
+    func followPlayer(){
     
+             
+        switch orientaCaminata {
+        case 1: //N
+            avatarEnemy.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
+        case 2: //W
+            avatarEnemy.run(SKAction.moveBy(x: CGFloat(-1)*velocidad*velocidadXm, y: CGFloat(0), duration: 0.1))
+        case 3: //S
+            avatarEnemy.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad*velocidadYm, duration: 0.1))
+        case 4: //E
+            avatarEnemy.run(SKAction.moveBy(x: CGFloat(1)*velocidad*velocidadXp, y: CGFloat(0), duration: 0.1))
+        case 5: //NW
+            avatarEnemy.run(SKAction.moveBy(x: CGFloat(-0.7072)*velocidad*velocidadXm, y: CGFloat(0.7072)*velocidad*velocidadYp, duration: 0.1))
+        case 6: //SW
+            avatarEnemy.run(SKAction.moveBy(x: CGFloat(-0.7072)*velocidad*velocidadXm, y: CGFloat(-0.7072)*velocidad*velocidadYm, duration: 0.1))
+        case 7: //SE
+            avatarEnemy.run(SKAction.moveBy(x: CGFloat(0.7072)*velocidad*velocidadXp, y: CGFloat(-0.7072)*velocidad*velocidadYm, duration: 0.1))
+        case 8: //NE
+            avatarEnemy.run(SKAction.moveBy(x: CGFloat(0.7072)*velocidad*velocidadXp, y: CGFloat(0.7072)*velocidad*velocidadYp, duration: 0.1))
+        default:
+            break
+        }
+        
+    }
 }
 /*******/

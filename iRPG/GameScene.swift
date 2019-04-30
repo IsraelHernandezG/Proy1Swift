@@ -343,7 +343,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 myPlayer.muertePersonaje()
                 
             }
-            /*if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
+            
+            if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
                 (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
                 
                  enemyMob1.vida = enemyMob1.vida - 10
@@ -352,7 +353,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     enemyMob1.muertePersonaje()
                     
                 }
-            }*/
+            }
+            
         }
     }
     
@@ -547,7 +549,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myPlayer.isAlive = true
         }*/
         
-        
+        if enemyMob1.isAlive{
+            enemyMob1.enemyxPosition = Enemy1.position.x - myPlayer.Jugador.position.x
+            enemyMob1.enemyyPosition = Enemy1.position.y - myPlayer.Jugador.position.y
+            if enemyMob1.enemyxPosition < 0 && enemyMob1.enemyyPosition < 0
+            {
+                enemyMob1.orientaCaminata = 4
+                enemyMob1.followPlayer()
+            } else if enemyMob1.enemyxPosition < 0 && enemyMob1.enemyyPosition > 0{
+                enemyMob1.orientaCaminata = 3
+                enemyMob1.followPlayer()
+            }else if enemyMob1.enemyxPosition > 0 && enemyMob1.enemyyPosition < 0{
+                enemyMob1.orientaCaminata = 2
+                enemyMob1.followPlayer()
+            }else if enemyMob1.enemyxPosition > 0 && enemyMob1.enemyyPosition > 0{
+                enemyMob1.orientaCaminata = 1
+                enemyMob1.followPlayer()
+            } else {
+                enemyMob1.orientaCaminata = 0
+                enemyMob1.followPlayer()
+            }
+        }
         if myPlayer.isAlive {
             
             //Funcion que reasigna el physics body al personaje

@@ -48,6 +48,8 @@ open class TileMap{
     let fireCategory: UInt32 = 0x01 << 5
     //Player Category:
     let playerCategory: UInt32 = 0x01 << 0
+    //Weapon Category
+    let armsCategory: UInt32 = 0x01 << 6
     
     //bonfire
     var bonfire = SKSpriteNode()

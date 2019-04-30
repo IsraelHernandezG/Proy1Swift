@@ -155,7 +155,7 @@ open class GameUI {
         //Life bar
         let centerHPBar = SKSpriteNode(texture: textureCenterBar)
         centerHPBar.zPosition = 3
-        centerHPBar.xScale = barScale * 2 // crear variable aparte
+        centerHPBar.xScale = barScale * 4.05 // crear variable aparte
         centerHPBar.yScale = barScale
         centerHPBar.anchorPoint = CGPoint(x: 0, y: 0.5) // se cambia el punto de anclaje de los sprites
                                                         // del centro al extremo izquierdo del sprite, para
@@ -180,7 +180,7 @@ open class GameUI {
         let centerHP = SKSpriteNode(texture: textureCenterHP)
         centerHP.name = "lifeBar"
         centerHP.zPosition = 3.1
-        centerHP.xScale = barScale * 5.0 * lifePlayer //crear variable aparte
+        centerHP.xScale = barScale  * 5.0 * lifePlayer
         centerHP.yScale = barScale
         centerHP.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerHP.position = CGPoint(x: leftHP.position.x + leftHP.size.width/2, y: leftHP.position.y)
@@ -195,7 +195,7 @@ open class GameUI {
         //Stamina Bar
         let centerBar2 = SKSpriteNode(texture: textureCenterBar)
         centerBar2.zPosition = 3
-        centerBar2.xScale = barScale * 1.4 // crear variable aparte
+        centerBar2.xScale = barScale * 2.6 // crear variable aparte
         centerBar2.yScale = barScale
         centerBar2.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerBar2.position = CGPoint(x: originBar.position.x + originBar.size.width/2, y: originBar.position.y)
@@ -210,21 +210,22 @@ open class GameUI {
         
         let leftSP = SKSpriteNode(texture: textureLeftSP)
         leftSP.zPosition = 3.1
-        leftSP.xScale = barScale
+        leftSP.xScale = barScale * 0.0
         leftSP.yScale = barScale
         leftSP.anchorPoint = CGPoint(x: 0, y: 0.5)
         leftSP.position = CGPoint(x: centerBar2.position.x-3, y: centerBar2.position.y)
         statusBar.addChild(leftSP)
         let centerSP = SKSpriteNode(texture: textureCenterSP)
         centerSP.zPosition = 3.1
-        centerSP.xScale = barScale * 3.0 * staminaPlayer //crear variable aparte
+        centerSP.name = "staminaBar"
+        centerSP.xScale = barScale * 4.0 * staminaPlayer //crear variable aparte
         centerSP.yScale = barScale
         centerSP.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerSP.position = CGPoint(x: leftSP.position.x + leftSP.size.width/2, y: leftSP.position.y)
         statusBar.addChild(centerSP)
         let rightSP = SKSpriteNode(texture: textureRightSP)
         rightSP.zPosition = 3.1
-        rightSP.xScale = barScale
+        rightSP.xScale = barScale * 0.0
         rightSP.yScale = barScale
         rightSP.anchorPoint = CGPoint(x: 0, y: 0.5)
         rightSP.position = CGPoint(x: centerSP.position.x + centerSP.size.width, y: centerSP.position.y)
@@ -902,19 +903,34 @@ open class GameUI {
     }
     
     
-    func damage(_ vida: Double){
-        // normalizando la vida del jugador al rando de [0,1]
-        lifePlayer = CGFloat(vida*1.0/100)
-        
+    func damage(_ vida: Double, _ vidaMax: Double){
+        // normalizando la vida del jugador al rango de [0,1]
+        lifePlayer = CGFloat(vida*1.0/vidaMax)
         if(lifePlayer >= 0.0){
             //Redimencionando la barra de vida de acuerdo a la vida del jugador
-            statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 0.1))
+            statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 10.0 * lifePlayer, duration: 0.1))
+            
         }
+        
     }
     
-    func healt(_ vida: Double){
-        lifePlayer = CGFloat(vida*1.0/100)
-        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 1.0))
+    func healt(_ vida: Double, _ vidaMax: Double){
+        lifePlayer = CGFloat(vida*1.0/vidaMax)
+        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 10.0 * lifePlayer, duration: 1.0))
+    }
+    
+    
+    func spendStamina(_ stamina: Double, _ staminaMax: Double){
+        staminaPlayer = CGFloat(stamina*1.0/staminaMax)
+
+        statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: barScale * 8.0 * staminaPlayer, duration: 1.0))
+    }
+    
+    func restoreStamina(_ stamina: Double, _ staminaMax: Double){
+        staminaPlayer = CGFloat(stamina*1.0/staminaMax)
+        if(staminaPlayer <= CGFloat(staminaMax)){
+            statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: barScale * 8.0 * staminaPlayer, duration: 0.1))
+        }
     }
     
     

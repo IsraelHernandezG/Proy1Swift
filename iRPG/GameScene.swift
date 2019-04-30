@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myInterface.rotateAnalogStick.myPlayer = myPlayer
             //nodo.rotateAnalogStick.firstSword = firstSword
             
-            myInterface.healt(myPlayer.vida)
+            myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
             
             
             //al mover el Joystick cambia la orientacion del jugador
@@ -335,7 +335,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             myPlayer.vida -= 1
-            myInterface.damage(myPlayer.vida)
+            myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
             
             
             if myPlayer.vida <= 0 {
@@ -388,9 +388,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Der"{
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRightPres))
-                     if (myPlayer.isAlive == true){
+                     if (myPlayer.isAlive == true && myPlayer.stamina >= 10){
                         myPlayer.inAction = true
                         myPlayer.atack()
+                        myPlayer.stamina -= 20.0
+                        if (myPlayer.stamina <= 0.0){
+                            myPlayer.stamina = 0.0
+                        }
+                        myInterface.spendStamina(myPlayer.stamina, myPlayer.staminaMax)
                     }
                     
                 }else if name == "Izq"{
@@ -497,8 +502,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(myInterface.textureMenuButton))
                 }else if name == "Arriba"{
                     myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUp))
-                    myPlayer.vida = 100
-                    myInterface.healt(myPlayer.vida)
+                    myPlayer.vida = myPlayer.vidaMax 
+                    myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
                     myPlayer.isAlive = true
                 }else if name == "Abajo"{
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDown))
@@ -550,7 +555,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //El personaje se mueve en la direccion del vector de posicion
             myPlayer.movePlayer()
-            
+            myInterface.restoreStamina(myPlayer.action(), myPlayer.staminaMax)
             
             let posJugador = myPlayer.Jugador.position
             

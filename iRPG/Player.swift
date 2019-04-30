@@ -80,7 +80,10 @@ open class Player {
     //EnemyCategory
     let enemyCategory: UInt32 = 0x01 << 6
     
-    var vida = 100.0
+    var vida = 200.0
+    var vidaMax = 200.0
+    var stamina = 50.0
+    var staminaMax = 50.0
     
     var isAlive: Bool = true
     var inAction: Bool = false // variable para saber si el jugador esta atacando
@@ -341,10 +344,16 @@ open class Player {
     }
     
     func damage(_ value: Double){
-        vida -= value
-        //
-        
-        
+        if (vida >= 0){
+            vida -= value
+        }
+    }
+    
+    func action() -> Double{
+        if (stamina <= staminaMax){
+            stamina += 0.2
+        }
+        return stamina
     }
     
 }

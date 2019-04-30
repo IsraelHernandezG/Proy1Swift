@@ -132,6 +132,31 @@ open class Player {
     }
     
     
+   
+    
+    func setPlayerPhysicsBody(){
+        avatarPlayer.physicsBody = SKPhysicsBody(texture: avatarPlayer.texture!, size: avatarPlayer.size)
+        avatarPlayer.physicsBody!.categoryBitMask = playerCategory // categoria del jugador
+        // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+        avatarPlayer.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+        avatarPlayer.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
+        // estas configuraciones tambien son necesarias
+        avatarPlayer.physicsBody!.isDynamic=true
+    }
+    
+    func setWeaponPhysicsBody(){
+        
+        if let temp = SKPhysicsBody(texture: weapon.texture!, size: weapon.size) as? SKPhysicsBody {
+            weapon.physicsBody = temp
+            weapon.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
+            // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+            weapon.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+            weapon.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
+            // estas configuraciones tambien son necesarias
+            weapon.physicsBody?.isDynamic=true
+        }
+    }
+    
     init(){
     }
     
@@ -198,6 +223,7 @@ open class Player {
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
+            
         case 2,6:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")

@@ -549,6 +549,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if myPlayer.isAlive {
+            
+            //Funcion que reasigna el physics body al personaje
+            //myPlayer.setPlayerPhysicsBody()
+            myPlayer.setWeaponPhysicsBody()
+            //
+            
             myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
             //El personaje se mueve hacia una poscicion
             //myPlayer.movePlayerTo(x: posX, y: posY)

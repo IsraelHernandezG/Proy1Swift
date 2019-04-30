@@ -552,6 +552,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if enemyMob1.isAlive{
             enemyMob1.enemyxPosition = Enemy1.position.x - myPlayer.Jugador.position.x
             enemyMob1.enemyyPosition = Enemy1.position.y - myPlayer.Jugador.position.y
+            
             if enemyMob1.enemyxPosition < 0 && enemyMob1.enemyyPosition < 0
             {
                 enemyMob1.orientaCaminata = 4
@@ -567,7 +568,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 enemyMob1.followPlayer()
             } else {
                 enemyMob1.orientaCaminata = 0
-                enemyMob1.followPlayer()
+                
             }
         }
         if myPlayer.isAlive {

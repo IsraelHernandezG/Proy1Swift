@@ -552,19 +552,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if enemyMob1.isAlive{
             enemyMob1.enemyxPosition = Enemy1.position.x - myPlayer.Jugador.position.x
             enemyMob1.enemyyPosition = Enemy1.position.y - myPlayer.Jugador.position.y
-            
-            if enemyMob1.enemyxPosition < 0 && enemyMob1.enemyyPosition < 0
+            print ("\(enemyMob1.enemyxPosition)  \(enemyMob1.enemyyPosition)")
+            if (enemyMob1.enemyxPosition <= 0 && enemyMob1.enemyxPosition >= -500) && ( enemyMob1.enemyyPosition <= 0 && enemyMob1.enemyyPosition >= -500 )
             {
                 enemyMob1.orientaCaminata = 4
                 enemyMob1.followPlayer()
-            } else if enemyMob1.enemyxPosition < 0 && enemyMob1.enemyyPosition > 0{
-                enemyMob1.orientaCaminata = 3
+                
+            } else if (enemyMob1.enemyxPosition <= 0 && enemyMob1.enemyxPosition >= -500) && ( enemyMob1.enemyyPosition >= 0 && enemyMob1.enemyyPosition <= 500 )
+            {
+                enemyMob1.orientaCaminata = 1
                 enemyMob1.followPlayer()
-            }else if enemyMob1.enemyxPosition > 0 && enemyMob1.enemyyPosition < 0{
+            }else if (enemyMob1.enemyxPosition >= 0 && enemyMob1.enemyxPosition <= 500) && ( enemyMob1.enemyyPosition <= 0 && enemyMob1.enemyyPosition >= -500 )
+            {
                 enemyMob1.orientaCaminata = 2
                 enemyMob1.followPlayer()
-            }else if enemyMob1.enemyxPosition > 0 && enemyMob1.enemyyPosition > 0{
-                enemyMob1.orientaCaminata = 1
+            }else if (enemyMob1.enemyxPosition >= 0 && enemyMob1.enemyxPosition <= 500) && ( enemyMob1.enemyyPosition >= 0 && enemyMob1.enemyyPosition <= 500 )
+            {
+                enemyMob1.orientaCaminata = 3
                 enemyMob1.followPlayer()
             } else {
                 enemyMob1.orientaCaminata = 0

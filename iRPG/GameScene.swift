@@ -552,34 +552,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if enemyMob1.isAlive{
             enemyMob1.enemyxPosition = Enemy1.position.x - myPlayer.Jugador.position.x
             enemyMob1.enemyyPosition = Enemy1.position.y - myPlayer.Jugador.position.y
-            print ("\(enemyMob1.enemyxPosition)  \(enemyMob1.enemyyPosition)")
+            //print ("\(enemyMob1.enemyxPosition.magnitude)  \(enemyMob1.enemyyPosition.magnitude)")
+            if(enemyMob1.enemyxPosition.magnitude >= 100.0 || enemyMob1.enemyyPosition.magnitude >= 100.0){
+                enemyMob1.velocidad = 1.0
+            }else{
+                enemyMob1.velocidad = 0.0
+            }
+            
             if (enemyMob1.enemyxPosition <= 0 && enemyMob1.enemyxPosition >= -500) && ( enemyMob1.enemyyPosition <= 0 && enemyMob1.enemyyPosition >= -500 )
             {
                 enemyMob1.orientaCaminata = 4
-                enemyMob1.followPlayer()
-                
+            
             } else if (enemyMob1.enemyxPosition <= 0 && enemyMob1.enemyxPosition >= -500) && ( enemyMob1.enemyyPosition >= 0 && enemyMob1.enemyyPosition <= 500 )
             {
                 enemyMob1.orientaCaminata = 1
-                enemyMob1.followPlayer()
             }else if (enemyMob1.enemyxPosition >= 0 && enemyMob1.enemyxPosition <= 500) && ( enemyMob1.enemyyPosition <= 0 && enemyMob1.enemyyPosition >= -500 )
             {
                 enemyMob1.orientaCaminata = 2
-                enemyMob1.followPlayer()
             }else if (enemyMob1.enemyxPosition >= 0 && enemyMob1.enemyxPosition <= 500) && ( enemyMob1.enemyyPosition >= 0 && enemyMob1.enemyyPosition <= 500 )
             {
                 enemyMob1.orientaCaminata = 3
-                enemyMob1.followPlayer()
             } else {
                 enemyMob1.orientaCaminata = 0
-                enemyMob1.followPlayer()
             }
+            enemyMob1.followPlayer()
+ 
+ 
         }
         if myPlayer.isAlive {
             
             //Funcion que reasigna el physics body al personaje
             //myPlayer.setPlayerPhysicsBody()
-            myPlayer.setWeaponPhysicsBody()
+            //myPlayer.setWeaponPhysicsBody()
             //
             
             myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje

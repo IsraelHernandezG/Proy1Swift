@@ -122,7 +122,7 @@ open class Skeleton {
     func createAnimations() {
         
         
-        for i in 2...9 {
+        for i in 1...8 {
             //Body
             let playerTextureName1 = "Skeleton_N-\(i)"
             skeletonWalkingFramesN.append(skeletonWalk.textureNamed(playerTextureName1))

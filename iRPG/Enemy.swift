@@ -39,7 +39,7 @@ open class Skeleton {
     var deadSkeleton: [SKTexture] = []
     
     
-    var orientacionPersonaje: Int = 3
+    //var orientacionPersonaje: Int = 3
     
     let escala: CGFloat = 3.0
     // Controles de la fisica
@@ -73,7 +73,7 @@ open class Skeleton {
     var enemyxPosition: CGFloat = 0.0
     var enemyyPosition: CGFloat = 0.0
     
-    var orientaCaminata = 0
+    var orientaCaminata = 3
     
     init(_ position: CGPoint){
         
@@ -103,9 +103,8 @@ open class Skeleton {
         //Juntando elementos del jugador
         Enemy.addChild(avatarEnemy)
         Enemy.addChild(weapon)
-        Enemy.addChild(hair)
-        Enemy.addChild(helm)
-        Enemy.addChild(leggs)
+        //Enemy.addChild(helm)
+        //Enemy.addChild(leggs)
         
         Enemy.position = position
         Enemy.setScale(escala)
@@ -132,7 +131,6 @@ open class Skeleton {
             skeletonWalkingFramesE.append(skeletonWalk.textureNamed(playerTextureName3))
             let playerTextureName4 = "Skeleton_W-\(i)"
             skeletonWalkingFramesW.append(skeletonWalk.textureNamed(playerTextureName4))
-            
         }
         
         for i in 1...7 {
@@ -145,41 +143,37 @@ open class Skeleton {
             skeletonSlashE.append(skeletonSlash.textureNamed(playerTextureName3))
             let playerTextureName4 = "slash_skeleton_W-\(i)"
             skeletonSlashW.append(skeletonSlash.textureNamed(playerTextureName4))
-            
         }
         for i in 1...6 {
             let deadBody = "dead_skeleton-\(i)"
             deadSkeleton.append(skeletonWalk.textureNamed(deadBody))
-            
         }
-        
-        
     }
     
     func animateMove() {
-        switch orientacionPersonaje {
+        switch orientaCaminata {
         case 1:
-            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingEnemy")
-           
-            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")
+            
+            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
+            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
         case 2:
             avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
             
-            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")
+           /* helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
+            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
             
         case 3:
             avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
             
-            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")
+            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
+            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
             
         case 4:
-            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+           avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingEnemy")
             
-            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")
+            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
+            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
             
         default:
             break
@@ -188,7 +182,7 @@ open class Skeleton {
     }
     
     func atack(){
-        switch orientacionPersonaje {
+        switch orientaCaminata {
         case 1:
            Enemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
             
@@ -210,26 +204,26 @@ open class Skeleton {
     
     func orientarPersonaje() {
         //resetpersonaje()
-        
-        switch orientacionPersonaje {
+        switch orientaCaminata {
         case 1:
-            avatarEnemy.run(SKAction.setTexture(skeletonWalk.textureNamed("Skeleton_N-1")))
             
-            helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_N_1")))
-            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_N-1")))
+            avatarEnemy.run(SKAction.setTexture(skeletonWalk.textureNamed("Skeleton_E-1")))
+
+            /*helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_N_1")))
+            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_N-1")))*/
         case 2:
             avatarEnemy.run(SKAction.setTexture(skeletonWalk.textureNamed("Skeleton_W-1")))
         
-            helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_W_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_W-1")))
+            /*helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_W_I")))
+            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_W-1")))*/
         case 3:
             avatarEnemy.run(SKAction.setTexture(skeletonWalk.textureNamed("Skeleton_S-1")))
-            helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_S_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_S-1")))
+            /*helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_S_I")))
+            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_S-1")))*/
         case 4:
-            avatarEnemy.run(SKAction.setTexture(skeletonWalk.textureNamed("Skeleton_E-1")))
-            helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_E_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_E-1")))
+            avatarEnemy.run(SKAction.setTexture(skeletonWalk.textureNamed("Skeleton_N-1")))
+            /*helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_E_I")))
+            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_E-1")))*/
             
         default:
             
@@ -240,6 +234,7 @@ open class Skeleton {
     
     func muertePersonaje(){
         avatarEnemy.run(SKAction.animate(with: deadSkeleton, timePerFrame: 0.1))
+        isAlive = false
     }
     
     
@@ -253,34 +248,36 @@ open class Skeleton {
     
              
         switch orientaCaminata {
-        case 4: //N
-         Enemy.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
-         avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+        case 1: //N
+            Enemy.run(SKAction.moveBy(x: CGFloat(1)*velocidad*velocidadXp, y: CGFloat(0), duration: 0.1))
+         /*avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
          helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
+         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")*/
         case 2: //W
          Enemy.run(SKAction.moveBy(x: CGFloat(-1)*velocidad*velocidadXm, y: CGFloat(0), duration: 0.1))
        
-         avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+         /*avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
          helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
+         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")*/
             
         case 3: //S
          Enemy.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad*velocidadYm, duration: 0.1))
-         avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+         /*avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
          helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
+         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")*/
             
-        case 1: //E
-         Enemy.run(SKAction.moveBy(x: CGFloat(1)*velocidad*velocidadXp, y: CGFloat(0), duration: 0.1))
-         avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+        case 4: //E
+         Enemy.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
+         /*avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
          helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
+         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")*/
         
         default:
             break
         }
         
     }
+    
+    
 }
 /*******/

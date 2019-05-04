@@ -86,7 +86,8 @@ open class Player {
     var staminaMax = 50.0
     
     var isAlive: Bool = true
-    var inAction: Bool = false // variable para saber si el jugador esta atacando
+    var Atack: Bool = false // variable para saber si el jugador esta atacando
+   
     
     init(_ position: CGPoint){
         
@@ -252,6 +253,8 @@ open class Player {
         
         resetpersonaje()
         orientarPersonaje()
+        Atack = true
+        
         switch orientacionPersonaje {
         case 1,5:
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
@@ -327,7 +330,7 @@ open class Player {
     
     //funcion que muve el personaje en una direccion
     func movePlayer(){
-        if inAction == false {
+        if Atack == false {
             switch orientacionPersonaje {
             case 1: //N
                 Jugador.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
@@ -352,21 +355,29 @@ open class Player {
     }
     
     func muertePersonaje(){
-        resetpersonaje()
-        isAlive = false
-        avatarPlayer.run(SKAction.animate(with: deadPlayer, timePerFrame: 0.1))
-        hair.run(SKAction.animate(with: deadPlayerHair, timePerFrame: 0.1))
-        leggs.run(SKAction.animate(with: deadPlayerLeggs, timePerFrame: 0.1))
+        if isAlive == true {
+            resetpersonaje()
+            avatarPlayer.run(SKAction.animate(with: deadPlayer, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: deadPlayerHair, timePerFrame: 0.1))
+            leggs.run(SKAction.animate(with: deadPlayerLeggs, timePerFrame: 0.1))
+            isAlive = false
+        }
+        
        
     }
     
    
     func resetpersonaje(){
-        avatarPlayer.removeAllActions()
-        hair.removeAllActions()
-        helm.removeAllActions()
-        leggs.removeAllActions()
-        inAction = false
+            avatarPlayer.removeAllActions()
+            hair.removeAllActions()
+            helm.removeAllActions()
+            leggs.removeAllActions()
+    }
+    
+    func actionsPlayer(){
+        if (avatarPlayer.hasActions()==false){
+            Atack = false
+        }
     }
     
     func damage(_ value: Double){

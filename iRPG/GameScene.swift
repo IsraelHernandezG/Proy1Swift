@@ -343,16 +343,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 myPlayer.muertePersonaje()
                 
             }
+        }
+        if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
+            (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
             
-            if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
-                (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
-                
-                 enemyMob1.vida = enemyMob1.vida - 10
-                print("OUCH!")
-                if enemyMob1.vida <= 0 {
-                    enemyMob1.muertePersonaje()
-                    
-                }
+            if enemyMob1.vida > 0{
+                enemyMob1.vida -=  0.1 //0.5
+                //print("OUCH! vida enemigo: \(enemyMob1.vida)")
+            }else{
+                enemyMob1.muertePersonaje()
             }
             
         }
@@ -391,7 +390,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "Der"{
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRightPres))
                      if (myPlayer.isAlive == true && myPlayer.stamina >= 10){
-                        myPlayer.inAction = true
+                        //myPlayer.Atack = true
                         myPlayer.atack()
                         myPlayer.stamina -= 20.0
                         if (myPlayer.stamina <= 0.0){
@@ -545,46 +544,75 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         super.update(currentTime)
-        /*if myPlayer.vida > 0 {
-            myPlayer.isAlive = true
-        }*/
         
         if enemyMob1.isAlive{
+            
+            //movimiento del enemigo
+            if (enemyMob1.velocidad > 0.0 && enemyMob1.avatarEnemy.hasActions()==false){
+                enemyMob1.animateMove() //ejecuta las animaciones de la caminata
+            }else if enemyMob1.velocidad == 0.0{
+                enemyMob1.resetpersonaje()
+                enemyMob1.orientarPersonaje()
+            }
+            //
+            
             enemyMob1.enemyxPosition = Enemy1.position.x - myPlayer.Jugador.position.x
             enemyMob1.enemyyPosition = Enemy1.position.y - myPlayer.Jugador.position.y
-            //print ("\(enemyMob1.enemyxPosition.magnitude)  \(enemyMob1.enemyyPosition.magnitude)")
-            if(enemyMob1.enemyxPosition.magnitude >= 100.0 || enemyMob1.enemyyPosition.magnitude >= 100.0){
+            //print("dx: \(enemyMob1.enemyxPosition), dy: \(enemyMob1.enemyyPosition)")
+            //print("orinetation: \(enemyMob1.orientaCaminata)")
+            
+            //Control del movimiento del enemigo
+            if ((enemyMob1.enemyxPosition.magnitude >= 100.0 && enemyMob1.enemyxPosition.magnitude < 350.0) || (enemyMob1.enemyyPosition.magnitude >= 100.0 && enemyMob1.enemyyPosition.magnitude < 350.0)) {
                 enemyMob1.velocidad = 1.0
+                enemyMob1.followPlayer() // desplaza al enemigo
+                
             }else{
                 enemyMob1.velocidad = 0.0
+                //enemyMob1.resetpersonaje()
             }
             
-            if (enemyMob1.enemyxPosition <= 0 && enemyMob1.enemyxPosition >= -500) && ( enemyMob1.enemyyPosition <= 0 && enemyMob1.enemyyPosition >= -500 )
+            //Control de la orientacion del enemigo
+            if (enemyMob1.enemyxPosition <= 0) && (enemyMob1.enemyyPosition <= 0) //vista al N
             {
-                enemyMob1.orientaCaminata = 4
+                if enemyMob1.orientaCaminata != 4{
+                    enemyMob1.orientaCaminata = 4
+                    enemyMob1.followPlayer()
+                }
             
-            } else if (enemyMob1.enemyxPosition <= 0 && enemyMob1.enemyxPosition >= -500) && ( enemyMob1.enemyyPosition >= 0 && enemyMob1.enemyyPosition <= 500 )
+            } else if (enemyMob1.enemyxPosition <= 0) && ( enemyMob1.enemyyPosition >= 0) //vista al E
             {
-                enemyMob1.orientaCaminata = 1
-            }else if (enemyMob1.enemyxPosition >= 0 && enemyMob1.enemyxPosition <= 500) && ( enemyMob1.enemyyPosition <= 0 && enemyMob1.enemyyPosition >= -500 )
+                if enemyMob1.orientaCaminata != 1{
+                    enemyMob1.orientaCaminata = 1
+                    enemyMob1.followPlayer()
+                }
+            }else if (enemyMob1.enemyxPosition >= 0) && ( enemyMob1.enemyyPosition <= 0) //vista al W
             {
-                enemyMob1.orientaCaminata = 2
-            }else if (enemyMob1.enemyxPosition >= 0 && enemyMob1.enemyxPosition <= 500) && ( enemyMob1.enemyyPosition >= 0 && enemyMob1.enemyyPosition <= 500 )
+                if enemyMob1.orientaCaminata != 2{
+                    enemyMob1.orientaCaminata = 2
+                    enemyMob1.followPlayer()
+                }
+            }else if (enemyMob1.enemyxPosition >= 0) && ( enemyMob1.enemyyPosition >= 0) // vista al S
             {
-                enemyMob1.orientaCaminata = 3
-            } else {
-                enemyMob1.orientaCaminata = 0
+                if enemyMob1.orientaCaminata != 3{
+                    enemyMob1.orientaCaminata = 3
+                    enemyMob1.followPlayer()
+                }
             }
-            enemyMob1.followPlayer()
- 
- 
+            
         }
+        
         if myPlayer.isAlive {
             
             //Funcion que reasigna el physics body al personaje
             //myPlayer.setPlayerPhysicsBody()
-            //myPlayer.setWeaponPhysicsBody()
-            //
+            //print("status \(myPlayer.Atack)")
+            myPlayer.actionsPlayer()
+            
+            if myPlayer.Atack == true {
+                myPlayer.setWeaponPhysicsBody()
+            }
+            
+            
             
             myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
             //El personaje se mueve hacia una poscicion

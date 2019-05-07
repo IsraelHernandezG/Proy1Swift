@@ -348,7 +348,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
             
             if enemyMob1.vida > 0{
-                enemyMob1.vida -=  0.1 //0.5
+                enemyMob1.vida -=  0.5 //0.5
                 //print("OUCH! vida enemigo: \(enemyMob1.vida)")
             }else{
                 enemyMob1.muertePersonaje()
@@ -401,7 +401,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeftPres))
-                   
+                    enemyMob1.resetpersonaje()
+                    enemyMob1.atack()
+                    
                 }else if name == "MenuWin"{
                     myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButtonPres))
                 }else if name == "MenuButton1"{
@@ -546,58 +548,76 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         super.update(currentTime)
         
         if enemyMob1.isAlive{
-            
-            //movimiento del enemigo
-            if (enemyMob1.velocidad > 0.0 && enemyMob1.avatarEnemy.hasActions()==false){
-                enemyMob1.animateMove() //ejecuta las animaciones de la caminata
-            }else if enemyMob1.velocidad == 0.0{
-                enemyMob1.resetpersonaje()
-                enemyMob1.orientarPersonaje()
-            }
-            //
-            
             enemyMob1.enemyxPosition = Enemy1.position.x - myPlayer.Jugador.position.x
             enemyMob1.enemyyPosition = Enemy1.position.y - myPlayer.Jugador.position.y
             //print("dx: \(enemyMob1.enemyxPosition), dy: \(enemyMob1.enemyyPosition)")
             //print("orinetation: \(enemyMob1.orientaCaminata)")
             
+            
+            //movimiento del enemigo
+            if (enemyMob1.velocidad > 0.0 ){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
+                if enemyMob1.avatarEnemy.hasActions()==false{
+                    enemyMob1.animateMove()
+                }
+                //Control de la orientacion del enemigo
+                if (enemyMob1.enemyxPosition <= 0) && (enemyMob1.enemyyPosition <= 0) //vista al N
+                {
+                    if enemyMob1.orientaCaminata != 4{ //unicamente cuando hay un cambio de direccion se resetea la animacion
+                        enemyMob1.orientaCaminata = 4
+                        enemyMob1.animateMove()
+                    }
+                    
+                } else if (enemyMob1.enemyxPosition <= 0) && ( enemyMob1.enemyyPosition >= 0) //vista al E
+                {
+                    if enemyMob1.orientaCaminata != 1{
+                        enemyMob1.orientaCaminata = 1
+                        enemyMob1.animateMove()
+                    }
+                }else if (enemyMob1.enemyxPosition >= 0) && ( enemyMob1.enemyyPosition <= 0) //vista al W
+                {
+                    if enemyMob1.orientaCaminata != 2{
+                        enemyMob1.orientaCaminata = 2
+                        enemyMob1.animateMove()
+                    }
+                }else if (enemyMob1.enemyxPosition >= 0) && ( enemyMob1.enemyyPosition >= 0) // vista al S
+                {
+                    if enemyMob1.orientaCaminata != 3{
+                        enemyMob1.orientaCaminata = 3
+                        enemyMob1.animateMove()
+                    }
+                }
+                
+            }else if (enemyMob1.velocidad == 0.0){
+                if (enemyMob1.avatarEnemy.hasActions()==false){
+                    enemyMob1.atack()
+                    //enemyMob1.isAtack=true
+                }else {
+                    
+                }
+                
+            }
+            //
+            
+            
+            
             //Control del movimiento del enemigo
-            if ((enemyMob1.enemyxPosition.magnitude >= 100.0 && enemyMob1.enemyxPosition.magnitude < 350.0) || (enemyMob1.enemyyPosition.magnitude >= 100.0 && enemyMob1.enemyyPosition.magnitude < 350.0)) {
+            if ((enemyMob1.enemyxPosition.magnitude >= 100.0 && enemyMob1.enemyxPosition.magnitude < 400.0) || (enemyMob1.enemyyPosition.magnitude >= 100.0 && enemyMob1.enemyyPosition.magnitude < 400.0)) {
                 enemyMob1.velocidad = 1.0
+                enemyMob1.stop = false
                 enemyMob1.followPlayer() // desplaza al enemigo
                 
             }else{
                 enemyMob1.velocidad = 0.0
-                //enemyMob1.resetpersonaje()
+                if(enemyMob1.stop == false){
+                    
+                    enemyMob1.stop = true
+                    enemyMob1.resetpersonaje()
+                }
+                
             }
             
-            //Control de la orientacion del enemigo
-            if (enemyMob1.enemyxPosition <= 0) && (enemyMob1.enemyyPosition <= 0) //vista al N
-            {
-                if enemyMob1.orientaCaminata != 4{
-                    enemyMob1.orientaCaminata = 4
-                    enemyMob1.followPlayer()
-                }
             
-            } else if (enemyMob1.enemyxPosition <= 0) && ( enemyMob1.enemyyPosition >= 0) //vista al E
-            {
-                if enemyMob1.orientaCaminata != 1{
-                    enemyMob1.orientaCaminata = 1
-                    enemyMob1.followPlayer()
-                }
-            }else if (enemyMob1.enemyxPosition >= 0) && ( enemyMob1.enemyyPosition <= 0) //vista al W
-            {
-                if enemyMob1.orientaCaminata != 2{
-                    enemyMob1.orientaCaminata = 2
-                    enemyMob1.followPlayer()
-                }
-            }else if (enemyMob1.enemyxPosition >= 0) && ( enemyMob1.enemyyPosition >= 0) // vista al S
-            {
-                if enemyMob1.orientaCaminata != 3{
-                    enemyMob1.orientaCaminata = 3
-                    enemyMob1.followPlayer()
-                }
-            }
+            
             
         }
         

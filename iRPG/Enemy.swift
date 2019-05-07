@@ -56,7 +56,8 @@ open class Skeleton {
     var vida = 200.0
     var vidaMax = 200.0
     var isAlive: Bool  = true
-    
+    var isAtack: Bool = false
+    var stop: Bool = false
     // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
     let Wall1Category: UInt32 = 0x01 << 1
@@ -134,7 +135,7 @@ open class Skeleton {
         }
         
         for i in 1...7 {
-            //body
+            //body atack
             let playerTextureName1 = "slash_skeleton_N-\(i)"
             skeletonSlashN.append(skeletonSlash.textureNamed(playerTextureName1))
             let playerTextureName2 = "slash_skeleton_S-\(i)"
@@ -182,23 +183,25 @@ open class Skeleton {
     }
     
     func atack(){
+        
         switch orientaCaminata {
         case 1:
-           Enemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
+           avatarEnemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
             
         case 2:
-            Enemy.run(SKAction.animate(with: skeletonSlashW, timePerFrame: 0.1))
+            avatarEnemy.run(SKAction.animate(with: skeletonSlashW, timePerFrame: 0.1))
             
         case 3:
-           Enemy.run(SKAction.animate(with: skeletonSlashS, timePerFrame: 0.1))
+           avatarEnemy.run(SKAction.animate(with: skeletonSlashS, timePerFrame: 0.1))
             
         case 4:
-            Enemy.run(SKAction.animate(with: skeletonSlashE, timePerFrame: 0.1))
+            avatarEnemy.run(SKAction.animate(with: skeletonSlashE, timePerFrame: 0.1))
            
         default:
             break
         }
-        orientarPersonaje()
+        isAtack = false
+        //orientarPersonaje()
     }
     
     

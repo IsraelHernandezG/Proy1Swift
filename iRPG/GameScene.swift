@@ -355,6 +355,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }
+        if ((firstBody.categoryBitMask & enemyMob1.armsCategory != 0) &&
+            (secondBody.categoryBitMask & myMapa.playerCategory != 0)){
+            
+            myPlayer.vida -= 1
+            myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
+            
+            
+            if myPlayer.vida <= 0 {
+                
+                myPlayer.muertePersonaje()
+            }
+            
+        }
     }
     
     

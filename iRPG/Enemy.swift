@@ -18,6 +18,7 @@ open class Skeleton {
     let skeletonWalk = SKTextureAtlas(named: "Skeleton")
     let skeletonSlash = SKTextureAtlas(named: "Skeleton")
     let helmFrames = SKTextureAtlas(named: "Helmet")
+    let skeletonSword = SKTextureAtlas(named: "short_sword")
     //Velocidad enemigo
     var velocidadXp: CGFloat = 1.0
     var velocidadXm: CGFloat = 1.0
@@ -35,6 +36,16 @@ open class Skeleton {
     var skeletonSlashS: [SKTexture] = []
     var skeletonSlashE: [SKTexture] = []
     var skeletonSlashW: [SKTexture] = []
+
+    var skeletonSwordN: [SKTexture] = []
+    var skeletonSwordS: [SKTexture] = []
+    var skeletonSwordE: [SKTexture] = []
+    var skeletonSwordW: [SKTexture] = []
+    
+    var swordSlashN: [SKTexture] = []
+    var swordSlashS: [SKTexture] = []
+    var swordSlashE: [SKTexture] = []
+    var swordSlashW: [SKTexture] = []
     
     var deadSkeleton: [SKTexture] = []
     
@@ -112,7 +123,18 @@ open class Skeleton {
         
         
         createAnimations()
-        
+        func setWeaponPhysicsBody(){
+            
+            if let temp = SKPhysicsBody(texture: weapon.texture!, size: weapon.size) as? SKPhysicsBody {
+                weapon.physicsBody = temp
+                weapon.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
+                // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+                weapon.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+                weapon.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
+                // estas configuraciones tambien son necesarias
+                weapon.physicsBody?.isDynamic=true
+            }
+        }
         
     }
     
@@ -149,6 +171,16 @@ open class Skeleton {
         for i in 1...6 {
             let deadBody = "dead_skeleton-\(i)"
             deadSkeleton.append(skeletonWalk.textureNamed(deadBody))
+        }
+        for i in 1...6 {
+            let playerTextureName1 = "sword_N-\(i)"
+            swordSlashN.append(skeletonSword.textureNamed(playerTextureName1))
+            let playerTextureName2 = "sword_S-\(i)"
+            swordSlashS.append(skeletonSword.textureNamed(playerTextureName2))
+            let playerTextureName3 = "sword_E-\(i)"
+            swordSlashE.append(skeletonSword.textureNamed(playerTextureName3))
+            let playerTextureName4 = "sword_W-\(i)"
+            swordSlashW.append(skeletonSword.textureNamed(playerTextureName4))
         }
     }
     
@@ -188,17 +220,18 @@ open class Skeleton {
         switch orientaCaminata {
         case 4:
            avatarEnemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
-          print("attackN!")
+           avatarEnemy.run(SKAction.animate(with: swordSlashN, timePerFrame: 0.1))
             
         case 2:
             avatarEnemy.run(SKAction.animate(with: skeletonSlashW, timePerFrame: 0.1))
+            avatarEnemy.run(SKAction.animate(with: swordSlashW, timePerFrame: 0.1))
             
         case 3:
            avatarEnemy.run(SKAction.animate(with: skeletonSlashS, timePerFrame: 0.1))
-            
+           avatarEnemy.run(SKAction.animate(with: swordSlashS, timePerFrame: 0.1))
         case 1:
             avatarEnemy.run(SKAction.animate(with: skeletonSlashE, timePerFrame: 0.1))
-           
+            avatarEnemy.run(SKAction.animate(with: swordSlashE, timePerFrame: 0.1))
         default:
             break
         }

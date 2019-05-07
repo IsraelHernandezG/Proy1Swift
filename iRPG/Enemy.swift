@@ -113,6 +113,7 @@ open class Skeleton {
         
         createAnimations()
         
+        
     }
     
     
@@ -185,8 +186,9 @@ open class Skeleton {
     func atack(){
         
         switch orientaCaminata {
-        case 1:
+        case 4:
            avatarEnemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
+          print("attackN!")
             
         case 2:
             avatarEnemy.run(SKAction.animate(with: skeletonSlashW, timePerFrame: 0.1))
@@ -194,7 +196,7 @@ open class Skeleton {
         case 3:
            avatarEnemy.run(SKAction.animate(with: skeletonSlashS, timePerFrame: 0.1))
             
-        case 4:
+        case 1:
             avatarEnemy.run(SKAction.animate(with: skeletonSlashE, timePerFrame: 0.1))
            
         default:

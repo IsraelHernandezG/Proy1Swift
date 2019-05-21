@@ -14,6 +14,10 @@
 		58735FFA220E5EF4001C8075 /* CavernRockSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58735FF9220E5EF4001C8075 /* CavernRockSet.sks */; };
 		5877F178226F5E10007796A3 /* nivel_1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5877F176226F5E0F007796A3 /* nivel_1.txt */; };
 		5877F179226F5E10007796A3 /* nivelPrueba.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5877F177226F5E10007796A3 /* nivelPrueba.txt */; };
+		589852782294401C00943DEE /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589852772294401C00943DEE /* Weapon.swift */; };
+		5898527C2294418000943DEE /* Leggings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898527B2294418000943DEE /* Leggings.swift */; };
+		5898527E229441B200943DEE /* Helm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898527D229441B200943DEE /* Helm.swift */; };
+		589852802294421D00943DEE /* Armor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5898527F2294421D00943DEE /* Armor.swift */; };
 		589F7A11223738200019DF1D /* GameUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589F7A10223738200019DF1D /* GameUI.swift */; };
 		58A50BBD225F85410043EE0B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A50BBC225F85410043EE0B /* Player.swift */; };
 		58F74762220E43590060A5D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F74761220E43590060A5D3 /* AppDelegate.swift */; };
@@ -35,6 +39,10 @@
 		58735FF9220E5EF4001C8075 /* CavernRockSet.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = CavernRockSet.sks; sourceTree = "<group>"; };
 		5877F176226F5E0F007796A3 /* nivel_1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = nivel_1.txt; path = iRPG/Niveles.xcassets/nivel_1.txt; sourceTree = SOURCE_ROOT; };
 		5877F177226F5E10007796A3 /* nivelPrueba.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = nivelPrueba.txt; path = iRPG/Niveles.xcassets/nivelPrueba.txt; sourceTree = SOURCE_ROOT; };
+		589852772294401C00943DEE /* Weapon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
+		5898527B2294418000943DEE /* Leggings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Leggings.swift; sourceTree = "<group>"; };
+		5898527D229441B200943DEE /* Helm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helm.swift; sourceTree = "<group>"; };
+		5898527F2294421D00943DEE /* Armor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Armor.swift; sourceTree = "<group>"; };
 		589F7A10223738200019DF1D /* GameUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameUI.swift; sourceTree = "<group>"; };
 		58A50BBC225F85410043EE0B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		58F7475E220E43590060A5D3 /* iRPG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iRPG.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +114,10 @@
 				5802C54A22554FC1009A4B6A /* TileMap.swift */,
 				58A50BBC225F85410043EE0B /* Player.swift */,
 				E68D70DD22663AEE001BF6DE /* Enemy.swift */,
+				589852772294401C00943DEE /* Weapon.swift */,
+				5898527F2294421D00943DEE /* Armor.swift */,
+				5898527D229441B200943DEE /* Helm.swift */,
+				5898527B2294418000943DEE /* Leggings.swift */,
 				58F74763220E43590060A5D3 /* GameScene.sks */,
 				59BA8B71225FD1B00026CB2A /* GameScene.swift */,
 				58F74765220E43590060A5D3 /* Actions.sks */,
@@ -200,12 +212,16 @@
 			files = (
 				5819EE0C2253C322000AE359 /* AnalogJoystick.swift in Sources */,
 				589F7A11223738200019DF1D /* GameUI.swift in Sources */,
+				5898527C2294418000943DEE /* Leggings.swift in Sources */,
+				589852802294421D00943DEE /* Armor.swift in Sources */,
 				59BA8B72225FD1B00026CB2A /* GameScene.swift in Sources */,
 				5802C54B22554FC1009A4B6A /* TileMap.swift in Sources */,
 				E68D70DE22663AEE001BF6DE /* Enemy.swift in Sources */,
 				58A50BBD225F85410043EE0B /* Player.swift in Sources */,
 				58F7476A220E43590060A5D3 /* GameViewController.swift in Sources */,
 				58F74762220E43590060A5D3 /* AppDelegate.swift in Sources */,
+				589852782294401C00943DEE /* Weapon.swift in Sources */,
+				5898527E229441B200943DEE /* Helm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,8 +17,7 @@ open class Skeleton {
     let textureSkeletonMask = SKTexture(image: UIImage(named: "Skeleton_N-1")!)
     let skeletonWalk = SKTextureAtlas(named: "Skeleton")
     let skeletonSlash = SKTextureAtlas(named: "Skeleton")
-    let helmFrames = SKTextureAtlas(named: "Helmet")
-    let skeletonSword = SKTextureAtlas(named: "short_sword")
+   
     //Velocidad enemigo
     var velocidadXp: CGFloat = 1.0
     var velocidadXm: CGFloat = 1.0
@@ -42,10 +41,6 @@ open class Skeleton {
     var skeletonSwordE: [SKTexture] = []
     var skeletonSwordW: [SKTexture] = []
     
-    var swordSlashN: [SKTexture] = []
-    var swordSlashS: [SKTexture] = []
-    var swordSlashE: [SKTexture] = []
-    var swordSlashW: [SKTexture] = []
     
     var deadSkeleton: [SKTexture] = []
     
@@ -61,8 +56,8 @@ open class Skeleton {
     var hair = SKSpriteNode()
     var helm = SKSpriteNode()
     var leggs = SKSpriteNode()
-    var myHelm = Armor()
-    var myLeggs = ArmorLeggs()
+    //var myHelm = Armor()
+    //var myLeggs = ArmorLeggs()
     //vida
     var vida = 200.0
     var vidaMax = 200.0
@@ -101,12 +96,12 @@ open class Skeleton {
         avatarEnemy.zPosition = 1
         
         //Equipo del jugador
-        myWeapon = Weapon(nombre: "short_sword")
-        weapon = myWeapon.weapon
-        myHelm = Armor(nombre: "bronce_helm")
-        helm = myHelm.helm
-        myLeggs = ArmorLeggs(nombre: "Roman_Leggs")
-        leggs = myLeggs.leggs
+        myWeapon = Weapon(nombreAtlas: "short_sword", nombreWeapon: "sword")
+        weapon = myWeapon.weaponNode
+        //myHelm = Armor(nombre: "bronce_helm")
+        //helm = myHelm.helm
+        //myLeggs = ArmorLeggs(nombre: "Roman_Leggs")
+        //leggs = myLeggs.leggs
         
         
 
@@ -123,19 +118,21 @@ open class Skeleton {
         
         
         createAnimations()
-        func setWeaponPhysicsBody(){
-            
-            if let temp = SKPhysicsBody(texture: weapon.texture!, size: weapon.size) as? SKPhysicsBody {
-                weapon.physicsBody = temp
-                weapon.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
-                // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-                weapon.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
-                weapon.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
-                // estas configuraciones tambien son necesarias
-                weapon.physicsBody?.isDynamic=true
-            }
-        }
         
+        
+    }
+    
+    func setWeaponPhysicsBody(){
+        
+        if let temp = SKPhysicsBody(texture: weapon.texture!, size: weapon.size) as? SKPhysicsBody {
+            weapon.physicsBody = temp
+            weapon.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
+            // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+            weapon.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+            weapon.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
+            // estas configuraciones tambien son necesarias
+            weapon.physicsBody?.isDynamic=true
+        }
     }
     
     
@@ -171,16 +168,6 @@ open class Skeleton {
         for i in 1...6 {
             let deadBody = "dead_skeleton-\(i)"
             deadSkeleton.append(skeletonWalk.textureNamed(deadBody))
-        }
-        for i in 1...6 {
-            let playerTextureName1 = "sword_N-\(i)"
-            swordSlashN.append(skeletonSword.textureNamed(playerTextureName1))
-            let playerTextureName2 = "sword_S-\(i)"
-            swordSlashS.append(skeletonSword.textureNamed(playerTextureName2))
-            let playerTextureName3 = "sword_E-\(i)"
-            swordSlashE.append(skeletonSword.textureNamed(playerTextureName3))
-            let playerTextureName4 = "sword_W-\(i)"
-            swordSlashW.append(skeletonSword.textureNamed(playerTextureName4))
         }
     }
     
@@ -220,18 +207,18 @@ open class Skeleton {
         switch orientaCaminata {
         case 4:
            avatarEnemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
-           avatarEnemy.run(SKAction.animate(with: swordSlashN, timePerFrame: 0.1))
+           weapon.run(SKAction.animate(with: myWeapon.weaponAttackN, timePerFrame: 0.1))
             
         case 2:
             avatarEnemy.run(SKAction.animate(with: skeletonSlashW, timePerFrame: 0.1))
-            avatarEnemy.run(SKAction.animate(with: swordSlashW, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: myWeapon.weaponAttackW, timePerFrame: 0.1))
             
         case 3:
            avatarEnemy.run(SKAction.animate(with: skeletonSlashS, timePerFrame: 0.1))
-           avatarEnemy.run(SKAction.animate(with: swordSlashS, timePerFrame: 0.1))
+           weapon.run(SKAction.animate(with: myWeapon.weaponAttackS, timePerFrame: 0.1))
         case 1:
             avatarEnemy.run(SKAction.animate(with: skeletonSlashE, timePerFrame: 0.1))
-            avatarEnemy.run(SKAction.animate(with: swordSlashE, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: myWeapon.weaponAttackE, timePerFrame: 0.1))
         default:
             break
         }

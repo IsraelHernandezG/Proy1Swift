@@ -601,11 +601,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
             }else if (enemyMob1.velocidad == 0.0){
-                if (enemyMob1.avatarEnemy.hasActions()==false){
+                if (enemyMob1.avatarEnemy.hasActions()==false && (enemyMob1.enemyxPosition.magnitude < 100.0 || enemyMob1.enemyyPosition.magnitude < 100.0) ){
                     enemyMob1.atack()
                     //enemyMob1.isAtack=true
                 }else {
-                    
+                    //enemyMob1.resetpersonaje()
+                    //enemyMob1.orientarPersonaje()
                 }
                 
             }

@@ -21,6 +21,10 @@ open class Leggings {
     var leggingsAttackS: [SKTexture] = []
     var leggingsAttackE: [SKTexture] = []
     var deadleggings: [SKTexture] = []
+    var leggingsN: SKTexture = SKTexture()
+    var leggingsS: SKTexture = SKTexture()
+    var leggingsE: SKTexture = SKTexture()
+    var leggingsW: SKTexture = SKTexture()
     
     let leggingsAtlas: SKTextureAtlas
     
@@ -40,6 +44,11 @@ open class Leggings {
     }
     
     func animateLeggings(nombre: String){
+        
+        leggingsN = leggingsAtlas.textureNamed("\(nombre)_N-1")
+        leggingsS = leggingsAtlas.textureNamed("\(nombre)_S-1")
+        leggingsE = leggingsAtlas.textureNamed("\(nombre)_E-1")
+        leggingsW = leggingsAtlas.textureNamed("\(nombre)_W-1")
         
         for i in 2...9 {
             let arrayN = "\(nombre)_N-\(i)"

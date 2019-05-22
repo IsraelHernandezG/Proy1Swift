@@ -54,7 +54,7 @@ open class Armor {
             armorAttackN.append(armorAtlas.textureNamed(arrayN))
             let arrayS = "\(nombre)_slash_S-\(i)"
             armorAttackS.append(armorAtlas.textureNamed(arrayS))
-            let arrayE = "\(nombre)_slash_E-\(i)"
+            let arrayE = "\(nombre)_slash_A-\(i)"
             armorAttackE.append(armorAtlas.textureNamed(arrayE))
             let arrayW = "\(nombre)_slash_W-\(i)"
             armorAttackW.append(armorAtlas.textureNamed(arrayW))

@@ -76,7 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(cam!)
             
             //Creando al jugador
-            myPlayer = Player.init(CGPoint(x: frame.midX , y: frame.midY))
+            myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "male")
             
             enemyMob1 = Skeleton.init(CGPoint(x: frame.midX + 100, y: frame.midY + 100))
             

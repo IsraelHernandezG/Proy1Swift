@@ -11,34 +11,34 @@ import SpriteKit
 
 open class Player {
     // Texturas jugador
-    let texturePlayerN = SKTexture(image: UIImage(named: "male_N-1")!)
-    let texturePlayerE = SKTexture(image: UIImage(named: "male_E-1")!)
-    let texturePlayerS = SKTexture(image: UIImage(named: "male_S-1")!)
-    let texturePlayerW = SKTexture(image: UIImage(named: "male_W-1")!)
-    let texturePlayerMask = SKTexture(image: UIImage(named: "male_N-1")!)
-    let playerWalk = SKTextureAtlas(named: "male_walk")
-    let playerSlash = SKTextureAtlas(named: "male_slash")
-    let hairFrames  = SKTextureAtlas(named: "male_hair")
+    var playerViewN: SKTexture = SKTexture()
+    var playerViewS: SKTexture = SKTexture()
+    var playerViewE: SKTexture = SKTexture()
+    var playerViewW: SKTexture = SKTexture()
+    var playerHairViewN: SKTexture = SKTexture()
+    var playerHairViewS: SKTexture = SKTexture()
+    var playerHairViewE: SKTexture = SKTexture()
+    var playerHairViewW: SKTexture = SKTexture()
     
-    var playerWalkingFramesN: [SKTexture] = []
-    var playerWalkingFramesS: [SKTexture] = []
-    var playerWalkingFramesE: [SKTexture] = []
-    var playerWalkingFramesW: [SKTexture] = []
+    var playerMoveN: [SKTexture] = []
+    var playerMoveS: [SKTexture] = []
+    var playerMoveE: [SKTexture] = []
+    var playerMoveW: [SKTexture] = []
     
-    var hairWalkingFramesN: [SKTexture] = []
-    var hairWalkingFramesS: [SKTexture] = []
-    var hairWalkingFramesE: [SKTexture] = []
-    var hairWalkingFramesW: [SKTexture] = []
-    
-    var hairSlashN: [SKTexture] = []
-    var hairSlashS: [SKTexture] = []
-    var hairSlashE: [SKTexture] = []
-    var hairSlashW: [SKTexture] = []
+    var playerHairMoveN: [SKTexture] = []
+    var playerHairMoveS: [SKTexture] = []
+    var playerHairMoveE: [SKTexture] = []
+    var playerHairMoveW: [SKTexture] = []
     
     var playerSlashN: [SKTexture] = []
     var playerSlashS: [SKTexture] = []
     var playerSlashE: [SKTexture] = []
     var playerSlashW: [SKTexture] = []
+    
+    var playerHairSlashN: [SKTexture] = []
+    var playerHairSlashS: [SKTexture] = []
+    var playerHairSlashE: [SKTexture] = []
+    var playerHairSlashW: [SKTexture] = []
     
     var deadPlayer: [SKTexture] = []
     var deadPlayerHair: [SKTexture] = []
@@ -46,7 +46,7 @@ open class Player {
     var orientacionPersonaje: Int = 3
     
     let escala: CGFloat = 3.0
-    // Controles de la fisica
+   
     var Jugador = SKNode()
     var avatarPlayer = SKSpriteNode()
     var weapon = SKSpriteNode()
@@ -78,6 +78,7 @@ open class Player {
     //EnemyCategory
     let enemyCategory: UInt32 = 0x01 << 6
     
+    //Stats personaje
     var vida = 200.0
     var vidaMax = 200.0
     var stamina = 50.0
@@ -87,11 +88,14 @@ open class Player {
     var Atack: Bool = false // variable para saber si el jugador esta atacando
    
     
-    init(_ position: CGPoint){
+    init(posicion position: CGPoint, genero gen: String){
         
-        avatarPlayer = SKSpriteNode(texture: texturePlayerS) //textura inicial del jugador
+        //crear una coleccion para el genero
+        createAnimations(gen)
+        
+        avatarPlayer = SKSpriteNode(texture: playerViewS) //textura inicial del jugador
         // se añade un physicsbody al jugador para detectar colisiones
-        avatarPlayer.physicsBody = SKPhysicsBody(texture: texturePlayerMask, size: avatarPlayer.size)
+        avatarPlayer.physicsBody = SKPhysicsBody(texture: playerViewS, size: avatarPlayer.size)
         avatarPlayer.physicsBody!.categoryBitMask = playerCategory // categoria del jugador
         // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
         avatarPlayer.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
@@ -101,7 +105,7 @@ open class Player {
         avatarPlayer.zPosition = 1
         
         //Equipo del jugador
-        myWeapon = Weapon(nombreAtlas: "short_sword", nombreWeapon: "sword")
+        myWeapon = Weapon(nombreAtlas: "Swords", nombreWeapon: "sword")
         weapon = myWeapon.weaponNode
         //myHelm = Helm(nombreAtlas: "Helmet", nombreHelm: "Helm")
         //helm = myHelm.helmNode
@@ -110,7 +114,7 @@ open class Player {
         
         
         //Apariencia
-        hair =  SKSpriteNode(texture: hairFrames.textureNamed("male_hair_S-1"))
+        hair =  SKSpriteNode(texture: playerHairViewS)
         hair.zPosition = 1.1
         
         
@@ -125,13 +129,7 @@ open class Player {
         Jugador.setScale(escala)
         
         
-        createAnimations()
-        
-
     }
-    
-    
-   
     
     func setPlayerPhysicsBody(){
         avatarPlayer.physicsBody = SKPhysicsBody(texture: avatarPlayer.texture!, size: avatarPlayer.size)
@@ -159,54 +157,67 @@ open class Player {
     init(){
     }
     
-    func createAnimations() {
+    func createAnimations(_ genero: String) {
+        
+        let playerWalk = SKTextureAtlas(named: "\(genero)_walk")
+        let playerSlash = SKTextureAtlas(named: "\(genero)_slash")
+        let hairFrames = SKTextureAtlas(named: "\(genero)_hair")
+        
+        playerViewN = playerWalk.textureNamed("\(genero)_N-1")
+        playerViewS = playerWalk.textureNamed("\(genero)_S-1")
+        playerViewE = playerWalk.textureNamed("\(genero)_E-1")
+        playerViewW = playerWalk.textureNamed("\(genero)_W-1")
+        playerHairViewN = hairFrames.textureNamed("\(genero)_hair_N-1")
+        playerHairViewS = hairFrames.textureNamed("\(genero)_hair_S-1")
+        playerHairViewE = hairFrames.textureNamed("\(genero)_hair_E-1")
+        playerHairViewW = hairFrames.textureNamed("\(genero)_hair_W-1")
         
         
         for i in 2...9 {
             //Body
-            let playerTextureName1 = "male_N-\(i)"
-            playerWalkingFramesN.append(playerWalk.textureNamed(playerTextureName1))
-            let playerTextureName2 = "male_S-\(i)"
-            playerWalkingFramesS.append(playerWalk.textureNamed(playerTextureName2))
-            let playerTextureName3 = "male_E-\(i)"
-            playerWalkingFramesE.append(playerWalk.textureNamed(playerTextureName3))
-            let playerTextureName4 = "male_W-\(i)"
-            playerWalkingFramesW.append(playerWalk.textureNamed(playerTextureName4))
+            let playerTexureN = "\(genero)_N-\(i)"
+            playerMoveN.append(playerWalk.textureNamed(playerTexureN))
+            let playerTexureS = "\(genero)_S-\(i)"
+            playerMoveS.append(playerWalk.textureNamed(playerTexureS))
+            let playerTexureE = "\(genero)_E-\(i)"
+            playerMoveE.append(playerWalk.textureNamed(playerTexureE))
+            let playerTexureW = "\(genero)_W-\(i)"
+            playerMoveW.append(playerWalk.textureNamed(playerTexureW))
             //hair
-            let hairTextureName1 = "male_hair_N-\(i)"
-            hairWalkingFramesN.append(hairFrames.textureNamed(hairTextureName1))
-            let hairTextureName2 = "male_hair_S-\(i)"
-            hairWalkingFramesS.append(hairFrames.textureNamed(hairTextureName2))
-            let hairTextureName3 = "male_hair_E-\(i)"
-            hairWalkingFramesE.append(hairFrames.textureNamed(hairTextureName3))
-            let hairTextureName4 = "male_hair_W-\(i)"
-            hairWalkingFramesW.append(hairFrames.textureNamed(hairTextureName4))
+            let hairTextureN = "\(genero)_hair_N-\(i)"
+            playerHairMoveN.append(hairFrames.textureNamed(hairTextureN))
+            let hairTextureS = "\(genero)_hair_S-\(i)"
+            playerHairMoveS.append(hairFrames.textureNamed(hairTextureS))
+            let hairTextureE = "\(genero)_hair_E-\(i)"
+            playerHairMoveE.append(hairFrames.textureNamed(hairTextureE))
+            let hairTextureW = "\(genero)_hair_W-\(i)"
+            playerHairMoveW.append(hairFrames.textureNamed(hairTextureW))
         }
         
         for i in 1...7 {
             //body
-            let playerTextureName1 = "slash_male_N-\(i)"
+            let playerTextureName1 = "slash_\(genero)_N-\(i)"
             playerSlashN.append(playerSlash.textureNamed(playerTextureName1))
-            let playerTextureName2 = "slash_male_S-\(i)"
+            let playerTextureName2 = "slash_\(genero)_S-\(i)"
             playerSlashS.append(playerSlash.textureNamed(playerTextureName2))
-            let playerTextureName3 = "slash_male_E-\(i)"
+            let playerTextureName3 = "slash_\(genero)_E-\(i)"
             playerSlashE.append(playerSlash.textureNamed(playerTextureName3))
-            let playerTextureName4 = "slash_male_W-\(i)"
+            let playerTextureName4 = "slash_\(genero)_W-\(i)"
             playerSlashW.append(playerSlash.textureNamed(playerTextureName4))
             //hair
-            let hairTextureName1 = "male_hair_slash_N-\(i)"
-            hairSlashN.append(hairFrames.textureNamed(hairTextureName1))
-            let hairTextureName2 = "male_hair_slash_S-\(i)"
-            hairSlashS.append(hairFrames.textureNamed(hairTextureName2))
-            let hairTextureName3 = "male_hair_slash_E-\(i)"
-            hairSlashE.append(hairFrames.textureNamed(hairTextureName3))
-            let hairTextureName4 = "male_hair_slash_W-\(i)"
-            hairSlashW.append(hairFrames.textureNamed(hairTextureName4))
+            let hairTextureName1 = "\(genero)_hair_slash_N-\(i)"
+            playerHairSlashN.append(hairFrames.textureNamed(hairTextureName1))
+            let hairTextureName2 = "\(genero)_hair_slash_S-\(i)"
+            playerHairSlashS.append(hairFrames.textureNamed(hairTextureName2))
+            let hairTextureName3 = "\(genero)_hair_slash_E-\(i)"
+            playerHairSlashE.append(hairFrames.textureNamed(hairTextureName3))
+            let hairTextureName4 = "\(genero)_hair_slash_W-\(i)"
+            playerHairSlashW.append(hairFrames.textureNamed(hairTextureName4))
         }
         for i in 1...6 {
-            let deadBody = "male_dead-\(i)"
+            let deadBody = "\(genero)_dead-\(i)"
             deadPlayer.append(playerWalk.textureNamed(deadBody))
-            let deadHair = "male_hair_dead-\(i)"
+            let deadHair = "\(genero)_hair_dead-\(i)"
             deadPlayerHair.append(hairFrames.textureNamed(deadHair))
         }
         
@@ -216,26 +227,26 @@ open class Player {
     func animateMove() {
         switch orientacionPersonaje {
         case 1,5:
-            avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
-            hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
+            avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             //helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggingsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             
         case 2,6:
-            avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
-            hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
+            avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             //helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggingsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             
         case 3,7:
-            avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
-            hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
+            avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             //helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggingsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
 
         case 4,8:
-            avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
-            hair.run(SKAction.repeatForever(SKAction.animate(with: hairWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
+            avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
+            hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
            // helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggingsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
 
@@ -255,25 +266,25 @@ open class Player {
         case 1,5:
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackN, timePerFrame: 0.1))
-            hair.run(SKAction.animate(with: hairSlashN, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: playerHairSlashN, timePerFrame: 0.1))
             //helm.run(SKAction.animate(with: myHelm.helmAttackN, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggingsAttackN, timePerFrame: 0.1))
         case 2,6:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackW, timePerFrame: 0.1))
-            hair.run(SKAction.animate(with: hairSlashW, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: playerHairSlashW, timePerFrame: 0.1))
             //helm.run(SKAction.animate(with: myHelm.helmAttackW, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggingsAttackW, timePerFrame: 0.1))
         case 3,7:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackS, timePerFrame: 0.1))
-            hair.run(SKAction.animate(with: hairSlashS, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: playerHairSlashS, timePerFrame: 0.1))
             //helm.run(SKAction.animate(with: myHelm.helmAttackS, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggingsAttackS, timePerFrame: 0.1))
         case 4,8:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackE, timePerFrame: 0.1))
-            hair.run(SKAction.animate(with: hairSlashE, timePerFrame: 0.1))
+            hair.run(SKAction.animate(with: playerHairSlashE, timePerFrame: 0.1))
             //helm.run(SKAction.animate(with: myHelm.helmAttackE, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggingsAttackE, timePerFrame: 0.1))
         default:
@@ -289,25 +300,25 @@ open class Player {
         
         switch orientacionPersonaje {
         case 1,5:
-            avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_N-1")))
-            hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_N-1")))
+            avatarPlayer.run(SKAction.setTexture(playerViewN))
+            hair.run(SKAction.setTexture(playerHairViewN))
             //helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_N_1")))
-            leggs.run(SKAction.setTexture(myLeggs.leggingsMoveN[0]))
+            leggs.run(SKAction.setTexture(myLeggs.leggingsN))
         case 2,6:
-            avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_W-1")))
-            hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_W-1")))
+            avatarPlayer.run(SKAction.setTexture(playerViewW))
+            hair.run(SKAction.setTexture(playerHairViewW))
             //helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_W_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggingsMoveW[0]))
+            leggs.run(SKAction.setTexture(myLeggs.leggingsW))
         case 3,7:
-            avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_S-1")))
-            hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_S-1")))
+            avatarPlayer.run(SKAction.setTexture(playerViewS))
+            hair.run(SKAction.setTexture(playerHairViewS))
             //helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_S_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggingsMoveS[0]))
+            leggs.run(SKAction.setTexture(myLeggs.leggingsS))
         case 4,8:
-            avatarPlayer.run(SKAction.setTexture(playerWalk.textureNamed("male_E-1")))
-            hair.run(SKAction.setTexture(hairFrames.textureNamed("male_hair_E-1")))
+            avatarPlayer.run(SKAction.setTexture(playerViewE))
+            hair.run(SKAction.setTexture(playerHairViewE))
             //helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_E_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggingsMoveE[0]))
+            leggs.run(SKAction.setTexture(myLeggs.leggingsE))
 
         default:
             
@@ -368,6 +379,7 @@ open class Player {
             hair.removeAllActions()
             helm.removeAllActions()
             leggs.removeAllActions()
+            weapon.removeAllActions()
     }
     
     func actionsPlayer(){

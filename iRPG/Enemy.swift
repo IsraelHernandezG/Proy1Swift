@@ -84,6 +84,8 @@ open class Skeleton {
     
     init(_ position: CGPoint){
         
+        createAnimations()
+        
         avatarEnemy = SKSpriteNode(texture: textureSkeletonS) //textura inicial del jugador
         // se añade un physicsbody al jugador para detectar colisiones
         avatarEnemy.physicsBody = SKPhysicsBody(texture: textureSkeletonMask, size: avatarEnemy.size)
@@ -96,7 +98,7 @@ open class Skeleton {
         avatarEnemy.zPosition = 1
         
         //Equipo del jugador
-        myWeapon = Weapon(nombreAtlas: "short_sword", nombreWeapon: "sword")
+        myWeapon = Weapon(nombreAtlas: "Swords", nombreWeapon: "sword")
         weapon = myWeapon.weaponNode
         //myHelm = Armor(nombre: "bronce_helm")
         //helm = myHelm.helm
@@ -115,10 +117,6 @@ open class Skeleton {
         
         Enemy.position = position
         Enemy.setScale(escala)
-        
-        
-        createAnimations()
-        
         
     }
     
@@ -140,7 +138,6 @@ open class Skeleton {
     }
     
     func createAnimations() {
-        
         
         for i in 1...8 {
             //Body

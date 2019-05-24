@@ -24,7 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var myPlayer = Player()
         // Enemigos
         var Enemy1 = SKNode()
-        var enemyMob1 = Skeleton()
+        var enemyMob1 = Enemy()
         //Direccion Personaje
         var direccionPersonaje = 3
         //Direccion Espada
@@ -78,10 +78,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Creando al jugador
             myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "male")
             
-            enemyMob1 = Skeleton.init(CGPoint(x: frame.midX + 100, y: frame.midY + 100))
+            enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton")
             
             //Agregando enemigos a la escena
-            Enemy1 = enemyMob1.Enemy
+            Enemy1 = enemyMob1.Enemigo
             addChild(Enemy1)
             //Agregando los sprites del jugador a la escena
             addChild(myPlayer.Jugador)
@@ -324,13 +324,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+        /*if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
             (secondBody.categoryBitMask & myMapa.fireCategory != 0)){
             
             print("Encender la hoguera?")
             
-        }
-        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+        }*/
+        /*if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
             (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
             
             
@@ -343,27 +343,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 myPlayer.muertePersonaje()
                 
             }
-        }
+        }*/
         if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
             (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
             
             if enemyMob1.vida > 0{
-                enemyMob1.vida -=  0.5 //0.5
-                //print("OUCH! vida enemigo: \(enemyMob1.vida)")
+                enemyMob1.vida -=  0.5
             }else{
-                enemyMob1.muertePersonaje()
+                if(enemyMob1.isAlive == true){
+                    enemyMob1.muertePersonaje()
+                    enemyMob1.isAlive = false
+                }
+                
             }
             
         }
-        if ((firstBody.categoryBitMask & enemyMob1.armsCategory != 0) &&
-            (secondBody.categoryBitMask & myMapa.playerCategory != 0)){
-            
-            myPlayer.vida -= 1
-            myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
-            
-            
-            if myPlayer.vida <= 0 {
+        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+            (secondBody.categoryBitMask & enemyMob1.armsCategory != 0)){
+        
+            if myPlayer.vida >= 0 {
+                myPlayer.vida -= 2.5
+                myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
                 
+            }else{
                 myPlayer.muertePersonaje()
             }
             
@@ -603,6 +605,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }else if (enemyMob1.velocidad == 0.0){
                 if (enemyMob1.avatarEnemy.hasActions()==false && (enemyMob1.enemyxPosition.magnitude < 100.0 || enemyMob1.enemyyPosition.magnitude < 100.0) ){
                     enemyMob1.atack()
+                    enemyMob1.setWeaponPhysicsBody()
                     //enemyMob1.isAtack=true
                 }else {
                     //enemyMob1.resetpersonaje()

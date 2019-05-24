@@ -61,7 +61,7 @@ open class Weapon {
             weaponAttackW.append(weaponAtlas.textureNamed(arrayW))
         }
        // let arrayE = "\(nombre)_E-\(i)"
-        weaponAttackE.append(weaponAtlas.textureNamed("\(nombre)_A-1"))
+        weaponAttackE.append(weaponAtlas.textureNamed("\(nombre)_E-0"))
         weaponAttackE.append(weaponAtlas.textureNamed("\(nombre)_E-2"))
         weaponAttackE.append(weaponAtlas.textureNamed("\(nombre)_E-3"))
         weaponAttackE.append(weaponAtlas.textureNamed("\(nombre)_E-4"))

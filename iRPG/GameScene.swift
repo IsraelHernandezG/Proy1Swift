@@ -78,8 +78,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Creando al jugador
             myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "male")
             
-            enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton")
-            
+            //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton")
+            enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie")
             //Agregando enemigos a la escena
             Enemy1 = enemyMob1.Enemigo
             addChild(Enemy1)

@@ -107,8 +107,8 @@ open class Player {
         //Equipo del jugador
         myWeapon = Weapon(nombreAtlas: "Swords", nombreWeapon: "sword")
         weapon = myWeapon.weaponNode
-        //myHelm = Helm(nombreAtlas: "Helmet", nombreHelm: "Helm")
-        //helm = myHelm.helmNode
+        myHelm = Helm(nombreAtlas: "helm", nombreHelm: "helm")
+        helm = myHelm.helmNode
         myLeggs = Leggings(nombreAtlas: "Leggs", nombreHelm: "Leggings")
         leggs = myLeggs.leggingsNode
         
@@ -116,13 +116,14 @@ open class Player {
         //Apariencia
         hair =  SKSpriteNode(texture: playerHairViewS)
         hair.zPosition = 1.1
+        helm.zPosition = 1.2
         
         
         //Juntando elementos del jugador
         Jugador.addChild(avatarPlayer)
         Jugador.addChild(weapon)
         Jugador.addChild(hair)
-        //Jugador.addChild(helm)
+        Jugador.addChild(helm)
         Jugador.addChild(leggs)
         
         Jugador.position = position
@@ -229,25 +230,25 @@ open class Player {
         case 1,5:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
-            //helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
+            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggingsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             
         case 2,6:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
-            //helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
+            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggingsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             
         case 3,7:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
-            //helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
+            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggingsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
 
         case 4,8:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
-           // helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
+            helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggingsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
 
         default:
@@ -267,25 +268,25 @@ open class Player {
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackN, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashN, timePerFrame: 0.1))
-            //helm.run(SKAction.animate(with: myHelm.helmAttackN, timePerFrame: 0.1))
+            helm.run(SKAction.animate(with: myHelm.helmAttackN, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggingsAttackN, timePerFrame: 0.1))
         case 2,6:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackW, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashW, timePerFrame: 0.1))
-            //helm.run(SKAction.animate(with: myHelm.helmAttackW, timePerFrame: 0.1))
+            helm.run(SKAction.animate(with: myHelm.helmAttackW, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggingsAttackW, timePerFrame: 0.1))
         case 3,7:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackS, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashS, timePerFrame: 0.1))
-            //helm.run(SKAction.animate(with: myHelm.helmAttackS, timePerFrame: 0.1))
+            helm.run(SKAction.animate(with: myHelm.helmAttackS, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggingsAttackS, timePerFrame: 0.1))
         case 4,8:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackE, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashE, timePerFrame: 0.1))
-            //helm.run(SKAction.animate(with: myHelm.helmAttackE, timePerFrame: 0.1))
+            helm.run(SKAction.animate(with: myHelm.helmAttackE, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.leggingsAttackE, timePerFrame: 0.1))
         default:
             break
@@ -302,23 +303,23 @@ open class Player {
         case 1,5:
             avatarPlayer.run(SKAction.setTexture(playerViewN))
             hair.run(SKAction.setTexture(playerHairViewN))
-            //helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_N_1")))
-            leggs.run(SKAction.setTexture(myLeggs.leggingsN))
+            helm.run(SKAction.setTexture(myHelm.helmN!))
+            leggs.run(SKAction.setTexture(myLeggs.leggingsN!))
         case 2,6:
             avatarPlayer.run(SKAction.setTexture(playerViewW))
             hair.run(SKAction.setTexture(playerHairViewW))
-            //helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_W_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggingsW))
+            helm.run(SKAction.setTexture(myHelm.helmW!))
+            leggs.run(SKAction.setTexture(myLeggs.leggingsW!))
         case 3,7:
             avatarPlayer.run(SKAction.setTexture(playerViewS))
             hair.run(SKAction.setTexture(playerHairViewS))
-            //helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_S_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggingsS))
+            helm.run(SKAction.setTexture(myHelm.helmS!))
+            leggs.run(SKAction.setTexture(myLeggs.leggingsS!))
         case 4,8:
             avatarPlayer.run(SKAction.setTexture(playerViewE))
             hair.run(SKAction.setTexture(playerHairViewE))
-            //helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_E_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggingsE))
+            helm.run(SKAction.setTexture(myHelm.helmE!))
+            leggs.run(SKAction.setTexture(myLeggs.leggingsE!))
 
         default:
             

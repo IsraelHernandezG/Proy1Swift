@@ -21,10 +21,10 @@ open class Leggings {
     var leggingsAttackS: [SKTexture] = []
     var leggingsAttackE: [SKTexture] = []
     var deadleggings: [SKTexture] = []
-    var leggingsN: SKTexture = SKTexture()
-    var leggingsS: SKTexture = SKTexture()
-    var leggingsE: SKTexture = SKTexture()
-    var leggingsW: SKTexture = SKTexture()
+    var leggingsN: SKTexture?
+    var leggingsS: SKTexture?
+    var leggingsE: SKTexture?
+    var leggingsW: SKTexture? 
     
     let leggingsAtlas: SKTextureAtlas
     

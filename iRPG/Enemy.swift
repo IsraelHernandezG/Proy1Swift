@@ -135,7 +135,7 @@ open class Enemy {
         enemyViewE = enemyAtlas.textureNamed("\(tipo)_E-1")
         enemyViewW = enemyAtlas.textureNamed("\(tipo)_W-1")
         
-        for i in 1...8 {
+        for i in 2...9 {
             //Body
             let playerTextureName1 = "\(tipo)_N-\(i)"
             skeletonWalkingFramesN.append(enemyAtlas.textureNamed(playerTextureName1))
@@ -149,17 +149,17 @@ open class Enemy {
         
         for i in 1...7 {
             //body atack
-            let playerTextureName1 = "slash_\(tipo)_N-\(i)"
+            let playerTextureName1 = "\(tipo)_slash_N-\(i)"
             skeletonSlashN.append(enemyAtlas.textureNamed(playerTextureName1))
-            let playerTextureName2 = "slash_\(tipo)_S-\(i)"
+            let playerTextureName2 = "\(tipo)_slash_S-\(i)"
             skeletonSlashS.append(enemyAtlas.textureNamed(playerTextureName2))
-            let playerTextureName3 = "slash_\(tipo)_E-\(i)"
+            let playerTextureName3 = "\(tipo)_slash_E-\(i)"
             skeletonSlashE.append(enemyAtlas.textureNamed(playerTextureName3))
-            let playerTextureName4 = "slash_\(tipo)_W-\(i)"
+            let playerTextureName4 = "\(tipo)_slash_W-\(i)"
             skeletonSlashW.append(enemyAtlas.textureNamed(playerTextureName4))
         }
         for i in 1...6 {
-            let deadBody = "dead_\(tipo)-\(i)"
+            let deadBody = "\(tipo)_dead-\(i)"
             deadSkeleton.append(enemyAtlas.textureNamed(deadBody))
         }
     }

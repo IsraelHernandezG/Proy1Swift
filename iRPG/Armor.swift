@@ -21,7 +21,7 @@ open class Armor {
     var armorAttackS: [SKTexture] = []
     var armorAttackE: [SKTexture] = []
     
-    let armorAtlas: SKTextureAtlas
+    var armorAtlas: SKTextureAtlas
     
     
     init(){

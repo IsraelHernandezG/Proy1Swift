@@ -20,6 +20,11 @@ open class Helm {
     var helmAttackW: [SKTexture] = []
     var helmAttackS: [SKTexture] = []
     var helmAttackE: [SKTexture] = []
+    var deadhelm: [SKTexture] = []
+    var helmN: SKTexture?
+    var helmS: SKTexture?
+    var helmE: SKTexture?
+    var helmW: SKTexture?
     
     let helmAtlas: SKTextureAtlas
     
@@ -39,6 +44,11 @@ open class Helm {
     }
     
     func animateHelm(nombre: String){
+        
+        helmN = helmAtlas.textureNamed("\(nombre)_N-1")
+        helmS = helmAtlas.textureNamed("\(nombre)_S-1")
+        helmE = helmAtlas.textureNamed("\(nombre)_E-1")
+        helmW = helmAtlas.textureNamed("\(nombre)_W-1")
         
         for i in 2...9 {
             let arrayN = "\(nombre)_N-\(i)"
@@ -60,5 +70,9 @@ open class Helm {
             let arrayW = "\(nombre)_slash_W-\(i)"
             helmAttackW.append(helmAtlas.textureNamed(arrayW))
         }
+        /*for i in 1...6 {
+            let arrayDead = "\(nombre)_dead-\(i)"
+            deadhelm.append(helmAtlas.textureNamed(arrayDead))
+        }*/
     }
 }

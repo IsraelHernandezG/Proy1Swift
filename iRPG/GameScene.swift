@@ -78,8 +78,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Creando al jugador
             myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "male")
             
-            //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton")
-            enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie")
+            enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton")
+            //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie")
             //Agregando enemigos a la escena
             Enemy1 = enemyMob1.Enemigo
             addChild(Enemy1)
@@ -90,9 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
             
-            
             //al mover el Joystick cambia la orientacion del jugador
-            
             if myPlayer.isAlive == true {
             myInterface.rotateAnalogStick.trackingHandler = { [unowned self] jData in
                 

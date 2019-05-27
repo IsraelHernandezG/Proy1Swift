@@ -15,17 +15,17 @@ open class Enemy {
     var enemyViewE: SKTexture = SKTexture()
     var enemyViewW: SKTexture = SKTexture()
     
-    var skeletonWalkingFramesN: [SKTexture] = []
-    var skeletonWalkingFramesS: [SKTexture] = []
-    var skeletonWalkingFramesE: [SKTexture] = []
-    var skeletonWalkingFramesW: [SKTexture] = []
+    var enemyWalkingFramesN: [SKTexture] = []
+    var enemyWalkingFramesS: [SKTexture] = []
+    var enemyWalkingFramesE: [SKTexture] = []
+    var enemyWalkingFramesW: [SKTexture] = []
     
-    var skeletonSlashN: [SKTexture] = []
-    var skeletonSlashS: [SKTexture] = []
-    var skeletonSlashE: [SKTexture] = []
-    var skeletonSlashW: [SKTexture] = []
+    var enemyAtackN: [SKTexture] = []
+    var enemyAtackS: [SKTexture] = []
+    var enemyAtackE: [SKTexture] = []
+    var enemyAtackW: [SKTexture] = []
     
-    var deadSkeleton: [SKTexture] = []
+    var deadEnemy: [SKTexture] = []
    
     //Velocidad enemigo
     var velocidadXp: CGFloat = 1.0
@@ -128,62 +128,62 @@ open class Enemy {
     
     func createAnimations(tipo: String) {
         
-        let enemyAtlas = SKTextureAtlas(named: tipo)
+        let enemyAtlas = SKTextureAtlas(named: "enemies")
+        let sheet=SpriteSheet(texture: enemyAtlas.textureNamed("\(tipo)"), rows: 21, columns: 13, spacing: 0, margin: 0)
         
-        enemyViewN = enemyAtlas.textureNamed("\(tipo)_N-1")
-        enemyViewS = enemyAtlas.textureNamed("\(tipo)_S-1")
-        enemyViewE = enemyAtlas.textureNamed("\(tipo)_E-1")
-        enemyViewW = enemyAtlas.textureNamed("\(tipo)_W-1")
+       
         
-        for i in 2...9 {
+        enemyViewN = sheet.textureForColumn(column: 0, row: 0)
+        enemyViewW = sheet.textureForColumn(column: 0, row: 1)
+        enemyViewS = sheet.textureForColumn(column: 0, row: 2)
+        enemyViewE = sheet.textureForColumn(column: 0, row: 3)
+        
+        
+        for i in 1...8 {
             //Body
-            let playerTextureName1 = "\(tipo)_N-\(i)"
-            skeletonWalkingFramesN.append(enemyAtlas.textureNamed(playerTextureName1))
-            let playerTextureName2 = "\(tipo)_S-\(i)"
-            skeletonWalkingFramesS.append(enemyAtlas.textureNamed(playerTextureName2))
-            let playerTextureName3 = "\(tipo)_E-\(i)"
-            skeletonWalkingFramesE.append(enemyAtlas.textureNamed(playerTextureName3))
-            let playerTextureName4 = "\(tipo)_W-\(i)"
-            skeletonWalkingFramesW.append(enemyAtlas.textureNamed(playerTextureName4))
+            enemyWalkingFramesN.append(sheet.textureForColumn(column: i, row: 8))
+            enemyWalkingFramesW.append(sheet.textureForColumn(column: i, row: 9))
+            enemyWalkingFramesS.append(sheet.textureForColumn(column: i, row: 10))
+            enemyWalkingFramesE.append(sheet.textureForColumn(column: i, row: 11))
         }
         
-        for i in 1...7 {
-            //body atack
-            let playerTextureName1 = "\(tipo)_slash_N-\(i)"
-            skeletonSlashN.append(enemyAtlas.textureNamed(playerTextureName1))
-            let playerTextureName2 = "\(tipo)_slash_S-\(i)"
-            skeletonSlashS.append(enemyAtlas.textureNamed(playerTextureName2))
-            let playerTextureName3 = "\(tipo)_slash_E-\(i)"
-            skeletonSlashE.append(enemyAtlas.textureNamed(playerTextureName3))
-            let playerTextureName4 = "\(tipo)_slash_W-\(i)"
-            skeletonSlashW.append(enemyAtlas.textureNamed(playerTextureName4))
+        for i in 0...5 {
+            enemyAtackN.append(sheet.textureForColumn(column: i, row: 12))
+            enemyAtackW.append(sheet.textureForColumn(column: i, row: 13))
+            enemyAtackS.append(sheet.textureForColumn(column: i, row: 14))
+            enemyAtackE.append(sheet.textureForColumn(column: i, row: 15))
         }
-        for i in 1...6 {
-            let deadBody = "\(tipo)_dead-\(i)"
-            deadSkeleton.append(enemyAtlas.textureNamed(deadBody))
+        
+        enemyAtackN.append(sheet.textureForColumn(column: 0, row: 12))
+        enemyAtackW.append(sheet.textureForColumn(column: 0, row: 13))
+        enemyAtackS.append(sheet.textureForColumn(column: 0, row: 14))
+        enemyAtackE.append(sheet.textureForColumn(column: 0, row: 15))
+        
+        for i in 0...5 {
+            deadEnemy.append(sheet.textureForColumn(column: i, row: 20))
         }
     }
     
     func animateMove() {
         switch orientaCaminata {
         case 1:
-            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
             /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
         case 2:
-            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
             
            /* helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
             
         case 3:
-            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
             
             /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
             
         case 4:
-           avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingEnemy")
+           avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingEnemy")
             
             /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
@@ -198,18 +198,18 @@ open class Enemy {
         
         switch orientaCaminata {
         case 4:
-           avatarEnemy.run(SKAction.animate(with: skeletonSlashN, timePerFrame: 0.1))
+           avatarEnemy.run(SKAction.animate(with: enemyAtackN, timePerFrame: 0.1))
            weapon.run(SKAction.animate(with: myWeapon.weaponAttackN, timePerFrame: 0.1))
             
         case 2:
-            avatarEnemy.run(SKAction.animate(with: skeletonSlashW, timePerFrame: 0.1))
+            avatarEnemy.run(SKAction.animate(with: enemyAtackW, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackW, timePerFrame: 0.1))
             
         case 3:
-           avatarEnemy.run(SKAction.animate(with: skeletonSlashS, timePerFrame: 0.1))
+           avatarEnemy.run(SKAction.animate(with: enemyAtackS, timePerFrame: 0.1))
            weapon.run(SKAction.animate(with: myWeapon.weaponAttackS, timePerFrame: 0.1))
         case 1:
-            avatarEnemy.run(SKAction.animate(with: skeletonSlashE, timePerFrame: 0.1))
+            avatarEnemy.run(SKAction.animate(with: enemyAtackE, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackE, timePerFrame: 0.1))
         default:
             break
@@ -247,7 +247,7 @@ open class Enemy {
     }
     
     func muertePersonaje(){
-        avatarEnemy.run(SKAction.animate(with: deadSkeleton, timePerFrame: 0.1))
+        avatarEnemy.run(SKAction.animate(with: deadEnemy, timePerFrame: 0.1))
         isAlive = false
     }
     
@@ -295,4 +295,47 @@ open class Enemy {
     
     
 }
-/*******/
+/****
+ 
+ let enemyAtlas = SKTextureAtlas(named: tipo)
+ 
+ enemyViewN = enemyAtlas.textureNamed("\(tipo)_N-1")
+ enemyViewS = enemyAtlas.textureNamed("\(tipo)_S-1")
+ enemyViewE = enemyAtlas.textureNamed("\(tipo)_E-1")
+ enemyViewW = enemyAtlas.textureNamed("\(tipo)_W-1")
+ 
+ for i in 2...9 {
+ //Body
+ let playerTextureName1 = "\(tipo)_N-\(i)"
+ skeletonWalkingFramesN.append(enemyAtlas.textureNamed(playerTextureName1))
+ let playerTextureName2 = "\(tipo)_S-\(i)"
+ skeletonWalkingFramesS.append(enemyAtlas.textureNamed(playerTextureName2))
+ let playerTextureName3 = "\(tipo)_E-\(i)"
+ skeletonWalkingFramesE.append(enemyAtlas.textureNamed(playerTextureName3))
+ let playerTextureName4 = "\(tipo)_W-\(i)"
+ skeletonWalkingFramesW.append(enemyAtlas.textureNamed(playerTextureName4))
+ }
+ 
+ for i in 1...7 {
+ //body atack
+ let playerTextureName1 = "\(tipo)_slash_N-\(i)"
+ skeletonSlashN.append(enemyAtlas.textureNamed(playerTextureName1))
+ let playerTextureName2 = "\(tipo)_slash_S-\(i)"
+ skeletonSlashS.append(enemyAtlas.textureNamed(playerTextureName2))
+ let playerTextureName3 = "\(tipo)_slash_E-\(i)"
+ skeletonSlashE.append(enemyAtlas.textureNamed(playerTextureName3))
+ let playerTextureName4 = "\(tipo)_slash_W-\(i)"
+ skeletonSlashW.append(enemyAtlas.textureNamed(playerTextureName4))
+ }
+ for i in 1...6 {
+ let deadBody = "\(tipo)_dead-\(i)"
+ deadSkeleton.append(enemyAtlas.textureNamed(deadBody))
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ***/

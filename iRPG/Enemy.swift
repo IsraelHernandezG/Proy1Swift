@@ -111,7 +111,7 @@ open class Enemy {
     
     func setWeaponPhysicsBody(){
         
-        if let temp = SKPhysicsBody(texture: weapon.texture!, size: weapon.size) as? SKPhysicsBody {
+         let temp = SKPhysicsBody(texture: weapon.texture!, size: weapon.size)
             weapon.physicsBody = temp
             weapon.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
@@ -119,7 +119,7 @@ open class Enemy {
             weapon.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
             // estas configuraciones tambien son necesarias
             weapon.physicsBody?.isDynamic=true
-        }
+       
     }
     
     

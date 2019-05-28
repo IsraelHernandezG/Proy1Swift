@@ -54,11 +54,13 @@ open class Player {
     var helm = SKSpriteNode()
     var leggs = SKSpriteNode()
     var armor = SKSpriteNode()
+    var shield = SKSpriteNode()
     
     var myWeapon = Weapon()
     var myArmor = Equip()
     var myHelm = Equip()
     var myLeggs = Equip()
+    var myShield = Equip()
     
     
     //Movimiento personaje
@@ -116,6 +118,8 @@ open class Player {
         leggs = myLeggs.equipNode
         myArmor = Equip(genero: gen, tipo: "armor", nombre: "steel_legion")
         armor = myArmor.equipNode
+        myShield = Equip(genero: gen, tipo: "shield", nombre: "spartan")
+        shield = myShield.equipNode
         
         //Apariencia
         hair =  SKSpriteNode(texture: playerHairViewS)
@@ -123,6 +127,7 @@ open class Player {
         helm.zPosition = 1.4
         leggs.zPosition = 1.1
         armor.zPosition = 1.2
+        shield.zPosition = 1.3
         
         //Juntando elementos del jugador
         Jugador.addChild(avatarPlayer)
@@ -131,7 +136,7 @@ open class Player {
         Jugador.addChild(helm)
         Jugador.addChild(leggs)
         Jugador.addChild(armor)
-        
+        Jugador.addChild(shield)
         
         Jugador.position = position
         Jugador.setScale(escala)
@@ -237,6 +242,7 @@ open class Player {
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.equipMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.equipMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             armor.run(SKAction.repeatForever(SKAction.animate(with: myArmor.equipMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"armorPlayer")
+            shield.run(SKAction.repeatForever(SKAction.animate(with: myShield.equipMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"shieldPlayer")
             
         case 2,6:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
@@ -244,19 +250,21 @@ open class Player {
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.equipMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.equipMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             armor.run(SKAction.repeatForever(SKAction.animate(with: myArmor.equipMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"armorPlayer")
-            
+            shield.run(SKAction.repeatForever(SKAction.animate(with: myShield.equipMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"shieldPlayer")
         case 3,7:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.equipMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.equipMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             armor.run(SKAction.repeatForever(SKAction.animate(with: myArmor.equipMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"armorPlayer")
+            shield.run(SKAction.repeatForever(SKAction.animate(with: myShield.equipMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"shieldPlayer")
         case 4,8:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
             helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.equipMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
             leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.equipMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
             armor.run(SKAction.repeatForever(SKAction.animate(with: myArmor.equipMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"armorPlayer")
+            shield.run(SKAction.repeatForever(SKAction.animate(with: myShield.equipMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"shieldPlayer")
         default:
             break
         }
@@ -277,27 +285,31 @@ open class Player {
             helm.run(SKAction.animate(with: myHelm.equipAttackN, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.equipAttackN, timePerFrame: 0.1))
             armor.run(SKAction.animate(with: myArmor.equipAttackN, timePerFrame: 0.1))
+            shield.run(SKAction.animate(with: myShield.equipAttackN, timePerFrame: 0.1))
         case 2,6:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackW, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashW, timePerFrame: 0.1))
             helm.run(SKAction.animate(with: myHelm.equipAttackW, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.equipAttackW, timePerFrame: 0.1))
-             armor.run(SKAction.animate(with: myArmor.equipAttackW, timePerFrame: 0.1))
+            armor.run(SKAction.animate(with: myArmor.equipAttackW, timePerFrame: 0.1))
+            shield.run(SKAction.animate(with: myShield.equipAttackW, timePerFrame: 0.1))
         case 3,7:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackS, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashS, timePerFrame: 0.1))
             helm.run(SKAction.animate(with: myHelm.equipAttackS, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.equipAttackS, timePerFrame: 0.1))
-             armor.run(SKAction.animate(with: myArmor.equipAttackS, timePerFrame: 0.1))
+            armor.run(SKAction.animate(with: myArmor.equipAttackS, timePerFrame: 0.1))
+            shield.run(SKAction.animate(with: myShield.equipAttackS, timePerFrame: 0.1))
         case 4,8:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
             weapon.run(SKAction.animate(with: myWeapon.weaponAttackE, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashE, timePerFrame: 0.1))
             helm.run(SKAction.animate(with: myHelm.equipAttackE, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.equipAttackE, timePerFrame: 0.1))
-             armor.run(SKAction.animate(with: myArmor.equipAttackE, timePerFrame: 0.1))
+            armor.run(SKAction.animate(with: myArmor.equipAttackE, timePerFrame: 0.1))
+            shield.run(SKAction.animate(with: myShield.equipAttackE, timePerFrame: 0.1))
         default:
             break
         }
@@ -316,24 +328,28 @@ open class Player {
             helm.run(SKAction.setTexture(myHelm.equipN!))
             leggs.run(SKAction.setTexture(myLeggs.equipN!))
             armor.run(SKAction.setTexture(myArmor.equipN!))
+            shield.run(SKAction.setTexture(myShield.equipN!))
         case 2,6:
             avatarPlayer.run(SKAction.setTexture(playerViewW))
             hair.run(SKAction.setTexture(playerHairViewW))
             helm.run(SKAction.setTexture(myHelm.equipW!))
             leggs.run(SKAction.setTexture(myLeggs.equipW!))
             armor.run(SKAction.setTexture(myArmor.equipW!))
+            shield.run(SKAction.setTexture(myShield.equipW!))
         case 3,7:
             avatarPlayer.run(SKAction.setTexture(playerViewS))
             hair.run(SKAction.setTexture(playerHairViewS))
             helm.run(SKAction.setTexture(myHelm.equipS!))
             leggs.run(SKAction.setTexture(myLeggs.equipS!))
             armor.run(SKAction.setTexture(myArmor.equipS!))
+            shield.run(SKAction.setTexture(myShield.equipS!))
         case 4,8:
             avatarPlayer.run(SKAction.setTexture(playerViewE))
             hair.run(SKAction.setTexture(playerHairViewE))
             helm.run(SKAction.setTexture(myHelm.equipE!))
             leggs.run(SKAction.setTexture(myLeggs.equipE!))
             armor.run(SKAction.setTexture(myArmor.equipE!))
+            shield.run(SKAction.setTexture(myShield.equipE!))
         default:
             
             break
@@ -383,6 +399,7 @@ open class Player {
             helm.run(SKAction.animate(with: myHelm.deadequip, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.deadequip, timePerFrame: 0.1))
             armor.run(SKAction.animate(with: myArmor.deadequip, timePerFrame: 0.1))
+            shield.run(SKAction.animate(with: myShield.deadequip, timePerFrame: 0.1))
             isAlive = false
         }
         
@@ -397,6 +414,7 @@ open class Player {
             leggs.removeAllActions()
             weapon.removeAllActions()
             armor.removeAllActions()
+            shield.removeAllActions()
     }
     
     func actionsPlayer(){

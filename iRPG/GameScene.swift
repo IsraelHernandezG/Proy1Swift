@@ -27,10 +27,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var enemyMob1 = Enemy()
         //Direccion Personaje
         var direccionPersonaje = 3
-        //Direccion Espada
-        var direccionEspada = 3
-        //Direccion Casco
-        var direccionCasco = 3
     
         //Interfaz
         var myInterface = GameUI()
@@ -76,7 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(cam!)
             
             //Creando al jugador
-            myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "male")
+            myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
             
             enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton")
             //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie")
@@ -107,7 +103,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         //self.posX += 0.0
                         //self.posY += 1.0 * self.myPlayer.velocidadYp
                         self.direccionPersonaje = 1
-                        self.direccionEspada = 1
                         
                         
                     }else if (jData.angular >= 0.375 && jData.angular < 1.125){
@@ -115,9 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         //self.posX -= 0.7072 * self.myPlayer.velocidadXm
                         //self.posY += 0.7072 * self.myPlayer.velocidadYp
                         
-                         self.direccionEspada = 1
                          self.direccionPersonaje = 5
-                         self.direccionCasco = 5
                         
 
                     }else if (jData.angular >= 1.125 && jData.angular < 1.875){
@@ -125,14 +118,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                        //self.posX -= 1.0 * self.myPlayer.velocidadXm
                         //self.posY += 0.0
                         self.direccionPersonaje = 2
-                        self.direccionEspada = 2
                     }else if (jData.angular >= 1.875 && jData.angular < 2.675){
                         //vista SW
                         //self.posX -= 0.7072 * self.myPlayer.velocidadXm
                        //self.posY -= 0.7072 * self.myPlayer.velocidadYm
 
-                        self.direccionEspada = 6
-                         self.direccionCasco = 6
                         self.direccionPersonaje = 6
                         
 
@@ -141,17 +131,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         //self.posX += 0.0
                         //self.posY -= 1.0 * self.myPlayer.velocidadYm
                         self.direccionPersonaje = 3
-                        self.direccionEspada = 3
-                         self.direccionCasco = 3
                     }else if (jData.angular >= -2.625 && jData.angular < -1.875){
                         //vista SE
                         //self.posX += 0.7072 * self.myPlayer.velocidadXp
                         //self.posY -= 0.7072 * self.myPlayer.velocidadYm
 
                     
-                        self.direccionEspada = 7
                         self.direccionPersonaje = 7
-                         self.direccionCasco = 7
                         
 
                     }else if (jData.angular >= -1.875 && jData.angular < -1.125){
@@ -159,16 +145,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         //self.posX += 1.0 * self.myPlayer.velocidadXp
                         //self.posY += 0.0
                         self.direccionPersonaje = 4
-                        self.direccionEspada = 4
-                         self.direccionCasco = 4
                         
                     }else if (jData.angular >= -1.125 && jData.angular < -0.375){
                         //vista NE
                         //self.posX += 0.7072 * self.myPlayer.velocidadXp
                         //self.posY += 0.7072 * self.myPlayer.velocidadYp
 
-                        self.direccionEspada = 8
-                        self.direccionCasco = 8
                         self.direccionPersonaje = 8
 
                     }

@@ -56,7 +56,7 @@ open class Player {
     var armor = SKSpriteNode()
     var shield = SKSpriteNode()
     
-    var myWeapon = Weapon()
+    var myWeapon = Equip()
     var myArmor = Equip()
     var myHelm = Equip()
     var myLeggs = Equip()
@@ -110,8 +110,8 @@ open class Player {
         avatarPlayer.zPosition = 1
         
         //Equipo del jugador
-        myWeapon = Weapon(nombreAtlas: "Swords", nombreWeapon: "sword")
-        weapon = myWeapon.weaponNode
+        myWeapon = Equip(genero: gen, tipo: "weapon", nombre: "short_sword")
+        weapon = myWeapon.equipNode
         myHelm = Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1")
         helm = myHelm.equipNode
         myLeggs = Equip(genero: gen, tipo: "leggings", nombre: "legion")
@@ -123,17 +123,18 @@ open class Player {
         
         //Apariencia
         hair =  SKSpriteNode(texture: playerHairViewS)
-        hair.zPosition = 1.3
-        helm.zPosition = 1.4
-        leggs.zPosition = 1.1
-        armor.zPosition = 1.2
-        shield.zPosition = 1.3
+        hair.zPosition = avatarPlayer.zPosition + 0.3
+        helm.zPosition = avatarPlayer.zPosition + 0.4
+        leggs.zPosition = avatarPlayer.zPosition + 0.1
+        armor.zPosition = avatarPlayer.zPosition + 0.2
+        shield.zPosition = avatarPlayer.zPosition + 0.4
+        weapon.zPosition = avatarPlayer.zPosition + 0.5
         
         //Juntando elementos del jugador
         Jugador.addChild(avatarPlayer)
         Jugador.addChild(weapon)
         Jugador.addChild(hair)
-        Jugador.addChild(helm)
+        //Jugador.addChild(helm)
         Jugador.addChild(leggs)
         Jugador.addChild(armor)
         Jugador.addChild(shield)
@@ -172,11 +173,12 @@ open class Player {
     
     func createAnimations(_ genero: String) {
         
-        let playerAtlas = SKTextureAtlas(named: "player")
-        let sheet=SpriteSheet(texture: playerAtlas.textureNamed("\(genero)_white"), rows: 21, columns: 13, spacing: 0, margin: 0)
+        //let playerAtlas = SKTextureAtlas(named: "player")
         
-        let hairAtlas = SKTextureAtlas(named: "hair")
-        let sheet2=SpriteSheet(texture: hairAtlas.textureNamed("\(genero)_raven"), rows: 21, columns: 13, spacing: 0, margin: 0)
+        let sheet=SpriteSheet(image: UIImage(named: "\(genero)_white")!, rows: 21, columns: 13)
+        
+        //let hairAtlas = SKTextureAtlas(named: "hair")
+        let sheet2=SpriteSheet(image: UIImage(named: "\(genero)_raven")!, rows: 21, columns: 13)
         
         playerViewN = sheet.textureForColumn(column: 0, row: 0)
         playerViewW = sheet.textureForColumn(column: 0, row: 1)
@@ -280,7 +282,7 @@ open class Player {
         switch orientacionPersonaje {
         case 1,5:
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.weaponAttackN, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: myWeapon.equipAttackN, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashN, timePerFrame: 0.1))
             helm.run(SKAction.animate(with: myHelm.equipAttackN, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.equipAttackN, timePerFrame: 0.1))
@@ -288,7 +290,7 @@ open class Player {
             shield.run(SKAction.animate(with: myShield.equipAttackN, timePerFrame: 0.1))
         case 2,6:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.weaponAttackW, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: myWeapon.equipAttackW, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashW, timePerFrame: 0.1))
             helm.run(SKAction.animate(with: myHelm.equipAttackW, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.equipAttackW, timePerFrame: 0.1))
@@ -296,7 +298,7 @@ open class Player {
             shield.run(SKAction.animate(with: myShield.equipAttackW, timePerFrame: 0.1))
         case 3,7:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.weaponAttackS, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: myWeapon.equipAttackS, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashS, timePerFrame: 0.1))
             helm.run(SKAction.animate(with: myHelm.equipAttackS, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.equipAttackS, timePerFrame: 0.1))
@@ -304,7 +306,7 @@ open class Player {
             shield.run(SKAction.animate(with: myShield.equipAttackS, timePerFrame: 0.1))
         case 4,8:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.weaponAttackE, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: myWeapon.equipAttackE, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashE, timePerFrame: 0.1))
             helm.run(SKAction.animate(with: myHelm.equipAttackE, timePerFrame: 0.1))
             leggs.run(SKAction.animate(with: myLeggs.equipAttackE, timePerFrame: 0.1))
@@ -325,6 +327,7 @@ open class Player {
         case 1,5:
             avatarPlayer.run(SKAction.setTexture(playerViewN))
             hair.run(SKAction.setTexture(playerHairViewN))
+            //weapon.run(SKAction.setTexture(myWeapon.equipN!))
             helm.run(SKAction.setTexture(myHelm.equipN!))
             leggs.run(SKAction.setTexture(myLeggs.equipN!))
             armor.run(SKAction.setTexture(myArmor.equipN!))
@@ -332,6 +335,7 @@ open class Player {
         case 2,6:
             avatarPlayer.run(SKAction.setTexture(playerViewW))
             hair.run(SKAction.setTexture(playerHairViewW))
+           // weapon.run(SKAction.setTexture(myWeapon.equipW!))
             helm.run(SKAction.setTexture(myHelm.equipW!))
             leggs.run(SKAction.setTexture(myLeggs.equipW!))
             armor.run(SKAction.setTexture(myArmor.equipW!))
@@ -339,6 +343,7 @@ open class Player {
         case 3,7:
             avatarPlayer.run(SKAction.setTexture(playerViewS))
             hair.run(SKAction.setTexture(playerHairViewS))
+            //weapon.run(SKAction.setTexture(myWeapon.equipS!))
             helm.run(SKAction.setTexture(myHelm.equipS!))
             leggs.run(SKAction.setTexture(myLeggs.equipS!))
             armor.run(SKAction.setTexture(myArmor.equipS!))
@@ -346,6 +351,7 @@ open class Player {
         case 4,8:
             avatarPlayer.run(SKAction.setTexture(playerViewE))
             hair.run(SKAction.setTexture(playerHairViewE))
+            //weapon.run(SKAction.setTexture(myWeapon.equipE!))
             helm.run(SKAction.setTexture(myHelm.equipE!))
             leggs.run(SKAction.setTexture(myLeggs.equipE!))
             armor.run(SKAction.setTexture(myArmor.equipE!))
@@ -402,8 +408,6 @@ open class Player {
             shield.run(SKAction.animate(with: myShield.deadequip, timePerFrame: 0.1))
             isAlive = false
         }
-        
-       
     }
     
    
@@ -437,6 +441,5 @@ open class Player {
     }
     
 }
-/******************************************/
 
 

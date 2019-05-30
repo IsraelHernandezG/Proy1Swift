@@ -584,6 +584,7 @@ open class GameUI {
         //Leer de una archivo los objetos del personaje y obtener los elementos para contruir el inventario
         //Ranura 1
         let ranura1Square = SKSpriteNode(texture: textureRanura1)
+        ranura1Square.name = "ranuraA"
         ranura1Square.zPosition = 4.1
         ranura1Square.xScale = escalaMenu
         ranura1Square.yScale = escalaMenu
@@ -619,6 +620,7 @@ open class GameUI {
         
         //ranura 2
         let ranura2Square = SKSpriteNode(texture: textureRanura1)
+        ranura2Square.name = "ranuraB"
         ranura2Square.zPosition = 4.1
         ranura2Square.xScale = escalaMenu
         ranura2Square.yScale = escalaMenu
@@ -654,6 +656,7 @@ open class GameUI {
         
         //ranura 3
         let ranura3Square = SKSpriteNode(texture: textureRanura1)
+        ranura3Square.name = "ranuraC"
         ranura3Square.zPosition = 4.1
         ranura3Square.xScale = escalaMenu
         ranura3Square.yScale = escalaMenu
@@ -689,6 +692,7 @@ open class GameUI {
         
         //ranura 4
         let ranura4Square = SKSpriteNode(texture: textureRanura1)
+        ranura4Square.name = "ranuraD"
         ranura4Square.zPosition = 4.1
         ranura4Square.xScale = escalaMenu
         ranura4Square.yScale = escalaMenu
@@ -897,8 +901,6 @@ open class GameUI {
              labelEquip.text = "Equipar"
             banderaEquipo = 0
         }
-       
-        
         
     }
     
@@ -949,6 +951,9 @@ open class GameUI {
         switch numRanura {
         case 1:
             ventana1.childNode(withName: "helmet")?.run(SKAction.setTexture(textureRanuraHelmetPress))
+            //cargar lista de objetos
+            //desplegar los objetos en el menu
+            //
         case 2:
             ventana1.childNode(withName: "amulet")?.run(SKAction.setTexture(textureRanuraAmuletPress))
         case 3:
@@ -967,7 +972,6 @@ open class GameUI {
             ventana1.childNode(withName: "ring3")?.run(SKAction.setTexture(textureRanuraRingPress))
         default:
             print("default")
-            //
         }
         
     }
@@ -989,18 +993,24 @@ open class GameUI {
         resetRanura()
         switch numRanura {
         case 1:
+            ventana1.childNode(withName: "ranuraA")?.run(SKAction.setTexture(textureRanura1Press))
+            //agregar textura del item
             ventana1.childNode(withName: "ranura0")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura1")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura2")?.run(SKAction.setTexture(textureRanura4Press))
+            //agregar label con informacion del item
         case 2:
+            ventana1.childNode(withName: "ranuraB")?.run(SKAction.setTexture(textureRanura1Press))
             ventana1.childNode(withName: "ranura3")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura4")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura5")?.run(SKAction.setTexture(textureRanura4Press))
         case 3:
+            ventana1.childNode(withName: "ranuraC")?.run(SKAction.setTexture(textureRanura1Press))
             ventana1.childNode(withName: "ranura6")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura7")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura8")?.run(SKAction.setTexture(textureRanura4Press))
         case 4:
+            ventana1.childNode(withName: "ranuraD")?.run(SKAction.setTexture(textureRanura1Press))
             ventana1.childNode(withName: "ranura9")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura10")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura11")?.run(SKAction.setTexture(textureRanura4Press))
@@ -1012,6 +1022,10 @@ open class GameUI {
     }
     
     open func resetRanura(){
+        ventana1.childNode(withName: "ranuraA")?.run(SKAction.setTexture(textureRanura1))
+        ventana1.childNode(withName: "ranuraB")?.run(SKAction.setTexture(textureRanura1))
+        ventana1.childNode(withName: "ranuraC")?.run(SKAction.setTexture(textureRanura1))
+        ventana1.childNode(withName: "ranuraD")?.run(SKAction.setTexture(textureRanura1))
         ventana1.childNode(withName: "ranura0")?.run(SKAction.setTexture(textureRanura2))
         ventana1.childNode(withName: "ranura1")?.run(SKAction.setTexture(textureRanura3))
         ventana1.childNode(withName: "ranura2")?.run(SKAction.setTexture(textureRanura4))
@@ -1024,11 +1038,6 @@ open class GameUI {
         ventana1.childNode(withName: "ranura9")?.run(SKAction.setTexture(textureRanura2))
         ventana1.childNode(withName: "ranura10")?.run(SKAction.setTexture(textureRanura3))
         ventana1.childNode(withName: "ranura11")?.run(SKAction.setTexture(textureRanura4))
-
     }
-    
-    
-    
-    
     
 }

@@ -41,7 +41,7 @@ open class Enemy {
     var Enemigo = SKNode()
     var avatarEnemy = SKSpriteNode()
     var weapon = SKSpriteNode()
-    var myWeapon = Weapon()
+    var myWeapon = Equip()
     var hair = SKSpriteNode()
     var helm = SKSpriteNode()
     var leggs = SKSpriteNode()
@@ -71,9 +71,9 @@ open class Enemy {
     
     var orientaCaminata = 3
     
-    init(position: CGPoint, tipo: String){
+    init(position: CGPoint, tipo: String, clase: String){
         
-        createAnimations(tipo: tipo)
+        createAnimations(tipo: tipo, clase : clase)
         
         avatarEnemy = SKSpriteNode(texture: enemyViewS) //textura inicial del enemigo
         // se añade un physicsbody al jugador para detectar colisiones
@@ -87,16 +87,12 @@ open class Enemy {
         avatarEnemy.zPosition = 1
         
         //Equipo del jugador
-        myWeapon = Weapon(nombreAtlas: "Swords", nombreWeapon: "sword")
-        weapon = myWeapon.weaponNode
+        myWeapon = Equip(tipo: "weapon", nombre: "short_sword")
+        weapon = myWeapon.equipNode
         //myHelm = Armor(nombre: "bronce_helm")
         //helm = myHelm.helm
         //myLeggs = ArmorLeggs(nombre: "Roman_Leggs")
         //leggs = myLeggs.leggs
-        
-        
-
-        
         
         //Juntando elementos del jugador
         Enemigo.addChild(avatarEnemy)
@@ -126,12 +122,11 @@ open class Enemy {
     init(){
     }
     
-    func createAnimations(tipo: String) {
+    func createAnimations(tipo: String, clase: String) {
         
-        let enemyAtlas = SKTextureAtlas(named: "enemies")
-        let sheet=SpriteSheet(texture: enemyAtlas.textureNamed("\(tipo)"), rows: 21, columns: 13, spacing: 0, margin: 0)
+        //let enemyAtlas = SKTextureAtlas(named: "enemies")
+        let sheet=SpriteSheet(image: UIImage(named: "\(tipo)")!, rows: 21, columns: 13)
         
-       
         
         enemyViewN = sheet.textureForColumn(column: 0, row: 0)
         enemyViewW = sheet.textureForColumn(column: 0, row: 1)
@@ -147,17 +142,45 @@ open class Enemy {
             enemyWalkingFramesE.append(sheet.textureForColumn(column: i, row: 11))
         }
         
-        for i in 0...5 {
-            enemyAtackN.append(sheet.textureForColumn(column: i, row: 12))
-            enemyAtackW.append(sheet.textureForColumn(column: i, row: 13))
-            enemyAtackS.append(sheet.textureForColumn(column: i, row: 14))
-            enemyAtackE.append(sheet.textureForColumn(column: i, row: 15))
+        //si la clase del enemigo es warrior se agrega la animacion de corte y el objeto espada
+        switch clase {
+        case "warrior":
+            for i in 0...5 {
+                enemyAtackN.append(sheet.textureForColumn(column: i, row: 12))
+                enemyAtackW.append(sheet.textureForColumn(column: i, row: 13))
+                enemyAtackS.append(sheet.textureForColumn(column: i, row: 14))
+                enemyAtackE.append(sheet.textureForColumn(column: i, row: 15))
+            }
+            enemyAtackN.append(sheet.textureForColumn(column: 0, row: 12))
+            enemyAtackW.append(sheet.textureForColumn(column: 0, row: 13))
+            enemyAtackS.append(sheet.textureForColumn(column: 0, row: 14))
+            enemyAtackE.append(sheet.textureForColumn(column: 0, row: 15))
+        case "sorcerer":
+            for i in 0...6 {
+                enemyAtackN.append(sheet.textureForColumn(column: i, row: 0))
+                enemyAtackW.append(sheet.textureForColumn(column: i, row: 1))
+                enemyAtackS.append(sheet.textureForColumn(column: i, row: 2))
+                enemyAtackE.append(sheet.textureForColumn(column: i, row: 3))
+            }
+            enemyAtackN.append(sheet.textureForColumn(column: 0, row: 0))
+            enemyAtackW.append(sheet.textureForColumn(column: 0, row: 1))
+            enemyAtackS.append(sheet.textureForColumn(column: 0, row: 2))
+            enemyAtackE.append(sheet.textureForColumn(column: 0, row: 3))
+        case "archer":
+            for i in 0...12 {
+                enemyAtackN.append(sheet.textureForColumn(column: i, row: 16))
+                enemyAtackW.append(sheet.textureForColumn(column: i, row: 17))
+                enemyAtackS.append(sheet.textureForColumn(column: i, row: 18))
+                enemyAtackE.append(sheet.textureForColumn(column: i, row: 19))
+            }
+            enemyAtackN.append(sheet.textureForColumn(column: 0, row: 16))
+            enemyAtackW.append(sheet.textureForColumn(column: 0, row: 17))
+            enemyAtackS.append(sheet.textureForColumn(column: 0, row: 18))
+            enemyAtackE.append(sheet.textureForColumn(column: 0, row: 19))
+            
+        default:
+            print("clase no contemplada")
         }
-        
-        enemyAtackN.append(sheet.textureForColumn(column: 0, row: 12))
-        enemyAtackW.append(sheet.textureForColumn(column: 0, row: 13))
-        enemyAtackS.append(sheet.textureForColumn(column: 0, row: 14))
-        enemyAtackE.append(sheet.textureForColumn(column: 0, row: 15))
         
         for i in 0...5 {
             deadEnemy.append(sheet.textureForColumn(column: i, row: 20))
@@ -195,26 +218,25 @@ open class Enemy {
     }
     
     func atack(){
-        
+        isAtack = true
         switch orientaCaminata {
         case 4:
            avatarEnemy.run(SKAction.animate(with: enemyAtackN, timePerFrame: 0.1))
-           weapon.run(SKAction.animate(with: myWeapon.weaponAttackN, timePerFrame: 0.1))
+           weapon.run(SKAction.animate(with: myWeapon.equipAttackN, timePerFrame: 0.1))
             
         case 2:
             avatarEnemy.run(SKAction.animate(with: enemyAtackW, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.weaponAttackW, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: myWeapon.equipAttackW, timePerFrame: 0.1))
             
         case 3:
            avatarEnemy.run(SKAction.animate(with: enemyAtackS, timePerFrame: 0.1))
-           weapon.run(SKAction.animate(with: myWeapon.weaponAttackS, timePerFrame: 0.1))
+           weapon.run(SKAction.animate(with: myWeapon.equipAttackS, timePerFrame: 0.1))
         case 1:
             avatarEnemy.run(SKAction.animate(with: enemyAtackE, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.weaponAttackE, timePerFrame: 0.1))
+            weapon.run(SKAction.animate(with: myWeapon.equipAttackE, timePerFrame: 0.1))
         default:
             break
         }
-        isAtack = false
         //orientarPersonaje()
     }
     
@@ -246,11 +268,93 @@ open class Enemy {
         
     }
     
+    func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
+        if (isAlive==true){
+            
+            actionsEnemy()
+            
+            if isAtack == true {
+                setWeaponPhysicsBody()
+            }
+            
+            enemyxPosition = selfPosition.x - playerPosition.x
+            enemyyPosition = selfPosition.y - playerPosition.y
+            //print("dx: \(enemyMob1.enemyxPosition), dy: \(enemyMob1.enemyyPosition)")
+            //print("orinetation: \(enemyMob1.orientaCaminata)")
+            
+            
+            //movimiento del enemigo
+            if (velocidad > 0.0 ){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
+                if avatarEnemy.hasActions()==false{
+                    animateMove()
+                }
+                //Control de la orientacion del enemigo
+                if (enemyxPosition <= 0) && (enemyyPosition <= 0) //vista al N
+                {
+                    if orientaCaminata != 4{ //unicamente cuando hay un cambio de direccion se resetea la animacion
+                        orientaCaminata = 4
+                        animateMove()
+                    }
+                    
+                } else if (enemyxPosition <= 0) && ( enemyyPosition >= 0) //vista al E
+                {
+                    if orientaCaminata != 1{
+                        orientaCaminata = 1
+                        animateMove()
+                    }
+                }else if (enemyxPosition >= 0) && ( enemyyPosition <= 0) //vista al W
+                {
+                    if orientaCaminata != 2{
+                        orientaCaminata = 2
+                        animateMove()
+                    }
+                }else if (enemyxPosition >= 0) && ( enemyyPosition >= 0) // vista al S
+                {
+                    if orientaCaminata != 3{
+                        orientaCaminata = 3
+                        animateMove()
+                    }
+                }
+                
+            }else if (velocidad == 0.0){
+                if (avatarEnemy.hasActions()==false && (enemyxPosition.magnitude < 100.0 || enemyyPosition.magnitude < 100.0) ){
+                    atack()
+                    //enemyMob1.setWeaponPhysicsBody()
+                    //enemyMob1.isAtack=true
+                }else {
+                    //enemyMob1.resetpersonaje()
+                    //enemyMob1.orientarPersonaje()
+                }
+            }
+            
+            //Control del movimiento del enemigo
+            if ((enemyxPosition.magnitude >= 100.0 && enemyxPosition.magnitude < 400.0) || (enemyyPosition.magnitude >= 100.0 && enemyyPosition.magnitude < 400.0)) {
+                velocidad = 1.0
+                stop = false
+                followPlayer() // desplaza al enemigo
+                
+            }else{
+                velocidad = 0.0
+                if(stop == false){
+                    stop = true
+                    resetpersonaje()
+                }
+            }
+        }
+    }
+    
+    
+    
     func muertePersonaje(){
         avatarEnemy.run(SKAction.animate(with: deadEnemy, timePerFrame: 0.1))
         isAlive = false
     }
     
+    func actionsEnemy(){
+        if (avatarEnemy.hasActions()==false){
+            isAtack = false
+        }
+    }
     
     func resetpersonaje(){
         avatarEnemy.removeAllActions()
@@ -293,49 +397,4 @@ open class Enemy {
         
     }
     
-    
 }
-/****
- 
- let enemyAtlas = SKTextureAtlas(named: tipo)
- 
- enemyViewN = enemyAtlas.textureNamed("\(tipo)_N-1")
- enemyViewS = enemyAtlas.textureNamed("\(tipo)_S-1")
- enemyViewE = enemyAtlas.textureNamed("\(tipo)_E-1")
- enemyViewW = enemyAtlas.textureNamed("\(tipo)_W-1")
- 
- for i in 2...9 {
- //Body
- let playerTextureName1 = "\(tipo)_N-\(i)"
- skeletonWalkingFramesN.append(enemyAtlas.textureNamed(playerTextureName1))
- let playerTextureName2 = "\(tipo)_S-\(i)"
- skeletonWalkingFramesS.append(enemyAtlas.textureNamed(playerTextureName2))
- let playerTextureName3 = "\(tipo)_E-\(i)"
- skeletonWalkingFramesE.append(enemyAtlas.textureNamed(playerTextureName3))
- let playerTextureName4 = "\(tipo)_W-\(i)"
- skeletonWalkingFramesW.append(enemyAtlas.textureNamed(playerTextureName4))
- }
- 
- for i in 1...7 {
- //body atack
- let playerTextureName1 = "\(tipo)_slash_N-\(i)"
- skeletonSlashN.append(enemyAtlas.textureNamed(playerTextureName1))
- let playerTextureName2 = "\(tipo)_slash_S-\(i)"
- skeletonSlashS.append(enemyAtlas.textureNamed(playerTextureName2))
- let playerTextureName3 = "\(tipo)_slash_E-\(i)"
- skeletonSlashE.append(enemyAtlas.textureNamed(playerTextureName3))
- let playerTextureName4 = "\(tipo)_slash_W-\(i)"
- skeletonSlashW.append(enemyAtlas.textureNamed(playerTextureName4))
- }
- for i in 1...6 {
- let deadBody = "\(tipo)_dead-\(i)"
- deadSkeleton.append(enemyAtlas.textureNamed(deadBody))
- }
- 
- 
- 
- 
- 
- 
- 
- ***/

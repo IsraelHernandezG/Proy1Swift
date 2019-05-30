@@ -1,8 +1,8 @@
 //
-//  SpriteSheet.swift
+//  HojaSprite.swift
 //  iRPG
 //
-//  Created by Israel on 5/27/19.
+//  Created by Israel on 5/30/19.
 //  Copyright © 2019 Israel. All rights reserved.
 //
 
@@ -10,43 +10,37 @@ import Foundation
 import SpriteKit
 
 class SpriteSheet {
-    let texture: SKTexture
+    
     let rows: Int
     let columns: Int
-    var margin: CGFloat=0
-    var spacing: CGFloat=0
-    var frameSize: CGSize {
-        return CGSize(width: (self.texture.size().width-(self.margin*2+self.spacing*CGFloat(self.columns-1)))/CGFloat(self.columns),
-                      height: (self.texture.size().height-(self.margin*2+self.spacing*CGFloat(self.rows-1)))/CGFloat(self.rows))
-    }
+    let image: UIImage
+    var xCoord: Int = 0
+    var yCoord: Int = 0
+    var SpriteWidth: Int = 0
+    var SpriteHeight: Int = 0
+    var cgImage: CGImage
     
-    init(texture: SKTexture, rows: Int, columns: Int, spacing: CGFloat, margin: CGFloat) {
-        self.texture=texture
-        self.rows=rows
-        self.columns=columns
-        self.spacing=spacing
-        self.margin=margin
+    init(image: UIImage, rows: Int, columns: Int) {
+        self.image = image
+        self.rows = rows
+        self.columns = columns
         
+        SpriteWidth = Int(image.size.width)/columns
+        SpriteHeight = Int(image.size.height)/rows
+        //print("width: \(SpriteWidth), height: \(SpriteHeight)")
+        
+        self.cgImage = image.cgImage!
     }
     
-    convenience init(texture: SKTexture, rows: Int, columns: Int) {
-        self.init(texture: texture, rows: rows, columns: columns, spacing: 0, margin: 0)
-    }
     
     func textureForColumn(column: Int, row: Int)->SKTexture {
-        //if !(0...self.rows ~= row && 0...self.columns ~= column) {
-            //location is out of bounds
-        //    return nil
-        //}
         
-        var textureRect=CGRect(x: self.margin+CGFloat(column)*(self.frameSize.width+self.spacing)-self.spacing,
-                               y: self.margin+CGFloat((rows-1)-row)*(self.frameSize.height+self.spacing)-self.spacing,
-                               width: self.frameSize.width,
-                               height: self.frameSize.height)
-        
-        textureRect=CGRect(x: textureRect.origin.x/self.texture.size().width, y: textureRect.origin.y/self.texture.size().height,
-                           width: textureRect.size.width/self.texture.size().width, height: textureRect.size.height/self.texture.size().height)
-        return SKTexture(rect: textureRect, in: self.texture)
+        xCoord = column*SpriteWidth
+        yCoord = row*SpriteHeight
+        //print("x: \(xCoord), y: \(yCoord)")
+        let croppedCGImage: CGImage = cgImage.cropping(to: CGRect(x: xCoord, y: yCoord, width: SpriteWidth, height: SpriteHeight))!
+    
+        return  SKTexture(cgImage: croppedCGImage)
     }
     
 }

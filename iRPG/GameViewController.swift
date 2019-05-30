@@ -15,8 +15,6 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
             if let scene = SKScene(fileNamed: "GameScene") {
@@ -27,14 +25,10 @@ class GameViewController: UIViewController {
                 view.presentScene(scene)
                 view.ignoresSiblingOrder = true
             }
-            
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
-            //view.showsPhysics = true
-            
-            
-            
+            view.showsPhysics = false
         }
     }
 

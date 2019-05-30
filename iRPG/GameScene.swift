@@ -20,7 +20,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
         //Player
-        //var Player1 = SKNode()
         var myPlayer = Player()
         // Enemigos
         var Enemy1 = SKNode()
@@ -30,9 +29,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         //Interfaz
         var myInterface = GameUI()
-        // Controles de la fisica
     
-        
+        // Controles de la fisica
         var topeYp: CGFloat = 0.0
         var topeYm: CGFloat = 0.0
         var topeXp: CGFloat = 0.0
@@ -48,14 +46,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var posX: CGFloat = 0.0
         var posY: CGFloat = 0.0
     
-    
-    
         override func didMove(to view: SKView) {
             super.didMove(to: view)
             self.physicsWorld.contactDelegate = self
             self.physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
-            
-            
+        
             loadLevel(1)
             
             //Camara
@@ -74,15 +69,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Creando al jugador
             myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
             
-            enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton")
-            //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie")
+            enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton", clase: "warrior")
+            //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie", clase: "warrior")
             //Agregando enemigos a la escena
             Enemy1 = enemyMob1.Enemigo
             addChild(Enemy1)
             //Agregando los sprites del jugador a la escena
             addChild(myPlayer.Jugador)
             myInterface.rotateAnalogStick.myPlayer = myPlayer
-            //nodo.rotateAnalogStick.firstSword = firstSword
             
             myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
             
@@ -92,65 +86,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 
                 if (jData.angular == 0){
-                    //self.posX += 0.0
-                    //self.posY += 0.0
                     self.myPlayer.velocidad = 0.0
                 }else{
                     self.myPlayer.velocidad = 5.0
                     
                     if (jData.angular >= -0.375 && jData.angular < 0.375){
                         //vista N
-                        //self.posX += 0.0
-                        //self.posY += 1.0 * self.myPlayer.velocidadYp
                         self.direccionPersonaje = 1
-                        
                         
                     }else if (jData.angular >= 0.375 && jData.angular < 1.125){
                         //vista NW
-                        //self.posX -= 0.7072 * self.myPlayer.velocidadXm
-                        //self.posY += 0.7072 * self.myPlayer.velocidadYp
-                        
-                         self.direccionPersonaje = 5
-                        
-
+                        self.direccionPersonaje = 5
+                    
                     }else if (jData.angular >= 1.125 && jData.angular < 1.875){
                        //vista W
-                       //self.posX -= 1.0 * self.myPlayer.velocidadXm
-                        //self.posY += 0.0
-                        self.direccionPersonaje = 2
+                       self.direccionPersonaje = 2
                     }else if (jData.angular >= 1.875 && jData.angular < 2.675){
                         //vista SW
-                        //self.posX -= 0.7072 * self.myPlayer.velocidadXm
-                       //self.posY -= 0.7072 * self.myPlayer.velocidadYm
-
                         self.direccionPersonaje = 6
-                        
 
                     }else if (jData.angular >= 2.625 || jData.angular < -2.625){
                         //vista S
-                        //self.posX += 0.0
-                        //self.posY -= 1.0 * self.myPlayer.velocidadYm
                         self.direccionPersonaje = 3
                     }else if (jData.angular >= -2.625 && jData.angular < -1.875){
                         //vista SE
-                        //self.posX += 0.7072 * self.myPlayer.velocidadXp
-                        //self.posY -= 0.7072 * self.myPlayer.velocidadYm
-
-                    
                         self.direccionPersonaje = 7
-                        
 
                     }else if (jData.angular >= -1.875 && jData.angular < -1.125){
                         //vista E
-                        //self.posX += 1.0 * self.myPlayer.velocidadXp
-                        //self.posY += 0.0
                         self.direccionPersonaje = 4
                         
                     }else if (jData.angular >= -1.125 && jData.angular < -0.375){
                         //vista NE
-                        //self.posX += 0.7072 * self.myPlayer.velocidadXp
-                        //self.posY += 0.7072 * self.myPlayer.velocidadYp
-
                         self.direccionPersonaje = 8
 
                     }
@@ -225,17 +192,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 print("Done")
             }
-            
-            
         default:
             //Cargar un mapa alternativo o dejar el menu
             print("No se cargo el nivel")
         }
     
     }
-    
-    
-    
+
     // Manejo de colisiones
     func didBegin(_ contact: SKPhysicsContact) {
         
@@ -304,26 +267,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        /*if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & myMapa.fireCategory != 0)){
-            
-            print("Encender la hoguera?")
-            
-        }*/
-        /*if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
-            
-            
-            myPlayer.vida -= 1
-            myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
-            
-            
-            if myPlayer.vida <= 0 {
-               
-                myPlayer.muertePersonaje()
-                
-            }
-        }*/
         if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
             (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
             
@@ -342,7 +285,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & enemyMob1.armsCategory != 0)){
         
             if myPlayer.vida >= 0 {
-                myPlayer.vida -= 2.5
+                myPlayer.vida -= 0.5
                 myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
                 
             }else{
@@ -542,94 +485,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         super.update(currentTime)
         
-        if enemyMob1.isAlive{
-            enemyMob1.enemyxPosition = Enemy1.position.x - myPlayer.Jugador.position.x
-            enemyMob1.enemyyPosition = Enemy1.position.y - myPlayer.Jugador.position.y
-            //print("dx: \(enemyMob1.enemyxPosition), dy: \(enemyMob1.enemyyPosition)")
-            //print("orinetation: \(enemyMob1.orientaCaminata)")
-            
-            
-            //movimiento del enemigo
-            if (enemyMob1.velocidad > 0.0 ){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
-                if enemyMob1.avatarEnemy.hasActions()==false{
-                    enemyMob1.animateMove()
-                }
-                //Control de la orientacion del enemigo
-                if (enemyMob1.enemyxPosition <= 0) && (enemyMob1.enemyyPosition <= 0) //vista al N
-                {
-                    if enemyMob1.orientaCaminata != 4{ //unicamente cuando hay un cambio de direccion se resetea la animacion
-                        enemyMob1.orientaCaminata = 4
-                        enemyMob1.animateMove()
-                    }
-                    
-                } else if (enemyMob1.enemyxPosition <= 0) && ( enemyMob1.enemyyPosition >= 0) //vista al E
-                {
-                    if enemyMob1.orientaCaminata != 1{
-                        enemyMob1.orientaCaminata = 1
-                        enemyMob1.animateMove()
-                    }
-                }else if (enemyMob1.enemyxPosition >= 0) && ( enemyMob1.enemyyPosition <= 0) //vista al W
-                {
-                    if enemyMob1.orientaCaminata != 2{
-                        enemyMob1.orientaCaminata = 2
-                        enemyMob1.animateMove()
-                    }
-                }else if (enemyMob1.enemyxPosition >= 0) && ( enemyMob1.enemyyPosition >= 0) // vista al S
-                {
-                    if enemyMob1.orientaCaminata != 3{
-                        enemyMob1.orientaCaminata = 3
-                        enemyMob1.animateMove()
-                    }
-                }
-                
-            }else if (enemyMob1.velocidad == 0.0){
-                if (enemyMob1.avatarEnemy.hasActions()==false && (enemyMob1.enemyxPosition.magnitude < 100.0 || enemyMob1.enemyyPosition.magnitude < 100.0) ){
-                    enemyMob1.atack()
-                    enemyMob1.setWeaponPhysicsBody()
-                    //enemyMob1.isAtack=true
-                }else {
-                    //enemyMob1.resetpersonaje()
-                    //enemyMob1.orientarPersonaje()
-                }
-                
-            }
-            //
-            
-            
-            
-            //Control del movimiento del enemigo
-            if ((enemyMob1.enemyxPosition.magnitude >= 100.0 && enemyMob1.enemyxPosition.magnitude < 400.0) || (enemyMob1.enemyyPosition.magnitude >= 100.0 && enemyMob1.enemyyPosition.magnitude < 400.0)) {
-                enemyMob1.velocidad = 1.0
-                enemyMob1.stop = false
-                enemyMob1.followPlayer() // desplaza al enemigo
-                
-            }else{
-                enemyMob1.velocidad = 0.0
-                if(enemyMob1.stop == false){
-                    
-                    enemyMob1.stop = true
-                    enemyMob1.resetpersonaje()
-                }
-                
-            }
-            
-            
-            
-            
-        }
+        enemyMob1.enemyplay(selfPosition: Enemy1.position, playerPosition: myPlayer.Jugador.position)
         
         if myPlayer.isAlive {
             
             //Funcion que reasigna el physics body al personaje
-            //myPlayer.setPlayerPhysicsBody()
-            //print("status \(myPlayer.Atack)")
             myPlayer.actionsPlayer()
             
             if myPlayer.Atack == true {
                 myPlayer.setWeaponPhysicsBody()
             }
-            
-            
             
             myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
             //El personaje se mueve hacia una poscicion

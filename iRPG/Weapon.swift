@@ -10,6 +10,7 @@ import Foundation
 import SpriteKit
 
 open class Weapon {
+    
     var weaponNode = SKSpriteNode()
     
     var weaponMoveN: [SKTexture] = []
@@ -20,47 +21,89 @@ open class Weapon {
     var weaponAttackW: [SKTexture] = []
     var weaponAttackS: [SKTexture] = []
     var weaponAttackE: [SKTexture] = []
-    
-    let weaponAtlas: SKTextureAtlas
+    var deadweapon: [SKTexture] = []
+    var weaponN: SKTexture?
+    var weaponS: SKTexture?
+    var weaponE: SKTexture?
+    var weaponW: SKTexture?
     
     init(){
-        weaponAtlas = SKTextureAtlas(named: "Default")
     }
     
-    init(nombreAtlas atlas: String, nombreWeapon name: String){
+    init(genero: String, tipo: String, nombre: String){
         
-        weaponAtlas = SKTextureAtlas(named: atlas)
-        weaponNode = SKSpriteNode(texture: weaponAtlas.textureNamed("\(name)_S-1")) //textura inicial del arma
-   
-        weaponNode.zPosition = 1.1
+        let Atlas = SKTextureAtlas(named: "equip")
+        let sheet=SpriteSheet(image: UIImage(named: "\(genero)_weapon_\(nombre)")!, rows: 21, columns: 13)
         
-        animateWeapon(nombre: name)
-        
-    }
+        weaponN = sheet.textureForColumn(column: 0, row: 0)
+        weaponW = sheet.textureForColumn(column: 0, row: 1)
+        weaponS = sheet.textureForColumn(column: 0, row: 2)
+        weaponE = sheet.textureForColumn(column: 0, row: 3)
     
-    func animateWeapon(nombre: String){
-        
-        //por ahora sword no tiene animaciones de caminata
-        /*for i in 2...9 {
-            let arrayN = "\(nombre)_N-\(i)"
-            weaponMoveN.append(weaponAtlas.textureNamed(arrayN))
-            let arrayS = "\(nombre)_S-\(i)"
-            weaponMoveS.append(weaponAtlas.textureNamed(arrayS))
-            let arrayE = "\(nombre)_E-\(i)"
-            weaponMoveE.append(weaponAtlas.textureNamed(arrayE))
-            let arrayW = "\(nombre)_W-\(i)"
-            weaponMoveW.append(weaponAtlas.textureNamed(arrayW))
-        }*/
-        for i in 1...7 {
-            let arrayN = "\(nombre)_N-\(i)"
-            weaponAttackN.append(weaponAtlas.textureNamed(arrayN))
-            let arrayS = "\(nombre)_S-\(i)"
-            weaponAttackS.append(weaponAtlas.textureNamed(arrayS))
-            let arrayE = "\(nombre)_E-\(i)"
-            weaponAttackE.append(weaponAtlas.textureNamed(arrayE))
-            let arrayW = "\(nombre)_W-\(i)"
-            weaponAttackW.append(weaponAtlas.textureNamed(arrayW))
+        for i in 1...8 {
+            weaponMoveN.append(sheet.textureForColumn(column: i, row: 8))
+            weaponMoveW.append(sheet.textureForColumn(column: i, row: 9))
+            weaponMoveS.append(sheet.textureForColumn(column: i, row: 10))
+            weaponMoveE.append(sheet.textureForColumn(column: i, row: 11))
         }
         
+        for i in 0...5 {
+            weaponAttackN.append(sheet.textureForColumn(column: i, row: 12))
+            weaponAttackW.append(sheet.textureForColumn(column: i, row: 13))
+            weaponAttackS.append(sheet.textureForColumn(column: i, row: 14))
+            weaponAttackE.append(sheet.textureForColumn(column: i, row: 15))
+        }
+        
+        weaponAttackN.append(sheet.textureForColumn(column: 0, row: 12))
+        weaponAttackW.append(sheet.textureForColumn(column: 0, row: 13))
+        weaponAttackS.append(sheet.textureForColumn(column: 0, row: 14))
+        weaponAttackE.append(sheet.textureForColumn(column: 0, row: 15))
+        
+        for i in 0...5 {
+            deadweapon.append(sheet.textureForColumn(column: i, row: 20))
+        }
+        
+        weaponNode = SKSpriteNode(texture: weaponS) //textura inicial del arma
+        //equipNode.zPosition = 1.1
+    }
+    
+    
+    init(genero: String, clase: String, nombre: String){
+        
+        let Atlas = SKTextureAtlas(named: "equip")
+        let sheet=SpriteSheet(image: UIImage(named: "\(genero)_weapon_\(nombre)")!, rows: 21, columns: 13)
+        
+        weaponN = sheet.textureForColumn(column: 0, row: 0)
+        weaponW = sheet.textureForColumn(column: 0, row: 1)
+        weaponS = sheet.textureForColumn(column: 0, row: 2)
+        weaponE = sheet.textureForColumn(column: 0, row: 3)
+        
+        
+        for i in 1...8 {
+            //Body
+            weaponMoveN.append(sheet.textureForColumn(column: i, row: 8))
+            weaponMoveW.append(sheet.textureForColumn(column: i, row: 9))
+            weaponMoveS.append(sheet.textureForColumn(column: i, row: 10))
+            weaponMoveE.append(sheet.textureForColumn(column: i, row: 11))
+        }
+        
+        for i in 0...5 {
+            weaponAttackN.append(sheet.textureForColumn(column: i, row: 12))
+            weaponAttackW.append(sheet.textureForColumn(column: i, row: 13))
+            weaponAttackS.append(sheet.textureForColumn(column: i, row: 14))
+            weaponAttackE.append(sheet.textureForColumn(column: i, row: 15))
+        }
+        
+        weaponAttackN.append(sheet.textureForColumn(column: 0, row: 12))
+        weaponAttackW.append(sheet.textureForColumn(column: 0, row: 13))
+        weaponAttackS.append(sheet.textureForColumn(column: 0, row: 14))
+        weaponAttackE.append(sheet.textureForColumn(column: 0, row: 15))
+        
+        for i in 0...5 {
+            deadweapon.append(sheet.textureForColumn(column: i, row: 20))
+        }
+        
+        weaponNode = SKSpriteNode(texture: weaponS) //textura inicial del arma
+        //equipNode.zPosition = 1.1
     }
 }

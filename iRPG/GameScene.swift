@@ -73,10 +73,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie", clase: "warrior")
             //Agregando enemigos a la escena
             Enemy1 = enemyMob1.Enemigo
-            addChild(Enemy1)
+            //addChild(Enemy1)
             //Agregando los sprites del jugador a la escena
             addChild(myPlayer.Jugador)
             myInterface.rotateAnalogStick.myPlayer = myPlayer
+            
+            let hoja1 = SpriteSheet2(texture: SKTexture(imageNamed: "female_white"), rows: 21, columns: 13)
+            
+            let NPC = SKSpriteNode(texture: hoja1.textureForColumn(column: 0, row: 20))
+            NPC.xScale = myPlayer.escala
+            NPC.yScale = myPlayer.escala
+            NPC.position = CGPoint(x: frame.midX, y: frame.midY + 100)
+            
+            addChild(NPC)
             
             myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
             
@@ -485,16 +494,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         super.update(currentTime)
         
-        enemyMob1.enemyplay(selfPosition: Enemy1.position, playerPosition: myPlayer.Jugador.position)
+        //enemyMob1.enemyplay(selfPosition: Enemy1.position, playerPosition: myPlayer.Jugador.position)
         
         if myPlayer.isAlive {
             
             //Funcion que reasigna el physics body al personaje
             myPlayer.actionsPlayer()
             
-            if myPlayer.Atack == true {
-                myPlayer.setWeaponPhysicsBody()
-            }
+            //if myPlayer.Atack == true {myPlayer.setWeaponPhysicsBody()}
             
             myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
             //El personaje se mueve hacia una poscicion

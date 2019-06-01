@@ -33,6 +33,7 @@ open class Equip {
     init(genero: String, tipo: String, nombre: String){
         
         let Atlas = SKTextureAtlas(named: "equip")
+        //let sheet=SpriteSheet2(texture: Atlas.textureNamed("\(genero)_\(tipo)_\(nombre)"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "\(genero)_\(tipo)_\(nombre)")!, rows: 21, columns: 13)
         
         equipN = sheet.textureForColumn(column: 0, row: 0)
@@ -73,6 +74,7 @@ open class Equip {
     init(tipo: String, nombre: String){
         
         let Atlas = SKTextureAtlas(named: "equip")
+        //let sheet=SpriteSheet2(texture: Atlas.textureNamed("male_\(tipo)_\(nombre)"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "male_\(tipo)_\(nombre)")!, rows: 21, columns: 13)
         
         equipN = sheet.textureForColumn(column: 0, row: 0)

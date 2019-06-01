@@ -124,7 +124,8 @@ open class Enemy {
     
     func createAnimations(tipo: String, clase: String) {
         
-        //let enemyAtlas = SKTextureAtlas(named: "enemies")
+        let enemyAtlas = SKTextureAtlas(named: "enemies")
+        //let sheet=SpriteSheet2(texture: enemyAtlas.textureNamed("\(tipo)"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "\(tipo)")!, rows: 21, columns: 13)
         
         
@@ -271,7 +272,9 @@ open class Enemy {
     func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
         if (isAlive==true){
             
-            actionsEnemy()
+            if (velocidad != 0.0){
+                isAtack = false
+            }
             
             if isAtack == true {
                 setWeaponPhysicsBody()
@@ -348,12 +351,6 @@ open class Enemy {
     func muertePersonaje(){
         avatarEnemy.run(SKAction.animate(with: deadEnemy, timePerFrame: 0.1))
         isAlive = false
-    }
-    
-    func actionsEnemy(){
-        if (avatarEnemy.hasActions()==false){
-            isAtack = false
-        }
     }
     
     func resetpersonaje(){

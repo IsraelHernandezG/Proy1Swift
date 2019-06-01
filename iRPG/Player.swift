@@ -173,11 +173,12 @@ open class Player {
     
     func createAnimations(_ genero: String) {
         
-        //let playerAtlas = SKTextureAtlas(named: "player")
-        
+        let playerAtlas = SKTextureAtlas(named: "player")
+        //let sheet=SpriteSheet2(texture: playerAtlas.textureNamed("\(genero)_white"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "\(genero)_white")!, rows: 21, columns: 13)
         
-        //let hairAtlas = SKTextureAtlas(named: "hair")
+        let hairAtlas = SKTextureAtlas(named: "hair")
+        //let sheet2=SpriteSheet2(texture: hairAtlas.textureNamed("\(genero)_raven"), rows: 21, columns: 13)
         let sheet2=SpriteSheet(image: UIImage(named: "\(genero)_raven")!, rows: 21, columns: 13)
         
         playerViewN = sheet.textureForColumn(column: 0, row: 0)

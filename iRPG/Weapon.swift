@@ -33,6 +33,7 @@ open class Weapon {
     init(genero: String, tipo: String, nombre: String){
         
         let Atlas = SKTextureAtlas(named: "equip")
+        //let sheet=SpriteSheet2(texture: Atlas.textureNamed("\(genero)_weapon_\(nombre)"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "\(genero)_weapon_\(nombre)")!, rows: 21, columns: 13)
         
         weaponN = sheet.textureForColumn(column: 0, row: 0)
@@ -71,6 +72,7 @@ open class Weapon {
     init(genero: String, clase: String, nombre: String){
         
         let Atlas = SKTextureAtlas(named: "equip")
+        //let sheet=SpriteSheet2(texture: Atlas.textureNamed("\(genero)_weapon_\(nombre)"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "\(genero)_weapon_\(nombre)")!, rows: 21, columns: 13)
         
         weaponN = sheet.textureForColumn(column: 0, row: 0)

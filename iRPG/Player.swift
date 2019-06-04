@@ -62,6 +62,7 @@ open class Player {
     var myLeggs = Equip()
     var myShield = Equip()
     
+    var equipPlayer: [Equip] = []
     
     //Movimiento personaje
     var velocidadXp: CGFloat = 1.0
@@ -130,8 +131,18 @@ open class Player {
         shield.zPosition = avatarPlayer.zPosition + 0.4
         weapon.zPosition = avatarPlayer.zPosition + 0.5
         
+        equipPlayer.append(myHelm)
+        equipPlayer.append(myWeapon)
+        equipPlayer.append(myArmor)
+        equipPlayer.append(myShield)
+        equipPlayer.append(myLeggs)
+        
+        
+        
         //Juntando elementos del jugador
         Jugador.addChild(avatarPlayer)
+        
+        
         Jugador.addChild(weapon)
         Jugador.addChild(hair)
         //Jugador.addChild(helm)

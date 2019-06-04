@@ -24,6 +24,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Enemigos
         var Enemy1 = SKNode()
         var enemyMob1 = Enemy()
+        var enemigos: [Enemy] = []
         //Direccion Personaje
         var direccionPersonaje = 3
     
@@ -67,7 +68,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.addChild(cam!)
             
             //Creando al jugador
-            myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
+            //myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
+            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "female")
             
             enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton", clase: "warrior")
             //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie", clase: "warrior")
@@ -138,6 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myInterface.joystickSubstrateImageEnabled = true
     
             view.isMultipleTouchEnabled = true
+            
             }
         }
     
@@ -161,7 +164,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var dir = String()
         
         if let FilePath = Bundle.main.path(forResource: FileName, ofType: "txt") {
-            print(FilePath)
+            //print(FilePath)
             dir = FilePath
         }
     
@@ -348,9 +351,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeftPres))
-                    enemyMob1.resetpersonaje()
-                    enemyMob1.atack()
-                    
                 }else if name == "MenuWin"{
                     myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButtonPres))
                 }else if name == "MenuButton1"{
@@ -460,11 +460,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                    
                 }else if name == "Der"{
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRight))
-                   
                     
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeft))
-                   
+                    //Crea nuevo enemigo
+                    enemigos.append(Enemy(position: CGPoint(x: 0, y: 100), tipo: "skeleton", clase: "warrior"))
+                    //cam!.addChild(enemigos[0].avatarEnemy)
+                    print("nuevo enemigo")
+                    
                 }else if name == "MenuWin"{
                     cierramenu()
                     myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButton))

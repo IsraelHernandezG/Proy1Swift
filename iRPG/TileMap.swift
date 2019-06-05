@@ -84,12 +84,12 @@ open class TileMap{
     
     //El Constructor recibe una cadena
     init(_ bitmap: String, _ spritesheet: String){
-        let sheet=SpriteSheet(image: UIImage(named: spritesheet)!, rows: 6, columns: 11)
-        
-        textureVacio = sheet.textureForColumn(column: 1, row: 1)
-        textureBase1 = sheet.textureForColumn(column: 0, row: 4)
-        textureBase2 = sheet.textureForColumn(column: 1, row: 4)
-        textureBase3 = sheet.textureForColumn(column: 2, row: 4)
+        let sheet=SpriteSheet(image: UIImage(named: spritesheet)!, rows: 12, columns: 12)
+        let piso=SpriteSheet(image: UIImage(named: "terrain")!, rows: 12, columns: 12)
+        textureVacio = sheet.textureForColumn(column: 1, row: 6)
+        textureBase1 = sheet.textureForColumn(column: 4, row: 4)
+        textureBase2 = sheet.textureForColumn(column: 5, row: 4)
+        textureBase3 = sheet.textureForColumn(column: 6, row: 4)
         textureBorde1 = sheet.textureForColumn(column: 1, row: 0)
         textureBorde2 = sheet.textureForColumn(column: 0, row: 1)
         textureBorde3 = sheet.textureForColumn(column: 2, row: 1)
@@ -107,10 +107,10 @@ open class TileMap{
         texturePared1 = sheet.textureForColumn(column: 0, row: 3)
         texturePared2 = sheet.textureForColumn(column: 1, row: 3)
         texturePared3 = sheet.textureForColumn(column: 2, row: 3)
-        textureCentro1 = sheet.textureForColumn(column: 9, row: 3)
-        textureCentro2 = sheet.textureForColumn(column: 8, row: 5)
-        textureCentro3 = sheet.textureForColumn(column: 9, row: 5)
-        textureCentro4 = sheet.textureForColumn(column: 10, row: 5)
+        textureCentro1 = piso.textureForColumn(column: 9, row: 3)
+        textureCentro2 = piso.textureForColumn(column: 8, row: 5)
+        textureCentro3 = piso.textureForColumn(column: 9, row: 5)
+        textureCentro4 = piso.textureForColumn(column: 10, row: 5)
         
         //La cadena se descompone en renglones y mapasse guarda como una arreglo de cadenas
         let arreglo = bitmap.split(separator: "\n")

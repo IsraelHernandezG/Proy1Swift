@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var cam: SKCameraNode?
         // Mapa
         var myMapa = TileMap()
-    
+        var mapNum = 1
         var map = SKNode()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
@@ -50,7 +50,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.physicsWorld.contactDelegate = self
             self.physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
         
-            loadLevel(1)
+            loadLevel(mapNum)
             
             //Camara
             cam=SKCameraNode()
@@ -178,7 +178,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //lectura de archivo
             let maplevel = readFile()
             if maplevel != ""{
-                let mapa = "caves"
+            
+                    let mapa = "caves"
                 let cadena = maplevel as String
                 myMapa = TileMap.init(cadena, mapa)
                 map = myMapa.map
@@ -194,7 +195,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //lectura de archivo
             let maplevel = readFile()
             if maplevel != ""{
-                let mapa = "placeholder"
+                let mapa = "forest"
                 let cadena = maplevel as String
                 myMapa = TileMap.init(cadena, mapa)
                 map = myMapa.map

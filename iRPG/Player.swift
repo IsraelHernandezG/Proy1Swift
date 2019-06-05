@@ -129,11 +129,6 @@ open class Player {
         
         
         Jugador.addChild(hair)
-        /*Jugador.addChild(helm)
-        Jugador.addChild(leggs)
-        Jugador.addChild(armor)
-        Jugador.addChild(shield)*/
-        
         Jugador.position = position
         Jugador.setScale(escala)
         

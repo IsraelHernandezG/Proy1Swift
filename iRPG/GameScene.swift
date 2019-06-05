@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var cam: SKCameraNode?
         // Mapa
         var myMapa = TileMap()
-        var mapNum = 1
+        var mapNum = 2
         var map = SKNode()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
@@ -181,7 +181,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
                     let mapa = "caves"
                 let cadena = maplevel as String
-                myMapa = TileMap.init(cadena, mapa)
+                let piso = 1
+                myMapa = TileMap.init(cadena, mapa, piso)
                 map = myMapa.map
                 //se agrega map a la vista
                 self.addChild(map)
@@ -196,8 +197,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let maplevel = readFile()
             if maplevel != ""{
                 let mapa = "bosque"
+                let piso = 2
                 let cadena = maplevel as String
-                myMapa = TileMap.init(cadena, mapa)
+                myMapa = TileMap.init(cadena, mapa, piso)
                 map = myMapa.map
                 //se agrega map a la vista
                 self.addChild(map)

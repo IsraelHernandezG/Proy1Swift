@@ -83,34 +83,48 @@ open class TileMap{
             
     
     //El Constructor recibe una cadena
-    init(_ bitmap: String, _ spritesheet: String){
-        let sheet=SpriteSheet(image: UIImage(named: spritesheet)!, rows: 6, columns: 11)
-        
-        textureVacio = sheet.textureForColumn(column: 1, row: 1)
-        textureBase1 = sheet.textureForColumn(column: 0, row: 4)
-        textureBase2 = sheet.textureForColumn(column: 1, row: 4)
-        textureBase3 = sheet.textureForColumn(column: 2, row: 4)
-        textureBorde1 = sheet.textureForColumn(column: 1, row: 0)
-        textureBorde2 = sheet.textureForColumn(column: 0, row: 1)
-        textureBorde3 = sheet.textureForColumn(column: 2, row: 1)
-        textureBorde4 = sheet.textureForColumn(column: 1, row: 2)
-        textureBorde5 = sheet.textureForColumn(column: 4, row: 4)
-        textureBorde9 = sheet.textureForColumn(column: 3, row: 4)
-        textureEsquina = sheet.textureForColumn(column: 0, row: 0)
-        textureEsquina2 = sheet.textureForColumn(column: 2, row: 0)
-        textureEsquina3 = sheet.textureForColumn(column: 0, row: 2)
-        textureEsquina4 = sheet.textureForColumn(column: 2, row: 2)
-        textureEsquina5 = sheet.textureForColumn(column: 3, row: 0)
-        textureEsquina6 = sheet.textureForColumn(column: 4, row: 0)
+    init(_ bitmap: String, _ spritesheet: String, _ mapa: Int){
+        let sheet=SpriteSheet(image: UIImage(named: spritesheet)!, rows: 12, columns: 12)
+        let piso=SpriteSheet(image: UIImage(named: "terrain")!, rows: 32, columns: 32)
+        textureVacio = sheet.textureForColumn(column: 5, row: 1)
+        textureBase1 = sheet.textureForColumn(column: 4, row: 4)
+        textureBase2 = sheet.textureForColumn(column: 5, row: 4)
+        textureBase3 = sheet.textureForColumn(column: 6, row: 4)
+        textureBorde1 = sheet.textureForColumn(column: 5, row: 0)
+        textureBorde2 = sheet.textureForColumn(column: 4, row: 1)
+        textureBorde3 = sheet.textureForColumn(column: 6, row: 1)
+        textureBorde4 = sheet.textureForColumn(column: 5, row: 2)
+        textureBorde5 = sheet.textureForColumn(column: 5, row: 2)
+        textureBorde9 = sheet.textureForColumn(column: 6, row: 3)
+        textureEsquina = sheet.textureForColumn(column: 4, row: 0)
+        textureEsquina2 = sheet.textureForColumn(column: 6, row: 0)
+        textureEsquina3 = sheet.textureForColumn(column: 4, row: 2)
+        textureEsquina4 = sheet.textureForColumn(column: 6, row: 2)
+        textureEsquina5 = sheet.textureForColumn(column: 11, row: 11)
+        textureEsquina6 = sheet.textureForColumn(column: 9, row: 11)
         textureEsquina7 = sheet.textureForColumn(column: 3, row: 1)
-        textureEsquina8 = sheet.textureForColumn(column: 4, row: 1)
-        texturePared1 = sheet.textureForColumn(column: 0, row: 3)
-        texturePared2 = sheet.textureForColumn(column: 1, row: 3)
-        texturePared3 = sheet.textureForColumn(column: 2, row: 3)
-        textureCentro1 = sheet.textureForColumn(column: 9, row: 3)
-        textureCentro2 = sheet.textureForColumn(column: 8, row: 5)
-        textureCentro3 = sheet.textureForColumn(column: 9, row: 5)
-        textureCentro4 = sheet.textureForColumn(column: 10, row: 5)
+        textureEsquina8 = sheet.textureForColumn(column: 7, row: 1)
+        texturePared1 = sheet.textureForColumn(column: 11, row: 10)
+        texturePared2 = sheet.textureForColumn(column: 5, row: 3)
+        texturePared3 = sheet.textureForColumn(column: 9, row: 10)
+        switch mapa {
+        case 1:
+            textureCentro1 = piso.textureForColumn(column: 10, row: 3)
+            textureCentro2 = piso.textureForColumn(column: 9, row: 5)
+            textureCentro3 = piso.textureForColumn(column: 10, row: 5)
+            textureCentro4 = piso.textureForColumn(column: 11, row: 5)
+        case 2:
+            textureCentro1 = piso.textureForColumn(column: 7, row: 9)
+            textureCentro2 = piso.textureForColumn(column: 6, row: 11)
+            textureCentro3 = piso.textureForColumn(column: 7, row: 11)
+            textureCentro4 = piso.textureForColumn(column: 8, row: 11)
+        default:
+            textureCentro1 = piso.textureForColumn(column: 10, row: 3)
+            textureCentro2 = piso.textureForColumn(column: 9, row: 5)
+            textureCentro3 = piso.textureForColumn(column: 10, row: 5)
+            textureCentro4 = piso.textureForColumn(column: 11, row: 5)
+        }
+        
         
         //La cadena se descompone en renglones y mapasse guarda como una arreglo de cadenas
         let arreglo = bitmap.split(separator: "\n")

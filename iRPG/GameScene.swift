@@ -195,7 +195,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //lectura de archivo
             let maplevel = readFile()
             if maplevel != ""{
-                let mapa = "forest"
+                let mapa = "bosque"
                 let cadena = maplevel as String
                 myMapa = TileMap.init(cadena, mapa)
                 map = myMapa.map

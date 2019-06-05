@@ -178,8 +178,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //lectura de archivo
             let maplevel = readFile()
             if maplevel != ""{
+                let mapa = "caves"
                 let cadena = maplevel as String
-                myMapa = TileMap.init(cadena)
+                myMapa = TileMap.init(cadena, mapa)
+                map = myMapa.map
+                //se agrega map a la vista
+                self.addChild(map)
+                map.xScale = 6.0
+                map.yScale = 6.0
+                
+                print("Done")
+            }
+            
+        case 2:
+            //lectura de archivo
+            let maplevel = readFile()
+            if maplevel != ""{
+                let mapa = "placeholder"
+                let cadena = maplevel as String
+                myMapa = TileMap.init(cadena, mapa)
                 map = myMapa.map
                 //se agrega map a la vista
                 self.addChild(map)

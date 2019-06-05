@@ -12,31 +12,31 @@ import SpriteKit
 open class TileMap{
     
     // Map Tiles
-    let textureVacio = SKTexture(image: UIImage(named: "vacio")!)
-    let textureBase1 = SKTexture(image: UIImage(named: "base1")!)
-    let textureBase2 = SKTexture(image: UIImage(named: "base2")!)
-    let textureBase3 = SKTexture(image: UIImage(named: "base3")!)
-    let textureBorde1 = SKTexture(image: UIImage(named: "borde1")!)
-    let textureBorde2 = SKTexture(image: UIImage(named: "borde2")!)
-    let textureBorde3 = SKTexture(image: UIImage(named: "borde3")!)
-    let textureBorde4 = SKTexture(image: UIImage(named: "borde4")!)
-    let textureBorde5 = SKTexture(image: UIImage(named: "borde5")!)
-    let textureBorde9 = SKTexture(image: UIImage(named: "borde9")!)
-    let textureEsquina1 = SKTexture(image: UIImage(named: "esquina1")!)
-    let textureEsquina2 = SKTexture(image: UIImage(named: "esquina2")!)
-    let textureEsquina3 = SKTexture(image: UIImage(named: "esquina3")!)
-    let textureEsquina4 = SKTexture(image: UIImage(named: "esquina4")!)
-    let textureEsquina5 = SKTexture(image: UIImage(named: "esquina5")!)
-    let textureEsquina6 = SKTexture(image: UIImage(named: "esquina6")!)
-    let textureEsquina7 = SKTexture(image: UIImage(named: "esquina7")!)
-    let textureEsquina8 = SKTexture(image: UIImage(named: "esquina8")!)
-    let texturePared1 = SKTexture(image: UIImage(named: "pared1")!)
-    let texturePared2 = SKTexture(image: UIImage(named: "pared2")!)
-    let texturePared3 = SKTexture(image: UIImage(named: "pared3")!)
-    let textureCentro1 = SKTexture(image: UIImage(named: "Centro1")!)
-    let textureCentro2 = SKTexture(image: UIImage(named: "Centro2")!)
-    let textureCentro3 = SKTexture(image: UIImage(named: "Centro3")!)
-    let textureCentro4 = SKTexture(image: UIImage(named: "Centro4")!)
+    var textureVacio : SKTexture!
+    var textureBase1 : SKTexture!
+    var textureBase2 : SKTexture!
+    var textureBase3 : SKTexture!
+    var textureBorde1 : SKTexture!
+    var textureBorde2 : SKTexture!
+    var textureBorde3 : SKTexture!
+    var textureBorde4 : SKTexture!
+    var textureBorde5 : SKTexture!
+    var textureBorde9 : SKTexture!
+    var textureEsquina : SKTexture!
+    var textureEsquina2 : SKTexture!
+    var textureEsquina3 : SKTexture!
+    var textureEsquina4 : SKTexture!
+    var textureEsquina5 : SKTexture!
+    var textureEsquina6 : SKTexture!
+    var textureEsquina7 : SKTexture!
+    var textureEsquina8 : SKTexture!
+    var texturePared1 : SKTexture!
+    var texturePared2 : SKTexture!
+    var texturePared3 : SKTexture!
+    var textureCentro1 : SKTexture!
+    var textureCentro2 : SKTexture!
+    var textureCentro3 : SKTexture!
+    var textureCentro4 : SKTexture!
     
     // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
@@ -62,6 +62,35 @@ open class TileMap{
     
     
     init(){
+       
+        //let sheet=SpriteSheet2(texture: playerAtlas.textureNamed("\(genero)_white"), rows: 21, columns: 13)
+        let sheet=SpriteSheet(image: UIImage(named: "caves")!, rows: 6, columns: 11)
+        
+        textureVacio = sheet.textureForColumn(column: 1, row: 1)
+        textureBase1 = sheet.textureForColumn(column: 0, row: 4)
+        textureBase2 = sheet.textureForColumn(column: 1, row: 4)
+        textureBase3 = sheet.textureForColumn(column: 2, row: 4)
+        textureBorde1 = sheet.textureForColumn(column: 1, row: 0)
+        textureBorde2 = sheet.textureForColumn(column: 0, row: 1)
+        textureBorde3 = sheet.textureForColumn(column: 2, row: 1)
+        textureBorde4 = sheet.textureForColumn(column: 1, row: 2)
+        textureBorde5 = sheet.textureForColumn(column: 4, row: 4)
+        textureBorde9 = sheet.textureForColumn(column: 3, row: 4)
+        textureEsquina = sheet.textureForColumn(column: 0, row: 0)
+        textureEsquina2 = sheet.textureForColumn(column: 2, row: 0)
+        textureEsquina3 = sheet.textureForColumn(column: 0, row: 2)
+        textureEsquina4 = sheet.textureForColumn(column: 2, row: 2)
+        textureEsquina5 = sheet.textureForColumn(column: 3, row: 0)
+        textureEsquina6 = sheet.textureForColumn(column: 4, row: 0)
+        textureEsquina7 = sheet.textureForColumn(column: 3, row: 1)
+        textureEsquina8 = sheet.textureForColumn(column: 4, row: 1)
+        texturePared1 = sheet.textureForColumn(column: 0, row: 3)
+        texturePared2 = sheet.textureForColumn(column: 1, row: 3)
+        texturePared3 = sheet.textureForColumn(column: 2, row: 3)
+        textureCentro1 = sheet.textureForColumn(column: 9, row: 3)
+        textureCentro2 = sheet.textureForColumn(column: 8, row: 5)
+        textureCentro3 = sheet.textureForColumn(column: 9, row: 5)
+        textureCentro4 = sheet.textureForColumn(column: 10, row: 5)
         
     }
     
@@ -84,10 +113,37 @@ open class TileMap{
             
     
     //El Constructor recibe una cadena
-    init(_ bitmap: String){
-        //La cadena se descompone en renglones y se guarda como una arreglo de cadenas
-        let arreglo = bitmap.split(separator: "\n")
+    init(_ bitmap: String, _ spritesheet: String){
+        let sheet=SpriteSheet(image: UIImage(named: spritesheet)!, rows: 6, columns: 11)
         
+        textureVacio = sheet.textureForColumn(column: 1, row: 1)
+        textureBase1 = sheet.textureForColumn(column: 0, row: 4)
+        textureBase2 = sheet.textureForColumn(column: 1, row: 4)
+        textureBase3 = sheet.textureForColumn(column: 2, row: 4)
+        textureBorde1 = sheet.textureForColumn(column: 1, row: 0)
+        textureBorde2 = sheet.textureForColumn(column: 0, row: 1)
+        textureBorde3 = sheet.textureForColumn(column: 2, row: 1)
+        textureBorde4 = sheet.textureForColumn(column: 1, row: 2)
+        textureBorde5 = sheet.textureForColumn(column: 4, row: 4)
+        textureBorde9 = sheet.textureForColumn(column: 3, row: 4)
+        textureEsquina = sheet.textureForColumn(column: 0, row: 0)
+        textureEsquina2 = sheet.textureForColumn(column: 2, row: 0)
+        textureEsquina3 = sheet.textureForColumn(column: 0, row: 2)
+        textureEsquina4 = sheet.textureForColumn(column: 2, row: 2)
+        textureEsquina5 = sheet.textureForColumn(column: 3, row: 0)
+        textureEsquina6 = sheet.textureForColumn(column: 4, row: 0)
+        textureEsquina7 = sheet.textureForColumn(column: 3, row: 1)
+        textureEsquina8 = sheet.textureForColumn(column: 4, row: 1)
+        texturePared1 = sheet.textureForColumn(column: 0, row: 3)
+        texturePared2 = sheet.textureForColumn(column: 1, row: 3)
+        texturePared3 = sheet.textureForColumn(column: 2, row: 3)
+        textureCentro1 = sheet.textureForColumn(column: 9, row: 3)
+        textureCentro2 = sheet.textureForColumn(column: 8, row: 5)
+        textureCentro3 = sheet.textureForColumn(column: 9, row: 5)
+        textureCentro4 = sheet.textureForColumn(column: 10, row: 5)
+        
+        //La cadena se descompone en renglones y mapasse guarda como una arreglo de cadenas
+        let arreglo = bitmap.split(separator: "\n")
         let tileSize = CGSize(width: 32, height: 32) //Los tiles tienen tamaño fijo de 32x32
         //Se obtienen las dimensiones del mapa a partir del arreglo que contiene las cadenas
         let columns = arreglo[0].count  // num de elem de un renglon
@@ -254,7 +310,7 @@ open class TileMap{
         let tileTexture = textureBorde3
         let tileNode = SKSpriteNode(texture: tileTexture)
         // Se añande un physicsbody al tile
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*0.3, height: tileTexture.size().height), center: CGPoint(x: -10, y: 0))
+        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*0.3, height: tileTexture!.size().height), center: CGPoint(x: -10, y: 0))
         tileNode.physicsBody!.isDynamic = false // es necesario que sea falso esta propiedad
         // dependiendo del categorybitmask se crearan diferentes efectos de colisiones
         tileNode.physicsBody!.categoryBitMask = Wall2Category
@@ -270,7 +326,7 @@ open class TileMap{
         
         let tileTexture = textureBorde2
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*0.3, height: tileTexture.size().height), center: CGPoint(x: 10, y: 0))
+        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*0.3, height: tileTexture!.size().height), center: CGPoint(x: 10, y: 0))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall3Category
         tileNode.physicsBody!.contactTestBitMask = playerCategory
@@ -284,7 +340,7 @@ open class TileMap{
         
         let tileTexture = texturePared2
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.8))
+        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*0.8))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall1Category
         tileNode.physicsBody!.contactTestBitMask = playerCategory
@@ -307,7 +363,7 @@ open class TileMap{
     func setWallInf(_ position: CGPoint, _ prof: CGFloat) -> SKSpriteNode{
         let tileTexture = textureBorde1
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.4), center: CGPoint(x: 0, y: -25))
+        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*0.4), center: CGPoint(x: 0, y: -25))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall4Category
         tileNode.physicsBody!.contactTestBitMask = playerCategory

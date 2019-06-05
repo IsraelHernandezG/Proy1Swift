@@ -12,31 +12,31 @@ import SpriteKit
 open class TileMap{
     
     // Map Tiles
-    var textureVacio : SKTexture!
-    var textureBase1 : SKTexture!
-    var textureBase2 : SKTexture!
-    var textureBase3 : SKTexture!
-    var textureBorde1 : SKTexture!
-    var textureBorde2 : SKTexture!
-    var textureBorde3 : SKTexture!
-    var textureBorde4 : SKTexture!
-    var textureBorde5 : SKTexture!
-    var textureBorde9 : SKTexture!
-    var textureEsquina : SKTexture!
-    var textureEsquina2 : SKTexture!
-    var textureEsquina3 : SKTexture!
-    var textureEsquina4 : SKTexture!
-    var textureEsquina5 : SKTexture!
-    var textureEsquina6 : SKTexture!
-    var textureEsquina7 : SKTexture!
-    var textureEsquina8 : SKTexture!
-    var texturePared1 : SKTexture!
-    var texturePared2 : SKTexture!
-    var texturePared3 : SKTexture!
-    var textureCentro1 : SKTexture!
-    var textureCentro2 : SKTexture!
-    var textureCentro3 : SKTexture!
-    var textureCentro4 : SKTexture!
+    var textureVacio : SKTexture?
+    var textureBase1 : SKTexture?
+    var textureBase2 : SKTexture?
+    var textureBase3 : SKTexture?
+    var textureBorde1 : SKTexture?
+    var textureBorde2 : SKTexture?
+    var textureBorde3 : SKTexture?
+    var textureBorde4 : SKTexture?
+    var textureBorde5 : SKTexture?
+    var textureBorde9 : SKTexture?
+    var textureEsquina : SKTexture?
+    var textureEsquina2 : SKTexture?
+    var textureEsquina3 : SKTexture?
+    var textureEsquina4 : SKTexture?
+    var textureEsquina5 : SKTexture?
+    var textureEsquina6 : SKTexture?
+    var textureEsquina7 : SKTexture?
+    var textureEsquina8 : SKTexture?
+    var texturePared1 : SKTexture?
+    var texturePared2 : SKTexture?
+    var texturePared3 : SKTexture?
+    var textureCentro1 : SKTexture?
+    var textureCentro2 : SKTexture?
+    var textureCentro3 : SKTexture?
+    var textureCentro4 : SKTexture?
     
     // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
@@ -62,36 +62,6 @@ open class TileMap{
     
     
     init(){
-       
-        //let sheet=SpriteSheet2(texture: playerAtlas.textureNamed("\(genero)_white"), rows: 21, columns: 13)
-        let sheet=SpriteSheet(image: UIImage(named: "caves")!, rows: 6, columns: 11)
-        
-        textureVacio = sheet.textureForColumn(column: 1, row: 1)
-        textureBase1 = sheet.textureForColumn(column: 0, row: 4)
-        textureBase2 = sheet.textureForColumn(column: 1, row: 4)
-        textureBase3 = sheet.textureForColumn(column: 2, row: 4)
-        textureBorde1 = sheet.textureForColumn(column: 1, row: 0)
-        textureBorde2 = sheet.textureForColumn(column: 0, row: 1)
-        textureBorde3 = sheet.textureForColumn(column: 2, row: 1)
-        textureBorde4 = sheet.textureForColumn(column: 1, row: 2)
-        textureBorde5 = sheet.textureForColumn(column: 4, row: 4)
-        textureBorde9 = sheet.textureForColumn(column: 3, row: 4)
-        textureEsquina = sheet.textureForColumn(column: 0, row: 0)
-        textureEsquina2 = sheet.textureForColumn(column: 2, row: 0)
-        textureEsquina3 = sheet.textureForColumn(column: 0, row: 2)
-        textureEsquina4 = sheet.textureForColumn(column: 2, row: 2)
-        textureEsquina5 = sheet.textureForColumn(column: 3, row: 0)
-        textureEsquina6 = sheet.textureForColumn(column: 4, row: 0)
-        textureEsquina7 = sheet.textureForColumn(column: 3, row: 1)
-        textureEsquina8 = sheet.textureForColumn(column: 4, row: 1)
-        texturePared1 = sheet.textureForColumn(column: 0, row: 3)
-        texturePared2 = sheet.textureForColumn(column: 1, row: 3)
-        texturePared3 = sheet.textureForColumn(column: 2, row: 3)
-        textureCentro1 = sheet.textureForColumn(column: 9, row: 3)
-        textureCentro2 = sheet.textureForColumn(column: 8, row: 5)
-        textureCentro3 = sheet.textureForColumn(column: 9, row: 5)
-        textureCentro4 = sheet.textureForColumn(column: 10, row: 5)
-        
     }
     
     init(_ size: Int){
@@ -193,12 +163,12 @@ open class TileMap{
                     let tileTexture: SKTexture
                     switch (num){
                     case 0:
-                        tileTexture = textureBorde4
+                        tileTexture = textureBorde4!
                     case 1:
-                        tileTexture = textureBorde5
+                        tileTexture = textureBorde5!
                         
                     default:
-                        tileTexture = textureBorde4
+                        tileTexture = textureBorde4!
                     }
                     let tileNode = SKSpriteNode(texture: tileTexture)
                     tileNode.position = CGPoint(x: x, y: y)
@@ -285,16 +255,16 @@ open class TileMap{
         
         switch (num){
         case 0...2:
-            tileTexture = textureCentro1
+            tileTexture = textureCentro1!
         case 3...5:
-            tileTexture = textureCentro4
+            tileTexture = textureCentro4!
         case 6...8:
-            tileTexture = textureCentro3
+            tileTexture = textureCentro3!
         case 9:
-            tileTexture = textureCentro2
+            tileTexture = textureCentro2!
             
         default:
-            tileTexture = textureCentro1
+            tileTexture = textureCentro1!
             
         }
         let tileNode = SKSpriteNode(texture: tileTexture)

@@ -49,19 +49,8 @@ open class Player {
    
     var Jugador = SKNode()
     var avatarPlayer = SKSpriteNode()
-    var weapon = SKSpriteNode()
     var hair = SKSpriteNode()
-    var helm = SKSpriteNode()
-    var leggs = SKSpriteNode()
-    var armor = SKSpriteNode()
-    var shield = SKSpriteNode()
-    
-    var myWeapon = Equip()
-    var myArmor = Equip()
-    var myHelm = Equip()
-    var myLeggs = Equip()
-    var myShield = Equip()
-    
+
     var equipPlayer: [Equip] = []
     
     //Movimiento personaje
@@ -110,41 +99,35 @@ open class Player {
         avatarPlayer.physicsBody!.isDynamic=true
         avatarPlayer.zPosition = 1
         
-        //Equipo del jugador
-        myWeapon = Equip(genero: gen, tipo: "weapon", nombre: "short_sword")
-        weapon = myWeapon.equipNode
-        /*myHelm = Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1")
-        helm = myHelm.equipNode
-        myLeggs = Equip(genero: gen, tipo: "leggings", nombre: "legion")
-        leggs = myLeggs.equipNode
-        myArmor = Equip(genero: gen, tipo: "armor", nombre: "steel_legion")
-        armor = myArmor.equipNode
-        myShield = Equip(genero: gen, tipo: "shield", nombre: "spartan")
-        shield = myShield.equipNode*/
-        
         //Apariencia
         hair =  SKSpriteNode(texture: playerHairViewS)
         hair.zPosition = avatarPlayer.zPosition + 0.3
-        weapon.zPosition = avatarPlayer.zPosition + 0.5
-        /*helm.zPosition = avatarPlayer.zPosition + 0.4
-        leggs.zPosition = avatarPlayer.zPosition + 0.1
-        armor.zPosition = avatarPlayer.zPosition + 0.2
-        shield.zPosition = avatarPlayer.zPosition + 0.4
+     
+        //Equipo del jugador
+        equipPlayer.append(Equip(genero: gen, tipo: "leggings", nombre: "legion"))
+        equipPlayer.append(Equip(genero: gen, tipo: "armor", nombre: "steel_legion"))
+        equipPlayer.append(Equip(genero: gen, tipo: "shield", nombre: "spartan"))
+        equipPlayer.append(Equip(genero: gen, tipo: "weapon", nombre: "short_sword"))
+        //equipPlayer.append(Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1"))
         
         
-        equipPlayer.append(myHelm)
-        equipPlayer.append(myWeapon)
-        equipPlayer.append(myArmor)
-        equipPlayer.append(myShield)
-        equipPlayer.append(myLeggs)*/
+        equipPlayer[0].equipNode.zPosition = avatarPlayer.zPosition + 0.1 //leggs
+        equipPlayer[1].equipNode.zPosition = avatarPlayer.zPosition + 0.2 //armor
+        equipPlayer[2].equipNode.zPosition = avatarPlayer.zPosition + 0.5 //shield
+        equipPlayer[3].equipNode.zPosition = avatarPlayer.zPosition + 0.6 //weapon
+        //equipPlayer[4].equipNode.zPosition = avatarPlayer.zPosition + 0.4 //helmet
         
         
+        if equipPlayer.count >= 1 {
+            for i in 1...equipPlayer.count {
+                Jugador.addChild(equipPlayer[i-1].equipNode)
+            }
+        }
         
         //Juntando elementos del jugador
         Jugador.addChild(avatarPlayer)
         
         
-        Jugador.addChild(weapon)
         Jugador.addChild(hair)
         /*Jugador.addChild(helm)
         Jugador.addChild(leggs)
@@ -169,14 +152,14 @@ open class Player {
     
     func setWeaponPhysicsBody(){
         
-        if let temp = SKPhysicsBody(texture: weapon.texture!, size: weapon.size) as? SKPhysicsBody {
-            weapon.physicsBody = temp
-            weapon.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
+        if let temp = SKPhysicsBody(texture: equipPlayer[3].equipNode.texture!, size: equipPlayer[3].equipNode.size) as? SKPhysicsBody {
+            equipPlayer[3].equipNode.physicsBody = temp
+            equipPlayer[3].equipNode.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-            weapon.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
-            weapon.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
+            equipPlayer[3].equipNode.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+            equipPlayer[3].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
             // estas configuraciones tambien son necesarias
-            weapon.physicsBody?.isDynamic=true
+            equipPlayer[3].equipNode.physicsBody?.isDynamic=true
         }
     }
     
@@ -185,11 +168,11 @@ open class Player {
     
     func createAnimations(_ genero: String) {
         
-        let playerAtlas = SKTextureAtlas(named: "player")
+        //let playerAtlas = SKTextureAtlas(named: "player")
         //let sheet=SpriteSheet2(texture: playerAtlas.textureNamed("\(genero)_white"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "\(genero)_white")!, rows: 21, columns: 13)
         
-        let hairAtlas = SKTextureAtlas(named: "hair")
+        //let hairAtlas = SKTextureAtlas(named: "hair")
         //let sheet2=SpriteSheet2(texture: hairAtlas.textureNamed("\(genero)_raven"), rows: 21, columns: 13)
         let sheet2=SpriteSheet(image: UIImage(named: "\(genero)_raven")!, rows: 21, columns: 13)
         
@@ -254,32 +237,43 @@ open class Player {
         case 1,5:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
-            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.equipMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.equipMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
-            armor.run(SKAction.repeatForever(SKAction.animate(with: myArmor.equipMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"armorPlayer")
-            shield.run(SKAction.repeatForever(SKAction.animate(with: myShield.equipMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"shieldPlayer")
-            */
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.repeatForever(SKAction.animate(with: equipPlayer[i-1].equipMoveN, timePerFrame: 0.1)))
+                }
+            }
+            
         case 2,6:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
-            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.equipMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.equipMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
-            armor.run(SKAction.repeatForever(SKAction.animate(with: myArmor.equipMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"armorPlayer")
-            shield.run(SKAction.repeatForever(SKAction.animate(with: myShield.equipMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"shieldPlayer")*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.repeatForever(SKAction.animate(with: equipPlayer[i-1].equipMoveW, timePerFrame: 0.1)))
+                }
+            }
+            
         case 3,7:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
-            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.equipMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.equipMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
-            armor.run(SKAction.repeatForever(SKAction.animate(with: myArmor.equipMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"armorPlayer")
-            shield.run(SKAction.repeatForever(SKAction.animate(with: myShield.equipMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"shieldPlayer")*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.repeatForever(SKAction.animate(with: equipPlayer[i-1].equipMoveS, timePerFrame: 0.1)))
+                }
+            }
+            
         case 4,8:
             avatarPlayer.run(SKAction.repeatForever(SKAction.animate(with: playerMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingPlayer")
             hair.run(SKAction.repeatForever(SKAction.animate(with: playerHairMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"HairPlayer")
-            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.equipMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.equipMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")
-            armor.run(SKAction.repeatForever(SKAction.animate(with: myArmor.equipMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"armorPlayer")
-            shield.run(SKAction.repeatForever(SKAction.animate(with: myShield.equipMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"shieldPlayer")*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.repeatForever(SKAction.animate(with: equipPlayer[i-1].equipMoveE, timePerFrame: 0.1)))
+                }
+            }
+            
         default:
             break
         }
@@ -295,36 +289,44 @@ open class Player {
         switch orientacionPersonaje {
         case 1,5:
             avatarPlayer.run(SKAction.animate(with: playerSlashN, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.equipAttackN, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashN, timePerFrame: 0.1))
-            /*helm.run(SKAction.animate(with: myHelm.equipAttackN, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.equipAttackN, timePerFrame: 0.1))
-            armor.run(SKAction.animate(with: myArmor.equipAttackN, timePerFrame: 0.1))
-            shield.run(SKAction.animate(with: myShield.equipAttackN, timePerFrame: 0.1))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.animate(with: equipPlayer[i-1].equipAttackN, timePerFrame: 0.1))
+                }
+            }
+            
         case 2,6:
             avatarPlayer.run(SKAction.animate(with: playerSlashW, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.equipAttackW, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashW, timePerFrame: 0.1))
-            /*helm.run(SKAction.animate(with: myHelm.equipAttackW, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.equipAttackW, timePerFrame: 0.1))
-            armor.run(SKAction.animate(with: myArmor.equipAttackW, timePerFrame: 0.1))
-            shield.run(SKAction.animate(with: myShield.equipAttackW, timePerFrame: 0.1))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.animate(with: equipPlayer[i-1].equipAttackW, timePerFrame: 0.1))
+                }
+            }
+            
         case 3,7:
             avatarPlayer.run(SKAction.animate(with: playerSlashS, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.equipAttackS, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashS, timePerFrame: 0.1))
-            /*helm.run(SKAction.animate(with: myHelm.equipAttackS, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.equipAttackS, timePerFrame: 0.1))
-            armor.run(SKAction.animate(with: myArmor.equipAttackS, timePerFrame: 0.1))
-            shield.run(SKAction.animate(with: myShield.equipAttackS, timePerFrame: 0.1))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.animate(with: equipPlayer[i-1].equipAttackS, timePerFrame: 0.1))
+                }
+            }
+            
         case 4,8:
             avatarPlayer.run(SKAction.animate(with: playerSlashE, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.equipAttackE, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: playerHairSlashE, timePerFrame: 0.1))
-            /*helm.run(SKAction.animate(with: myHelm.equipAttackE, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.equipAttackE, timePerFrame: 0.1))
-            armor.run(SKAction.animate(with: myArmor.equipAttackE, timePerFrame: 0.1))
-            shield.run(SKAction.animate(with: myShield.equipAttackE, timePerFrame: 0.1))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.animate(with: equipPlayer[i-1].equipAttackE, timePerFrame: 0.1))
+                }
+            }
+            
         default:
             break
         }
@@ -340,35 +342,43 @@ open class Player {
         case 1,5:
             avatarPlayer.run(SKAction.setTexture(playerViewN))
             hair.run(SKAction.setTexture(playerHairViewN))
-            //weapon.run(SKAction.setTexture(myWeapon.equipN!))
-            /*helm.run(SKAction.setTexture(myHelm.equipN!))
-            leggs.run(SKAction.setTexture(myLeggs.equipN!))
-            armor.run(SKAction.setTexture(myArmor.equipN!))
-            shield.run(SKAction.setTexture(myShield.equipN!))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.setTexture(equipPlayer[i-1].equipN!))
+                }
+            }
+            
         case 2,6:
             avatarPlayer.run(SKAction.setTexture(playerViewW))
             hair.run(SKAction.setTexture(playerHairViewW))
-           /* weapon.run(SKAction.setTexture(myWeapon.equipW!))
-            helm.run(SKAction.setTexture(myHelm.equipW!))
-            leggs.run(SKAction.setTexture(myLeggs.equipW!))
-            armor.run(SKAction.setTexture(myArmor.equipW!))
-            shield.run(SKAction.setTexture(myShield.equipW!))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.setTexture(equipPlayer[i-1].equipW!))
+                }
+            }
+            
         case 3,7:
             avatarPlayer.run(SKAction.setTexture(playerViewS))
             hair.run(SKAction.setTexture(playerHairViewS))
-            /*/weapon.run(SKAction.setTexture(myWeapon.equipS!))
-            helm.run(SKAction.setTexture(myHelm.equipS!))
-            leggs.run(SKAction.setTexture(myLeggs.equipS!))
-            armor.run(SKAction.setTexture(myArmor.equipS!))
-            shield.run(SKAction.setTexture(myShield.equipS!))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.setTexture(equipPlayer[i-1].equipS!))
+                }
+            }
+            
         case 4,8:
             avatarPlayer.run(SKAction.setTexture(playerViewE))
             hair.run(SKAction.setTexture(playerHairViewE))
-            /*/weapon.run(SKAction.setTexture(myWeapon.equipE!))
-            helm.run(SKAction.setTexture(myHelm.equipE!))
-            leggs.run(SKAction.setTexture(myLeggs.equipE!))
-            armor.run(SKAction.setTexture(myArmor.equipE!))
-            shield.run(SKAction.setTexture(myShield.equipE!))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.setTexture(equipPlayer[i-1].equipE!))
+                }
+            }
+            
         default:
             
             break
@@ -415,10 +425,13 @@ open class Player {
             resetpersonaje()
             avatarPlayer.run(SKAction.animate(with: deadPlayer, timePerFrame: 0.1))
             hair.run(SKAction.animate(with: deadPlayerHair, timePerFrame: 0.1))
-            /*helm.run(SKAction.animate(with: myHelm.deadequip, timePerFrame: 0.1))
-            leggs.run(SKAction.animate(with: myLeggs.deadequip, timePerFrame: 0.1))
-            armor.run(SKAction.animate(with: myArmor.deadequip, timePerFrame: 0.1))
-            shield.run(SKAction.animate(with: myShield.deadequip, timePerFrame: 0.1))*/
+            
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.run(SKAction.animate(with: equipPlayer[i-1].deadequip, timePerFrame: 0.1))
+                }
+            }
+            
             isAlive = false
         }
     }
@@ -427,11 +440,13 @@ open class Player {
     func resetpersonaje(){
             avatarPlayer.removeAllActions()
             hair.removeAllActions()
-            /*helm.removeAllActions()
-            leggs.removeAllActions()
-            weapon.removeAllActions()
-            armor.removeAllActions()
-            shield.removeAllActions()*/
+        
+            if equipPlayer.count >= 1 {
+                for i in 1...equipPlayer.count {
+                    equipPlayer[i-1].equipNode.removeAllActions()
+                }
+            }
+        
     }
     
     func actionsPlayer(){

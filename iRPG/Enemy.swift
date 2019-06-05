@@ -277,7 +277,7 @@ open class Enemy {
             }
             
             if isAtack == true {
-                setWeaponPhysicsBody()
+                //setWeaponPhysicsBody()
             }
             
             enemyxPosition = selfPosition.x - playerPosition.x

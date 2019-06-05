@@ -22,8 +22,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Player
         var myPlayer = Player()
         // Enemigos
-        var Enemy1 = SKNode()
-        var enemyMob1 = Enemy()
         var enemigos: [Enemy] = []
         //Direccion Personaje
         var direccionPersonaje = 3
@@ -69,25 +67,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Creando al jugador
             //myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
-            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "female")
+            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "male")
             
-            enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "skeleton", clase: "warrior")
-            //enemyMob1 = Enemy.init(position: CGPoint(x: frame.midX + 100, y: frame.midY + 100), tipo: "zombie", clase: "warrior")
-            //Agregando enemigos a la escena
-            Enemy1 = enemyMob1.Enemigo
-            //addChild(Enemy1)
             //Agregando los sprites del jugador a la escena
             addChild(myPlayer.Jugador)
             myInterface.rotateAnalogStick.myPlayer = myPlayer
-            
-            let hoja1 = SpriteSheet2(texture: SKTexture(imageNamed: "female_white"), rows: 21, columns: 13)
-            
-            let NPC = SKSpriteNode(texture: hoja1.textureForColumn(column: 0, row: 20))
-            NPC.xScale = myPlayer.escala
-            NPC.yScale = myPlayer.escala
-            NPC.position = CGPoint(x: frame.midX, y: frame.midY + 100)
-            
-            addChild(NPC)
             
             myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
             
@@ -279,25 +263,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
-            (secondBody.categoryBitMask & enemyMob1.enemyCategory != 0)){
-            
-            if enemyMob1.vida > 0{
-                enemyMob1.vida -=  0.5
-            }else{
-                if(enemyMob1.isAlive == true){
-                    enemyMob1.muertePersonaje()
-                    enemyMob1.isAlive = false
+        
+        //detectar que enemigo es golpeado
+        if enemigos.count >= 1 {
+            for x in 1...enemigos.count {
+                if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
+                    (secondBody.categoryBitMask & enemigos[x-1].enemyCategory != 0)){
+                    
+                    //print("daño enemigo")
+                    if enemigos[x-1].vida > 0{
+                        enemigos[x-1].vida -=  1.0
+                    }else{
+                        if(enemigos[x-1].isAlive == true){
+                            enemigos[x-1].muertePersonaje()
+                            enemigos[x-1].isAlive = false
+                        }
+                        
+                    }
+                    
                 }
-                
             }
-            
         }
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & enemyMob1.armsCategory != 0)){
+            (secondBody.categoryBitMask & myPlayer.armsCategory != 0)){
         
             if myPlayer.vida >= 0 {
-                myPlayer.vida -= 0.5
+                myPlayer.vida -= 0.1
                 myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
                 
             }else{
@@ -465,7 +456,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeft))
                     //Crea nuevo enemigo
                     enemigos.append(Enemy(position: CGPoint(x: 0, y: 100), tipo: "skeleton", clase: "warrior"))
-                    //cam!.addChild(enemigos[0].avatarEnemy)
+                    addChild(enemigos[enemigos.count-1].Enemigo)
                     print("nuevo enemigo")
                     
                 }else if name == "MenuWin"{
@@ -497,14 +488,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         super.update(currentTime)
         
+        if enemigos.count >= 1 {
+            for i in 1...enemigos.count {
+                enemigos[i-1].enemyplay(selfPosition: enemigos[i-1].Enemigo.position, playerPosition: myPlayer.Jugador.position)
+            }
         //enemyMob1.enemyplay(selfPosition: Enemy1.position, playerPosition: myPlayer.Jugador.position)
+        }
         
         if myPlayer.isAlive {
             
             //Funcion que reasigna el physics body al personaje
             myPlayer.actionsPlayer()
             
-            //if myPlayer.Atack == true {myPlayer.setWeaponPhysicsBody()}
+            if myPlayer.Atack == true {myPlayer.setWeaponPhysicsBody()}
             
             myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
             //El personaje se mueve hacia una poscicion

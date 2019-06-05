@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5802C54B22554FC1009A4B6A /* TileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5802C54A22554FC1009A4B6A /* TileMap.swift */; };
-		58086BD12242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD02242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf */; };
-		58086BD32242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD22242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf */; };
 		580C2F2C22A01B7E0061FD1F /* SpriteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580C2F2B22A01B7E0061FD1F /* SpriteSheet.swift */; };
 		580CF180229CA60C000FBE6E /* Equip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580CF17F229CA60C000FBE6E /* Equip.swift */; };
 		5819EE0C2253C322000AE359 /* AnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819EE0B2253C322000AE359 /* AnalogJoystick.swift */; };
+		581C081D22A6CA6200637A60 /* alagard_by_pix3m-d6awiwp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD22242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf */; };
+		581C081E22A6CA6600637A60 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD02242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf */; };
 		58735FFA220E5EF4001C8075 /* CavernRockSet.sks in Resources */ = {isa = PBXBuildFile; fileRef = 58735FF9220E5EF4001C8075 /* CavernRockSet.sks */; };
 		5877F178226F5E10007796A3 /* nivel_1.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5877F176226F5E0F007796A3 /* nivel_1.txt */; };
 		5877F179226F5E10007796A3 /* nivelPrueba.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5877F177226F5E10007796A3 /* nivelPrueba.txt */; };
@@ -187,10 +187,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				581C081E22A6CA6600637A60 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf in Resources */,
+				581C081D22A6CA6200637A60 /* alagard_by_pix3m-d6awiwp.ttf in Resources */,
 				58F7476D220E43590060A5D3 /* Main.storyboard in Resources */,
-				58086BD32242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf in Resources */,
 				58F74764220E43590060A5D3 /* GameScene.sks in Resources */,
-				58086BD12242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf in Resources */,
 				58735FFA220E5EF4001C8075 /* CavernRockSet.sks in Resources */,
 				58F74772220E435B0060A5D3 /* LaunchScreen.storyboard in Resources */,
 				59BA8B74225FD29A0026CB2A /* Assets.xcassets in Resources */,

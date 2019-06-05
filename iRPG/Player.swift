@@ -108,14 +108,14 @@ open class Player {
         equipPlayer.append(Equip(genero: gen, tipo: "armor", nombre: "steel_legion"))
         equipPlayer.append(Equip(genero: gen, tipo: "shield", nombre: "spartan"))
         equipPlayer.append(Equip(genero: gen, tipo: "weapon", nombre: "short_sword"))
-        //equipPlayer.append(Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1"))
+        equipPlayer.append(Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1"))
         
         
         equipPlayer[0].equipNode.zPosition = avatarPlayer.zPosition + 0.1 //leggs
         equipPlayer[1].equipNode.zPosition = avatarPlayer.zPosition + 0.2 //armor
         equipPlayer[2].equipNode.zPosition = avatarPlayer.zPosition + 0.5 //shield
         equipPlayer[3].equipNode.zPosition = avatarPlayer.zPosition + 0.6 //weapon
-        //equipPlayer[4].equipNode.zPosition = avatarPlayer.zPosition + 0.4 //helmet
+        equipPlayer[4].equipNode.zPosition = avatarPlayer.zPosition + 0.4 //helmet
         
         
         if equipPlayer.count >= 1 {

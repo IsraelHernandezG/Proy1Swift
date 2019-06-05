@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var cam: SKCameraNode?
         // Mapa
         var myMapa = TileMap()
-        var mapNum = 2
+        var mapNum = 1
         var map = SKNode()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
@@ -178,8 +178,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //lectura de archivo
             let maplevel = readFile()
             if maplevel != ""{
-            
-                    let mapa = "caves"
+
+                let mapa = "caves"
                 let cadena = maplevel as String
                 let piso = 1
                 myMapa = TileMap.init(cadena, mapa, piso)

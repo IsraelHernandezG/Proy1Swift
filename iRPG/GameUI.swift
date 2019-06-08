@@ -107,6 +107,10 @@ open class GameUI {
     //Labels
     var labelName = SKLabelNode()
     var labelEquip = SKLabelNode()
+    var labelranura1 = SKLabelNode()
+    var labelranura2 = SKLabelNode()
+    var labelranura3 = SKLabelNode()
+    var labelranura4 = SKLabelNode()
     //Escalas para los objetos
     let barScale: CGFloat = 2.0
     var lifePlayer: CGFloat = 1.0
@@ -116,7 +120,12 @@ open class GameUI {
     // banderas
     var banderaEquipo = 0
     
-
+    //Items del Jugador
+    var itemsPlayer: [(String,String)] = []
+    //Items equipados del Jugador
+    var itemsEquipedPlayer: [(String,String)] = []
+    //genero del jugador
+    var generoP: String = "male" 
     
     //Carga de las imagenes del joystick
     var joystickStickImageEnabled = true {
@@ -580,8 +589,7 @@ open class GameUI {
         labelEquip.position = CGPoint(x: buttonEquipCenter.position.x, y: buttonEquipCenter.position.y-10)
         ventana1.addChild(labelEquip)
         
-        
-        //Leer de una archivo los objetos del personaje y obtener los elementos para contruir el inventario
+    
         //Ranura 1
         let ranura1Square = SKSpriteNode(texture: textureRanura1)
         ranura1Square.name = "ranuraA"
@@ -608,6 +616,16 @@ open class GameUI {
         ranura1Center.anchorPoint = CGPoint(x: 0, y: 0.5)
         ranura1Center.position = CGPoint(x: ranura1Left.position.x+ranura1Left.size.width/2, y: ranura1Left.position.y)
         ventana1.addChild(ranura1Center)
+        
+        // label ranura item 1
+        labelranura1 = SKLabelNode(text: "-")
+        labelranura1.name = "labelranura1"
+        labelranura1.zPosition = 4.4
+        labelranura1.fontSize = 33
+        labelranura1.fontName = "Alagard"
+        labelranura1.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left // Alineacion a la izquierda
+        labelranura1.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelranura1.position = CGPoint(x: ranura1Left.position.x+ranura1Left.size.width/2, y: ranura1Left.position.y-12)
         
         let ranura1Right = SKSpriteNode(texture: textureRanura4)
         ranura1Right.name = "ranura2"
@@ -645,6 +663,16 @@ open class GameUI {
         ranura2Center.position = CGPoint(x: ranura2Left.position.x+ranura2Left.size.width/2, y: ranura2Left.position.y)
         ventana1.addChild(ranura2Center)
         
+        // label ranura item 2
+        labelranura2 = SKLabelNode(text: "-")
+        labelranura2.name = "labelranura2"
+        labelranura2.zPosition = 4.4
+        labelranura2.fontSize = 33
+        labelranura2.fontName = "Alagard"
+        labelranura2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left // Alineacion a la izquierda
+        labelranura2.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelranura2.position = CGPoint(x: ranura2Left.position.x+ranura2Left.size.width/2, y: ranura2Left.position.y-12)
+        
         let ranura2Right = SKSpriteNode(texture: textureRanura4)
         ranura2Right.name = "ranura5"
         ranura2Right.zPosition = 4.1
@@ -681,6 +709,16 @@ open class GameUI {
         ranura3Center.position = CGPoint(x: ranura3Left.position.x+ranura3Left.size.width/2, y: ranura3Left.position.y)
         ventana1.addChild(ranura3Center)
         
+        // label ranura item 3
+        labelranura3 = SKLabelNode(text: "-")
+        labelranura3.name = "labelranura3"
+        labelranura3.zPosition = 4.4
+        labelranura3.fontSize = 33
+        labelranura3.fontName = "Alagard"
+        labelranura3.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left // Alineacion a la izquierda
+        labelranura3.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelranura3.position = CGPoint(x: ranura3Left.position.x+ranura3Left.size.width/2, y: ranura3Left.position.y-12)
+        
         let ranura3Right = SKSpriteNode(texture: textureRanura4)
         ranura3Right.name = "ranura8"
         ranura3Right.zPosition = 4.1
@@ -716,6 +754,16 @@ open class GameUI {
         ranura4Center.anchorPoint = CGPoint(x: 0, y: 0.5)
         ranura4Center.position = CGPoint(x: ranura4Left.position.x+ranura4Left.size.width/2, y: ranura4Left.position.y)
         ventana1.addChild(ranura4Center)
+        
+        // label ranura item 3
+        labelranura4 = SKLabelNode(text: "-")
+        labelranura4.name = "labelranura4"
+        labelranura4.zPosition = 4.4
+        labelranura4.fontSize = 33
+        labelranura4.fontName = "Alagard"
+        labelranura4.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left // Alineacion a la izquierda
+        labelranura4.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelranura4.position = CGPoint(x: ranura4Left.position.x+ranura4Left.size.width/2, y: ranura4Left.position.y-12)
         
         let ranura4Right = SKSpriteNode(texture: textureRanura4)
         ranura4Right.name = "ranura11"
@@ -888,23 +936,6 @@ open class GameUI {
     }
     
     
-    open func equiparItem(){
-        ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(textureMenuTitleLeft))
-        ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(textureMenuTitleCenter))
-        ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(textureMenuTitleRight))
-        labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
-        
-        if (banderaEquipo == 0){
-             labelEquip.text = "Desequipar"
-            banderaEquipo = 1
-        }else{
-             labelEquip.text = "Equipar"
-            banderaEquipo = 0
-        }
-        
-    }
-    
-    
     func damage(_ vida: Double, _ vidaMax: Double){
         // normalizando la vida del jugador al rango de [0,1]
         lifePlayer = CGFloat(vida*1.0/vidaMax)
@@ -946,24 +977,67 @@ open class GameUI {
         ventana1.removeFromParent()
     }
     
-    open func selEquip(_ numRanura: Int){
+    open func selEquip(idEquip: Int){
         resetEquip()
-        switch numRanura {
+        resetRanura()
+        resetLabels()
+        switch idEquip {
         case 1:
             ventana1.childNode(withName: "helmet")?.run(SKAction.setTexture(textureRanuraHelmetPress))
             //cargar lista de objetos
-            //desplegar los objetos en el menu
-            //
+            let arrayI = parseItem(tipo: "helmet")
+            
+            for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
+                if arrayI.count-1 >= i {
+                    //existe el elemento, y se manda a cargar a una ranura
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                } //else{ print("no hay mas elementos") }
+            }
+            
         case 2:
             ventana1.childNode(withName: "amulet")?.run(SKAction.setTexture(textureRanuraAmuletPress))
         case 3:
             ventana1.childNode(withName: "armor")?.run(SKAction.setTexture(textureRanuraArmorPress))
+            
+            let arrayI = parseItem(tipo: "armor")
+            
+            for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
+                if arrayI.count-1 >= i {
+                    //existe el elemento, y se manda a cargar a una ranura
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                } //else{ print("no hay mas elementos") }
+            }
         case 4:
             ventana1.childNode(withName: "weapon")?.run(SKAction.setTexture(textureRanuraWeaponPress))
+            
+            let arrayI = parseItem(tipo: "weapon")
+            
+            for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
+                if arrayI.count-1 >= i {
+                    //existe el elemento, y se manda a cargar a una ranura
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                } //else{ print("no hay mas elementos") }
+            }
         case 5:
             ventana1.childNode(withName: "shield")?.run(SKAction.setTexture(textureRanuraShieldPress))
+            let arrayI = parseItem(tipo: "shield")
+            
+            for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
+                if arrayI.count-1 >= i {
+                    //existe el elemento, y se manda a cargar a una ranura
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                } //else{ print("no hay mas elementos") }
+            }
         case 6:
             ventana1.childNode(withName: "graves")?.run(SKAction.setTexture(textureRanuraGravesPress))
+            let arrayI = parseItem(tipo: "leggings")
+            
+            for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
+                if arrayI.count-1 >= i {
+                    //existe el elemento, y se manda a cargar a una ranura
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                } //else{ print("no hay mas elementos") }
+            }
         case 7:
             ventana1.childNode(withName: "ring1")?.run(SKAction.setTexture(textureRanuraRingPress))
         case 8:
@@ -988,17 +1062,64 @@ open class GameUI {
         ventana1.childNode(withName: "ring3")?.run(SKAction.setTexture(textureRanuraRing))
     }
     
+    func cargaRanura(numRanura: Int, nombre: String){
+        switch numRanura {
+        case 1:
+            //agregar icono del item a la ranura
+            labelranura1.text = nombre
+            ventana1.addChild(labelranura1)
+        case 2:
+            //agregar icono del item a la ranura
+            labelranura2.text = nombre
+            ventana1.addChild(labelranura2)
+        case 3:
+            //agregar icono del item a la ranura
+            labelranura3.text = nombre
+            ventana1.addChild(labelranura3)
+        case 4:
+            //agregar icono del item a la ranura
+            labelranura4.text = nombre
+            ventana1.addChild(labelranura4)
+        default:
+            print("default")
+        }
+    }
     
-    open func ranuraSel(_ numRanura: Int){
+    open func equiparItem(){
+        ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(textureMenuTitleLeft))
+        ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(textureMenuTitleCenter))
+        ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(textureMenuTitleRight))
+        labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        
+        if (labelEquip.text == "Equipar"){
+            labelEquip.text = "Desequipar"
+        }else{
+            labelEquip.text = "Equipar"
+        }
+        
+    }
+    
+    func ranuraSel(numRanura: Int){
         resetRanura()
         switch numRanura {
         case 1:
             ventana1.childNode(withName: "ranuraA")?.run(SKAction.setTexture(textureRanura1Press))
-            //agregar textura del item
             ventana1.childNode(withName: "ranura0")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura1")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura2")?.run(SKAction.setTexture(textureRanura4Press))
-            //agregar label con informacion del item
+            //1 comprobar si hay un item asociado a la ranura
+            if ventana1.childNode(withName: "labelranura1") != nil {
+                //2 comprobar si el item esta equipado
+                if comparar(nombre: labelranura1.text!) == true{
+                    labelEquip.text = "Desequipar"
+                    //"remover" el item de la lista de equipados del jugador
+                }else{
+                    labelEquip.text = "Equipar"
+                    //sustituir el item actual por el nuevo item, actualizar la lista de elementos equipados
+                }
+                ventana1.addChild(labelEquip)
+            }
+           
         case 2:
             ventana1.childNode(withName: "ranuraB")?.run(SKAction.setTexture(textureRanura1Press))
             ventana1.childNode(withName: "ranura3")?.run(SKAction.setTexture(textureRanura2Press))
@@ -1021,7 +1142,7 @@ open class GameUI {
         
     }
     
-    open func resetRanura(){
+    func resetRanura(){
         ventana1.childNode(withName: "ranuraA")?.run(SKAction.setTexture(textureRanura1))
         ventana1.childNode(withName: "ranuraB")?.run(SKAction.setTexture(textureRanura1))
         ventana1.childNode(withName: "ranuraC")?.run(SKAction.setTexture(textureRanura1))
@@ -1038,6 +1159,39 @@ open class GameUI {
         ventana1.childNode(withName: "ranura9")?.run(SKAction.setTexture(textureRanura2))
         ventana1.childNode(withName: "ranura10")?.run(SKAction.setTexture(textureRanura3))
         ventana1.childNode(withName: "ranura11")?.run(SKAction.setTexture(textureRanura4))
+        labelEquip.removeFromParent()
     }
+    
+    func resetLabels(){
+        labelranura1.removeFromParent()
+        labelranura2.removeFromParent()
+        labelranura3.removeFromParent()
+        labelranura4.removeFromParent()
+        //
+    }
+    
+    func parseItem(tipo: String) -> [String]{
+        var arrayItems: [String] = []
+        for i in 0...(itemsPlayer.count-1) {
+            if itemsPlayer[i].0 == tipo{
+                arrayItems.append(itemsPlayer[i].1)
+            }
+        }
+        return arrayItems
+    }
+    
+    func comparar(nombre: String) -> Bool{
+        var ok: Bool = false
+        for i in 0...(itemsEquipedPlayer.count-1){
+            if itemsEquipedPlayer[i].1 == nombre{
+                ok = true
+                break
+            }
+        }
+        
+        return ok
+    }
+    
+    
     
 }

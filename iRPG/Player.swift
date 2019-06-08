@@ -50,8 +50,11 @@ open class Player {
     var Jugador = SKNode()
     var avatarPlayer = SKSpriteNode()
     var hair = SKSpriteNode()
-
+    //items equipados por el jugador
     var equipPlayer: [Equip] = []
+    //items del jugador
+    var items: [(String,String)] = []
+    var itemsEquiped: [(String,String)] = []
     
     //Movimiento personaje
     var velocidadXp: CGFloat = 1.0
@@ -103,18 +106,28 @@ open class Player {
         hair =  SKSpriteNode(texture: playerHairViewS)
         hair.zPosition = avatarPlayer.zPosition + 0.3
      
-        //Equipo del jugador
+        //Items del jugador (de 0 a infinito)
+        items.append(("leggings","legion"))
+        items.append(("armor","steel_legion"))
+        items.append(("helmet","bronze_legion_1"))
+        items.append(("shield","spartan"))
+        items.append(("weapon","short_sword"))
+        
+        //Items equipados del jugador (de 0 a 5)
+        itemsEquiped.append(("leggings","legion"))
+        itemsEquiped.append(("armor","steel_legion"))
+        itemsEquiped.append(("helmet","bronze_legion_1"))
+        itemsEquiped.append(("shield","spartan"))
+        itemsEquiped.append(("weapon","short_sword"))
+        
+        //Equipo del jugador (se van a contruir los objetos a partir de los nombres de los items)
         equipPlayer.append(Equip(genero: gen, tipo: "leggings", nombre: "legion"))
         equipPlayer.append(Equip(genero: gen, tipo: "armor", nombre: "steel_legion"))
         equipPlayer.append(Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1"))
         equipPlayer.append(Equip(genero: gen, tipo: "shield", nombre: "spartan"))
         equipPlayer.append(Equip(genero: gen, tipo: "weapon", nombre: "short_sword"))
         
-        equipPlayer[0].equipNode.zPosition = avatarPlayer.zPosition + 0.1 //leggs
-        equipPlayer[1].equipNode.zPosition = avatarPlayer.zPosition + 0.2 //armor
-        equipPlayer[2].equipNode.zPosition = avatarPlayer.zPosition + 0.4 //helmet
-        equipPlayer[3].equipNode.zPosition = avatarPlayer.zPosition + 0.5 //shield
-        equipPlayer[4].equipNode.zPosition = avatarPlayer.zPosition + 0.6 //weapon
+        setZPosition()
         
         if equipPlayer.count >= 1 {
             for i in 1...equipPlayer.count {
@@ -130,6 +143,19 @@ open class Player {
         Jugador.setScale(escala)
         
         
+    }
+
+    func addItem(tipo: String, nombre: String){
+        items.append((tipo,nombre))
+    }
+    
+    
+    func setZPosition(){
+        equipPlayer[0].equipNode.zPosition = avatarPlayer.zPosition + 0.1 //leggs
+        equipPlayer[1].equipNode.zPosition = avatarPlayer.zPosition + 0.2 //armor
+        equipPlayer[2].equipNode.zPosition = avatarPlayer.zPosition + 0.4 //helmet
+        equipPlayer[3].equipNode.zPosition = avatarPlayer.zPosition + 0.5 //shield
+        equipPlayer[4].equipNode.zPosition = avatarPlayer.zPosition + 0.6 //weapon
     }
     
     func setPlayerPhysicsBody(){

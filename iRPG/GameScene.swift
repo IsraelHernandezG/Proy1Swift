@@ -54,20 +54,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Camara
             cam=SKCameraNode()
+            
+            //Creando al jugador
+            //myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
+            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "male")
+            
             //Elementos de la Interfaz Grafica
             myInterface.createUI(self.frame)
             //El Menu se crea de una vez pero no se agrega a la escena
             myInterface.createMenu(self.frame)
-
+            //Mandar las listas de items del jugador a la interfaz
+            myInterface.itemsPlayer = myPlayer.items
+            myInterface.itemsEquipedPlayer = myPlayer.itemsEquiped
             //El objeto resultante se agrega a la camara
             cam!.addChild(myInterface.interfaz)
             
             self.camera=cam
             self.addChild(cam!)
             
-            //Creando al jugador
-            //myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
-            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "male")
+            
             
             //Crea nuevo enemigo
             enemigos.append(Enemy(position: CGPoint(x: 100, y: 100), tipo: "skeleton", clase: "warrior", categoria: 0))
@@ -411,35 +416,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRight))
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
                     myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
-                    //nodo.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(nodo.textureMenuButtonLeft))
                     
                     myInterface.lanzaMenuEquip()
-                }else if (name == "ranura0" || name == "ranura1" || name == "ranura2") {
-                    myInterface.ranuraSel(1)
-                }else if (name == "ranura3" || name == "ranura4" || name == "ranura5") {
-                    myInterface.ranuraSel(2)
-                }else if (name == "ranura6" || name == "ranura7" || name == "ranura8") {
-                    myInterface.ranuraSel(3)
-                }else if (name == "ranura9" || name == "ranura10" || name == "ranura11") {
-                    myInterface.ranuraSel(4)
+                }else if (name == "ranura0" || name == "ranura1" || name == "ranura2" || name == "labelranura1" || name == "ranuraA") {
+                    myInterface.ranuraSel(numRanura: 1)
+                }else if (name == "ranura3" || name == "ranura4" || name == "ranura5" || name == "labelranura2" || name == "ranuraB") {
+                    myInterface.ranuraSel(numRanura: 2)
+                }else if (name == "ranura6" || name == "ranura7" || name == "ranura8" || name == "labelranura3" || name == "ranuraC") {
+                    myInterface.ranuraSel(numRanura: 3)
+                }else if (name == "ranura9" || name == "ranura10" || name == "ranura11" || name == "labelranura4" || name == "ranuraD") {
+                    myInterface.ranuraSel(numRanura: 4)
                 }else if name == "helmet"{
-                    myInterface.selEquip(1)
+                    myInterface.selEquip(idEquip: 1)
                 }else if name == "amulet"{
-                    myInterface.selEquip(2)
+                    myInterface.selEquip(idEquip: 2)
                 }else if name == "armor"{
-                    myInterface.selEquip(3)
+                    myInterface.selEquip(idEquip: 3)
                 }else if name == "weapon"{
-                    myInterface.selEquip(4)
+                    myInterface.selEquip(idEquip: 4)
                 }else if name == "shield"{
-                    myInterface.selEquip(5)
+                    myInterface.selEquip(idEquip: 5)
                 }else if name == "graves"{
-                    myInterface.selEquip(6)
+                    myInterface.selEquip(idEquip: 6)
                 }else if name == "ring1"{
-                    myInterface.selEquip(7)
+                    myInterface.selEquip(idEquip: 7)
                 }else if name == "ring2"{
-                    myInterface.selEquip(8)
+                    myInterface.selEquip(idEquip: 8)
                 }else if name == "ring3"{
-                    myInterface.selEquip(9)
+                    myInterface.selEquip(idEquip: 9)
                 }else if (name == "botonEquip1" || name == "botonEquip2" || name == "botonEquip3" || name == "labelBoton") {
                     
                     myInterface.ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(myInterface.textureMenuTitleLeftPress))
@@ -472,6 +476,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if name == "Menu"{
                     lanzaMenu()
+                    myInterface.selEquip(idEquip: 1)
                     myInterface.interfaz.removeFromParent()
                     myInterface.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(myInterface.textureMenuButton))
                 }else if name == "Arriba"{

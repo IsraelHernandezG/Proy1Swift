@@ -69,6 +69,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
             myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "male")
             
+            //Crea nuevo enemigo
+            enemigos.append(Enemy(position: CGPoint(x: 100, y: 100), tipo: "skeleton", clase: "warrior", categoria: 0))
+            addChild(enemigos[enemigos.count-1].Enemigo)
+            print("categoriaE: \(enemigos[enemigos.count-1].enemyCategory)")
+            
+            
             //Agregando los sprites del jugador a la escena
             addChild(myPlayer.Jugador)
             myInterface.rotateAnalogStick.myPlayer = myPlayer
@@ -231,8 +237,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & myMapa.Wall1Category != 0)){
+            (secondBody.categoryBitMask == myMapa.Wall1Category )){
             
+            //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(myMapa.Wall1Category) muro 1")
             if (topeYp == 0.0){
                 myPlayer.velocidadYp = 0.0
                 topeYp = myPlayer.Jugador.position.y
@@ -243,9 +250,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & myMapa.Wall2Category != 0)){
+            (secondBody.categoryBitMask == myMapa.Wall2Category)){
             
-            //print("\nLeft Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
+            //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(myMapa.Wall2Category) muro 2")
             if (topeXm == 0.0){
                 myPlayer.velocidadXm = 0.0
                 topeXm = myPlayer.Jugador.position.x
@@ -257,9 +264,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & myMapa.Wall3Category != 0)){
+            (secondBody.categoryBitMask == myMapa.Wall3Category)){
             
-            //print("\nRight Wall Contact:\nx: \(playerNode.position.x), y: \(playerNode.position.y)")
+            //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(myMapa.Wall3Category) muro 3")
             if (topeXp == 0.0){
                 myPlayer.velocidadXp = 0.0
                 topeXp = myPlayer.Jugador.position.x
@@ -272,8 +279,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & myMapa.Wall4Category != 0)){
+            (secondBody.categoryBitMask == myMapa.Wall4Category)){
             
+            //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(myMapa.Wall4Category) muro 4")
             if (topeYm == 0.0){
                 myPlayer.velocidadYm = 0.0
                 topeYm = myPlayer.Jugador.position.y
@@ -288,27 +296,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if enemigos.count >= 1 {
             for x in 1...enemigos.count {
                 if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
-                    (secondBody.categoryBitMask & enemigos[x-1].enemyCategory != 0)){
+                    (secondBody.categoryBitMask == enemigos[x-1].enemyCategory )){
                     
-                    //print("daño enemigo")
+                    //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(enemigos[x-1].enemyCategory)")
                     if enemigos[x-1].vida > 0{
-                        enemigos[x-1].vida -=  1.0
+                        enemigos[x-1].vida -=  0.5
                     }else{
                         if(enemigos[x-1].isAlive == true){
                             enemigos[x-1].muertePersonaje()
                             enemigos[x-1].isAlive = false
+                            //1 remover al enemigo del arreglo
+                            //2 recorrer los elementos y reasignar el enemyCategory
                         }
                         
                     }
                     
-                }
+                }/*else if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
+                    (secondBody.categoryBitMask != enemigos[x-1].enemyCategory )){
+                    print("cuerpo: \(secondBody.categoryBitMask), categoria: \(enemigos[x-1].enemyCategory) No hay daño")
+                }*/
             }
         }
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
             (secondBody.categoryBitMask & myPlayer.armsCategory != 0)){
         
             if myPlayer.vida >= 0 {
-                myPlayer.vida -= 0.1
+                myPlayer.vida -= 0.3
                 myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
                 
             }else{
@@ -475,9 +488,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeft))
                     //Crea nuevo enemigo
-                    enemigos.append(Enemy(position: CGPoint(x: 0, y: 100), tipo: "skeleton", clase: "warrior"))
+                    enemigos.append(Enemy(position: CGPoint(x: 0, y: 100), tipo: "skeleton", clase: "warrior", categoria: UInt32(enemigos.count)))
                     addChild(enemigos[enemigos.count-1].Enemigo)
-                    print("nuevo enemigo")
+                    print("categoriaE: \(enemigos[enemigos.count-1].enemyCategory)")
                     
                 }else if name == "MenuWin"{
                     cierramenu()

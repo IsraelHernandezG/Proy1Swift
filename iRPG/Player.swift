@@ -106,17 +106,15 @@ open class Player {
         //Equipo del jugador
         equipPlayer.append(Equip(genero: gen, tipo: "leggings", nombre: "legion"))
         equipPlayer.append(Equip(genero: gen, tipo: "armor", nombre: "steel_legion"))
+        equipPlayer.append(Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1"))
         equipPlayer.append(Equip(genero: gen, tipo: "shield", nombre: "spartan"))
         equipPlayer.append(Equip(genero: gen, tipo: "weapon", nombre: "short_sword"))
-        equipPlayer.append(Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1"))
-        
         
         equipPlayer[0].equipNode.zPosition = avatarPlayer.zPosition + 0.1 //leggs
         equipPlayer[1].equipNode.zPosition = avatarPlayer.zPosition + 0.2 //armor
-        equipPlayer[2].equipNode.zPosition = avatarPlayer.zPosition + 0.5 //shield
-        equipPlayer[3].equipNode.zPosition = avatarPlayer.zPosition + 0.6 //weapon
-        equipPlayer[4].equipNode.zPosition = avatarPlayer.zPosition + 0.4 //helmet
-        
+        equipPlayer[2].equipNode.zPosition = avatarPlayer.zPosition + 0.4 //helmet
+        equipPlayer[3].equipNode.zPosition = avatarPlayer.zPosition + 0.5 //shield
+        equipPlayer[4].equipNode.zPosition = avatarPlayer.zPosition + 0.6 //weapon
         
         if equipPlayer.count >= 1 {
             for i in 1...equipPlayer.count {
@@ -126,9 +124,8 @@ open class Player {
         
         //Juntando elementos del jugador
         Jugador.addChild(avatarPlayer)
-        
-        
         Jugador.addChild(hair)
+        
         Jugador.position = position
         Jugador.setScale(escala)
         
@@ -146,15 +143,15 @@ open class Player {
     }
     
     func setWeaponPhysicsBody(){
-        
-        if let temp = SKPhysicsBody(texture: equipPlayer[3].equipNode.texture!, size: equipPlayer[3].equipNode.size) as? SKPhysicsBody {
-            equipPlayer[3].equipNode.physicsBody = temp
-            equipPlayer[3].equipNode.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
+        //el arma debe ser el ultimo elemento del arreglo
+        if let temp = SKPhysicsBody(texture: equipPlayer[equipPlayer.count-1].equipNode.texture!, size: equipPlayer[equipPlayer.count-1].equipNode.size) as? SKPhysicsBody {
+            equipPlayer[equipPlayer.count-1].equipNode.physicsBody = temp
+            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-            equipPlayer[3].equipNode.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
-            equipPlayer[3].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
+            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
             // estas configuraciones tambien son necesarias
-            equipPlayer[3].equipNode.physicsBody?.isDynamic=true
+            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.isDynamic=true
         }
     }
     

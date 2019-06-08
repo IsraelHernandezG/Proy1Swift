@@ -40,13 +40,10 @@ open class Enemy {
     // Controles de la fisica
     var Enemigo = SKNode()
     var avatarEnemy = SKSpriteNode()
-    var weapon = SKSpriteNode()
-    var myWeapon = Equip()
-    var hair = SKSpriteNode()
-    var helm = SKSpriteNode()
-    var leggs = SKSpriteNode()
-    //var myHelm = Armor()
-    //var myLeggs = ArmorLeggs()
+    
+    //Equipo del enemigo
+    var equipEnemy: [Equip] = []
+    
     //vida
     var vida = 200.0
     var vidaMax = 200.0
@@ -54,24 +51,26 @@ open class Enemy {
     var isAtack: Bool = false
     var stop: Bool = false
     // CategoriesitMasks: Determinan que objetos colisionan con que
+    //PlayerCategory
+    let playerCategory: UInt32 = 0x01 << 0
     //TileMapCategories
     let Wall1Category: UInt32 = 0x01 << 1
     let Wall2Category: UInt32 = 0x01 << 2
     let Wall3Category: UInt32 = 0x01 << 3
     let Wall4Category: UInt32 = 0x01 << 4
-    //PlayerCategory
-    let playerCategory: UInt32 = 0x01 << 0
     //ArmsCategory
     let armsCategory: UInt32 = 0x01 << 5
-    //EnemyCategory
-    let enemyCategory: UInt32 = 0x01 << 6
+    //EnemyCategories >= 6
+    var enemyCategory: UInt32 = 0x01 << 6 //default
     
     var enemyxPosition: CGFloat = 0.0
     var enemyyPosition: CGFloat = 0.0
     
     var orientaCaminata = 3
     
-    init(position: CGPoint, tipo: String, clase: String){
+    init(position: CGPoint, tipo: String, clase: String, categoria: UInt32){
+        
+        enemyCategory = 0x01 << 6+categoria
         
         createAnimations(tipo: tipo, clase : clase)
         
@@ -84,22 +83,22 @@ open class Enemy {
         avatarEnemy.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
         // estas configuraciones tambien son necesarias
         avatarEnemy.physicsBody!.isDynamic=true
-        avatarEnemy.zPosition = 1
+        avatarEnemy.zPosition = 0.9
         
         //Equipo del jugador
-        myWeapon = Equip(tipo: "weapon", nombre: "short_sword")
-        weapon = myWeapon.equipNode
-        //myHelm = Armor(nombre: "bronce_helm")
-        //helm = myHelm.helm
-        //myLeggs = ArmorLeggs(nombre: "Roman_Leggs")
-        //leggs = myLeggs.leggs
+        equipEnemy.append(Equip(tipo: "weapon", nombre: "short_sword"))
+    
+        equipEnemy[0].equipNode.zPosition = avatarEnemy.zPosition + 0.6 //weapon
         
-        //Juntando elementos del jugador
+        if equipEnemy.count >= 1 {
+            for i in 1...equipEnemy.count {
+                Enemigo.addChild(equipEnemy[i-1].equipNode)
+            }
+        }
+        
+        //Juntando elementos del enemigo
         Enemigo.addChild(avatarEnemy)
-        Enemigo.addChild(weapon)
-        //Enemy.addChild(helm)
-        //Enemy.addChild(leggs)
-        
+ 
         Enemigo.position = position
         Enemigo.setScale(escala)
         
@@ -107,14 +106,14 @@ open class Enemy {
     
     func setWeaponPhysicsBody(){
         
-         let temp = SKPhysicsBody(texture: weapon.texture!, size: weapon.size)
-            weapon.physicsBody = temp
-            weapon.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
+         let temp = SKPhysicsBody(texture: equipEnemy[equipEnemy.count-1].equipNode.texture!, size: equipEnemy[equipEnemy.count-1].equipNode.size)
+            equipEnemy[equipEnemy.count-1].equipNode.physicsBody = temp
+            equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-            weapon.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | playerCategory
-            weapon.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
+            equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | playerCategory
+            equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
             // estas configuraciones tambien son necesarias
-            weapon.physicsBody?.isDynamic=true
+            equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.isDynamic=true
        
     }
     
@@ -124,7 +123,7 @@ open class Enemy {
     
     func createAnimations(tipo: String, clase: String) {
         
-        let enemyAtlas = SKTextureAtlas(named: "enemies")
+       // let enemyAtlas = SKTextureAtlas(named: "enemies")
         //let sheet=SpriteSheet2(texture: enemyAtlas.textureNamed("\(tipo)"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "\(tipo)")!, rows: 21, columns: 13)
         
@@ -191,26 +190,39 @@ open class Enemy {
     func animateMove() {
         switch orientaCaminata {
         case 1:
-            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
-            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
-        case 2:
-            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesE,timePerFrame: 0.1)))
             
-           /* helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.repeatForever(SKAction.animate(with: equipEnemy[i-1].equipMoveE, timePerFrame: 0.1)))
+                }
+            }
+        case 2:
+            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesW,timePerFrame: 0.1)))
+            
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.repeatForever(SKAction.animate(with: equipEnemy[i-1].equipMoveW, timePerFrame: 0.1)))
+                }
+            }
             
         case 3:
-            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
+            avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesS,timePerFrame: 0.1)))
             
-            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.repeatForever(SKAction.animate(with: equipEnemy[i-1].equipMoveS, timePerFrame: 0.1)))
+                }
+            }
             
         case 4:
-           avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingEnemy")
+           avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesN,timePerFrame: 0.1)))
             
-            /*helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetSkeleton")
-            leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsSkeleton")*/
+           if equipEnemy.count >= 1 {
+            for i in 1...equipEnemy.count {
+                equipEnemy[i-1].equipNode.run(SKAction.repeatForever(SKAction.animate(with: equipEnemy[i-1].equipMoveN, timePerFrame: 0.1)))
+            }
+            }
             
         default:
             break
@@ -223,18 +235,36 @@ open class Enemy {
         switch orientaCaminata {
         case 4:
            avatarEnemy.run(SKAction.animate(with: enemyAtackN, timePerFrame: 0.1))
-           weapon.run(SKAction.animate(with: myWeapon.equipAttackN, timePerFrame: 0.1))
+           
+           if equipEnemy.count >= 1 {
+            for i in 1...equipEnemy.count {
+                equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].equipAttackN, timePerFrame: 0.1))
+            }
+           }
+           
             
         case 2:
             avatarEnemy.run(SKAction.animate(with: enemyAtackW, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.equipAttackW, timePerFrame: 0.1))
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].equipAttackW, timePerFrame: 0.1))
+                }
+            }
             
         case 3:
            avatarEnemy.run(SKAction.animate(with: enemyAtackS, timePerFrame: 0.1))
-           weapon.run(SKAction.animate(with: myWeapon.equipAttackS, timePerFrame: 0.1))
+           if equipEnemy.count >= 1 {
+            for i in 1...equipEnemy.count {
+                equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].equipAttackS, timePerFrame: 0.1))
+            }
+            }
         case 1:
             avatarEnemy.run(SKAction.animate(with: enemyAtackE, timePerFrame: 0.1))
-            weapon.run(SKAction.animate(with: myWeapon.equipAttackE, timePerFrame: 0.1))
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].equipAttackE, timePerFrame: 0.1))
+                }
+            }
         default:
             break
         }
@@ -247,21 +277,32 @@ open class Enemy {
         switch orientaCaminata {
         case 1:
             avatarEnemy.run(SKAction.setTexture(enemyViewN))
-            /*helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_N_1")))
-            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_N-1")))*/
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.setTexture(equipEnemy[i-1].equipN!))
+                }
+            }
         case 2:
             avatarEnemy.run(SKAction.setTexture(enemyViewW))
-        
-            /*helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_W_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_W-1")))*/
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.setTexture(equipEnemy[i-1].equipW!))
+                }
+            }
         case 3:
             avatarEnemy.run(SKAction.setTexture(enemyViewS))
-            /*helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_S_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_S-1")))*/
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.setTexture(equipEnemy[i-1].equipS!))
+                }
+            }
         case 4:
             avatarEnemy.run(SKAction.setTexture(enemyViewE))
-            /*helm.run(SKAction.setTexture(helmFrames.textureNamed("Helm_E_I")))
-            leggs.run(SKAction.setTexture(myLeggs.leggsMoves.textureNamed("Leggings_E-1")))*/
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.setTexture(equipEnemy[i-1].equipE!))
+                }
+            }
         default:
             
             break
@@ -277,7 +318,7 @@ open class Enemy {
             }
             
             if isAtack == true {
-                //setWeaponPhysicsBody()
+                setWeaponPhysicsBody()
             }
             
             enemyxPosition = selfPosition.x - playerPosition.x
@@ -320,13 +361,10 @@ open class Enemy {
                 }
                 
             }else if (velocidad == 0.0){
-                if (avatarEnemy.hasActions()==false && (enemyxPosition.magnitude < 100.0 || enemyyPosition.magnitude < 100.0) ){
+                if (avatarEnemy.hasActions()==false && (enemyxPosition.magnitude < 100.0 && enemyyPosition.magnitude < 100.0) ){
                     atack()
-                    //enemyMob1.setWeaponPhysicsBody()
-                    //enemyMob1.isAtack=true
-                }else {
-                    //enemyMob1.resetpersonaje()
-                    //enemyMob1.orientarPersonaje()
+                }else if (avatarEnemy.hasActions()==false && (enemyxPosition.magnitude > 100.0 || enemyyPosition.magnitude > 100.0)){
+                    orientarPersonaje()
                 }
             }
             
@@ -335,7 +373,6 @@ open class Enemy {
                 velocidad = 1.0
                 stop = false
                 followPlayer() // desplaza al enemigo
-                
             }else{
                 velocidad = 0.0
                 if(stop == false){
@@ -349,15 +386,27 @@ open class Enemy {
     
     
     func muertePersonaje(){
-        avatarEnemy.run(SKAction.animate(with: deadEnemy, timePerFrame: 0.1))
-        isAlive = false
+        if isAlive == true {
+            resetpersonaje()
+            avatarEnemy.run(SKAction.animate(with: deadEnemy, timePerFrame: 0.1))
+           
+            if equipEnemy.count >= 1 {
+                for i in 1...equipEnemy.count {
+                    equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].deadequip, timePerFrame: 0.1))
+                }
+            }
+            
+            isAlive = false
+        }
     }
     
     func resetpersonaje(){
         avatarEnemy.removeAllActions()
-        weapon.removeAllActions()
-        hair.removeAllActions()
-        leggs.removeAllActions()
+        if equipEnemy.count >= 1 {
+            for i in 1...equipEnemy.count {
+                equipEnemy[i-1].equipNode.removeAllActions()
+            }
+        }
         
     }
     func followPlayer(){
@@ -365,29 +414,14 @@ open class Enemy {
              
         switch orientaCaminata {
         case 1: //N
-        Enemigo.run(SKAction.moveBy(x: CGFloat(1)*velocidad*velocidadXp, y: CGFloat(0), duration: 0.1))
-         /*avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
-         helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveN,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")*/
+            Enemigo.run(SKAction.moveBy(x: CGFloat(1)*velocidad*velocidadXp, y: CGFloat(0), duration: 0.1))
         case 2: //W
-         Enemigo.run(SKAction.moveBy(x: CGFloat(-1)*velocidad*velocidadXm, y: CGFloat(0), duration: 0.1))
-       
-         /*avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
-         helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveW,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")*/
-            
+            Enemigo.run(SKAction.moveBy(x: CGFloat(-1)*velocidad*velocidadXm, y: CGFloat(0), duration: 0.1))
         case 3: //S
-         Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad*velocidadYm, duration: 0.1))
-         /*avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
-         helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveS,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")*/
-            
+            Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad*velocidadYm, duration: 0.1))
         case 4: //E
-         Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
-         /*avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: skeletonWalkingFramesE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"walkingSkeleton")
-         helm.run(SKAction.repeatForever(SKAction.animate(with: myHelm.helmMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"helmetPlayer")
-         leggs.run(SKAction.repeatForever(SKAction.animate(with: myLeggs.leggsMoveE,timePerFrame: 0.1,resize: false,restore: true)),withKey:"leggsPlayer")*/
-        
+            Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
+
         default:
             break
         }

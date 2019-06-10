@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var cam: SKCameraNode?
         // Mapa
         var myMapa = TileMap()
-        var mapNum = 1
+        var mapNum = 2
         var map = SKNode()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0

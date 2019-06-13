@@ -152,9 +152,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         myInterface.contextoMenu.removeFromParent()
     }
     
-    func readFile() -> NSString{
+    func readFile(nombre: String) -> NSString{
         
-        let FileName = "nivelPrueba"
+        let FileName = nombre
         
         var dir = String()
         
@@ -187,7 +187,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch level {
         case 1:
             //lectura de archivo
-            let maplevel = readFile()
+            let maplevel = readFile(nombre: "nivel_cueva")
             if maplevel != ""{
 
                 let mapa = "caves"
@@ -205,7 +205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         case 2:
             //lectura de archivo
-            let maplevel = readFile()
+            let maplevel = readFile(nombre: "nivel_bosque")
             if maplevel != ""{
                 let mapa = "bosque"
                 let piso = 2

@@ -57,7 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Creando al jugador
             //myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
-            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "male")
+            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "female")
             
             //Elementos de la Interfaz Grafica
             myInterface.createUI(self.frame)
@@ -77,8 +77,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Crea nuevo enemigo
             enemigos.append(Enemy(position: CGPoint(x: 100, y: 100), tipo: "skeleton", clase: "warrior", categoria: 0))
             addChild(enemigos[enemigos.count-1].Enemigo)
-            print("categoriaE: \(enemigos[enemigos.count-1].enemyCategory)")
-            
             
             //Agregando los sprites del jugador a la escena
             addChild(myPlayer.Jugador)
@@ -451,6 +449,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(myInterface.textureMenuTitleRightPress))
                     
                     myInterface.labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
+                    
+                    
                 }
             }
             
@@ -495,7 +495,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //Crea nuevo enemigo
                     enemigos.append(Enemy(position: CGPoint(x: 0, y: 100), tipo: "skeleton", clase: "warrior", categoria: UInt32(enemigos.count)))
                     addChild(enemigos[enemigos.count-1].Enemigo)
-                    print("categoriaE: \(enemigos[enemigos.count-1].enemyCategory)")
                     
                 }else if name == "MenuWin"{
                     cierramenu()
@@ -511,6 +510,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.labelName.text = "Equipo"
                 }else if (name == "botonEquip1" || name == "botonEquip2" || name == "botonEquip3" || name == "labelBoton") {
                     myInterface.equiparItem()
+                    //actualizar las listas del jugador
+                    myPlayer.itemsEquiped = myInterface.itemsEquipedPlayer
+                    myPlayer.reloadItems()
                 }
                 
             }

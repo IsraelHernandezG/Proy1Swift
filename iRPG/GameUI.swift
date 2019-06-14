@@ -124,6 +124,12 @@ open class GameUI {
     var itemsPlayer: [(String,String)] = []
     //Items equipados del Jugador
     var itemsEquipedPlayer: [(String,String)] = []
+    //
+    var indexItem: Int = 0
+    //
+    let arrayEquip: [String] = ["leggings","armor","helmet","shield","weapon"]
+    //
+    var itemActual: String = ""
     //genero del jugador
     var generoP: String = "male" 
     
@@ -981,12 +987,13 @@ open class GameUI {
         resetEquip()
         resetRanura()
         resetLabels()
+        labelEquip.removeFromParent()
         switch idEquip {
         case 1:
             ventana1.childNode(withName: "helmet")?.run(SKAction.setTexture(textureRanuraHelmetPress))
             //cargar lista de objetos
             let arrayI = parseItem(tipo: "helmet")
-            
+            indexItem = 2
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
@@ -1000,7 +1007,7 @@ open class GameUI {
             ventana1.childNode(withName: "armor")?.run(SKAction.setTexture(textureRanuraArmorPress))
             
             let arrayI = parseItem(tipo: "armor")
-            
+            indexItem = 1
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
@@ -1011,7 +1018,7 @@ open class GameUI {
             ventana1.childNode(withName: "weapon")?.run(SKAction.setTexture(textureRanuraWeaponPress))
             
             let arrayI = parseItem(tipo: "weapon")
-            
+            indexItem = 4
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
@@ -1021,7 +1028,7 @@ open class GameUI {
         case 5:
             ventana1.childNode(withName: "shield")?.run(SKAction.setTexture(textureRanuraShieldPress))
             let arrayI = parseItem(tipo: "shield")
-            
+            indexItem = 3
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
@@ -1031,7 +1038,7 @@ open class GameUI {
         case 6:
             ventana1.childNode(withName: "graves")?.run(SKAction.setTexture(textureRanuraGravesPress))
             let arrayI = parseItem(tipo: "leggings")
-            
+            indexItem = 0
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
@@ -1093,31 +1100,39 @@ open class GameUI {
         
         if (labelEquip.text == "Equipar"){
             labelEquip.text = "Desequipar"
+            //sustituir el item actual por el nuevo item, actualizar la lista de elementos equipados
+            itemsEquipedPlayer[indexItem] = (arrayEquip[indexItem],itemActual)
         }else{
             labelEquip.text = "Equipar"
+            //"remover" el item de la lista de equipados del jugador
+            itemsEquipedPlayer.remove(at: indexItem)
+            itemsEquipedPlayer.insert((arrayEquip[indexItem],"null"), at: indexItem)
         }
+        
         
     }
     
     func ranuraSel(numRanura: Int){
         resetRanura()
+        
         switch numRanura {
         case 1:
             ventana1.childNode(withName: "ranuraA")?.run(SKAction.setTexture(textureRanura1Press))
             ventana1.childNode(withName: "ranura0")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura1")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura2")?.run(SKAction.setTexture(textureRanura4Press))
-            //1 comprobar si hay un item asociado a la ranura
+            //comprobar si hay un item asociado a la ranura
             if ventana1.childNode(withName: "labelranura1") != nil {
-                //2 comprobar si el item esta equipado
-                if comparar(nombre: labelranura1.text!) == true{
+                itemActual = labelranura1.text!
+                ventana1.addChild(labelEquip)
+                //comprobar si el item esta equipado
+                if comparar(nombre: itemActual) == true{
                     labelEquip.text = "Desequipar"
-                    //"remover" el item de la lista de equipados del jugador
                 }else{
                     labelEquip.text = "Equipar"
-                    //sustituir el item actual por el nuevo item, actualizar la lista de elementos equipados
                 }
-                ventana1.addChild(labelEquip)
+            }else{
+                itemActual = ""
             }
            
         case 2:
@@ -1125,16 +1140,55 @@ open class GameUI {
             ventana1.childNode(withName: "ranura3")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura4")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura5")?.run(SKAction.setTexture(textureRanura4Press))
+            //comprobar si hay un item asociado a la ranura
+            if ventana1.childNode(withName: "labelranura2") != nil {
+                itemActual = labelranura2.text!
+                ventana1.addChild(labelEquip)
+                //comprobar si el item esta equipado
+                if comparar(nombre: itemActual) == true{
+                    labelEquip.text = "Desequipar"
+                }else{
+                    labelEquip.text = "Equipar"
+                }
+            }else{
+                itemActual = ""
+            }
         case 3:
             ventana1.childNode(withName: "ranuraC")?.run(SKAction.setTexture(textureRanura1Press))
             ventana1.childNode(withName: "ranura6")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura7")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura8")?.run(SKAction.setTexture(textureRanura4Press))
+            //comprobar si hay un item asociado a la ranura
+            if ventana1.childNode(withName: "labelranura3") != nil {
+                itemActual = labelranura3.text!
+                ventana1.addChild(labelEquip)
+                //comprobar si el item esta equipado
+                if comparar(nombre: itemActual) == true{
+                    labelEquip.text = "Desequipar"
+                }else{
+                    labelEquip.text = "Equipar"
+                }
+            }else{
+                itemActual = ""
+            }
         case 4:
             ventana1.childNode(withName: "ranuraD")?.run(SKAction.setTexture(textureRanura1Press))
             ventana1.childNode(withName: "ranura9")?.run(SKAction.setTexture(textureRanura2Press))
             ventana1.childNode(withName: "ranura10")?.run(SKAction.setTexture(textureRanura3Press))
             ventana1.childNode(withName: "ranura11")?.run(SKAction.setTexture(textureRanura4Press))
+            //comprobar si hay un item asociado a la ranura
+            if ventana1.childNode(withName: "labelranura4") != nil {
+                itemActual = labelranura4.text!
+                ventana1.addChild(labelEquip)
+                //comprobar si el item esta equipado
+                if comparar(nombre: itemActual) == true{
+                    labelEquip.text = "Desequipar"
+                }else{
+                    labelEquip.text = "Equipar"
+                }
+            }else{
+                itemActual = ""
+            }
         default:
             print("default")
             //

@@ -44,6 +44,7 @@ open class Player {
     var deadPlayerHair: [SKTexture] = []
     
     var orientacionPersonaje: Int = 3
+    var generoPersonaje: String = "male"
     
     let escala: CGFloat = 3.0
    
@@ -88,6 +89,7 @@ open class Player {
     
     init(posicion position: CGPoint, genero gen: String){
         
+        generoPersonaje = gen
         //crear una coleccion para el genero
         createAnimations(gen)
         
@@ -110,6 +112,8 @@ open class Player {
         items.append(("leggings","legion"))
         items.append(("armor","steel_legion"))
         items.append(("helmet","bronze_legion_1"))
+        items.append(("helmet","steel_legion_2"))
+        items.append(("helmet","gold_legion_3"))
         items.append(("shield","spartan"))
         items.append(("weapon","short_sword"))
         
@@ -484,6 +488,21 @@ open class Player {
             stamina += 0.2
         }
         return stamina
+    }
+    
+    func reloadItems(){
+        //print("-----------------")
+        for i in 0...(itemsEquiped.count-1){
+            equipPlayer[i].equipNode.removeFromParent()
+            if (itemsEquiped[i].1 != "null"){
+                equipPlayer[i].equipNode.removeFromParent()
+                equipPlayer[i] = Equip(genero: generoPersonaje, tipo: itemsEquiped[i].0, nombre: itemsEquiped[i].1,orientacion: orientacionPersonaje)
+                Jugador.addChild(equipPlayer[i].equipNode)
+            }
+            //print("(\(itemsEquiped[i].0),\(itemsEquiped[i].1))")
+        }
+        setZPosition()
+        
     }
     
 }

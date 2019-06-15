@@ -44,7 +44,7 @@ open class Player {
     var deadPlayerHair: [SKTexture] = []
     
     var orientacionPersonaje: Int = 3
-    var generoPersonaje: String = "male"
+   
     
     let escala: CGFloat = 3.0
    
@@ -56,6 +56,19 @@ open class Player {
     //items del jugador
     var items: [(String,String)] = []
     var itemsEquiped: [(String,String)] = []
+    
+    //information Player
+    var level: Int?
+    var souls: Int?
+    var generoPersonaje: String = ""
+    var clasePersonaje: String?
+    var nombrePersonaje: String = ""
+    
+    //stats Player
+    var vitality: Int?
+    var endurance: Int?
+    var strenght: Int?
+    var dexterity: Int?
     
     //Movimiento personaje
     var velocidadXp: CGFloat = 1.0
@@ -110,23 +123,33 @@ open class Player {
      
         //Items del jugador (de 0 a infinito)
         items.append(("leggings","legion"))
-        items.append(("armor","steel_legion"))
+        items.append(("armor","bronze"))
+        items.append(("armor","legion_steel"))
+        items.append(("armor","legion_bronze"))
+        items.append(("armor","legion_gold"))
         items.append(("helmet","bronze_legion_1"))
         items.append(("helmet","steel_legion_2"))
         items.append(("helmet","gold_legion_3"))
+        items.append(("helmet","bronze_legion_2"))
+        items.append(("helmet","bronze_legion_3"))
+        items.append(("helmet","steel_legion_1"))
+        items.append(("helmet","steel_legion_3"))
+        items.append(("helmet","gold_legion_1"))
+        items.append(("helmet","gold_legion_2"))
         items.append(("shield","spartan"))
+        items.append(("shield","crusader"))
         items.append(("weapon","short_sword"))
         
         //Items equipados del jugador (de 0 a 5)
         itemsEquiped.append(("leggings","legion"))
-        itemsEquiped.append(("armor","steel_legion"))
+        itemsEquiped.append(("armor","legion_steel"))
         itemsEquiped.append(("helmet","bronze_legion_1"))
         itemsEquiped.append(("shield","spartan"))
         itemsEquiped.append(("weapon","short_sword"))
         
         //Equipo del jugador (se van a contruir los objetos a partir de los nombres de los items)
         equipPlayer.append(Equip(genero: gen, tipo: "leggings", nombre: "legion"))
-        equipPlayer.append(Equip(genero: gen, tipo: "armor", nombre: "steel_legion"))
+        equipPlayer.append(Equip(genero: gen, tipo: "armor", nombre: "legion_steel"))
         equipPlayer.append(Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1"))
         equipPlayer.append(Equip(genero: gen, tipo: "shield", nombre: "spartan"))
         equipPlayer.append(Equip(genero: gen, tipo: "weapon", nombre: "short_sword"))

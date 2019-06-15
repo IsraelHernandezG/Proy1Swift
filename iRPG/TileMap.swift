@@ -87,6 +87,13 @@ open class TileMap{
         let halfWidth = CGFloat(columns) / 2.0 * tileSize.width
         let halfHeight = CGFloat(rows) / 2.0 * tileSize.height
         
+        let piso=SpriteSheet(image: UIImage(named: "volcano")!, rows: 6, columns: 3)
+        
+        textureCentro1 = piso.textureForColumn(column: 1, row: 3)
+        textureCentro2 = piso.textureForColumn(column: 0, row: 5)
+        textureCentro3 = piso.textureForColumn(column: 1, row: 5)
+        textureCentro4 = piso.textureForColumn(column: 2, row: 5)
+        
         for row in 0..<rows {
             for col in 0..<columns {
                 let x = CGFloat(col) * tileSize.width - halfWidth + (tileSize.width/2)
@@ -101,17 +108,21 @@ open class TileMap{
     //El Constructor recibe una cadena
     init(_ bitmap: String, _ spritesheet: String, _ mapa: Int){
         let sheet=SpriteSheet(image: UIImage(named: spritesheet)!, rows: 12, columns: 12)
-        let piso=SpriteSheet(image: UIImage(named: "terrain")!, rows: 32, columns: 32)
+        
         let arbol=SpriteSheet(image: UIImage(named: "plant repack")!, rows:12,  columns:13)
         let forest = SpriteSheet(image: UIImage(named: "forest_tiles")!, rows:16,  columns:16)
         
         switch mapa {
         case 1:
+            let piso=SpriteSheet(image: UIImage(named: "volcano")!, rows: 6, columns: 3)
+            
             textureVacio = sheet.textureForColumn(column: 0, row: 0)
-            textureCentro1 = piso.textureForColumn(column: 10, row: 3)
-            textureCentro2 = piso.textureForColumn(column: 9, row: 5)
-            textureCentro3 = piso.textureForColumn(column: 10, row: 5)
-            textureCentro4 = piso.textureForColumn(column: 11, row: 5)
+            
+            textureCentro1 = piso.textureForColumn(column: 1, row: 3)
+            textureCentro2 = piso.textureForColumn(column: 0, row: 5)
+            textureCentro3 = piso.textureForColumn(column: 1, row: 5)
+            textureCentro4 = piso.textureForColumn(column: 2, row: 5)
+            
             textureBase1 = sheet.textureForColumn(column: 4, row: 4)
             textureBase2 = sheet.textureForColumn(column: 5, row: 4)
             textureBase3 = sheet.textureForColumn(column: 6, row: 4)
@@ -133,11 +144,14 @@ open class TileMap{
             texturePared2 = sheet.textureForColumn(column: 5, row: 3)
             texturePared3 = sheet.textureForColumn(column: 9, row: 10)
         case 2:
+            let piso=SpriteSheet(image: UIImage(named: "grass_2")!, rows: 6, columns: 3)
+            
             textureVacio = arbol.textureForColumn(column: 5, row: 9)
-            textureCentro1 = piso.textureForColumn(column: 7, row: 11)
-            textureCentro2 = piso.textureForColumn(column: 6, row: 11)
-            textureCentro3 = piso.textureForColumn(column: 7, row: 11)
-            textureCentro4 = piso.textureForColumn(column: 8, row: 11)
+            
+            textureCentro1 = piso.textureForColumn(column: 1, row: 3)
+            textureCentro2 = piso.textureForColumn(column: 0, row: 5)
+            textureCentro3 = piso.textureForColumn(column: 1, row: 5)
+            textureCentro4 = piso.textureForColumn(column: 2, row: 5)
             
             textureBosque1 = forest.textureForColumn(column: 2, row: 6)
             textureBosque2 = forest.textureForColumn(column: 3, row: 6)
@@ -165,10 +179,12 @@ open class TileMap{
             textureEntrada6 = sheet.textureForColumn(column: 8, row: 11)
             
         default:
-            textureCentro1 = piso.textureForColumn(column: 10, row: 3)
-            textureCentro2 = piso.textureForColumn(column: 9, row: 5)
-            textureCentro3 = piso.textureForColumn(column: 10, row: 5)
-            textureCentro4 = piso.textureForColumn(column: 11, row: 5)
+            let piso=SpriteSheet(image: UIImage(named: "volcano")!, rows: 6, columns: 3)
+            
+            textureCentro1 = piso.textureForColumn(column: 1, row: 3)
+            textureCentro2 = piso.textureForColumn(column: 0, row: 5)
+            textureCentro3 = piso.textureForColumn(column: 1, row: 5)
+            textureCentro4 = piso.textureForColumn(column: 2, row: 5)
         }
         
         
@@ -189,7 +205,7 @@ open class TileMap{
         for row in 0..<rows {
             // se guarda en una cadena la linea actual, para posteriormente recorrerla
             let linea = Array(arreglo[row])
-            print(arreglo[row]) // esto es solo para ver como se va leyendo el archivo
+            //print(arreglo[row]) // esto es solo para ver como se va leyendo el archivo
             
             // el ciclo interno recorre las columnas
             for col in 0..<columns {

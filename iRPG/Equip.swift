@@ -27,6 +27,13 @@ open class Equip {
     var equipE: SKTexture?
     var equipW: SKTexture?
     
+    //stats equip
+    var damagePhysical: Double?
+    var defensePhysical: Double?
+    var durability: Int?
+    var weight: Double?
+    
+    
     init(){
     }
     

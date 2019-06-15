@@ -21,34 +21,27 @@ open class GameUI {
     var ventana3 = SKNode()
     var ventana4 = SKNode()
     
-    // UI Textures
+    // UI elements status player
     let textureHud = SKTexture(image: UIImage(named: "Hud")!)
     
     let textureRightHPBar = SKTexture(image: UIImage(named: "HPRightBar")!)
     let textureRightSPBar = SKTexture(image: UIImage(named: "SPRightBar")!)
     let textureRightMPBar = SKTexture(image: UIImage(named: "MPRightBar")!)
-    let textureCenterBar = SKTexture(image: UIImage(named: "CenterBar")!)
     
-    let textureLeftHP = SKTexture(image: UIImage(named: "leftHP")!)
-    let textureRightHP = SKTexture(image: UIImage(named: "rightHP")!)
-    let textureCenterHP = SKTexture(image: UIImage(named: "centerHP")!)
+    var textureCenterBar = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureCenterHP = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureCenterSP = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     
-    let textureLeftSP = SKTexture(image: UIImage(named: "leftSP")!)
-    let textureRightSP = SKTexture(image: UIImage(named: "rightSP")!)
-    let textureCenterSP = SKTexture(image: UIImage(named: "centerSP")!)
+    //Controls
+    var textureButtonUp = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureButtonDown = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureButtonLeft = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureButtonRight = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     
-    let textureMenuButton = SKTexture(image: UIImage(named: "menuButton")!)
-    let textureMenuButtonPressed = SKTexture(image: UIImage(named: "menuButtonPressed")!)
-    
-    let textureButtonUp = SKTexture(image: UIImage(named: "shadedLightUp")!)
-    let textureButtonDown = SKTexture(image: UIImage(named: "shadedLightDown")!)
-    let textureButtonLeft = SKTexture(image: UIImage(named: "shadedLightLeft")!)
-    let textureButtonRight = SKTexture(image: UIImage(named: "shadedLightRight")!)
-    
-    let textureButtonUpPres = SKTexture(image: UIImage(named: "shadedLightUpPressed")!)
-    let textureButtonDownPres = SKTexture(image: UIImage(named: "shadedLightDownPressed")!)
-    let textureButtonLeftPres = SKTexture(image: UIImage(named: "shadedLightLeftPressed")!)
-    let textureButtonRightPres = SKTexture(image: UIImage(named: "shadedLightRightPressed")!)
+    var textureButtonUpPres = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureButtonDownPres = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureButtonLeftPres = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureButtonRightPres = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     
     // Elementos del Menu
     let textureMenuTitle = SKTexture(image: UIImage(named: "botonMenuIzq1")!)
@@ -59,16 +52,20 @@ open class GameUI {
     let textureMenuTitleRight = SKTexture(image: UIImage(named: "menuTextDer2")!)
     let textureMenuTitleRightPress = SKTexture(image: UIImage(named: "menuTextDer1")!)
     let textureHorizontalButton = SKTexture(image: UIImage(named: "menuBotonID")!)
-    let textureTop1 =  SKTexture(image: UIImage(named: "Frame1")!)
-    let textureTop2 =  SKTexture(image: UIImage(named: "Frame2")!)
-    let textureTop3 =  SKTexture(image: UIImage(named: "Frame3")!)
-    let textureMiddle1 =  SKTexture(image: UIImage(named: "menuMedio1")!)
-    let textureMiddle2 =  SKTexture(image: UIImage(named: "menuMedio2")!)
-    let textureMiddle3 =  SKTexture(image: UIImage(named: "menuMedio3")!)
-    let textureBottom1 =  SKTexture(image: UIImage(named: "menuBot1")!)
-    let textureBottom2 =  SKTexture(image: UIImage(named: "menuBot2")!)
-    let textureBottom3 =  SKTexture(image: UIImage(named: "menuBot3")!)
+    // UI Frame
+    var textureTop1 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureTop2 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureTop3 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureMiddle1 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureMiddle2 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureMiddle3 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureBottom1 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureBottom2 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
+    var textureBottom3 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     //botones
+    let textureMenuButton = SKTexture(image: UIImage(named: "menuButton")!)
+    let textureMenuButtonPressed = SKTexture(image: UIImage(named: "menuButtonPressed")!)
+    
     let textureBotonAzulFijo =  SKTexture(image: UIImage(named: "botonAzulFijo")!)
     
     let textureMenuWinButton = SKTexture(image: UIImage(named: "botonRojo")!)
@@ -104,6 +101,12 @@ open class GameUI {
     let textureRanuraAmuletPress = SKTexture(image: UIImage(named: "ranuraAmuletPress")!)
     let textureRanuraRing = SKTexture(image: UIImage(named: "ranuraRing")!)
     let textureRanuraRingPress = SKTexture(image: UIImage(named: "ranuraRingPress")!)
+    //slider
+    let textureLeftSliderDown = SKTexture(image: UIImage(named: "leftSliderDown")!)
+    let textureLeftSliderTop = SKTexture(image: UIImage(named: "leftSliderTop")!)
+    let textureLeftSliderCenter = SKTexture(image: UIImage(named: "leftSliderCenter")!)
+    let textureLeftSlider = SKTexture(image: UIImage(named: "Slider")!)
+    
     //Labels
     var labelName = SKLabelNode()
     var labelEquip = SKLabelNode()
@@ -116,6 +119,9 @@ open class GameUI {
     var lifePlayer: CGFloat = 1.0
     var staminaPlayer: CGFloat = 1.0
     let escalaMenu: CGFloat = 2.4
+    var escalaHP: CGFloat = 10.0
+    var escalaSP: CGFloat = 5.0
+    var escalaMP: CGFloat = 2.0
     
     // banderas
     var banderaEquipo = 0
@@ -153,12 +159,47 @@ open class GameUI {
     
     init(){
         
+        if let imagen = UIImage(named: "frame") {
+            let frameSheet = SpriteSheet(image: imagen, rows: 3, columns: 3)
+            
+            textureTop1 =  frameSheet.textureForColumn(column: 0, row: 0)
+            textureTop2 =  frameSheet.textureForColumn(column: 1, row: 0)
+            textureTop3 =  frameSheet.textureForColumn(column: 2, row: 0)
+            textureMiddle1 =  frameSheet.textureForColumn(column: 0, row: 1)
+            textureMiddle2 =  frameSheet.textureForColumn(column: 1, row: 1)
+            textureMiddle3 =  frameSheet.textureForColumn(column: 2, row: 1)
+            textureBottom1 =  frameSheet.textureForColumn(column: 0, row: 2)
+            textureBottom2 =  frameSheet.textureForColumn(column: 1, row: 2)
+            textureBottom3 =  frameSheet.textureForColumn(column: 2, row: 2)
+        }
+        
+        if let imagen = UIImage(named: "fill_bars_GUI") {
+            let fillBarSheet = SpriteSheet(image: imagen, rows: 4, columns: 4)
+            
+            textureCenterBar = fillBarSheet.textureForColumn(column: 1, row: 0)
+            textureCenterHP = fillBarSheet.textureForColumn(column: 1, row: 1)
+            textureCenterSP = fillBarSheet.textureForColumn(column: 1, row: 2)
+        }
+        
+        if let imagen = UIImage(named: "keyButtons") {
+            let keyBSheet = SpriteSheet(image: imagen, rows: 4, columns: 4)
+            textureButtonDown = keyBSheet.textureForColumn(column: 0, row: 2)
+            textureButtonUp = keyBSheet.textureForColumn(column: 1, row: 2)
+            textureButtonLeft = keyBSheet.textureForColumn(column: 2, row: 2)
+            textureButtonRight = keyBSheet.textureForColumn(column: 3, row: 2)
+            
+            textureButtonDownPres = keyBSheet.textureForColumn(column: 0, row: 3)
+            textureButtonUpPres = keyBSheet.textureForColumn(column: 1, row: 3)
+            textureButtonLeftPres = keyBSheet.textureForColumn(column: 2, row: 3)
+            textureButtonRightPres = keyBSheet.textureForColumn(column: 3, row: 3)
+        }
     }
     
+   
     
-    open func createStatusBar(_ ventana: CGRect){
+    func createStatusBar(_ ventana: CGRect){
         
-        // Status Bars
+        // Status Bar HUD
         let originBar = SKSpriteNode(texture: textureHud)
         originBar.zPosition = 3
         originBar.xScale = barScale
@@ -170,7 +211,7 @@ open class GameUI {
         //Life bar
         let centerHPBar = SKSpriteNode(texture: textureCenterBar)
         centerHPBar.zPosition = 3
-        centerHPBar.xScale = barScale * 4.05 // crear variable aparte
+        centerHPBar.xScale = barScale * escalaHP
         centerHPBar.yScale = barScale
         centerHPBar.anchorPoint = CGPoint(x: 0, y: 0.5) // se cambia el punto de anclaje de los sprites
                                                         // del centro al extremo izquierdo del sprite, para
@@ -183,34 +224,21 @@ open class GameUI {
         rightHPBar.xScale = barScale
         rightHPBar.yScale = barScale
         rightHPBar.anchorPoint = CGPoint(x: 0, y: 0.5)
-        rightHPBar.position = CGPoint(x: centerHPBar.position.x + centerHPBar.size.width, y: centerHPBar.position.y)
+        rightHPBar.position = CGPoint(x: centerHPBar.position.x + centerHPBar.size.width-5, y: centerHPBar.position.y)
         statusBar.addChild(rightHPBar)
-        let leftHP = SKSpriteNode(texture: textureLeftHP)
-        leftHP.zPosition = 3.1
-        leftHP.xScale = barScale * 0
-        leftHP.yScale = barScale
-        leftHP.anchorPoint = CGPoint(x: 0, y: 0.5)
-        leftHP.position = CGPoint(x: centerHPBar.position.x-3, y: centerHPBar.position.y)
-        statusBar.addChild(leftHP)
         let centerHP = SKSpriteNode(texture: textureCenterHP)
         centerHP.name = "lifeBar"
         centerHP.zPosition = 3.1
-        centerHP.xScale = barScale  * 5.0 * lifePlayer
+        centerHP.xScale = barScale  * escalaHP
         centerHP.yScale = barScale
         centerHP.anchorPoint = CGPoint(x: 0, y: 0.5)
-        centerHP.position = CGPoint(x: leftHP.position.x + leftHP.size.width/2, y: leftHP.position.y)
+        centerHP.position = CGPoint(x: centerHPBar.position.x-3, y: centerHPBar.position.y)
         statusBar.addChild(centerHP)
-        let rightHP = SKSpriteNode(texture: textureRightHP)
-        rightHP.zPosition = 3.1
-        rightHP.xScale = barScale * 0.0
-        rightHP.yScale = barScale
-        rightHP.anchorPoint = CGPoint(x: 0, y: 0.5)
-        rightHP.position = CGPoint(x: centerHP.position.x + centerHP.size.width, y: centerHP.position.y)
-        statusBar.addChild(rightHP)
+        
         //Stamina Bar
         let centerBar2 = SKSpriteNode(texture: textureCenterBar)
         centerBar2.zPosition = 3
-        centerBar2.xScale = barScale * 2.6 // crear variable aparte
+        centerBar2.xScale = barScale * escalaSP
         centerBar2.yScale = barScale
         centerBar2.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerBar2.position = CGPoint(x: originBar.position.x + originBar.size.width/2, y: originBar.position.y)
@@ -220,35 +248,21 @@ open class GameUI {
         rightBar2.xScale = barScale
         rightBar2.yScale = barScale
         rightBar2.anchorPoint = CGPoint(x: 0, y: 0.5)
-        rightBar2.position = CGPoint(x: centerBar2.position.x + centerBar2.size.width, y: centerBar2.position.y)
+        rightBar2.position = CGPoint(x: centerBar2.position.x + centerBar2.size.width-5, y: centerBar2.position.y)
         statusBar.addChild(rightBar2)
-        
-        let leftSP = SKSpriteNode(texture: textureLeftSP)
-        leftSP.zPosition = 3.1
-        leftSP.xScale = barScale * 0.0
-        leftSP.yScale = barScale
-        leftSP.anchorPoint = CGPoint(x: 0, y: 0.5)
-        leftSP.position = CGPoint(x: centerBar2.position.x-3, y: centerBar2.position.y)
-        statusBar.addChild(leftSP)
         let centerSP = SKSpriteNode(texture: textureCenterSP)
         centerSP.zPosition = 3.1
         centerSP.name = "staminaBar"
-        centerSP.xScale = barScale * 4.0 * staminaPlayer //crear variable aparte
+        centerSP.xScale = barScale * escalaSP
         centerSP.yScale = barScale
         centerSP.anchorPoint = CGPoint(x: 0, y: 0.5)
-        centerSP.position = CGPoint(x: leftSP.position.x + leftSP.size.width/2, y: leftSP.position.y)
+        centerSP.position = CGPoint(x: centerBar2.position.x-3, y: centerBar2.position.y)
         statusBar.addChild(centerSP)
-        let rightSP = SKSpriteNode(texture: textureRightSP)
-        rightSP.zPosition = 3.1
-        rightSP.xScale = barScale * 0.0
-        rightSP.yScale = barScale
-        rightSP.anchorPoint = CGPoint(x: 0, y: 0.5)
-        rightSP.position = CGPoint(x: centerSP.position.x + centerSP.size.width, y: centerSP.position.y)
-        statusBar.addChild(rightSP)
+        
         // Mana Bar
         let centerBar3 = SKSpriteNode(texture: textureCenterBar)
         centerBar3.zPosition = 3
-        centerBar3.xScale = barScale * 1.5 // crear variable aparte
+        centerBar3.xScale = barScale * escalaMP
         centerBar3.yScale = barScale
         centerBar3.anchorPoint = CGPoint(x: 0, y: 0.5)
         centerBar3.position = CGPoint(x: originBar.position.x + originBar.size.width/2, y: originBar.position.y-40)
@@ -258,7 +272,7 @@ open class GameUI {
         rightBar3.xScale = barScale
         rightBar3.yScale = barScale
         rightBar3.anchorPoint = CGPoint(x: 0, y: 0.5)
-        rightBar3.position = CGPoint(x: centerBar3.position.x + centerBar3.size.width, y: centerBar3.position.y)
+        rightBar3.position = CGPoint(x: centerBar3.position.x + centerBar3.size.width-5, y: centerBar3.position.y)
         statusBar.addChild(rightBar3)
         
         
@@ -947,28 +961,30 @@ open class GameUI {
         lifePlayer = CGFloat(vida*1.0/vidaMax)
         if(lifePlayer >= 0.0){
             //Redimencionando la barra de vida de acuerdo a la vida del jugador
-            statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 10.0 * lifePlayer, duration: 0.1))
-            
+            statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 0.1))
+            //statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(byWidth: -0.01, height: 0.0, duration: 0.1))
         }
         
     }
     
     func healt(_ vida: Double, _ vidaMax: Double){
-        lifePlayer = CGFloat(vida*1.0/vidaMax)
-        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 10.0 * lifePlayer, duration: 1.0))
+        //lifePlayer = CGFloat(vida*1.0/vidaMax)
+        lifePlayer = 1.0
+        //statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * lifePlayer, duration: 1.0))
+        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 1.0))
     }
     
     
     func spendStamina(_ stamina: Double, _ staminaMax: Double){
         staminaPlayer = CGFloat(stamina*1.0/staminaMax)
 
-        statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: barScale * 8.0 * staminaPlayer, duration: 1.0))
+        statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * staminaPlayer, duration: 1.0))
     }
     
     func restoreStamina(_ stamina: Double, _ staminaMax: Double){
         staminaPlayer = CGFloat(stamina*1.0/staminaMax)
         if(staminaPlayer <= CGFloat(staminaMax)){
-            statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: barScale * 8.0 * staminaPlayer, duration: 0.1))
+            statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * staminaPlayer, duration: 0.1))
         }
     }
     

@@ -56,8 +56,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             cam=SKCameraNode()
             
             //Creando al jugador
-            //myPlayer = Player.init(posicion: CGPoint(x: frame.midX , y: frame.midY), genero: "female")
-            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: "female")
+            let generoPersonaje: String = "female"
+            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: generoPersonaje)
             
             //Elementos de la Interfaz Grafica
             myInterface.createUI(self.frame)
@@ -82,7 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(myPlayer.Jugador)
             myInterface.rotateAnalogStick.myPlayer = myPlayer
             
-            myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
+            //myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
             
             //al mover el Joystick cambia la orientacion del jugador
             if myPlayer.isAlive == true {
@@ -188,7 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let maplevel = readFile(nombre: "nivel_cueva")
             if maplevel != ""{
 
-                let mapa = "caves"
+                let mapa = "terrains_volcano"
                 let cadena = maplevel as String
                 let piso = 1
                 myMapa = TileMap.init(cadena, mapa, piso)
@@ -197,15 +197,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(map)
                 map.xScale = 6.0
                 map.yScale = 6.0
-                
-                print("Done")
             }
             
         case 2:
             //lectura de archivo
             let maplevel = readFile(nombre: "nivel_bosque")
             if maplevel != ""{
-                let mapa = "bosque"
+                let mapa = "terrains_forest_2"
                 let piso = 2
                 let cadena = maplevel as String
                 myMapa = TileMap.init(cadena, mapa, piso)
@@ -214,12 +212,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(map)
                 map.xScale = 6.0
                 map.yScale = 6.0
-                
-                print("Done")
             }
         default:
             //Cargar un mapa alternativo o dejar el menu
-            print("No se cargo el nivel")
+            myMapa = TileMap.init(10)
+            map = myMapa.map
+            //se agrega map a la vista
+            self.addChild(map)
+            map.xScale = 6.0
+            map.yScale = 6.0
         }
     
     }
@@ -324,7 +325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & myPlayer.armsCategory != 0)){
         
             if myPlayer.vida >= 0 {
-                myPlayer.vida -= 0.3
+                myPlayer.vida -= 0.2
                 myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
                 
             }else{
@@ -493,8 +494,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeft))
                     //Crea nuevo enemigo
-                    enemigos.append(Enemy(position: CGPoint(x: 0, y: 100), tipo: "skeleton", clase: "warrior", categoria: UInt32(enemigos.count)))
-                    addChild(enemigos[enemigos.count-1].Enemigo)
+                    //enemigos.append(Enemy(position: CGPoint(x: 0, y: 100), tipo: "skeleton", clase: "warrior", categoria: UInt32(enemigos.count)))
+                    //addChild(enemigos[enemigos.count-1].Enemigo)
                     
                 }else if name == "MenuWin"{
                     cierramenu()
@@ -528,14 +529,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         super.update(currentTime)
         
-        if enemigos.count >= 1 {
-            for i in 1...enemigos.count {
-                enemigos[i-1].enemyplay(selfPosition: enemigos[i-1].Enemigo.position, playerPosition: myPlayer.Jugador.position)
-            }
-        //enemyMob1.enemyplay(selfPosition: Enemy1.position, playerPosition: myPlayer.Jugador.position)
-        }
-        
         if myPlayer.isAlive {
+            
+            if enemigos.count >= 1 {
+                for i in 1...enemigos.count {
+                    enemigos[i-1].enemyplay(selfPosition: enemigos[i-1].Enemigo.position, playerPosition: myPlayer.Jugador.position)
+                }
+                //enemyMob1.enemyplay(selfPosition: Enemy1.position, playerPosition: myPlayer.Jugador.position)
+            }
             
             //Funcion que reasigna el physics body al personaje
             myPlayer.actionsPlayer()

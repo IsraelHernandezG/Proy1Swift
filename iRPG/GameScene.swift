@@ -44,6 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Poscion del personaje en el mapa
         var posX: CGFloat = 0.0
         var posY: CGFloat = 0.0
+    let generoPersonaje: String = "female"
     
         override func didMove(to view: SKView) {
             super.didMove(to: view)
@@ -56,7 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             cam=SKCameraNode()
             
             //Creando al jugador
-            let generoPersonaje: String = "female"
+            
             myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: generoPersonaje)
             
             //Elementos de la Interfaz Grafica
@@ -181,11 +182,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func loadLevel(_ level: Int){
-        
         switch level {
         case 1:
             //lectura de archivo
-            let maplevel = readFile(nombre: "nivel_cueva")
+            let maplevel = readFile(nombre: "nivelPrueba")
             if maplevel != ""{
 
                 let mapa = "terrains_volcano"
@@ -194,7 +194,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 myMapa = TileMap.init(cadena, mapa, piso)
                 map = myMapa.map
                 //se agrega map a la vista
+                self.removeAllChildren()
+                //Elementos de la Interfaz Grafica
+              
                 self.addChild(map)
+                
+        
                 map.xScale = 6.0
                 map.yScale = 6.0
             }
@@ -331,6 +336,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }else{
                 myPlayer.muertePersonaje()
             }
+            
+        }
+        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
+            (secondBody.categoryBitMask & myMapa.caveEntrance != 0)){
+            mapNum = 1
+            loadLevel(mapNum)
+        
             
         }
     }

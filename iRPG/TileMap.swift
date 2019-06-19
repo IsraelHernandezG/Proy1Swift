@@ -60,6 +60,8 @@ open class TileMap{
     let Wall2Category: UInt32 = 0x01 << 2
     let Wall3Category: UInt32 = 0x01 << 3
     let Wall4Category: UInt32 = 0x01 << 4
+    // Entrance category
+    let caveEntrance: UInt32 = 0x01 << 7
     // fire category
     let fireCategory: UInt32 = 0x01 << 5
     //Player Category:
@@ -451,6 +453,11 @@ open class TileMap{
                     map.addChild(setFloor(CGPoint(x: x, y: y)))
                     let tileTexture = textureEntrada5
                     let tileNode = SKSpriteNode(texture: tileTexture)
+                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*0.8))
+                    tileNode.physicsBody!.isDynamic = false
+                    tileNode.physicsBody!.categoryBitMask = caveEntrance
+                    tileNode.physicsBody!.contactTestBitMask = playerCategory
+                    tileNode.physicsBody!.collisionBitMask = 0
                     tileNode.position = CGPoint(x: x, y: y)
                     tileNode.zPosition = 0
                     map.addChild(tileNode)
@@ -458,6 +465,11 @@ open class TileMap{
                     map.addChild(setFloor(CGPoint(x: x, y: y)))
                     let tileTexture = textureEntrada6
                     let tileNode = SKSpriteNode(texture: tileTexture)
+                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*0.8))
+                    tileNode.physicsBody!.isDynamic = false
+                    tileNode.physicsBody!.categoryBitMask = caveEntrance
+                    tileNode.physicsBody!.contactTestBitMask = playerCategory
+                    tileNode.physicsBody!.collisionBitMask = 0
                     tileNode.position = CGPoint(x: x, y: y)
                     tileNode.zPosition = 0
                     map.addChild(tileNode)
@@ -566,6 +578,7 @@ open class TileMap{
         return tileNode
         
     }
+    
     
     func setBase(_ position: CGPoint) -> SKSpriteNode{
         let tileTexture = textureBase2

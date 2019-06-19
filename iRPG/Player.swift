@@ -83,6 +83,8 @@ open class Player {
     let Wall2Category: UInt32 = 0x01 << 2
     let Wall3Category: UInt32 = 0x01 << 3
     let Wall4Category: UInt32 = 0x01 << 4
+    // Cave Entrance
+    let caveEntrance: UInt32 = 0x01 << 7
     //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
     //ArmsCategory
@@ -189,7 +191,7 @@ open class Player {
         avatarPlayer.physicsBody = SKPhysicsBody(texture: avatarPlayer.texture!, size: avatarPlayer.size)
         avatarPlayer.physicsBody!.categoryBitMask = playerCategory // categoria del jugador
         // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-        avatarPlayer.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+        avatarPlayer.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory | caveEntrance
         avatarPlayer.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
         // estas configuraciones tambien son necesarias
         avatarPlayer.physicsBody!.isDynamic=true

@@ -15,7 +15,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var cam: SKCameraNode?
         // Mapa
         var myMapa = TileMap()
-        var mapNum = 2
+        var mapNum = 1
         var map = SKNode()
         //player Category
         let playerCategory: UInt32 = 0x01 << 0
@@ -38,13 +38,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var bandera2 = 0
         var bandera3 = 0
         var bandera4 = 0
+        let mapScale: CGFloat = 6.0
 
         var banderaHoguera = 0
+        var banderaMapa = false
     
         // Poscion del personaje en el mapa
         var posX: CGFloat = 0.0
         var posY: CGFloat = 0.0
-    let generoPersonaje: String = "female"
+        let generoPersonaje: String = "female"
     
         override func didMove(to view: SKView) {
             super.didMove(to: view)
@@ -58,7 +60,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Creando al jugador
             
-            myPlayer = Player.init(posicion: CGPoint(x: 0 , y: 0), genero: generoPersonaje)
+            myPlayer = Player.init(posicion: CGPoint(x: 0.0 , y: 0.0), genero: generoPersonaje)
             
             //Elementos de la Interfaz Grafica
             myInterface.createUI(self.frame)
@@ -73,11 +75,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.camera=cam
             self.addChild(cam!)
             
-            
-            
-            //Crea nuevo enemigo
-            enemigos.append(Enemy(position: CGPoint(x: 100, y: 100), tipo: "skeleton", clase: "warrior", categoria: 0))
-            addChild(enemigos[enemigos.count-1].Enemigo)
             
             //Agregando los sprites del jugador a la escena
             addChild(myPlayer.Jugador)
@@ -174,7 +171,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         } else {
             print("No se encontro el archivo")
-            myMapa = TileMap.init(10)
         }
         
         return vacio
@@ -183,49 +179,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func loadLevel(_ level: Int){
         switch level {
-        case 1:
+        case 2:
             //lectura de archivo
-            let maplevel = readFile(nombre: "nivelPrueba")
+            let maplevel = readFile(nombre: "nivel_cueva")
             if maplevel != ""{
 
-                let mapa = "terrains_volcano"
+                //let mapa = "volcano"
+                let mapa = "ground_2"
                 let cadena = maplevel as String
                 let piso = 1
-                myMapa = TileMap.init(cadena, mapa, piso)
+                myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa, mapa: piso)
                 map = myMapa.map
+                map.xScale = mapScale
+                map.yScale = mapScale
+                map.position = CGPoint(x: 0.0, y: 0.0)
                 //se agrega map a la vista
-                self.removeAllChildren()
-                //Elementos de la Interfaz Grafica
-              
                 self.addChild(map)
                 
-        
-                map.xScale = 6.0
-                map.yScale = 6.0
+                //añadir enemigos del nuevo mapa
+                //Crea nuevo enemigo
+                enemigos.append(Enemy(position: CGPoint(x: 100*mapScale, y: 100*mapScale), tipo: "skeleton", clase: "warrior", categoria: 0))
+                addChild(enemigos[enemigos.count-1].Enemigo)
+                
             }
             
-        case 2:
+        case 1:
             //lectura de archivo
             let maplevel = readFile(nombre: "nivel_bosque")
             if maplevel != ""{
-                let mapa = "terrains_forest_2"
+                let mapa = "forest_2"
                 let piso = 2
                 let cadena = maplevel as String
-                myMapa = TileMap.init(cadena, mapa, piso)
+                myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa, mapa: piso)
                 map = myMapa.map
+                map.xScale = mapScale
+                map.yScale = mapScale
+                map.position = CGPoint(x: 0.0, y: 0.0)
                 //se agrega map a la vista
                 self.addChild(map)
-                map.xScale = 6.0
-                map.yScale = 6.0
+                
             }
         default:
             //Cargar un mapa alternativo o dejar el menu
-            myMapa = TileMap.init(10)
+            myMapa = TileMap.init(size: 10)
             map = myMapa.map
+            map.xScale = mapScale
+            map.yScale = mapScale
+            map.position = CGPoint(x: 0.0, y: 0.0)
             //se agrega map a la vista
             self.addChild(map)
-            map.xScale = 6.0
-            map.yScale = 6.0
         }
     
     }
@@ -339,10 +341,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & myMapa.caveEntrance != 0)){
-            mapNum = 1
-            loadLevel(mapNum)
-        
+            (secondBody.categoryBitMask & myMapa.caveEntrance != 0) && banderaMapa == false){
+            
+            var LoadScreen = SKSpriteNode()
+            
+            switch mapNum {
+            case 1:
+                mapNum = 2
+                posX = 304.0*mapScale
+                posY = -160.0*mapScale
+                LoadScreen = SKSpriteNode(imageNamed: "Dark Cavern")
+                
+            case 2:
+                mapNum = 1
+                posX = -320.0*mapScale
+                posY = 160.0*mapScale
+                LoadScreen = SKSpriteNode(imageNamed: "Blue Forest")
+            default:
+                mapNum = 2
+                posX = 304.0*mapScale
+                posY = -160.0*mapScale
+            }
+            //cargar loadScreen
+            LoadScreen.zPosition = 5
+            LoadScreen.xScale = 4.5
+            LoadScreen.yScale = 3.0
+            LoadScreen.alpha = 0.0
+            LoadScreen.name = "LoadScreen"
+            cam!.addChild(LoadScreen)
+            LoadScreen.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
+            
+            
+            banderaMapa = true
             
         }
     }
@@ -391,6 +421,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeftPres))
+                    banderaMapa = false
                 }else if name == "MenuWin"{
                     myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButtonPres))
                 }else if name == "MenuButton1"{
@@ -541,7 +572,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         super.update(currentTime)
         
+        
+        
         if myPlayer.isAlive {
+            
             
             if enemigos.count >= 1 {
                 for i in 1...enemigos.count {
@@ -568,6 +602,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
             if let camera = cam{
                 camera.position=posJugador
+                
+                if (camera.childNode(withName: "LoadScreen")?.alpha == 1.0 &&  banderaMapa == true){
+                    
+                    map.removeFromParent()
+                    //remover enemigos del mapa anterior
+                    loadLevel(mapNum)
+                    //mover al personaje a la emtrada/salida de la cueva
+                    myPlayer.movePlayerTo(x: posX, y: posY) //la posicion se calcula con la posicion del tile al que se
+                    //quiere colocar al personaje multuplicado por la escala del mapa
+                    
+                    camera.childNode(withName: "LoadScreen")!.run(SKAction.fadeAlpha(by: -1.0, duration: 2.0))
+                    banderaMapa = false
+                    //
+                }
+                if (camera.childNode(withName: "LoadScreen")?.alpha == 0.0 &&  banderaMapa == false){
+                    camera.childNode(withName: "LoadScreen")!.removeFromParent()
+                }
+                
+                
                 if (bandera == 1){
                     if (posJugador.y >= topeYp){
                         myPlayer.velocidadYp = 0.0

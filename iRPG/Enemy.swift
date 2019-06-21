@@ -323,6 +323,9 @@ open class Enemy {
             
             enemyxPosition = selfPosition.x - playerPosition.x
             enemyyPosition = selfPosition.y - playerPosition.y
+            
+            let distancia = ((playerPosition.x-selfPosition.x)*(playerPosition.x-selfPosition.x)+(playerPosition.y-selfPosition.y)*(playerPosition.y-selfPosition.y)).squareRoot()
+            //print(distancia)
             //print("dx: \(enemyMob1.enemyxPosition), dy: \(enemyMob1.enemyyPosition)")
             //print("orinetation: \(enemyMob1.orientaCaminata)")
             
@@ -361,15 +364,15 @@ open class Enemy {
                 }
                 
             }else if (velocidad == 0.0){
-                if (avatarEnemy.hasActions()==false && (enemyxPosition.magnitude < 100.0 && enemyyPosition.magnitude < 100.0) ){
+                if (avatarEnemy.hasActions()==false && distancia < 100.0){
                     atack()
-                }else if (avatarEnemy.hasActions()==false && (enemyxPosition.magnitude > 100.0 || enemyyPosition.magnitude > 100.0)){
+                }else if (avatarEnemy.hasActions()==false && distancia > 100.0){
                     orientarPersonaje()
                 }
             }
             
             //Control del movimiento del enemigo
-            if ((enemyxPosition.magnitude >= 100.0 && enemyxPosition.magnitude < 400.0) || (enemyyPosition.magnitude >= 100.0 && enemyyPosition.magnitude < 400.0)) {
+            if (distancia >= 100.0 && distancia < 400.0) {
                 velocidad = 1.0
                 stop = false
                 followPlayer() // desplaza al enemigo

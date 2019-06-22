@@ -224,8 +224,8 @@ open class TileMap{
         let halfWidth = CGFloat(columns) / 2.0 * tileSize.width //Valor del centro del mapa en x en pixeles
         let halfHeight = CGFloat(rows) / 2.0 * tileSize.height  //Valor del centro del mapa en y en pixeles
         
-        createFireAnimations()
-        animateFire()
+        //createFireAnimations()
+        //animateFire()
         
         //ciclos for anidados para recorrer la matriz del mapa
         // el ciclo externo recorre las lineas
@@ -469,24 +469,24 @@ open class TileMap{
                 case "t":
                     let tileTexture = textureEntrada1
                     let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height))
+                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*1.4))
                     tileNode.physicsBody!.isDynamic = false
                     tileNode.physicsBody!.categoryBitMask = caveEntrance
                     tileNode.physicsBody!.contactTestBitMask = playerCategory
                     tileNode.physicsBody!.collisionBitMask = 0
                     tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
+                    tileNode.zPosition = 0
                     map.addChild(tileNode)
                 case "y":
                     let tileTexture = textureEntrada2
                     let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height))
+                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*1.4))
                     tileNode.physicsBody!.isDynamic = false
                     tileNode.physicsBody!.categoryBitMask = caveEntrance
                     tileNode.physicsBody!.contactTestBitMask = playerCategory
                     tileNode.physicsBody!.collisionBitMask = 0
                     tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
+                    tileNode.zPosition = 0
                     map.addChild(tileNode)
                 case "g":
                     map.addChild(setFloor(CGPoint(x: x, y: y)))

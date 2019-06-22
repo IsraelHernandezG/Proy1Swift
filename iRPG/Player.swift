@@ -88,9 +88,9 @@ open class Player {
     //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
     //ArmsCategory
-    let armsCategory: UInt32 = 0x01 << 5
+    let armsCategory: UInt32 = 0x01 << 6
     //EnemyCategory
-    let enemyCategory: UInt32 = 0x01 << 6
+    let enemyCategory: UInt32 = 0x01 << 8
     
     //Stats personaje
     var vida = 200.0

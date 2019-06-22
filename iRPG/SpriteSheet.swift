@@ -43,9 +43,21 @@ class SpriteSheet {
         yCoord = row*SpriteHeight
         //print("x: \(xCoord), y: \(yCoord)")
         let croppedCGImage: CGImage = cgImage!.cropping(to: CGRect(x: xCoord, y: yCoord, width: SpriteWidth, height: SpriteHeight))!
+        
         return  SKTexture(cgImage: croppedCGImage)
         
     
+        
+    }
+    
+    func imageForColumn(column: Int, row: Int)-> UIImage{
+        
+        xCoord = column*SpriteWidth
+        yCoord = row*SpriteHeight
+        //print("x: \(xCoord), y: \(yCoord)")
+        let croppedCGImage: CGImage = cgImage!.cropping(to: CGRect(x: xCoord, y: yCoord, width: SpriteWidth, height: SpriteHeight))!
+        
+        return  UIImage(cgImage: croppedCGImage)
         
     }
     

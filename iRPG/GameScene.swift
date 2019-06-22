@@ -28,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         //Interfaz
         var myInterface = GameUI()
+        var labelDead = SKLabelNode()
     
         // Controles de la fisica
         var topeYp: CGFloat = 0.0
@@ -43,10 +44,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var banderaHoguera = 0
         var banderaMapa = false
     
+        var EnemyCategory: UInt32 = 0
+    
         // Poscion del personaje en el mapa
         var posX: CGFloat = 0.0
         var posY: CGFloat = 0.0
         let generoPersonaje: String = "female"
+        var scoreJugador : Int = 0
     
         override func didMove(to view: SKView) {
             super.didMove(to: view)
@@ -185,7 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if maplevel != ""{
 
                 //let mapa = "volcano"
-                let mapa = "ground_2"
+                let mapa = "ground_5"
                 let cadena = maplevel as String
                 let piso = 1
                 myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa, mapa: piso)
@@ -195,10 +199,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 map.position = CGPoint(x: 0.0, y: 0.0)
                 //se agrega map a la vista
                 self.addChild(map)
+                myInterface.iniciaTableroScore(frame: self.frame)
                 
                 //añadir enemigos del nuevo mapa
                 //Crea nuevo enemigo
-                enemigos.append(Enemy(position: CGPoint(x: 100*mapScale, y: 100*mapScale), tipo: "skeleton", clase: "warrior", categoria: 0))
+                enemigos.append(Enemy(position: CGPoint(x: 100*mapScale, y: 100*mapScale), tipo: "skeleton", clase: "warrior", categoria: EnemyCategory))
+                EnemyCategory += 1
                 addChild(enemigos[enemigos.count-1].Enemigo)
                 
             }
@@ -217,6 +223,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 map.position = CGPoint(x: 0.0, y: 0.0)
                 //se agrega map a la vista
                 self.addChild(map)
+                
+                //añadir enemigos del nuevo mapa
+                //Crea nuevo enemigo
+                enemigos.append(Enemy(position: CGPoint(x: 100*mapScale, y: 100*mapScale), tipo: "skeleton", clase: "warrior", categoria: EnemyCategory))
+                EnemyCategory += 1
+                addChild(enemigos[enemigos.count-1].Enemigo)
                 
             }
         default:
@@ -311,11 +323,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(enemigos[x-1].enemyCategory)")
                     if enemigos[x-1].vida > 0{
-                        enemigos[x-1].vida -=  0.5
+                        enemigos[x-1].vida -=  1.0
                     }else{
                         if(enemigos[x-1].isAlive == true){
                             enemigos[x-1].muertePersonaje()
                             enemigos[x-1].isAlive = false
+                            scoreJugador += 200
                             //1 remover al enemigo del arreglo
                             //2 recorrer los elementos y reasignar el enemyCategory
                         }
@@ -332,11 +345,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & myPlayer.armsCategory != 0)){
         
             if myPlayer.vida >= 0 {
-                myPlayer.vida -= 0.2
+                myPlayer.vida -= 0.5
                 myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
                 
             }else{
-                myPlayer.muertePersonaje()
+                if myPlayer.isAlive{
+                    myPlayer.muertePersonaje()
+                    deadscreen(frame: self.frame)
+                }
             }
             
         }
@@ -377,6 +393,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func deadscreen(frame: CGRect){
+        
+        labelDead = SKLabelNode(text: "HAS MUERTO")
+        labelDead.fontColor = UIColor(displayP3Red: CGFloat(0.4), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelDead.alpha = 0.0
+        labelDead.zPosition = 5.0
+        labelDead.fontSize = 160
+        labelDead.fontName = "Alagard"
+        labelDead.position = CGPoint(x: frame.midX, y: frame.midY)
+        labelDead.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
+        
+        cam!.addChild(labelDead)
+        
+        labelDead.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
+    }
     
     
     func touchDown(atPoint pos : CGPoint) {
@@ -421,7 +452,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeftPres))
-                    banderaMapa = false
+                    
                 }else if name == "MenuWin"{
                     myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButtonPres))
                 }else if name == "MenuButton1"{
@@ -536,9 +567,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Izq"{
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeft))
-                    //Crea nuevo enemigo
-                    //enemigos.append(Enemy(position: CGPoint(x: 0, y: 100), tipo: "skeleton", clase: "warrior", categoria: UInt32(enemigos.count)))
-                    //addChild(enemigos[enemigos.count-1].Enemigo)
                     
                 }else if name == "MenuWin"{
                     cierramenu()
@@ -572,9 +600,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         super.update(currentTime)
         
-        
-        
         if myPlayer.isAlive {
+            
+            //actualiza tablero score
+            if (myInterface.scoreJugador < scoreJugador){
+                myInterface.scoreJugador += 1
+                myInterface.actualizaScore()
+            }
             
             
             if enemigos.count >= 1 {
@@ -606,13 +638,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (camera.childNode(withName: "LoadScreen")?.alpha == 1.0 &&  banderaMapa == true){
                     
                     map.removeFromParent()
+                    myInterface.removeTableroScore()
                     //remover enemigos del mapa anterior
+                    if enemigos.count >= 1 {
+                        for i in 1...enemigos.count {
+                            enemigos[i-1].avatarEnemy.removeFromParent()
+                            //remover phisicsbody del arma
+                        }
+                    }
+                    enemigos = []
+                    EnemyCategory = 0
+                    
                     loadLevel(mapNum)
                     //mover al personaje a la emtrada/salida de la cueva
                     myPlayer.movePlayerTo(x: posX, y: posY) //la posicion se calcula con la posicion del tile al que se
                     //quiere colocar al personaje multuplicado por la escala del mapa
                     
-                    camera.childNode(withName: "LoadScreen")!.run(SKAction.fadeAlpha(by: -1.0, duration: 2.0))
+                    camera.childNode(withName: "LoadScreen")!.run(SKAction.fadeAlpha(by: -1.0, duration: 1.0))
                     banderaMapa = false
                     //
                 }

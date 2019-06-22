@@ -59,9 +59,9 @@ open class Enemy {
     let Wall3Category: UInt32 = 0x01 << 3
     let Wall4Category: UInt32 = 0x01 << 4
     //ArmsCategory
-    let armsCategory: UInt32 = 0x01 << 5
+    let armsCategory: UInt32 = 0x01 << 6
     //EnemyCategories >= 6
-    var enemyCategory: UInt32 = 0x01 << 6 //default
+    var enemyCategory: UInt32 = 0x01 << 8 //default
     
     var enemyxPosition: CGFloat = 0.0
     var enemyyPosition: CGFloat = 0.0
@@ -70,7 +70,7 @@ open class Enemy {
     
     init(position: CGPoint, tipo: String, clase: String, categoria: UInt32){
         
-        enemyCategory = 0x01 << 6+categoria
+        enemyCategory = 0x01 << 8+categoria
         
         createAnimations(tipo: tipo, clase : clase)
         

@@ -114,6 +114,9 @@ open class GameUI {
     var labelranura2 = SKLabelNode()
     var labelranura3 = SKLabelNode()
     var labelranura4 = SKLabelNode()
+    var labelScore = SKLabelNode()
+    var labelNivelPlayer = SKLabelNode()
+    
     //Escalas para los objetos
     let barScale: CGFloat = 2.0
     var lifePlayer: CGFloat = 1.0
@@ -122,6 +125,10 @@ open class GameUI {
     var escalaHP: CGFloat = 10.0
     var escalaSP: CGFloat = 5.0
     var escalaMP: CGFloat = 2.0
+    
+    //puntaje del jugador
+    var scoreJugador : Int = 0
+    
     
     // banderas
     var banderaEquipo = 0
@@ -142,19 +149,24 @@ open class GameUI {
     //Carga de las imagenes del joystick
     var joystickStickImageEnabled = true {
         didSet {
-            let image = joystickStickImageEnabled ? UIImage(named: "shadedLightStick") : nil
-            rotateAnalogStick.stick.image = image
+            let stylesStick = SpriteSheet(image: UIImage(named: "stylesStick")!, rows: 4, columns: 4)
+            
+            //let image = joystickStickImageEnabled ? UIImage(named: "shadedLightStick") : nil
+            
+            rotateAnalogStick.stick.image = stylesStick.imageForColumn(column: 2, row: 1)
         }
     }
     
     var joystickSubstrateImageEnabled = true {
         didSet {
-            let image = joystickSubstrateImageEnabled ? UIImage(named: "shadedLightSubstrate") : nil
-            rotateAnalogStick.substrate.image = image
+            let stylesSubstrate = SpriteSheet(image: UIImage(named: "stylesSubstrate")!, rows: 4, columns: 4)
+        
+            //let image = joystickSubstrateImageEnabled ? UIImage(named: "shadedLightSubstrate") : nil
+            rotateAnalogStick.substrate.image = stylesSubstrate.imageForColumn(column: 2, row: 1)
         }
     }
     //Creacion del Joystick
-    let rotateAnalogStick = AnalogJoystick(diameter: 160) // from Class
+    let rotateAnalogStick = AnalogJoystick(diameter: 190) // from Class
     
     
     init(){
@@ -183,15 +195,23 @@ open class GameUI {
         
         if let imagen = UIImage(named: "keyButtons") {
             let keyBSheet = SpriteSheet(image: imagen, rows: 4, columns: 4)
-            textureButtonDown = keyBSheet.textureForColumn(column: 0, row: 2)
-            textureButtonUp = keyBSheet.textureForColumn(column: 1, row: 2)
-            textureButtonLeft = keyBSheet.textureForColumn(column: 2, row: 2)
-            textureButtonRight = keyBSheet.textureForColumn(column: 3, row: 2)
+            let stylesArrows = SpriteSheet(image: UIImage(named: "stylesArrows")!, rows: 8, columns: 8)
+            //let stylesButtons = SpriteSheet(image: UIImage(named: "stylesButtons")!, rows: 8, columns: 8)
             
-            textureButtonDownPres = keyBSheet.textureForColumn(column: 0, row: 3)
-            textureButtonUpPres = keyBSheet.textureForColumn(column: 1, row: 3)
-            textureButtonLeftPres = keyBSheet.textureForColumn(column: 2, row: 3)
-            textureButtonRightPres = keyBSheet.textureForColumn(column: 3, row: 3)
+            
+            
+            
+            textureButtonDown = stylesArrows.textureForColumn(column: 0, row: 6)
+            textureButtonUp = stylesArrows.textureForColumn(column: 1, row: 6)
+            textureButtonLeft = stylesArrows.textureForColumn(column: 3, row: 6)
+            textureButtonRight = stylesArrows.textureForColumn(column: 2, row: 6)
+            
+            textureButtonDownPres = stylesArrows.textureForColumn(column: 0, row: 7)
+            textureButtonUpPres = stylesArrows.textureForColumn(column: 1, row: 7)
+            textureButtonLeftPres = stylesArrows.textureForColumn(column: 3, row: 7)
+            textureButtonRightPres = stylesArrows.textureForColumn(column: 2, row: 7)
+            
+            
         }
     }
     
@@ -280,6 +300,8 @@ open class GameUI {
     
     open func createUI(_ ventana: CGRect){
         
+        let scaleControls : CGFloat = 1.5
+        
         //Menu Button
         let menuButton = SKSpriteNode(texture: textureMenuButton)
         menuButton.name = "Menu"
@@ -289,42 +311,42 @@ open class GameUI {
         menuButton.position = CGPoint(x: ventana.maxX-80, y: ventana.maxY-80)
         interfaz.addChild(menuButton)
         
-        // Action Buttons
+        // Controls
         let buttonUp = SKSpriteNode(texture: textureButtonUp)
         buttonUp.name = "Arriba"
         buttonUp.zPosition = 3
-        buttonUp.xScale = 1.2
-        buttonUp.yScale = 1.2
-        buttonUp.position = CGPoint(x: ventana.maxX-150, y: -ventana.maxY+190)
+        buttonUp.xScale = scaleControls
+        buttonUp.yScale = scaleControls
+        buttonUp.position = CGPoint(x: ventana.maxX-170, y: -ventana.maxY+220)
         interfaz.addChild(buttonUp)
         
         let buttonDown = SKSpriteNode(texture: textureButtonDown)
         buttonDown.name = "Abajo"
         buttonDown.zPosition = 3
-        buttonDown.xScale = 1.2
-        buttonDown.yScale = 1.2
-        buttonDown.position = CGPoint(x: buttonUp.position.x, y: buttonUp.position.y-110)
+        buttonDown.xScale = scaleControls
+        buttonDown.yScale = scaleControls
+        buttonDown.position = CGPoint(x: buttonUp.position.x, y: buttonUp.position.y-130)
         interfaz.addChild(buttonDown)
         
         let buttonRight = SKSpriteNode(texture: textureButtonRight)
         buttonRight.name = "Der"
         buttonRight.zPosition = 3
-        buttonRight.xScale = 1.2
-        buttonRight.yScale = 1.2
-        buttonRight.position = CGPoint(x: buttonUp.position.x+50, y: buttonUp.position.y-55)
+        buttonRight.xScale = scaleControls
+        buttonRight.yScale = scaleControls
+        buttonRight.position = CGPoint(x: buttonUp.position.x+65, y: buttonUp.position.y-65)
         interfaz.addChild(buttonRight)
         
         let buttonLeft = SKSpriteNode(texture: textureButtonLeft)
         buttonLeft.name = "Izq"
         buttonLeft.zPosition = 3
-        buttonLeft.xScale = 1.2
-        buttonLeft.yScale = 1.2
-        buttonLeft.position = CGPoint(x: buttonUp.position.x-50, y: buttonUp.position.y-55)
+        buttonLeft.xScale = scaleControls
+        buttonLeft.yScale = scaleControls
+        buttonLeft.position = CGPoint(x: buttonUp.position.x-65, y: buttonUp.position.y-65)
         interfaz.addChild(buttonLeft)
         
         
         //Joystick
-        rotateAnalogStick.position = CGPoint(x:-ventana.maxX+rotateAnalogStick.radius+65, y:-ventana.maxY+rotateAnalogStick.radius+65)
+        rotateAnalogStick.position = CGPoint(x:-ventana.maxX+rotateAnalogStick.radius+90, y:-ventana.maxY+rotateAnalogStick.radius+90)
         rotateAnalogStick.zPosition = 3
         interfaz.addChild(rotateAnalogStick)
         
@@ -953,6 +975,29 @@ open class GameUI {
     
     open func ventanaEmergente(){
         
+    }
+    
+    
+    
+    
+    func removeTableroScore(){
+        labelScore.removeFromParent()
+    }
+    
+    func iniciaTableroScore(frame: CGRect){
+        labelScore = SKLabelNode(text: "Score: \(scoreJugador)")
+        labelScore.fontColor = UIColor(displayP3Red: CGFloat(0.9), green: CGFloat(0.9), blue: CGFloat(0.9), alpha: CGFloat(1.0))
+        labelScore.zPosition = 4.4
+        labelScore.fontSize = 50
+        labelScore.fontName = "Alagard"
+        labelScore.position = CGPoint(x: frame.midX, y: frame.maxY-80)
+        
+        interfaz.addChild(labelScore)
+        
+    }
+    
+    func actualizaScore(){
+        labelScore.text = "Score: \(scoreJugador)"
     }
     
     

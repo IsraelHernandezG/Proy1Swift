@@ -202,10 +202,379 @@ open class TileMap{
         }
         
     }
-            
     
-    //El Constructor recibe una cadena
-    init(bitmap: String, spritesheet: String, mapa: Int){
+    func setPhysicsBody(llave: Character, x: CGFloat, y: CGFloat){
+        // switch case para las texturas y los phyisics bodies, dependiendo de la letra
+        // en linea[col], se tiene un tile o un conjunto apilado de tiles
+        switch llave{
+        case "x":
+            map.addChild(setWall(position: CGPoint(x: x, y: y), tileTexture: textureCentroPared2!))
+        default:
+            break
+        }
+    }
+    
+    func selectTile(llave: Character, x: CGFloat, y: CGFloat){
+        
+        // switch case para las texturas y los phyisics bodies, dependiendo de la letra
+        // en linea[col], se tiene un tile o un conjunto apilado de tiles
+        switch llave{
+        case "x":
+            let tileTexture = textureVacio
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y) // cada tile se posiciona en las coordenadas
+            //calculadas anteriormente
+            tileNode.zPosition = 2  // la posicion en z ayuda a determinar que tiles estan
+            // por encima o por debajo de otros
+            map.addChild(tileNode) // una vez creado un tile, este se agrega al objeto mapa
+        case "r":
+            let tileTexture = textureEsquinaOut2
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            map.addChild(tileNode)
+        case "R":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureEsquinaIn2
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            map.addChild(tileNode)
+            
+        case "w":
+            // como hay distintas versiones para este tile se utiliza una funcion random
+            let num:Int = Int(arc4random_uniform(2))
+            let tileTexture: SKTexture
+            switch (num){
+            case 0:
+                tileTexture = textureBordeInf1!
+            case 1:
+                tileTexture = textureBordeInf2!
+                
+            default:
+                tileTexture = textureBordeInf1!
+            }
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            map.addChild(tileNode)
+        case "W":
+            let tileTexture = textureBordeInfA!
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            map.addChild(tileNode)
+        case "z":
+            let tileTexture = textureEsquinaOut1
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            map.addChild(tileNode)
+        case "Z":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureEsquinaIn1
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            map.addChild(tileNode)
+        case "(":
+            // A partir de este punto la mayoria de las casillas estan compuestas por
+            //dos o mas tiles apilados, con diferentes profundidades en el eje z
+            map.addChild(setLeftWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeRight!))
+            // esta funcion ademas de la poscion del
+            // tile en x y y, recibe la posicion en
+            // z, ya que el mismo tile sera utilizado
+            // en distinas profundidades mas adelante
+            map.addChild(setWall(position: CGPoint(x: x, y: y), tileTexture: textureCentroPared2!))      // esta funcion solo recibe la posicion en
+            // x y y, ya que aunque se usa en distintas
+        // ocasiones, no varia nunca su posicion en z
+        case "0":
+            map.addChild(setWall(position: CGPoint(x: x, y: y), tileTexture: textureCentroPared2!))
+        case ")":
+            map.addChild(setRightWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeLeft!))
+            map.addChild(setWall(position: CGPoint(x: x, y: y), tileTexture: textureCentroPared2!))
+        case "[":
+            map.addChild(setBase(position: CGPoint(x: x, y: y)))
+            map.addChild(setLeftWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeRight!))
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+        case "]":
+            map.addChild(setBase(position:  CGPoint(x: x, y: y)))
+            map.addChild(setRightWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeLeft!))
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+        case "-":
+            map.addChild(setBase(position: CGPoint(x: x, y: y)))
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+        case "l":
+            map.addChild(setLeftWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeRight!))
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+        case "/":
+            map.addChild(setRightWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeLeft!))
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+        case "c":
+            let tileTexture = textureEsquinaOut3
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+            map.addChild(setWallInf(position: CGPoint(x: x, y: y), zPosition: -1.1, tileTexture: textureBordeSup1!))
+            map.addChild(setLeftWall(position: CGPoint(x: x, y: y), zPosition: -1.2, tileTexture: textureBordeRight!))
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+        case "j":
+            let tileTexture = textureEsquinaOut4
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+            
+            map.addChild(setRightWall(position: CGPoint(x: x, y: y), zPosition: -1.1, tileTexture: textureBordeLeft!))
+            map.addChild(setWallInf(position: CGPoint(x: x, y: y), zPosition: -1.2, tileTexture: textureBordeSup1!))
+            
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+        case "m":
+            
+            map.addChild(setWallInf(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeSup1!))
+            
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            
+        case "q":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureBosque1
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+            
+        case "e":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureBosque2
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+        case "a":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureBosque3
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+        case "s":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            
+            let tileTexture = textureBosque4
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+        case "1":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            
+            let tileTexture = textureArbol1
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+        case "2":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            
+            let tileTexture = textureArbol2
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+        case "3":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            
+            let tileTexture = textureArbol3
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+        case "4":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureArbol4
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+        case "5":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            var tileTexture = textureArbol1
+            var tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0.5
+            map.addChild(tileNode)
+            
+            tileTexture = textureCentroPared2
+            tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "6":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            
+            var tileTexture = textureArbol2
+            var tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0.5
+            map.addChild(tileNode)
+            
+            tileTexture = textureCentroPared2
+            tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "7":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            
+            let tileTexture = textureArbol2
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
+            map.addChild(tileNode)
+        case "8":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            var tileTexture = textureArbol4
+            var tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0.5
+            map.addChild(tileNode)
+            
+            tileTexture = textureBasePared2
+            tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "t":
+            let tileTexture = textureEntrada1
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*1.4))
+            tileNode.physicsBody!.isDynamic = false
+            tileNode.physicsBody!.categoryBitMask = caveEntrance
+            tileNode.physicsBody!.contactTestBitMask = playerCategory
+            tileNode.physicsBody!.collisionBitMask = 0
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "y":
+            let tileTexture = textureEntrada2
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*1.4))
+            tileNode.physicsBody!.isDynamic = false
+            tileNode.physicsBody!.categoryBitMask = caveEntrance
+            tileNode.physicsBody!.contactTestBitMask = playerCategory
+            tileNode.physicsBody!.collisionBitMask = 0
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "g":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureEntrada3
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "h":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureEntrada4
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "b":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureEntrada5
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "n":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureEntrada6
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "I":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureBordeRightA
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "i":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureEsquinaInA4
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+        case "u":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureCentroPared3
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+            let tileTexture2 = textureArbol1
+            let tileNode2 = SKSpriteNode(texture: tileTexture2)
+            tileNode2.position = CGPoint(x: x, y: y)
+            tileNode2.zPosition = 2
+            map.addChild(tileNode2)
+        case "k":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureBasePared3
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0
+            map.addChild(tileNode)
+            let tileTexture2 = textureArbol3
+            let tileNode2 = SKSpriteNode(texture: tileTexture2)
+            tileNode2.position = CGPoint(x: x, y: y)
+            tileNode2.zPosition = 2
+            map.addChild(tileNode2)
+        case ":":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            let tileTexture = textureVacio
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*2.5, height: tileTexture!.size().height))
+            tileNode.physicsBody!.isDynamic = false
+            tileNode.physicsBody!.categoryBitMask = caveEntrance
+            tileNode.physicsBody!.contactTestBitMask = playerCategory
+            tileNode.physicsBody!.collisionBitMask = 0
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = -2
+            map.addChild(tileNode)
+        default:
+            
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            
+        }
+        
+    }
+    
+    //El Constructor recibe una cadena que representa el mapa, una cadena que representa los physicsbody del mapa
+    //y el nombre de la hoja de sprites del terreno a utilizar
+    init(bitmap: String, physicBitmap: String ,spritesheet: String){
+        ground = SpriteSheet(image: UIImage(named: spritesheet)!, rows: 6, columns: 3)
+        loadSprites(tipoMapa: 0)
+        terrain = SpriteSheet(image: UIImage(named: "\(spritesheet)_terrain")!, rows: 12, columns: 12)
+        loadSprites(tipoMapa: 1)
+        trees = SpriteSheet(image: UIImage(named: "trees")!, rows:4,  columns:4)
+        loadSprites(tipoMapa: 2)
+        
+        //La cadena se descompone en renglones y el mapas se guarda como una arreglo de cadenas
+        let mapTiles = bitmap.split(separator: "\n")
+        let bodies = physicBitmap.split(separator: "\n")
+        
+        let tileSize = CGSize(width: terrain.getSpriteWidth(), height: terrain.getSpriteHeight()) //Los tiles tienen tamaño fijo de 32x32
+        //Se obtienen las dimensiones del mapa a partir del arreglo que contiene las cadenas
+        let columns = mapTiles[0].count  // num de elem de un renglon
+        let rows = mapTiles.count    // num de renglones = num de elementos del arreglo
+        
+        let halfWidth = CGFloat(columns) / 2.0 * tileSize.width //Valor del centro del mapa en x en pixeles
+        let halfHeight = CGFloat(rows) / 2.0 * tileSize.height  //Valor del centro del mapa en y en pixeles
+        
+        
+        
+    }
+    
+    //El Constructor recibe una cadena que representa el mapa y el nombre de la hoja de sprites del terreno a utilizar
+    init(bitmap: String, spritesheet: String){
         
         ground = SpriteSheet(image: UIImage(named: spritesheet)!, rows: 6, columns: 3)
         loadSprites(tipoMapa: 0)
@@ -226,6 +595,8 @@ open class TileMap{
         
         //createFireAnimations()
         //animateFire()
+    
+        
         
         //ciclos for anidados para recorrer la matriz del mapa
         // el ciclo externo recorre las lineas
@@ -243,336 +614,9 @@ open class TileMap{
                 _ = CGRect(x: 0, y: 0, width: tileSize.width, height: tileSize.height)
                 //es importante recordar que los tiles se posicionan a partir de su centro.
                 
-                
                 // switch case para las texturas y los phyisics bodies, dependiendo de la letra
                 // en linea[col], se tiene un tile o un conjunto apilado de tiles
-                switch linea[col]{
-                case "x":
-                    let tileTexture = textureVacio
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y) // cada tile se posiciona en las coordenadas
-                                                            //calculadas anteriormente
-                    tileNode.zPosition = 2  // la posicion en z ayuda a determinar que tiles estan
-                                            // por encima o por debajo de otros
-                    map.addChild(tileNode) // una vez creado un tile, este se agrega al objeto mapa
-                case "r":
-                    let tileTexture = textureEsquinaOut2
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    map.addChild(tileNode)
-                case "R":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureEsquinaIn2
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    map.addChild(tileNode)
-                   
-                case "w":
-                    // como hay distintas versiones para este tile se utiliza una funcion random
-                    let num:Int = Int(arc4random_uniform(2))
-                    let tileTexture: SKTexture
-                    switch (num){
-                    case 0:
-                        tileTexture = textureBordeInf1!
-                    case 1:
-                        tileTexture = textureBordeInf2!
-                        
-                    default:
-                        tileTexture = textureBordeInf1!
-                    }
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    map.addChild(tileNode)
-                case "W":
-                    let tileTexture = textureBordeInfA!
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    map.addChild(tileNode)
-                case "z":
-                    let tileTexture = textureEsquinaOut1
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    map.addChild(tileNode)
-                case "Z":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureEsquinaIn1
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    map.addChild(tileNode)
-                case "(":
-                    // A partir de este punto la mayoria de las casillas estan compuestas por
-                    //dos o mas tiles apilados, con diferentes profundidades en el eje z
-                    map.addChild(setLeftWall(CGPoint(x: x, y: y),2)) // esta funcion ademas de la poscion del
-                                                                     // tile en x y y, recibe la posicion en
-                                                                     // z, ya que el mismo tile sera utilizado
-                                                                     // en distinas profundidades mas adelante
-                    map.addChild(setWall(CGPoint(x: x, y: y)))      // esta funcion solo recibe la posicion en
-                                                                    // x y y, ya que aunque se usa en distintas
-                                                                    // ocasiones, no varia nunca su posicion en z
-                case "0":
-                    map.addChild(setWall(CGPoint(x: x, y: y)))
-                case ")":
-                    map.addChild(setRightWall(CGPoint(x: x, y: y),2))
-                    map.addChild(setWall(CGPoint(x: x, y: y)))
-                case "[":
-                    map.addChild(setBase(CGPoint(x: x, y: y)))
-                    map.addChild(setLeftWall(CGPoint(x: x, y: y),2))
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                case "]":
-                    map.addChild(setBase(CGPoint(x: x, y: y)))
-                    map.addChild(setRightWall(CGPoint(x: x, y: y),2))
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                case "-":
-                    map.addChild(setBase(CGPoint(x: x, y: y)))
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                case "l":
-                    map.addChild(setLeftWall(CGPoint(x: x, y: y),2))
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                case "/":
-                    map.addChild(setRightWall(CGPoint(x: x, y: y),2))
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                case "c":
-                    let tileTexture = textureEsquinaOut3
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                    map.addChild(setWallInf(CGPoint(x: x, y: y),-1.1))
-                    map.addChild(setLeftWall(CGPoint(x: x, y: y),-1.2))
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                case "j":
-                    let tileTexture = textureEsquinaOut4
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                    
-                    map.addChild(setRightWall(CGPoint(x: x, y: y),-1.1))
-                    map.addChild(setWallInf(CGPoint(x: x, y: y),-1.2))
-                    
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                case "m":
-                    
-                    map.addChild(setWallInf(CGPoint(x: x, y: y),2))
-                    
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    
-                case "q":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureBosque1
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                    
-                case "e":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureBosque2
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                case "a":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureBosque3
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                case "s":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    
-                    let tileTexture = textureBosque4
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                case "1":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    
-                    let tileTexture = textureArbol1
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                case "2":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    
-                    let tileTexture = textureArbol2
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                case "3":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    
-                    let tileTexture = textureArbol3
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                case "4":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureArbol4
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                case "5":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    var tileTexture = textureArbol1
-                    var tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0.5
-                    map.addChild(tileNode)
-                    
-                    tileTexture = textureCentroPared2
-                    tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "6":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    
-                    var tileTexture = textureArbol2
-                    var tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0.5
-                    map.addChild(tileNode)
-                    
-                    tileTexture = textureCentroPared2
-                    tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "7":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    
-                    let tileTexture = textureArbol2
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 2
-                    map.addChild(tileNode)
-                case "8":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    var tileTexture = textureArbol4
-                    var tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0.5
-                    map.addChild(tileNode)
-                    
-                    tileTexture = textureBasePared2
-                    tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "t":
-                    let tileTexture = textureEntrada1
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*1.4))
-                    tileNode.physicsBody!.isDynamic = false
-                    tileNode.physicsBody!.categoryBitMask = caveEntrance
-                    tileNode.physicsBody!.contactTestBitMask = playerCategory
-                    tileNode.physicsBody!.collisionBitMask = 0
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "y":
-                    let tileTexture = textureEntrada2
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*1.4))
-                    tileNode.physicsBody!.isDynamic = false
-                    tileNode.physicsBody!.categoryBitMask = caveEntrance
-                    tileNode.physicsBody!.contactTestBitMask = playerCategory
-                    tileNode.physicsBody!.collisionBitMask = 0
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "g":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureEntrada3
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "h":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureEntrada4
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "b":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureEntrada5
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "n":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureEntrada6
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "I":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureBordeRightA
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "i":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureEsquinaInA4
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                case "u":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureCentroPared3
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                    let tileTexture2 = textureArbol1
-                    let tileNode2 = SKSpriteNode(texture: tileTexture2)
-                    tileNode2.position = CGPoint(x: x, y: y)
-                    tileNode2.zPosition = 2
-                    map.addChild(tileNode2)
-                case "k":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureBasePared3
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = 0
-                    map.addChild(tileNode)
-                    let tileTexture2 = textureArbol3
-                    let tileNode2 = SKSpriteNode(texture: tileTexture2)
-                    tileNode2.position = CGPoint(x: x, y: y)
-                    tileNode2.zPosition = 2
-                    map.addChild(tileNode2)
-                case ":":
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    let tileTexture = textureVacio
-                    let tileNode = SKSpriteNode(texture: tileTexture)
-                    tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*2.5, height: tileTexture!.size().height))
-                    tileNode.physicsBody!.isDynamic = false
-                    tileNode.physicsBody!.categoryBitMask = caveEntrance
-                    tileNode.physicsBody!.contactTestBitMask = playerCategory
-                    tileNode.physicsBody!.collisionBitMask = 0
-                    tileNode.position = CGPoint(x: x, y: y)
-                    tileNode.zPosition = -2
-                    map.addChild(tileNode)
-                default:
-                    
-                    map.addChild(setFloor(CGPoint(x: x, y: y)))
-                    
-                }
-                
-                
+                selectTile(llave: linea[col], x: x, y: y)
             }
         }
         
@@ -605,12 +649,11 @@ open class TileMap{
         
     }
     
-    func setLeftWall(_ position: CGPoint, _ prof: CGFloat) -> SKSpriteNode{
+    func setLeftWall(position: CGPoint, zPosition: CGFloat, tileTexture: SKTexture) -> SKSpriteNode{
         
-        let tileTexture = textureBordeRight
         let tileNode = SKSpriteNode(texture: tileTexture)
         // Se añande un physicsbody al tile
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*0.3, height: tileTexture!.size().height), center: CGPoint(x: -10, y: 0))
+        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*0.3, height: tileTexture.size().height), center: CGPoint(x: -10, y: 0))
         tileNode.physicsBody!.isDynamic = false // es necesario que sea falso esta propiedad
         // dependiendo del categorybitmask se crearan diferentes efectos de colisiones
         tileNode.physicsBody!.categoryBitMask = Wall2Category
@@ -618,29 +661,27 @@ open class TileMap{
                                                                     // con los que colisionara este tile
         tileNode.physicsBody!.collisionBitMask = 0                  // esta propiedad debe ser 0
         tileNode.position = CGPoint(x: position.x, y: position.y)
-        tileNode.zPosition = prof
+        tileNode.zPosition = zPosition
         return tileNode
     }
     
-    func setRightWall(_ position: CGPoint, _ prof: CGFloat) -> SKSpriteNode{
+    func setRightWall(position: CGPoint, zPosition: CGFloat, tileTexture: SKTexture) -> SKSpriteNode{
         
-        let tileTexture = textureBordeLeft
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*0.3, height: tileTexture!.size().height), center: CGPoint(x: 10, y: 0))
+        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*0.3, height: tileTexture.size().height), center: CGPoint(x: 10, y: 0))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall3Category
         tileNode.physicsBody!.contactTestBitMask = playerCategory
         tileNode.physicsBody!.collisionBitMask = 0
         tileNode.position = CGPoint(x: position.x, y: position.y)
-        tileNode.zPosition = prof
+        tileNode.zPosition = zPosition
         return tileNode
     }
     
-    func setWall(_ position: CGPoint) -> SKSpriteNode{
+    func setWall(position: CGPoint, tileTexture: SKTexture) -> SKSpriteNode{
         
-        let tileTexture = textureCentroPared2
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*0.8))
+        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.8))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall1Category
         tileNode.physicsBody!.contactTestBitMask = playerCategory
@@ -652,7 +693,7 @@ open class TileMap{
     }
     
     
-    func setBase(_ position: CGPoint) -> SKSpriteNode{
+    func setBase(position: CGPoint) -> SKSpriteNode{
         let tileTexture = textureBasePared2
         let tileNode = SKSpriteNode(texture: tileTexture)
         tileNode.position = CGPoint(x: position.x, y: position.y)
@@ -661,16 +702,16 @@ open class TileMap{
         return tileNode
     }
     
-    func setWallInf(_ position: CGPoint, _ prof: CGFloat) -> SKSpriteNode{
-        let tileTexture = textureBordeSup1
+    func setWallInf(position: CGPoint, zPosition: CGFloat, tileTexture: SKTexture) -> SKSpriteNode{
+      
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*0.4), center: CGPoint(x: 0, y: -25))
+        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.4), center: CGPoint(x: 0, y: -25))
         tileNode.physicsBody!.isDynamic = false
         tileNode.physicsBody!.categoryBitMask = Wall4Category
         tileNode.physicsBody!.contactTestBitMask = playerCategory
         tileNode.physicsBody!.collisionBitMask = 0
         tileNode.position = CGPoint(x: position.x, y: position.y)
-        tileNode.zPosition = prof
+        tileNode.zPosition = zPosition
         
         return tileNode
     }

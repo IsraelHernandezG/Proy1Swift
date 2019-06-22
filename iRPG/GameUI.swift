@@ -193,23 +193,20 @@ open class GameUI {
             textureCenterSP = fillBarSheet.textureForColumn(column: 1, row: 2)
         }
         
-        if let imagen = UIImage(named: "keyButtons") {
-            let keyBSheet = SpriteSheet(image: imagen, rows: 4, columns: 4)
-            let stylesArrows = SpriteSheet(image: UIImage(named: "stylesArrows")!, rows: 8, columns: 8)
-            //let stylesButtons = SpriteSheet(image: UIImage(named: "stylesButtons")!, rows: 8, columns: 8)
+        if let imagen = UIImage(named: "stylesButtons") {
+            //let stylesArrows = SpriteSheet(image: UIImage(named: "stylesArrows")!, rows: 8, columns: 8)
+            let stylesButtons = SpriteSheet(image: imagen, rows: 8, columns: 8)
             
             
+            textureButtonDown = stylesButtons.textureForColumn(column: 3, row: 6)
+            textureButtonUp = stylesButtons.textureForColumn(column: 0, row: 6)
+            textureButtonLeft = stylesButtons.textureForColumn(column: 1, row: 6)
+            textureButtonRight = stylesButtons.textureForColumn(column: 2, row: 6)
             
-            
-            textureButtonDown = stylesArrows.textureForColumn(column: 0, row: 6)
-            textureButtonUp = stylesArrows.textureForColumn(column: 1, row: 6)
-            textureButtonLeft = stylesArrows.textureForColumn(column: 3, row: 6)
-            textureButtonRight = stylesArrows.textureForColumn(column: 2, row: 6)
-            
-            textureButtonDownPres = stylesArrows.textureForColumn(column: 0, row: 7)
-            textureButtonUpPres = stylesArrows.textureForColumn(column: 1, row: 7)
-            textureButtonLeftPres = stylesArrows.textureForColumn(column: 3, row: 7)
-            textureButtonRightPres = stylesArrows.textureForColumn(column: 2, row: 7)
+            textureButtonDownPres = stylesButtons.textureForColumn(column: 3, row: 7)
+            textureButtonUpPres = stylesButtons.textureForColumn(column: 0, row: 7)
+            textureButtonLeftPres = stylesButtons.textureForColumn(column: 1, row: 7)
+            textureButtonRightPres = stylesButtons.textureForColumn(column: 2, row: 7)
             
             
         }
@@ -300,7 +297,7 @@ open class GameUI {
     
     open func createUI(_ ventana: CGRect){
         
-        let scaleControls : CGFloat = 1.5
+        let scaleControls : CGFloat = 2.0
         
         //Menu Button
         let menuButton = SKSpriteNode(texture: textureMenuButton)
@@ -317,15 +314,15 @@ open class GameUI {
         buttonUp.zPosition = 3
         buttonUp.xScale = scaleControls
         buttonUp.yScale = scaleControls
-        buttonUp.position = CGPoint(x: ventana.maxX-170, y: -ventana.maxY+220)
-        interfaz.addChild(buttonUp)
+        buttonUp.position = CGPoint(x: ventana.maxX-250, y: ventana.midY)
+        //interfaz.addChild(buttonUp)
         
         let buttonDown = SKSpriteNode(texture: textureButtonDown)
         buttonDown.name = "Abajo"
         buttonDown.zPosition = 3
         buttonDown.xScale = scaleControls
         buttonDown.yScale = scaleControls
-        buttonDown.position = CGPoint(x: buttonUp.position.x, y: buttonUp.position.y-130)
+        buttonDown.position = CGPoint(x: buttonUp.position.x, y: buttonUp.position.y-250)
         interfaz.addChild(buttonDown)
         
         let buttonRight = SKSpriteNode(texture: textureButtonRight)
@@ -333,7 +330,7 @@ open class GameUI {
         buttonRight.zPosition = 3
         buttonRight.xScale = scaleControls
         buttonRight.yScale = scaleControls
-        buttonRight.position = CGPoint(x: buttonUp.position.x+65, y: buttonUp.position.y-65)
+        buttonRight.position = CGPoint(x: buttonUp.position.x+130, y: buttonUp.position.y-130)
         interfaz.addChild(buttonRight)
         
         let buttonLeft = SKSpriteNode(texture: textureButtonLeft)
@@ -341,8 +338,43 @@ open class GameUI {
         buttonLeft.zPosition = 3
         buttonLeft.xScale = scaleControls
         buttonLeft.yScale = scaleControls
-        buttonLeft.position = CGPoint(x: buttonUp.position.x-65, y: buttonUp.position.y-65)
-        interfaz.addChild(buttonLeft)
+        buttonLeft.position = CGPoint(x: buttonUp.position.x-130, y: buttonUp.position.y-130)
+        //interfaz.addChild(buttonLeft)
+        
+        /*
+         // Controls
+         let buttonUp = SKSpriteNode(texture: textureButtonUp)
+         buttonUp.name = "Arriba"
+         buttonUp.zPosition = 3
+         buttonUp.xScale = scaleControls
+         buttonUp.yScale = scaleControls
+         buttonUp.position = CGPoint(x: ventana.maxX-170, y: -ventana.maxY+220)
+         interfaz.addChild(buttonUp)
+         
+         let buttonDown = SKSpriteNode(texture: textureButtonDown)
+         buttonDown.name = "Abajo"
+         buttonDown.zPosition = 3
+         buttonDown.xScale = scaleControls
+         buttonDown.yScale = scaleControls
+         buttonDown.position = CGPoint(x: buttonUp.position.x, y: buttonUp.position.y-130)
+         interfaz.addChild(buttonDown)
+         
+         let buttonRight = SKSpriteNode(texture: textureButtonRight)
+         buttonRight.name = "Der"
+         buttonRight.zPosition = 3
+         buttonRight.xScale = scaleControls
+         buttonRight.yScale = scaleControls
+         buttonRight.position = CGPoint(x: buttonUp.position.x+65, y: buttonUp.position.y-65)
+         interfaz.addChild(buttonRight)
+         
+         let buttonLeft = SKSpriteNode(texture: textureButtonLeft)
+         buttonLeft.name = "Izq"
+         buttonLeft.zPosition = 3
+         buttonLeft.xScale = scaleControls
+         buttonLeft.yScale = scaleControls
+         buttonLeft.position = CGPoint(x: buttonUp.position.x-65, y: buttonUp.position.y-65)
+         interfaz.addChild(buttonLeft)
+        */
         
         
         //Joystick
@@ -1016,7 +1048,7 @@ open class GameUI {
         //lifePlayer = CGFloat(vida*1.0/vidaMax)
         lifePlayer = 1.0
         //statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * lifePlayer, duration: 1.0))
-        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 1.0))
+        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 0.1))
     }
     
     

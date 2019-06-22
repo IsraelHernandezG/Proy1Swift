@@ -43,6 +43,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         var banderaHoguera = 0
         var banderaMapa = false
+        var LoadScreen = SKSpriteNode()
     
         var EnemyCategory: UInt32 = 0
     
@@ -191,8 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //let mapa = "volcano"
                 let mapa = "ground_5"
                 let cadena = maplevel as String
-                let piso = 1
-                myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa, mapa: piso)
+                myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa)
                 map = myMapa.map
                 map.xScale = mapScale
                 map.yScale = mapScale
@@ -214,9 +214,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let maplevel = readFile(nombre: "nivel_bosque")
             if maplevel != ""{
                 let mapa = "forest_2"
-                let piso = 2
                 let cadena = maplevel as String
-                myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa, mapa: piso)
+                myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa)
                 map = myMapa.map
                 map.xScale = mapScale
                 map.yScale = mapScale
@@ -359,8 +358,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
             (secondBody.categoryBitMask & myMapa.caveEntrance != 0) && banderaMapa == false){
             
-            var LoadScreen = SKSpriteNode()
-            
             switch mapNum {
             case 1:
                 mapNum = 2
@@ -378,27 +375,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 posX = 304.0*mapScale
                 posY = -160.0*mapScale
             }
-            //cargar loadScreen
-            LoadScreen.zPosition = 5
-            LoadScreen.xScale = 4.5
-            LoadScreen.yScale = 3.0
-            LoadScreen.alpha = 0.0
-            LoadScreen.name = "LoadScreen"
-            cam!.addChild(LoadScreen)
-            LoadScreen.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
             
+            animacionCortina(time: 1.0)
             
             banderaMapa = true
             
         }
     }
     
+    func generaEnemigo(){
+        //
+    }
+    
+    func animacionCortina(time: Double){
+        
+        
+        //cargar loadScreen
+        LoadScreen.zPosition = 5
+        LoadScreen.xScale = 5.0
+        LoadScreen.yScale = 3.0
+        LoadScreen.alpha = 0.0
+        LoadScreen.name = "LoadScreen"
+        cam!.addChild(LoadScreen)
+        LoadScreen.run(SKAction.fadeAlpha(by: 1.0, duration: time))
+        
+    }
+    
     func deadscreen(frame: CGRect){
         
         labelDead = SKLabelNode(text: "HAS MUERTO")
         labelDead.fontColor = UIColor(displayP3Red: CGFloat(0.4), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelDead.name = "labelDead"
         labelDead.alpha = 0.0
-        labelDead.zPosition = 5.0
+        labelDead.zPosition = 4.5
         labelDead.fontSize = 160
         labelDead.fontName = "Alagard"
         labelDead.position = CGPoint(x: frame.midX, y: frame.midY)
@@ -435,12 +444,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "Arriba"{
                     myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUpPres))
                    
-                }else if name == "Abajo"{
+                }else if name == "Abajo"{ // player use item
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDownPres))
                     
-                }else if name == "Der"{
+                }else if name == "Der"{ //Player atack
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRightPres))
-                     if (myPlayer.isAlive == true && myPlayer.stamina >= 10){
+                     if (myPlayer.isAlive == true && myPlayer.stamina >= 10 && myPlayer.velocidad == 0.0){
                         //myPlayer.Atack = true
                         myPlayer.atack()
                         myPlayer.stamina -= 20.0
@@ -556,9 +565,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(myInterface.textureMenuButton))
                 }else if name == "Arriba"{
                     myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUp))
-                    myPlayer.vida = myPlayer.vidaMax 
-                    myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
-                    myPlayer.isAlive = true
+                    
                 }else if name == "Abajo"{
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDown))
                    
@@ -600,7 +607,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Called before each frame is rendered
         super.update(currentTime)
         
-        if myPlayer.isAlive {
+        if (myPlayer.isAlive == false && labelDead.alpha == 1.0){
+           
+            LoadScreen = SKSpriteNode(imageNamed: "Blue Forest")
+            animacionCortina(time: 2.0)
+            labelDead.alpha = 0.9
+            banderaMapa = true
+            mapNum = 1
+        }
+        
+        if (myPlayer.isAlive == false && banderaMapa == true && LoadScreen.alpha == 1.0){
+            labelDead.removeFromParent()
+            map.removeFromParent()
+            myInterface.removeTableroScore()
+            //remover enemigos del mapa anterior
+            if enemigos.count >= 1 {
+                for i in 1...enemigos.count {
+                    enemigos[i-1].avatarEnemy.removeFromParent()
+                    //remover phisicsbody del arma
+                }
+            }
+            enemigos = []
+            EnemyCategory = 0
+            
+            loadLevel(mapNum)
+            
+            scoreJugador = 0
+            myInterface.scoreJugador = 0
+            myInterface.actualizaScore()
+            
+            myPlayer.vida = myPlayer.vidaMax
+            myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
+            myPlayer.isAlive = true
+            myPlayer.orientarPersonaje()
+            myPlayer.movePlayerTo(x: 0.0, y: 0.0)
+            
+            LoadScreen.run(SKAction.fadeAlpha(by: -1.0, duration: 2.0))
+            
+            banderaMapa = false
+            
+        }
+        
+        
+        if myPlayer.isAlive == true{
             
             //actualiza tablero score
             if (myInterface.scoreJugador < scoreJugador){
@@ -609,11 +658,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             
+            
             if enemigos.count >= 1 {
                 for i in 1...enemigos.count {
                     enemigos[i-1].enemyplay(selfPosition: enemigos[i-1].Enemigo.position, playerPosition: myPlayer.Jugador.position)
                 }
-                //enemyMob1.enemyplay(selfPosition: Enemy1.position, playerPosition: myPlayer.Jugador.position)
+                
             }
             
             //Funcion que reasigna el physics body al personaje
@@ -622,8 +672,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if myPlayer.Atack == true {myPlayer.setWeaponPhysicsBody()}
             
             myInterface.rotateAnalogStick.myPlayer.orientacionPersonaje = direccionPersonaje
-            //El personaje se mueve hacia una poscicion
-            //myPlayer.movePlayerTo(x: posX, y: posY)
             
             //El personaje se mueve en la direccion del vector de posicion
             myPlayer.movePlayer()

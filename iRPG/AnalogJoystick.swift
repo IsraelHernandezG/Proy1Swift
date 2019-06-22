@@ -236,6 +236,7 @@ open class AnalogJoystick: SKNode {
             stick.position = needPosition
             if (myPlayer.isAlive == true){
                  myPlayer.animateMove()
+                
             }
            
             data = AnalogJoystickData(velocity: needPosition, angular: -atan2(needPosition.x, needPosition.y))

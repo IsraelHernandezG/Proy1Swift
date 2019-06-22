@@ -50,7 +50,7 @@ class SpriteSheet {
         
     }
     
-    func imageForColumn(column: Int, row: Int)-> UIImage{
+    func imageForColumn(column: Int, row: Int) -> UIImage{
         
         xCoord = column*SpriteWidth
         yCoord = row*SpriteHeight
@@ -59,6 +59,15 @@ class SpriteSheet {
         
         return  UIImage(cgImage: croppedCGImage)
         
+    }
+    
+    func getSpriteWidth() -> Int{
+        return SpriteWidth
+    }
+    
+    
+    func getSpriteHeight() -> Int{
+        return SpriteHeight
     }
     
 }

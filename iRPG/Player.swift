@@ -79,10 +79,7 @@ open class Player {
     
      // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
-    let Wall1Category: UInt32 = 0x01 << 1
-    let Wall2Category: UInt32 = 0x01 << 2
-    let Wall3Category: UInt32 = 0x01 << 3
-    let Wall4Category: UInt32 = 0x01 << 4
+    let WallCategory: UInt32 = 0x01 << 1
     // Cave Entrance
     let caveEntrance: UInt32 = 0x01 << 7
     //PlayerCategory
@@ -109,18 +106,12 @@ open class Player {
         createAnimations(gen)
         
         avatarPlayer = SKSpriteNode(texture: playerViewS) //textura inicial del jugador
-        // se añade un physicsbody al jugador para detectar colisiones
-        avatarPlayer.physicsBody = SKPhysicsBody(texture: playerViewS, size: avatarPlayer.size)
-        avatarPlayer.physicsBody!.categoryBitMask = playerCategory // categoria del jugador
-        // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-        avatarPlayer.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
-        avatarPlayer.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
-        // estas configuraciones tambien son necesarias
-        avatarPlayer.physicsBody!.isDynamic=true
+        avatarPlayer.name = "avatarPlayer"
         avatarPlayer.zPosition = 1
         
         //Apariencia
         hair =  SKSpriteNode(texture: playerHairViewS)
+        
         hair.zPosition = avatarPlayer.zPosition + 0.3
      
         //Items del jugador (de 0 a infinito)
@@ -171,6 +162,17 @@ open class Player {
         Jugador.position = position
         Jugador.setScale(escala)
         
+        let sizePlayer = CGSize(width: playerViewS.size().width*escala, height: playerViewS.size().height*escala)
+        // se añade un physicsbody al jugador para detectar colisiones
+        Jugador.physicsBody = SKPhysicsBody(texture: playerViewS, size: sizePlayer)
+        Jugador.physicsBody!.categoryBitMask = playerCategory // categoria del jugador
+        // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+        Jugador.physicsBody!.contactTestBitMask = caveEntrance
+        Jugador.physicsBody!.collisionBitMask = WallCategory
+        // estas configuraciones tambien son necesarias
+        Jugador.physicsBody!.isDynamic = true
+        Jugador.physicsBody!.allowsRotation = false
+        
         
     }
 
@@ -191,8 +193,8 @@ open class Player {
         avatarPlayer.physicsBody = SKPhysicsBody(texture: avatarPlayer.texture!, size: avatarPlayer.size)
         avatarPlayer.physicsBody!.categoryBitMask = playerCategory // categoria del jugador
         // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-        avatarPlayer.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory | caveEntrance
-        avatarPlayer.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
+        avatarPlayer.physicsBody!.contactTestBitMask = caveEntrance
+        avatarPlayer.physicsBody!.collisionBitMask = WallCategory
         // estas configuraciones tambien son necesarias
         avatarPlayer.physicsBody!.isDynamic=true
     }
@@ -203,7 +205,7 @@ open class Player {
             equipPlayer[equipPlayer.count-1].equipNode.physicsBody = temp
             equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | enemyCategory
+            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.contactTestBitMask = WallCategory | enemyCategory
             equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
             // estas configuraciones tambien son necesarias
             equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.isDynamic=true

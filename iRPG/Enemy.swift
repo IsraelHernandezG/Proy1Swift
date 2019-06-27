@@ -54,10 +54,7 @@ open class Enemy {
     //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
     //TileMapCategories
-    let Wall1Category: UInt32 = 0x01 << 1
-    let Wall2Category: UInt32 = 0x01 << 2
-    let Wall3Category: UInt32 = 0x01 << 3
-    let Wall4Category: UInt32 = 0x01 << 4
+    let WallCategory: UInt32 = 0x01 << 1
     //ArmsCategory
     let armsCategory: UInt32 = 0x01 << 6
     //EnemyCategories >= 6
@@ -79,8 +76,8 @@ open class Enemy {
         avatarEnemy.physicsBody = SKPhysicsBody(texture: enemyViewS, size: avatarEnemy.size)
         avatarEnemy.physicsBody!.categoryBitMask = enemyCategory // categoria del jugador
         // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-        avatarEnemy.physicsBody!.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | playerCategory
-        avatarEnemy.physicsBody!.collisionBitMask = 0 // esta opcion debe estar en 0
+        avatarEnemy.physicsBody!.contactTestBitMask = playerCategory
+        avatarEnemy.physicsBody!.collisionBitMask = WallCategory
         // estas configuraciones tambien son necesarias
         avatarEnemy.physicsBody!.isDynamic=true
         avatarEnemy.zPosition = 0.9
@@ -110,7 +107,7 @@ open class Enemy {
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody = temp
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-            equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.contactTestBitMask = Wall1Category | Wall2Category | Wall3Category | Wall4Category | playerCategory
+            equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.contactTestBitMask = WallCategory | playerCategory
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
             // estas configuraciones tambien son necesarias
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.isDynamic=true

@@ -71,10 +71,7 @@ open class TileMap{
     
     // CategoriesitMasks: Determinan que objetos colisionan con que
     //TileMapCategories
-    let Wall1Category: UInt32 = 0x01 << 1
-    let Wall2Category: UInt32 = 0x01 << 2
-    let Wall3Category: UInt32 = 0x01 << 3
-    let Wall4Category: UInt32 = 0x01 << 4
+    let WallCategory: UInt32 = 0x01 << 1
     // Entrance category
     let caveEntrance: UInt32 = 0x01 << 7
     // fire category
@@ -207,8 +204,30 @@ open class TileMap{
         // switch case para las texturas y los phyisics bodies, dependiendo de la letra
         // en linea[col], se tiene un tile o un conjunto apilado de tiles
         switch llave{
-        case "x":
-            map.addChild(setWall(position: CGPoint(x: x, y: y), tileTexture: textureCentroPared2!))
+        case "w":
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 1.0, yScale: 0.8, center: CGPoint(x: 0, y: 0))) //superior wall
+        case "l":
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 0.3, yScale: 1.0, center: CGPoint(x: -10, y: 0))) //left wall
+        case "/":
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 0.3, yScale: 1.0, center: CGPoint(x: 10, y: 0))) //right wall
+        case "m":
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 1.0, yScale: 0.4, center: CGPoint(x: 0, y: -25))) //inferior wall
+        case "r":
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 1.0, yScale: 0.8, center: CGPoint(x: 0, y: 0)))
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 0.3, yScale: 0.8, center: CGPoint(x: -10, y: 0)))
+        case "z":
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 1.0, yScale: 0.8, center: CGPoint(x: 0, y: 0)))
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 0.3, yScale: 0.8, center: CGPoint(x: 10, y: 0)))
+        case "c":
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 1.0, yScale: 0.4, center: CGPoint(x: 0, y: -25)))
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 0.3, yScale: 1.0, center: CGPoint(x: -10, y: 0)))
+        case "j":
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 1.0, yScale: 0.4, center: CGPoint(x: 0, y: -25)))
+            map.addChild(setPhysicsBody(tipo: 1, posX: x, posY: y, xScale: 0.3, yScale: 1.0, center: CGPoint(x: 10, y: 0)))
+        case "0":
+            map.addChild(setPhysicsBody(tipo: 2, posX: x, posY: y, xScale: 1.0, yScale: 1.4, center: CGPoint(x: 0, y: 0)))
+        case ":":
+            map.addChild(setPhysicsBody(tipo: 2, posX: x, posY: y, xScale: 2.5, yScale: 1.4, center: CGPoint(x: 0, y: 0)))
         default:
             break
         }
@@ -237,6 +256,7 @@ open class TileMap{
             let tileTexture = textureEsquinaIn2
             let tileNode = SKSpriteNode(texture: tileTexture)
             tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
             map.addChild(tileNode)
             
         case "w":
@@ -270,39 +290,39 @@ open class TileMap{
             let tileTexture = textureEsquinaIn1
             let tileNode = SKSpriteNode(texture: tileTexture)
             tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 2
             map.addChild(tileNode)
         case "(":
             // A partir de este punto la mayoria de las casillas estan compuestas por
             //dos o mas tiles apilados, con diferentes profundidades en el eje z
-            map.addChild(setLeftWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeRight!))
+            map.addChild(setTile(tileTexture: textureBordeRight!, position: CGPoint(x: x, y: y), zPosition: 2))
             // esta funcion ademas de la poscion del
             // tile en x y y, recibe la posicion en
             // z, ya que el mismo tile sera utilizado
             // en distinas profundidades mas adelante
-            map.addChild(setWall(position: CGPoint(x: x, y: y), tileTexture: textureCentroPared2!))      // esta funcion solo recibe la posicion en
-            // x y y, ya que aunque se usa en distintas
-        // ocasiones, no varia nunca su posicion en z
+            map.addChild(setTile(tileTexture: textureCentroPared2!, position: CGPoint(x: x, y: y), zPosition: -1.1))
+            
         case "0":
-            map.addChild(setWall(position: CGPoint(x: x, y: y), tileTexture: textureCentroPared2!))
+            map.addChild(setTile(tileTexture: textureCentroPared2!, position: CGPoint(x: x, y: y), zPosition: -1.1))
         case ")":
-            map.addChild(setRightWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeLeft!))
-            map.addChild(setWall(position: CGPoint(x: x, y: y), tileTexture: textureCentroPared2!))
+            map.addChild(setTile(tileTexture: textureBordeLeft!, position: CGPoint(x: x, y: y), zPosition: 2))
+            map.addChild(setTile(tileTexture: textureCentroPared2!, position: CGPoint(x: x, y: y), zPosition: -1.1))
         case "[":
             map.addChild(setBase(position: CGPoint(x: x, y: y)))
-            map.addChild(setLeftWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeRight!))
+            map.addChild(setTile(tileTexture: textureBordeRight!, position: CGPoint(x: x, y: y), zPosition: 2))
             map.addChild(setFloor(CGPoint(x: x, y: y)))
         case "]":
             map.addChild(setBase(position:  CGPoint(x: x, y: y)))
-            map.addChild(setRightWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeLeft!))
+            map.addChild(setTile(tileTexture: textureBordeLeft!, position: CGPoint(x: x, y: y), zPosition: 2))
             map.addChild(setFloor(CGPoint(x: x, y: y)))
         case "-":
             map.addChild(setBase(position: CGPoint(x: x, y: y)))
             map.addChild(setFloor(CGPoint(x: x, y: y)))
         case "l":
-            map.addChild(setLeftWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeRight!))
+            map.addChild(setTile(tileTexture: textureBordeRight!, position: CGPoint(x: x, y: y), zPosition: 2))
             map.addChild(setFloor(CGPoint(x: x, y: y)))
         case "/":
-            map.addChild(setRightWall(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeLeft!))
+            map.addChild(setTile(tileTexture: textureBordeLeft!, position: CGPoint(x: x, y: y), zPosition: 2))
             map.addChild(setFloor(CGPoint(x: x, y: y)))
         case "c":
             let tileTexture = textureEsquinaOut3
@@ -310,8 +330,8 @@ open class TileMap{
             tileNode.position = CGPoint(x: x, y: y)
             tileNode.zPosition = 2
             map.addChild(tileNode)
-            map.addChild(setWallInf(position: CGPoint(x: x, y: y), zPosition: -1.1, tileTexture: textureBordeSup1!))
-            map.addChild(setLeftWall(position: CGPoint(x: x, y: y), zPosition: -1.2, tileTexture: textureBordeRight!))
+            map.addChild(setTile(tileTexture: textureBordeSup1!, position: CGPoint(x: x, y: y), zPosition: -1.1))
+            map.addChild(setTile(tileTexture: textureBordeRight!, position: CGPoint(x: x, y: y), zPosition: -1.2))
             map.addChild(setFloor(CGPoint(x: x, y: y)))
         case "j":
             let tileTexture = textureEsquinaOut4
@@ -319,14 +339,12 @@ open class TileMap{
             tileNode.position = CGPoint(x: x, y: y)
             tileNode.zPosition = 2
             map.addChild(tileNode)
-            
-            map.addChild(setRightWall(position: CGPoint(x: x, y: y), zPosition: -1.1, tileTexture: textureBordeLeft!))
-            map.addChild(setWallInf(position: CGPoint(x: x, y: y), zPosition: -1.2, tileTexture: textureBordeSup1!))
-            
+            map.addChild(setTile(tileTexture: textureBordeLeft!, position: CGPoint(x: x, y: y), zPosition: -1.1))
+            map.addChild(setTile(tileTexture: textureBordeSup1!, position: CGPoint(x: x, y: y), zPosition: -1.2))
             map.addChild(setFloor(CGPoint(x: x, y: y)))
         case "m":
             
-            map.addChild(setWallInf(position: CGPoint(x: x, y: y), zPosition: 2, tileTexture: textureBordeSup1!))
+            map.addChild(setTile(tileTexture: textureBordeSup1!, position: CGPoint(x: x, y: y), zPosition: 2))
             
             map.addChild(setFloor(CGPoint(x: x, y: y)))
             
@@ -442,22 +460,12 @@ open class TileMap{
         case "t":
             let tileTexture = textureEntrada1
             let tileNode = SKSpriteNode(texture: tileTexture)
-            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*1.4))
-            tileNode.physicsBody!.isDynamic = false
-            tileNode.physicsBody!.categoryBitMask = caveEntrance
-            tileNode.physicsBody!.contactTestBitMask = playerCategory
-            tileNode.physicsBody!.collisionBitMask = 0
             tileNode.position = CGPoint(x: x, y: y)
             tileNode.zPosition = 0
             map.addChild(tileNode)
         case "y":
             let tileTexture = textureEntrada2
             let tileNode = SKSpriteNode(texture: tileTexture)
-            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width, height: tileTexture!.size().height*1.4))
-            tileNode.physicsBody!.isDynamic = false
-            tileNode.physicsBody!.categoryBitMask = caveEntrance
-            tileNode.physicsBody!.contactTestBitMask = playerCategory
-            tileNode.physicsBody!.collisionBitMask = 0
             tileNode.position = CGPoint(x: x, y: y)
             tileNode.zPosition = 0
             map.addChild(tileNode)
@@ -531,11 +539,11 @@ open class TileMap{
             map.addChild(setFloor(CGPoint(x: x, y: y)))
             let tileTexture = textureVacio
             let tileNode = SKSpriteNode(texture: tileTexture)
-            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*2.5, height: tileTexture!.size().height))
+            /*tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*2.5, height: tileTexture!.size().height))
             tileNode.physicsBody!.isDynamic = false
             tileNode.physicsBody!.categoryBitMask = caveEntrance
             tileNode.physicsBody!.contactTestBitMask = playerCategory
-            tileNode.physicsBody!.collisionBitMask = 0
+            tileNode.physicsBody!.collisionBitMask = 0*/
             tileNode.position = CGPoint(x: x, y: y)
             tileNode.zPosition = -2
             map.addChild(tileNode)
@@ -569,7 +577,30 @@ open class TileMap{
         let halfWidth = CGFloat(columns) / 2.0 * tileSize.width //Valor del centro del mapa en x en pixeles
         let halfHeight = CGFloat(rows) / 2.0 * tileSize.height  //Valor del centro del mapa en y en pixeles
         
-        
+        //ciclos for anidados para recorrer la matriz del mapa
+        // el ciclo externo recorre las lineas
+        for row in 0..<rows {
+            // se guarda en una cadena la linea actual, para posteriormente recorrerla
+            let linea = Array(mapTiles[row])
+            let lineaInf = Array(bodies[row])
+            //print(arreglo[row]) // esto es solo para ver como se va leyendo el archivo
+            
+            // el ciclo interno recorre las columnas
+            for col in 0..<columns {
+                
+                //se obtiene la posicion en x y y en pixeles del tile
+                let x = CGFloat(col) * tileSize.width - halfWidth + (tileSize.width/2)
+                let y = CGFloat((rows-1)-row) * tileSize.height - halfHeight + (tileSize.height/2)
+                _ = CGRect(x: 0, y: 0, width: tileSize.width, height: tileSize.height)
+                //es importante recordar que los tiles se posicionan a partir de su centro.
+                
+                // switch case para las texturas y los phyisics bodies, dependiendo de la letra
+                // en linea[col], se tiene un tile o un conjunto apilado de tiles
+                selectTile(llave: linea[col], x: x, y: y)
+                setPhysicsBody(llave: lineaInf[col], x: x, y: y)
+                
+            }
+        }
         
     }
     
@@ -596,8 +627,6 @@ open class TileMap{
         //createFireAnimations()
         //animateFire()
     
-        
-        
         //ciclos for anidados para recorrer la matriz del mapa
         // el ciclo externo recorre las lineas
         for row in 0..<rows {
@@ -642,79 +671,45 @@ open class TileMap{
             
         }
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.position = CGPoint(x: position.x, y: position.y)
+        tileNode.position = position
         tileNode.zPosition = -1
         
         return tileNode
         
     }
     
-    func setLeftWall(position: CGPoint, zPosition: CGFloat, tileTexture: SKTexture) -> SKSpriteNode{
-        
+    func setPhysicsBody(tipo: Int, posX: CGFloat, posY: CGFloat, xScale: CGFloat, yScale: CGFloat, center: CGPoint) -> SKSpriteNode{
+        let tileTexture = textureVacio!
         let tileNode = SKSpriteNode(texture: tileTexture)
-        // Se añande un physicsbody al tile
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*0.3, height: tileTexture.size().height), center: CGPoint(x: -10, y: 0))
-        tileNode.physicsBody!.isDynamic = false // es necesario que sea falso esta propiedad
-        // dependiendo del categorybitmask se crearan diferentes efectos de colisiones
-        tileNode.physicsBody!.categoryBitMask = Wall2Category
-        tileNode.physicsBody!.contactTestBitMask = playerCategory   // esta propiedad indica los objetos
-                                                                    // con los que colisionara este tile
-        tileNode.physicsBody!.collisionBitMask = 0                  // esta propiedad debe ser 0
-        tileNode.position = CGPoint(x: position.x, y: position.y)
-        tileNode.zPosition = zPosition
+        switch tipo {
+        case 1:
+            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*xScale, height: tileTexture.size().height*yScale), center: center)
+            tileNode.physicsBody!.categoryBitMask = WallCategory
+        case 2:
+            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*xScale, height: tileTexture.size().height*yScale), center: center)
+            tileNode.physicsBody!.categoryBitMask = caveEntrance
+        default:
+            tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*xScale, height: tileTexture.size().height*yScale), center: center)
+            tileNode.physicsBody!.categoryBitMask = WallCategory
+        }
+        
+        tileNode.physicsBody!.isDynamic = false // se crea un volumen estatico, no es afectado por colisiones pero su puede afectar a otros
+                                                // cuerpos
+        tileNode.physicsBody!.collisionBitMask = playerCategory
+        tileNode.position = CGPoint(x: posX, y: posY)
+        tileNode.zPosition = -2
         return tileNode
     }
-    
-    func setRightWall(position: CGPoint, zPosition: CGFloat, tileTexture: SKTexture) -> SKSpriteNode{
-        
-        let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width*0.3, height: tileTexture.size().height), center: CGPoint(x: 10, y: 0))
-        tileNode.physicsBody!.isDynamic = false
-        tileNode.physicsBody!.categoryBitMask = Wall3Category
-        tileNode.physicsBody!.contactTestBitMask = playerCategory
-        tileNode.physicsBody!.collisionBitMask = 0
-        tileNode.position = CGPoint(x: position.x, y: position.y)
-        tileNode.zPosition = zPosition
-        return tileNode
-    }
-    
-    func setWall(position: CGPoint, tileTexture: SKTexture) -> SKSpriteNode{
-        
-        let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.8))
-        tileNode.physicsBody!.isDynamic = false
-        tileNode.physicsBody!.categoryBitMask = Wall1Category
-        tileNode.physicsBody!.contactTestBitMask = playerCategory
-        tileNode.physicsBody!.collisionBitMask = 0
-        tileNode.position = CGPoint(x: position.x, y: position.y)
-        tileNode.zPosition = 0
-        return tileNode
-        
-    }
-    
     
     func setBase(position: CGPoint) -> SKSpriteNode{
         let tileTexture = textureBasePared2
         let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.position = CGPoint(x: position.x, y: position.y)
+        tileNode.position = position
         tileNode.zPosition = 0
         
         return tileNode
     }
     
-    func setWallInf(position: CGPoint, zPosition: CGFloat, tileTexture: SKTexture) -> SKSpriteNode{
-      
-        let tileNode = SKSpriteNode(texture: tileTexture)
-        tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture.size().width, height: tileTexture.size().height*0.4), center: CGPoint(x: 0, y: -25))
-        tileNode.physicsBody!.isDynamic = false
-        tileNode.physicsBody!.categoryBitMask = Wall4Category
-        tileNode.physicsBody!.contactTestBitMask = playerCategory
-        tileNode.physicsBody!.collisionBitMask = 0
-        tileNode.position = CGPoint(x: position.x, y: position.y)
-        tileNode.zPosition = zPosition
-        
-        return tileNode
-    }
     
     func createFireAnimations() {
         let bonfireAnimation = SKTextureAtlas(named: "bonfire")
@@ -726,6 +721,13 @@ open class TileMap{
         }
     }
     
+    func setTile(tileTexture: SKTexture, position: CGPoint, zPosition: CGFloat) -> SKSpriteNode{
+        let tileNode = SKSpriteNode(texture: tileTexture)
+        tileNode.position = position
+        tileNode.zPosition = zPosition
+        return tileNode
+        
+    }
     
     func animateFire() {
         bonfire = SKSpriteNode(imageNamed: "bonfireOff-1")
@@ -737,7 +739,7 @@ open class TileMap{
         bonfire.xScale = 0.3
         bonfire.yScale = 0.3
         bonfire.position = CGPoint(x: 0.0, y: 0.0)
-        bonfire.zPosition = 1
+        bonfire.zPosition = 0.5
         map.addChild(bonfire)
     }
     

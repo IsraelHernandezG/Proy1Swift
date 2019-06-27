@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "iRPG/GameScene.swift"
-            timestampString = "582919049.1136169"
+            timestampString = "583359853.206808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "645"
-            endingLineNumber = "645"
+            startingLineNumber = "587"
+            endingLineNumber = "587"
             landmarkName = "update(_:)"
             landmarkType = "7">
             <Actions>
@@ -35,11 +35,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "iRPG/GameScene.swift"
-            timestampString = "582919049.1137151"
+            timestampString = "583359853.206865"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "613"
-            endingLineNumber = "613"
+            startingLineNumber = "555"
+            endingLineNumber = "555"
             landmarkName = "update(_:)"
             landmarkType = "7">
             <Actions>

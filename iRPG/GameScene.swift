@@ -187,12 +187,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 2:
             //lectura de archivo
             let maplevel = readFile(nombre: "nivel_cueva")
+            let maplevelPB = readFile(nombre: "nivel_cueva_PB")
             if maplevel != ""{
 
                 //let mapa = "volcano"
                 let mapa = "ground_5"
+                
                 let cadena = maplevel as String
-                myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa)
+                let cadena2 = maplevelPB as String
+                myMapa = TileMap.init(bitmap: cadena, physicBitmap: cadena2, spritesheet: mapa)
                 map = myMapa.map
                 map.xScale = mapScale
                 map.yScale = mapScale
@@ -212,23 +215,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         case 1:
             //lectura de archivo
             let maplevel = readFile(nombre: "nivel_bosque")
+            let maplevelPB = readFile(nombre: "nivel_bosque_PB")
             if maplevel != ""{
                 let mapa = "forest_2"
                 let cadena = maplevel as String
-                myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa)
+                let cadena2 = maplevelPB as String
+                myMapa = TileMap.init(bitmap: cadena, physicBitmap: cadena2, spritesheet: mapa)
+                //myMapa = TileMap.init(bitmap: cadena, spritesheet: mapa)
                 map = myMapa.map
                 map.xScale = mapScale
                 map.yScale = mapScale
                 map.position = CGPoint(x: 0.0, y: 0.0)
                 //se agrega map a la vista
                 self.addChild(map)
-                
-                //añadir enemigos del nuevo mapa
-                //Crea nuevo enemigo
-                enemigos.append(Enemy(position: CGPoint(x: 100*mapScale, y: 100*mapScale), tipo: "skeleton", clase: "warrior", categoria: EnemyCategory))
-                EnemyCategory += 1
-                addChild(enemigos[enemigos.count-1].Enemigo)
-                
             }
         default:
             //Cargar un mapa alternativo o dejar el menu
@@ -256,63 +255,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
-        
-        
-        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask == myMapa.Wall1Category )){
-            
-            //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(myMapa.Wall1Category) muro 1")
-            if (topeYp == 0.0){
-                myPlayer.velocidadYp = 0.0
-                topeYp = myPlayer.Jugador.position.y
-                bandera = 1
-            }else{
-                bandera = 1
-            }
-        }
-        
-        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask == myMapa.Wall2Category)){
-            
-            //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(myMapa.Wall2Category) muro 2")
-            if (topeXm == 0.0){
-                myPlayer.velocidadXm = 0.0
-                topeXm = myPlayer.Jugador.position.x
-                bandera2 = 1
-                
-            }else{
-                bandera2 = 1
-            }
-        }
-        
-        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask == myMapa.Wall3Category)){
-            
-            //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(myMapa.Wall3Category) muro 3")
-            if (topeXp == 0.0){
-                myPlayer.velocidadXp = 0.0
-                topeXp = myPlayer.Jugador.position.x
-                bandera3 = 1
-             
-             }else{
-                bandera3 = 1
-             }
-        }
-        
-        
-        if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask == myMapa.Wall4Category)){
-            
-            //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(myMapa.Wall4Category) muro 4")
-            if (topeYm == 0.0){
-                myPlayer.velocidadYm = 0.0
-                topeYm = myPlayer.Jugador.position.y
-                bandera4 = 1
-            }else{
-                bandera4 = 1
-            }
-        }
-        
         
         //detectar que enemigo es golpeado
         if enemigos.count >= 1 {
@@ -708,59 +650,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 if (camera.childNode(withName: "LoadScreen")?.alpha == 0.0 &&  banderaMapa == false){
                     camera.childNode(withName: "LoadScreen")!.removeFromParent()
-                }
-                
-                
-                if (bandera == 1){
-                    if (posJugador.y >= topeYp){
-                        myPlayer.velocidadYp = 0.0
-                        
-                    }else if (posJugador.y < topeYp){
-                        //
-                        bandera = 0
-                    }
-                }else{
-                    topeYp = 0.0
-                    myPlayer.velocidadYp = 1.0
-                }
-                //+++++++++++++++++++++++
-                if (bandera2 == 1){
-                    if (posJugador.x <= topeXm){
-                        myPlayer.velocidadXm = 0.0
-                        
-                    }else if (posJugador.x > topeXm){
-                        //
-                        bandera2 = 0
-                    }
-                }else{
-                    topeXm = 0.0
-                    myPlayer.velocidadXm = 1.0
-                }
-                //**************************
-                if (bandera3 == 1){
-                    if (posJugador.x >= topeXp){
-                        myPlayer.velocidadXp = 0.0
-                        
-                    }else if (posJugador.x < topeXp){
-                        //
-                        bandera3 = 0
-                    }
-                }else{
-                    topeXp = 0.0
-                    myPlayer.velocidadXp = 1.0
-                }
-                //---------------------------
-                if (bandera4 == 1){
-                    if (posJugador.y <= topeYm){
-                        myPlayer.velocidadYm = 0.0
-                        
-                    }else if (posJugador.y > topeYm){
-                        //
-                        bandera4 = 0
-                    }
-                }else{
-                    topeYm = 0.0
-                    myPlayer.velocidadYm = 1.0
                 }
                 
             }

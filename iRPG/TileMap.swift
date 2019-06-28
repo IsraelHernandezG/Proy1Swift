@@ -68,18 +68,28 @@ open class TileMap{
     var textureBosque2 : SKTexture?
     var textureBosque3 : SKTexture?
     var textureBosque4 : SKTexture?
+    //elementos de adorno y otros
+    var textureLetrero : SKTexture?
+    var textureRock : SKTexture?
+    
     
     // CategoriesitMasks: Determinan que objetos colisionan con que
-    //TileMapCategories
-    let WallCategory: UInt32 = 0x01 << 1
-    // Entrance category
-    let caveEntrance: UInt32 = 0x01 << 7
-    // fire category
-    let fireCategory: UInt32 = 0x01 << 5
-    //Player Category:
+    //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
-    //Weapon Category
-    let armsCategory: UInt32 = 0x01 << 6
+    
+    //TileMapCategories
+    let WallCategory: UInt32 = 0x01 << 31
+    // Cave Entrance
+    let caveEntrance: UInt32 = 0x01 << 30
+    //ArmsCategory
+    let playerArmCategory: UInt32 = 0x01 << 1
+    let enemyArmCategory: UInt32 = 0x01 << 29
+    //los objetos con los que puede interactuar el personaje usaran este mecanismo
+    let interactionCategory: UInt32 = 0x01 << 28
+    //EnemyCategory
+    let enemyCategory: UInt32 = 0x01 << 8
+    
+    
     
     //bonfire
     var bonfire = SKSpriteNode()
@@ -190,6 +200,10 @@ open class TileMap{
             textureArbol2 = trees.textureForColumn(column: 1, row: 0)
             textureArbol3 = trees.textureForColumn(column: 0, row: 1)
             textureArbol4 = trees.textureForColumn(column: 1, row: 1)
+            
+            let complementSheet = SpriteSheet(image: UIImage(named: "signpost-otros")!, rows: 4, columns: 4)
+            
+            textureLetrero = complementSheet.textureForColumn(column: 0, row: 0)
             
         default:
             textureCentro1 = ground.textureForColumn(column: 1, row: 3)
@@ -547,6 +561,14 @@ open class TileMap{
             tileNode.position = CGPoint(x: x, y: y)
             tileNode.zPosition = -2
             map.addChild(tileNode)
+        case "p":
+            map.addChild(setFloor(CGPoint(x: x, y: y)))
+            map.addChild(setBase(position: CGPoint(x: x, y: y)))
+            let tileTexture = textureLetrero
+            let tileNode = SKSpriteNode(texture: tileTexture)
+            tileNode.position = CGPoint(x: x, y: y)
+            tileNode.zPosition = 0.5
+            map.addChild(tileNode)
         default:
             
             map.addChild(setFloor(CGPoint(x: x, y: y)))
@@ -732,7 +754,7 @@ open class TileMap{
     func animateFire() {
         bonfire = SKSpriteNode(imageNamed: "bonfireOff-1")
         bonfire.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
-        bonfire.physicsBody?.categoryBitMask = fireCategory
+        bonfire.physicsBody?.categoryBitMask = interactionCategory
         bonfire.physicsBody?.contactTestBitMask = playerCategory
         bonfire.physicsBody?.collisionBitMask = 0
         bonfire.run(SKAction.repeatForever(SKAction.animate(with: bonfireOffAnimation, timePerFrame: 0.1)))

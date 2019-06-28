@@ -47,10 +47,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
         var EnemyCategory: UInt32 = 0
     
+    var numPotions : Int = 0
+    
         // Poscion del personaje en el mapa
         var posX: CGFloat = 0.0
         var posY: CGFloat = 0.0
-        let generoPersonaje: String = "female"
+        let generoPersonaje: String = "male"
         var scoreJugador : Int = 0
     
         override func didMove(to view: SKView) {
@@ -204,11 +206,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(map)
                 myInterface.iniciaTableroScore(frame: self.frame)
                 
-                //añadir enemigos del nuevo mapa
-                //Crea nuevo enemigo
-                enemigos.append(Enemy(position: CGPoint(x: 100*mapScale, y: 100*mapScale), tipo: "skeleton", clase: "warrior", categoria: EnemyCategory))
-                EnemyCategory += 1
-                addChild(enemigos[enemigos.count-1].Enemigo)
+                generaEnemigo()
                 
             }
             
@@ -228,6 +226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 map.position = CGPoint(x: 0.0, y: 0.0)
                 //se agrega map a la vista
                 self.addChild(map)
+                
             }
         default:
             //Cargar un mapa alternativo o dejar el menu
@@ -259,34 +258,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //detectar que enemigo es golpeado
         if enemigos.count >= 1 {
             for x in 1...enemigos.count {
-                if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
+                if ((firstBody.categoryBitMask & myPlayer.playerArmCategory != 0) &&
                     (secondBody.categoryBitMask == enemigos[x-1].enemyCategory )){
                     
                     //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(enemigos[x-1].enemyCategory)")
                     if enemigos[x-1].vida > 0{
-                        enemigos[x-1].vida -=  1.0
+                        enemigos[x-1].vida -=  1.2
+                        enemigos[x-1].damage()
                     }else{
                         if(enemigos[x-1].isAlive == true){
                             enemigos[x-1].muertePersonaje()
                             enemigos[x-1].isAlive = false
                             scoreJugador += 200
+                            if (EnemyCategory > 10){
+                                generaEnemigo()
+                            }
+                            if (EnemyCategory > 5){
+                                generaEnemigo()
+                            }
+                            if (EnemyCategory > 0){
+                                generaEnemigo()
+                            }
+                            removeEnemy(index: x-1)
                             //1 remover al enemigo del arreglo
-                            //2 recorrer los elementos y reasignar el enemyCategory
+                            
                         }
                         
                     }
                     
-                }/*else if ((firstBody.categoryBitMask & myPlayer.armsCategory != 0) &&
-                    (secondBody.categoryBitMask != enemigos[x-1].enemyCategory )){
-                    print("cuerpo: \(secondBody.categoryBitMask), categoria: \(enemigos[x-1].enemyCategory) No hay daño")
-                }*/
+                }
             }
         }
         if ((firstBody.categoryBitMask & myMapa.playerCategory != 0) &&
-            (secondBody.categoryBitMask & myPlayer.armsCategory != 0)){
+            (secondBody.categoryBitMask & myPlayer.enemyArmCategory != 0)){
         
             if myPlayer.vida >= 0 {
-                myPlayer.vida -= 0.5
+                myPlayer.vida -= 0.3
                 myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
                 
             }else{
@@ -323,10 +330,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             banderaMapa = true
             
         }
+        
+        if ((firstBody.categoryBitMask & myPlayer.playerCategory != 0) &&
+            (secondBody.categoryBitMask & myMapa.interactionCategory != 0)){
+            
+           //determinar que objeto a entrado en contacto
+            
+            
+        }
+
+        
     }
     
     func generaEnemigo(){
-        //
+        
+        var coordX : CGFloat = CGFloat(arc4random_uniform(80))
+        var coordY : CGFloat = CGFloat(arc4random_uniform(80))
+        
+        coordX = coordX *  CGFloat(exp(valor: -1, potencia: Int(arc4random_uniform(6))))
+        coordY = coordY *  CGFloat(exp(valor: -1, potencia: Int(arc4random_uniform(6))))
+        
+        enemigos.append(Enemy(position: CGPoint(x: coordX*mapScale, y: coordY*mapScale), tipo: "skeleton", clase: "warrior", categoria: EnemyCategory))
+        EnemyCategory += 1
+        addChild(enemigos[enemigos.count-1].Enemigo)
+    }
+    
+    func removeEnemy(index: Int){
+        //enemigos[index].Enemigo.removeFromParent()
+        
+        //mostrar elemento dropeado
+        let proba = Int(arc4random_uniform(10))
+        switch proba {
+        case 1:
+            //
+            
+            print("item drop")
+        default:
+            break
+        }
+        enemigos[index].dropItem()
+        
+    }
+    
+    func removeAllEnemies(){
+        //remover enemigos del mapa anterior
+        if enemigos.count >= 1 {
+            for i in 1...enemigos.count {
+                enemigos[i-1].Enemigo.removeFromParent()
+            }
+        }
+        enemigos = []
+        EnemyCategory = 0
+    }
+    
+    func exp(valor: Int, potencia: Int) -> Int{
+        var pot = valor
+        if (potencia >= 2){
+            for _ in 1...(potencia-1){
+                pot = pot * valor
+            }
+        }
+        return pot
     }
     
     func animacionCortina(time: Double){
@@ -405,7 +469,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.interfaz.childNode(withName: "Izq")?.run(SKAction.setTexture(myInterface.textureButtonLeftPres))
                     
                 }else if name == "MenuWin"{
-                    myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButtonPres))
+                    myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuButtonPressed))
                 }else if name == "MenuButton1"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRightPress))
                     //
@@ -477,6 +541,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
                     
                     
+                }else if name == "drop"{
+                    print("tomar item")
+                    numPotions += 1
                 }
             }
             
@@ -510,7 +577,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "Abajo"{
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDown))
-                   
+                    //usa item
+                    if (myInterface.numItems > 0){
+                        myInterface.numItems -= 1
+                        myPlayer.vida += 75
+                        if myPlayer.vida > myPlayer.vidaMax{
+                            myPlayer.vida = myPlayer.vidaMax
+                        }
+                        myInterface.healt(vida: myPlayer.vida, vidaMax: myPlayer.vidaMax)
+                        myInterface.actualizaItem()
+                        
+                    }
                 }else if name == "Der"{
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRight))
                     
@@ -519,7 +596,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                 }else if name == "MenuWin"{
                     cierramenu()
-                    myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuWinButton))
+                    myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuButton))
                     cam!.addChild(myInterface.interfaz)
                 }else if name == "MenuButton1"{
                     myInterface.labelName.text = "Ajustes"
@@ -537,9 +614,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
                 
             }
-            
-            
-            
         }
         
     }
@@ -562,15 +636,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             labelDead.removeFromParent()
             map.removeFromParent()
             myInterface.removeTableroScore()
-            //remover enemigos del mapa anterior
-            if enemigos.count >= 1 {
-                for i in 1...enemigos.count {
-                    enemigos[i-1].avatarEnemy.removeFromParent()
-                    //remover phisicsbody del arma
-                }
-            }
-            enemigos = []
-            EnemyCategory = 0
+            
+            removeAllEnemies()
             
             loadLevel(mapNum)
             
@@ -579,7 +646,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myInterface.actualizaScore()
             
             myPlayer.vida = myPlayer.vidaMax
-            myInterface.healt(myPlayer.vida, myPlayer.vidaMax)
+            myInterface.healt(vida: myPlayer.vida, vidaMax: myPlayer.vidaMax)
             myPlayer.isAlive = true
             myPlayer.orientarPersonaje()
             myPlayer.movePlayerTo(x: 0.0, y: 0.0)
@@ -629,15 +696,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     
                     map.removeFromParent()
                     myInterface.removeTableroScore()
-                    //remover enemigos del mapa anterior
-                    if enemigos.count >= 1 {
-                        for i in 1...enemigos.count {
-                            enemigos[i-1].avatarEnemy.removeFromParent()
-                            //remover phisicsbody del arma
-                        }
-                    }
-                    enemigos = []
-                    EnemyCategory = 0
+                    
+                    removeAllEnemies()
                     
                     loadLevel(mapNum)
                     //mover al personaje a la emtrada/salida de la cueva
@@ -651,7 +711,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (camera.childNode(withName: "LoadScreen")?.alpha == 0.0 &&  banderaMapa == false){
                     camera.childNode(withName: "LoadScreen")!.removeFromParent()
                 }
-                
             }
         }
     }

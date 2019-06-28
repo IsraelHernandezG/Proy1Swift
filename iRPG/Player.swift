@@ -71,21 +71,22 @@ open class Player {
     var dexterity: Int?
     
     //Movimiento personaje
-    var velocidadXp: CGFloat = 1.0
-    var velocidadXm: CGFloat = 1.0
-    var velocidadYp: CGFloat = 1.0
-    var velocidadYm: CGFloat = 1.0
     var velocidad: CGFloat = 0.0
     
-     // CategoriesitMasks: Determinan que objetos colisionan con que
-    //TileMapCategories
-    let WallCategory: UInt32 = 0x01 << 1
-    // Cave Entrance
-    let caveEntrance: UInt32 = 0x01 << 7
+    // CategoriesitMasks: Determinan que objetos colisionan con que
     //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
+    
+    //TileMapCategories
+    let WallCategory: UInt32 = 0x01 << 31
+    // Cave Entrance
+    let caveEntrance: UInt32 = 0x01 << 30
     //ArmsCategory
-    let armsCategory: UInt32 = 0x01 << 6
+    //ArmsCategory
+    let playerArmCategory: UInt32 = 0x01 << 1
+    let enemyArmCategory: UInt32 = 0x01 << 29
+    //
+    let fireCategory: UInt32 = 0x01 << 28
     //EnemyCategory
     let enemyCategory: UInt32 = 0x01 << 8
     
@@ -203,7 +204,7 @@ open class Player {
         //el arma debe ser el ultimo elemento del arreglo
         if let temp = SKPhysicsBody(texture: equipPlayer[equipPlayer.count-1].equipNode.texture!, size: equipPlayer[equipPlayer.count-1].equipNode.size) as? SKPhysicsBody {
             equipPlayer[equipPlayer.count-1].equipNode.physicsBody = temp
-            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
+            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.categoryBitMask = playerArmCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
             equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.contactTestBitMask = WallCategory | enemyCategory
             equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
@@ -448,21 +449,21 @@ open class Player {
         if Atack == false {
             switch orientacionPersonaje {
             case 1: //N
-                Jugador.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
+                Jugador.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad, duration: 0.1))
             case 2: //W
-                Jugador.run(SKAction.moveBy(x: CGFloat(-1)*velocidad*velocidadXm, y: CGFloat(0), duration: 0.1))
+                Jugador.run(SKAction.moveBy(x: CGFloat(-1)*velocidad, y: CGFloat(0), duration: 0.1))
             case 3: //S
-                Jugador.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad*velocidadYm, duration: 0.1))
+                Jugador.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad, duration: 0.1))
             case 4: //E
-                Jugador.run(SKAction.moveBy(x: CGFloat(1)*velocidad*velocidadXp, y: CGFloat(0), duration: 0.1))
+                Jugador.run(SKAction.moveBy(x: CGFloat(1)*velocidad, y: CGFloat(0), duration: 0.1))
             case 5: //NW
-                Jugador.run(SKAction.moveBy(x: CGFloat(-0.7072)*velocidad*velocidadXm, y: CGFloat(0.7072)*velocidad*velocidadYp, duration: 0.1))
+                Jugador.run(SKAction.moveBy(x: CGFloat(-0.7072)*velocidad, y: CGFloat(0.7072)*velocidad, duration: 0.1))
             case 6: //SW
-                Jugador.run(SKAction.moveBy(x: CGFloat(-0.7072)*velocidad*velocidadXm, y: CGFloat(-0.7072)*velocidad*velocidadYm, duration: 0.1))
+                Jugador.run(SKAction.moveBy(x: CGFloat(-0.7072)*velocidad, y: CGFloat(-0.7072)*velocidad, duration: 0.1))
             case 7: //SE
-                Jugador.run(SKAction.moveBy(x: CGFloat(0.7072)*velocidad*velocidadXp, y: CGFloat(-0.7072)*velocidad*velocidadYm, duration: 0.1))
+                Jugador.run(SKAction.moveBy(x: CGFloat(0.7072)*velocidad, y: CGFloat(-0.7072)*velocidad, duration: 0.1))
             case 8: //NE
-                Jugador.run(SKAction.moveBy(x: CGFloat(0.7072)*velocidad*velocidadXp, y: CGFloat(0.7072)*velocidad*velocidadYp, duration: 0.1))
+                Jugador.run(SKAction.moveBy(x: CGFloat(0.7072)*velocidad, y: CGFloat(0.7072)*velocidad, duration: 0.1))
             default:
                 break
             }
@@ -518,7 +519,7 @@ open class Player {
     }
     
     func reloadItems(){
-        //print("-----------------")
+        
         for i in 0...(itemsEquiped.count-1){
             equipPlayer[i].equipNode.removeFromParent()
             if (itemsEquiped[i].1 != "null"){
@@ -526,10 +527,9 @@ open class Player {
                 equipPlayer[i] = Equip(genero: generoPersonaje, tipo: itemsEquiped[i].0, nombre: itemsEquiped[i].1,orientacion: orientacionPersonaje)
                 Jugador.addChild(equipPlayer[i].equipNode)
             }
-            //print("(\(itemsEquiped[i].0),\(itemsEquiped[i].1))")
         }
         setZPosition()
-        
+    
     }
     
 }

@@ -32,6 +32,9 @@ open class GameUI {
     var textureCenterHP = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     var textureCenterSP = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     
+    // item shortcut
+    var itemView : [SKTexture] = []
+    
     //Controls
     var textureButtonUp = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     var textureButtonDown = SKTexture(image: UIImage(imageLiteralResourceName: "default"))
@@ -108,6 +111,7 @@ open class GameUI {
     let textureLeftSlider = SKTexture(image: UIImage(named: "Slider")!)
     
     //Labels
+    var labelItem = SKLabelNode()
     var labelName = SKLabelNode()
     var labelEquip = SKLabelNode()
     var labelranura1 = SKLabelNode()
@@ -129,6 +133,7 @@ open class GameUI {
     //puntaje del jugador
     var scoreJugador : Int = 0
     
+    var numItems : Int = 5
     
     // banderas
     var banderaEquipo = 0
@@ -144,7 +149,7 @@ open class GameUI {
     //
     var itemActual: String = ""
     //genero del jugador
-    var generoP: String = "male" 
+    var generoP: String = ""
     
     //Carga de las imagenes del joystick
     var joystickStickImageEnabled = true {
@@ -210,6 +215,18 @@ open class GameUI {
             
             
         }
+        
+        if let imagen = UIImage(named: "potions") {
+            let potionSheet = SpriteSheet(image: imagen, rows: 13, columns: 19)
+            
+            for i in 0...7 {
+                //itemView.append(potionSheet.textureForColumn(column: 10+i, row: 5))
+                itemView.append(potionSheet.textureForColumn(column: 1+i, row: 11))
+            }
+            
+        }
+        
+        
     }
     
    
@@ -224,6 +241,24 @@ open class GameUI {
         originBar.position = CGPoint(x: -ventana.maxX+100, y: ventana.maxY-80)
         statusBar.addChild(originBar) // despues de que se crea cada sprite con su correspondiente textura,
                                     // dimensiones y posicion se agrega al nodo principal lifebar
+        
+        let itemV = SKSpriteNode(texture: itemView[0])
+        itemV.zPosition = 4
+        itemV.position = CGPoint(x: originBar.position.x-itemV.size.width+2, y: originBar.position.y+2)
+        itemV.xScale = barScale * 1.5
+        itemV.yScale = barScale * 1.5
+        itemV.run(SKAction.repeatForever(SKAction.animate(with: itemView, timePerFrame: 0.2)))
+        statusBar.addChild(itemV)
+        
+        labelItem = SKLabelNode(text: "\(numItems)")
+        labelItem.name = "labelBoton"
+        labelItem.zPosition = 4.1
+        labelItem.fontSize = 36
+        labelItem.fontName = "Alagard"
+        labelItem.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        labelItem.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelItem.position = CGPoint(x: itemV.position.x, y: itemV.position.y-60)
+        statusBar.addChild(labelItem)
         
         //Life bar
         let centerHPBar = SKSpriteNode(texture: textureCenterBar)
@@ -445,7 +480,7 @@ open class GameUI {
         MenuTitleButton.position = CGPoint(x: MenuTitleLeft.position.x+12, y: MenuTitleLeft.position.y+14)
         contextoMenu.addChild(MenuTitleButton)
         // Button Close Menu
-        let MenuCloseFrame = SKSpriteNode(texture: textureHorizontalButton)
+        /*let MenuCloseFrame = SKSpriteNode(texture: textureHorizontalButton)
         MenuCloseFrame.zPosition = 4.1
         MenuCloseFrame.xScale = escalaMenu
         MenuCloseFrame.yScale = escalaMenu
@@ -460,7 +495,16 @@ open class GameUI {
         MenuCloseButton.yScale = escalaMenu
         MenuCloseButton.anchorPoint = CGPoint(x: 0, y: 0)
         MenuCloseButton.position = CGPoint(x: TopMenu3.position.x+4, y: TopMenu3.position.y+14)
-        contextoMenu.addChild(MenuCloseButton)
+        contextoMenu.addChild(MenuCloseButton)*/
+        
+        //Menu Button
+        let menuButton = SKSpriteNode(texture: textureMenuButton)
+        menuButton.name = "MenuWin"
+        menuButton.zPosition = 3
+        menuButton.xScale = 2
+        menuButton.yScale = 2
+        menuButton.position = CGPoint(x: ventana.maxX-80, y: ventana.maxY-80)
+        contextoMenu.addChild(menuButton)
         
         let menuBottom1 = SKSpriteNode(texture: textureBottom1)
         menuBottom1.zPosition = 3.9
@@ -536,16 +580,9 @@ open class GameUI {
         labelName.fontSize = 58
         labelName.fontName = "Alagard"
         labelName.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left // Alineacion a la izquierda
-        // labelName.text = "Intentario"
         labelName.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
         labelName.position = CGPoint(x: menuBottom1.position.x, y: menuBottom1.position.y-10)
         contextoMenu.addChild(labelName)
-        
-        
-        /* for family in UIFont.familyNames.sorted() {
-         let names = UIFont.fontNames(forFamilyName: family)
-         print("Family: \(family) Font names: \(names)")
-         }*/
         
         createEquipWindow(ventana, menuBottom3.position)
         
@@ -1038,30 +1075,29 @@ open class GameUI {
         lifePlayer = CGFloat(vida*1.0/vidaMax)
         if(lifePlayer >= 0.0){
             //Redimencionando la barra de vida de acuerdo a la vida del jugador
-            statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 0.1))
+            statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: 10.0 * lifePlayer, duration: 0.1))
             //statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(byWidth: -0.01, height: 0.0, duration: 0.1))
         }
         
     }
     
-    func healt(_ vida: Double, _ vidaMax: Double){
-        //lifePlayer = CGFloat(vida*1.0/vidaMax)
-        lifePlayer = 1.0
+    func healt(vida: Double, vidaMax: Double){
+        lifePlayer = CGFloat(vida*1.0/vidaMax)
         //statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * lifePlayer, duration: 1.0))
-        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * lifePlayer, duration: 0.1))
+        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: 10.0 * lifePlayer, duration: 0.1))
     }
     
     
     func spendStamina(_ stamina: Double, _ staminaMax: Double){
         staminaPlayer = CGFloat(stamina*1.0/staminaMax)
 
-        statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * staminaPlayer, duration: 1.0))
+        statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: 10.0 * staminaPlayer, duration: 1.0))
     }
     
     func restoreStamina(_ stamina: Double, _ staminaMax: Double){
         staminaPlayer = CGFloat(stamina*1.0/staminaMax)
         if(staminaPlayer <= CGFloat(staminaMax)){
-            statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: barScale * 5.0 * staminaPlayer, duration: 0.1))
+            statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: 10.0 * staminaPlayer, duration: 0.1))
         }
     }
     
@@ -1203,6 +1239,10 @@ open class GameUI {
         }
         
         
+    }
+    
+    func actualizaItem(){
+        labelItem.text = "\(numItems)"
     }
     
     func ranuraSel(numRanura: Int){

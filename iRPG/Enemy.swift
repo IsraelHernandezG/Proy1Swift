@@ -26,13 +26,11 @@ open class Enemy {
     var enemyAtackW: [SKTexture] = []
     
     var deadEnemy: [SKTexture] = []
+    
+    var itemFire: [SKTexture] = []
    
     //Velocidad enemigo
-    var velocidadXp: CGFloat = 1.0
-    var velocidadXm: CGFloat = 1.0
-    var velocidadYp: CGFloat = 1.0
-    var velocidadYm: CGFloat = 1.0
-    var velocidad: CGFloat = 1.0
+    var velocidad: CGFloat = 2.0
 
     //var orientacionPersonaje: Int = 3
     
@@ -53,12 +51,19 @@ open class Enemy {
     // CategoriesitMasks: Determinan que objetos colisionan con que
     //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
+    
     //TileMapCategories
-    let WallCategory: UInt32 = 0x01 << 1
+    let WallCategory: UInt32 = 0x01 << 31
+    // Cave Entrance
+    let caveEntrance: UInt32 = 0x01 << 30
     //ArmsCategory
-    let armsCategory: UInt32 = 0x01 << 6
-    //EnemyCategories >= 6
-    var enemyCategory: UInt32 = 0x01 << 8 //default
+    //ArmsCategory
+    let playerArmCategory: UInt32 = 0x01 << 1
+    let enemyArmCategory: UInt32 = 0x01 << 29
+    //
+    let fireCategory: UInt32 = 0x01 << 28
+    //EnemyCategory
+    var enemyCategory: UInt32 = 0x01 << 8
     
     var enemyxPosition: CGFloat = 0.0
     var enemyyPosition: CGFloat = 0.0
@@ -67,7 +72,7 @@ open class Enemy {
     
     init(position: CGPoint, tipo: String, clase: String, categoria: UInt32){
         
-        enemyCategory = 0x01 << 8+categoria
+        enemyCategory = 0x01 << 8 + categoria //esto permite tener hasta 256 enemigos en el mismo mapa
         
         createAnimations(tipo: tipo, clase : clase)
         
@@ -82,6 +87,19 @@ open class Enemy {
         avatarEnemy.physicsBody!.isDynamic=true
         avatarEnemy.zPosition = 0.9
         
+        //barra de vida del enemigo, solo debe aparacer cuando es golpeado
+        let fillBarSheet = SpriteSheet(image: UIImage(named: "fill_bars_GUI")!, rows: 4, columns: 4)
+        
+        let enemyHP = SKSpriteNode(texture: fillBarSheet.textureForColumn(column: 1, row: 1))
+        enemyHP.name = "enemyHP"
+        enemyHP.yScale = 0.2
+        enemyHP.xScale = 4.0
+        enemyHP.anchorPoint = CGPoint(x: 0, y: 0.5)
+        enemyHP.position = CGPoint(x: avatarEnemy.position.x-enemyHP.size.width/2, y: avatarEnemy.position.y + 21)
+        enemyHP.zPosition = avatarEnemy.zPosition
+        
+        Enemigo.addChild(enemyHP)
+        
         //Equipo del jugador
         equipEnemy.append(Equip(tipo: "weapon", nombre: "short_sword"))
     
@@ -93,6 +111,15 @@ open class Enemy {
             }
         }
         
+        //item del enemigo
+        let drop = SKSpriteNode(texture: itemFire[0])
+        drop.name = "drop"
+        drop.alpha = 0.0
+        drop.zPosition = 1.0
+        drop.xScale = 1.5
+        drop.yScale = 1.5
+        Enemigo.addChild(drop)
+        
         //Juntando elementos del enemigo
         Enemigo.addChild(avatarEnemy)
  
@@ -101,11 +128,17 @@ open class Enemy {
         
     }
     
+    func dropItem(){
+        Enemigo.childNode(withName: "drop")!.run(SKAction.repeatForever(SKAction.animate(with: itemFire, timePerFrame: 0.1)))
+        Enemigo.childNode(withName: "drop")!.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
+
+    }
+    
     func setWeaponPhysicsBody(){
         
          let temp = SKPhysicsBody(texture: equipEnemy[equipEnemy.count-1].equipNode.texture!, size: equipEnemy[equipEnemy.count-1].equipNode.size)
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody = temp
-            equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.categoryBitMask = armsCategory // categoria del jugador
+            equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.categoryBitMask = enemyArmCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.contactTestBitMask = WallCategory | playerCategory
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
@@ -120,10 +153,7 @@ open class Enemy {
     
     func createAnimations(tipo: String, clase: String) {
         
-       // let enemyAtlas = SKTextureAtlas(named: "enemies")
-        //let sheet=SpriteSheet2(texture: enemyAtlas.textureNamed("\(tipo)"), rows: 21, columns: 13)
         let sheet=SpriteSheet(image: UIImage(named: "\(tipo)")!, rows: 21, columns: 13)
-        
         
         enemyViewN = sheet.textureForColumn(column: 0, row: 0)
         enemyViewW = sheet.textureForColumn(column: 0, row: 1)
@@ -182,6 +212,18 @@ open class Enemy {
         for i in 0...5 {
             deadEnemy.append(sheet.textureForColumn(column: i, row: 20))
         }
+        
+        let fireSheet = SpriteSheet(image: UIImage(named: "fuegofatuo")!, rows: 3, columns: 4)
+        
+        itemFire.append(fireSheet.textureForColumn(column: 0, row: 0))
+        itemFire.append(fireSheet.textureForColumn(column: 1, row: 0))
+        itemFire.append(fireSheet.textureForColumn(column: 2, row: 0))
+        itemFire.append(fireSheet.textureForColumn(column: 3, row: 0))
+        itemFire.append(fireSheet.textureForColumn(column: 0, row: 1))
+        itemFire.append(fireSheet.textureForColumn(column: 1, row: 1))
+        itemFire.append(fireSheet.textureForColumn(column: 2, row: 1))
+        itemFire.append(fireSheet.textureForColumn(column: 3, row: 1))
+        
     }
     
     func animateMove() {
@@ -322,10 +364,6 @@ open class Enemy {
             enemyyPosition = selfPosition.y - playerPosition.y
             
             let distancia = ((playerPosition.x-selfPosition.x)*(playerPosition.x-selfPosition.x)+(playerPosition.y-selfPosition.y)*(playerPosition.y-selfPosition.y)).squareRoot()
-            //print(distancia)
-            //print("dx: \(enemyMob1.enemyxPosition), dy: \(enemyMob1.enemyyPosition)")
-            //print("orinetation: \(enemyMob1.orientaCaminata)")
-            
             
             //movimiento del enemigo
             if (velocidad > 0.0 ){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
@@ -369,7 +407,7 @@ open class Enemy {
             }
             
             //Control del movimiento del enemigo
-            if (distancia >= 100.0 && distancia < 400.0) {
+            if (distancia >= 100.0 && distancia < 1200.0) {
                 velocidad = 1.0
                 stop = false
                 followPlayer() // desplaza al enemigo
@@ -383,8 +421,6 @@ open class Enemy {
         }
     }
     
-    
-    
     func muertePersonaje(){
         if isAlive == true {
             resetpersonaje()
@@ -395,7 +431,6 @@ open class Enemy {
                     equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].deadequip, timePerFrame: 0.1))
                 }
             }
-            
             isAlive = false
         }
     }
@@ -407,23 +442,30 @@ open class Enemy {
                 equipEnemy[i-1].equipNode.removeAllActions()
             }
         }
-        
     }
     func followPlayer(){
     
-             
         switch orientaCaminata {
         case 1: //N
-            Enemigo.run(SKAction.moveBy(x: CGFloat(1)*velocidad*velocidadXp, y: CGFloat(0), duration: 0.1))
+            Enemigo.run(SKAction.moveBy(x: CGFloat(1)*velocidad, y: CGFloat(0), duration: 0.1))
         case 2: //W
-            Enemigo.run(SKAction.moveBy(x: CGFloat(-1)*velocidad*velocidadXm, y: CGFloat(0), duration: 0.1))
+            Enemigo.run(SKAction.moveBy(x: CGFloat(-1)*velocidad, y: CGFloat(0), duration: 0.1))
         case 3: //S
-            Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad*velocidadYm, duration: 0.1))
+            Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad, duration: 0.1))
         case 4: //E
-            Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad*velocidadYp, duration: 0.1))
+            Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad, duration: 0.1))
 
         default:
             break
+        }
+    }
+    
+    func damage(){
+        // normalizando la vida del jugador al rango de [0,1]
+        let lifeEnemy = CGFloat(vida*1.0/vidaMax)
+        if(lifeEnemy >= 0.0){
+            //Redimencionando la barra de vida de acuerdo a la vida del jugador
+            Enemigo.childNode(withName: "enemyHP")?.run(SKAction.resize(toWidth: 10.0 * lifeEnemy, duration: 0.1))
         }
         
     }

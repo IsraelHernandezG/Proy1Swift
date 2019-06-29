@@ -21,6 +21,8 @@ open class GameUI {
     var ventana3 = SKNode()
     var ventana4 = SKNode()
     
+    var ventanaEmergente = SKNode()
+    
     // UI elements status player
     let textureHud = SKTexture(image: UIImage(named: "Hud")!)
     
@@ -71,8 +73,6 @@ open class GameUI {
     
     let textureBotonAzulFijo =  SKTexture(image: UIImage(named: "botonAzulFijo")!)
     
-    let textureMenuWinButton = SKTexture(image: UIImage(named: "botonRojo")!)
-    let textureMenuWinButtonPres = SKTexture(image: UIImage(named: "botonRojoPress")!)
     let textureMenuButtonRight = SKTexture(image: UIImage(named: "buttonSettings")!)
     let textureMenuButtonCenter = SKTexture(image: UIImage(named: "CenterGenButton")!)
     let textureMenuButtonLeft = SKTexture(image: UIImage(named: "equipmentButton")!)
@@ -112,6 +112,9 @@ open class GameUI {
     
     //Labels
     var labelItem = SKLabelNode()
+    var labelVentana = SKLabelNode()
+    var labelAceptar = SKLabelNode()
+    var labelRechazar = SKLabelNode()
     var labelName = SKLabelNode()
     var labelEquip = SKLabelNode()
     var labelranura1 = SKLabelNode()
@@ -330,7 +333,7 @@ open class GameUI {
         
     }
     
-    open func createUI(_ ventana: CGRect){
+    open func createUI(ventana: CGRect){
         
         let scaleControls : CGFloat = 2.0
         
@@ -424,8 +427,6 @@ open class GameUI {
    
     open func createMenu(_ ventana: CGRect){
         
-        
-
         //Encabezado Menu (Estatico)
         let TopMenu1 = SKSpriteNode(texture: textureTop1)
         TopMenu1.zPosition = 4
@@ -479,23 +480,6 @@ open class GameUI {
         MenuTitleButton.anchorPoint = CGPoint(x: 0, y: 0)
         MenuTitleButton.position = CGPoint(x: MenuTitleLeft.position.x+12, y: MenuTitleLeft.position.y+14)
         contextoMenu.addChild(MenuTitleButton)
-        // Button Close Menu
-        /*let MenuCloseFrame = SKSpriteNode(texture: textureHorizontalButton)
-        MenuCloseFrame.zPosition = 4.1
-        MenuCloseFrame.xScale = escalaMenu
-        MenuCloseFrame.yScale = escalaMenu
-        MenuCloseFrame.anchorPoint = CGPoint(x: 0, y: 0)
-        MenuCloseFrame.position = CGPoint(x: TopMenu3.position.x-8, y: TopMenu3.position.y+2)
-        contextoMenu.addChild(MenuCloseFrame)
-        
-        let MenuCloseButton = SKSpriteNode(texture: textureMenuWinButton)
-        MenuCloseButton.name = "MenuWin"
-        MenuCloseButton.zPosition = 4.2
-        MenuCloseButton.xScale = escalaMenu
-        MenuCloseButton.yScale = escalaMenu
-        MenuCloseButton.anchorPoint = CGPoint(x: 0, y: 0)
-        MenuCloseButton.position = CGPoint(x: TopMenu3.position.x+4, y: TopMenu3.position.y+14)
-        contextoMenu.addChild(MenuCloseButton)*/
         
         //Menu Button
         let menuButton = SKSpriteNode(texture: textureMenuButton)
@@ -1042,11 +1026,188 @@ open class GameUI {
         
     }
     
-    open func ventanaEmergente(){
+    func ventanaEmergente(tipo: Int, frame: CGRect, texto: String){
+        //
+        ventanaEmergente = SKNode() //resetear la ventana para su nuevo uso
         
+        //Ventana Intentario de Equipo
+        let ventana1Top1 = SKSpriteNode(texture: textureTop1)
+        ventana1Top1.zPosition = 4
+        ventana1Top1.xScale = escalaMenu
+        ventana1Top1.yScale = escalaMenu
+        ventana1Top1.position = CGPoint(x: frame.midX-240, y: -frame.maxY+210)
+        ventanaEmergente.addChild(ventana1Top1)
+        
+        let ventana1Top2 = SKSpriteNode(texture: textureTop2)
+        ventana1Top2.zPosition = 4
+        ventana1Top2.xScale = escalaMenu * 5
+        ventana1Top2.yScale = escalaMenu
+        ventana1Top2.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ventana1Top2.position = CGPoint(x: ventana1Top1.position.x+ventana1Top1.size.width/2, y: ventana1Top1.position.y)
+        ventanaEmergente.addChild(ventana1Top2)
+        
+        let ventana1Top3 = SKSpriteNode(texture: textureTop3)
+        ventana1Top3.zPosition = 4
+        ventana1Top3.xScale = escalaMenu
+        ventana1Top3.yScale = escalaMenu
+        ventana1Top3.anchorPoint = CGPoint(x: 0, y: 0.5)
+        ventana1Top3.position = CGPoint(x: ventana1Top2.position.x+ventana1Top2.size.width, y: ventana1Top2.position.y)
+        ventanaEmergente.addChild(ventana1Top3)
+        
+        let ventana1Bottom1 = SKSpriteNode(texture: textureBottom1)
+        ventana1Bottom1.zPosition = 4
+        ventana1Bottom1.xScale = escalaMenu
+        ventana1Bottom1.yScale = escalaMenu
+        ventana1Bottom1.anchorPoint = CGPoint(x: 0.5, y: 1)
+        ventana1Bottom1.position = CGPoint(x: ventana1Top1.position.x, y: ventana1Top1.position.y-ventana1Top1.size.height/4)
+        ventanaEmergente.addChild(ventana1Bottom1)
+        let ventana1Bottom2 = SKSpriteNode(texture: textureBottom2)
+        ventana1Bottom2.zPosition = 4
+        ventana1Bottom2.xScale = escalaMenu * 5
+        ventana1Bottom2.yScale = escalaMenu
+        ventana1Bottom2.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana1Bottom2.position = CGPoint(x: ventana1Bottom1.position.x+ventana1Bottom1.size.width/2, y: ventana1Bottom1.position.y)
+        ventanaEmergente.addChild(ventana1Bottom2)
+        let ventana1Bottom3 = SKSpriteNode(texture: textureBottom3)
+        ventana1Bottom3.zPosition = 4
+        ventana1Bottom3.xScale = escalaMenu
+        ventana1Bottom3.yScale = escalaMenu
+        ventana1Bottom3.anchorPoint = CGPoint(x: 0, y: 1)
+        ventana1Bottom3.position = CGPoint(x: ventana1Bottom2.position.x+ventana1Bottom2.size.width, y: ventana1Bottom2.position.y)
+        ventanaEmergente.addChild(ventana1Bottom3)
+        
+        // label Equipar/Desequipar item
+        labelVentana = SKLabelNode(text: texto)
+        labelVentana.name = "labelVentana"
+        labelVentana.zPosition = 4.4
+        labelVentana.fontSize = 50
+        labelVentana.fontName = "Alagard"
+        labelVentana.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        labelVentana.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+        labelVentana.position = CGPoint(x: ventana1Top2.position.x+ventana1Top2.size.width/2, y: ventana1Top2.position.y-40)
+        ventanaEmergente.addChild(labelVentana)
+        
+        switch tipo {
+        case 1:
+            //ventana de informacion, un solo boton
+            let buttonAceptLeft = SKSpriteNode(texture: textureMenuTitleLeft)
+            buttonAceptLeft.name = "botonAcept1"
+            buttonAceptLeft.zPosition = 4.3
+            buttonAceptLeft.xScale = escalaMenu
+            buttonAceptLeft.yScale = escalaMenu
+            buttonAceptLeft.position = CGPoint(x: ventana1Bottom2.position.x+ventana1Bottom2.size.width/4, y: ventana1Bottom1.position.y-ventana1Bottom1.size.height+5)
+            ventanaEmergente.addChild(buttonAceptLeft)
+            
+            let buttonAceptCenter = SKSpriteNode(texture: textureMenuTitleCenter)
+            buttonAceptCenter.name = "botonAcept2"
+            buttonAceptCenter.zPosition = 4.3
+            buttonAceptCenter.xScale = escalaMenu * 2
+            buttonAceptCenter.yScale = escalaMenu
+            buttonAceptCenter.anchorPoint = CGPoint(x: 0, y: 0.5)
+            buttonAceptCenter.position = CGPoint(x: buttonAceptLeft.position.x+buttonAceptLeft.size.width/2, y: buttonAceptLeft.position.y)
+            ventanaEmergente.addChild(buttonAceptCenter)
+            
+            let buttonAceptRight = SKSpriteNode(texture: textureMenuTitleRight)
+            buttonAceptRight.name = "botonAcept3"
+            buttonAceptRight.zPosition = 4.3
+            buttonAceptRight.xScale = escalaMenu
+            buttonAceptRight.yScale = escalaMenu
+            buttonAceptRight.anchorPoint = CGPoint(x: 0, y: 0.5)
+            buttonAceptRight.position = CGPoint(x: buttonAceptCenter.position.x+buttonAceptCenter.size.width, y: buttonAceptCenter.position.y)
+            ventanaEmergente.addChild(buttonAceptRight)
+            
+            labelAceptar = SKLabelNode(text: "Aceptar")
+            labelAceptar.name = "labelAceptar"
+            labelAceptar.zPosition = 4.4
+            labelAceptar.fontSize = 30
+            labelAceptar.fontName = "Alagard"
+            labelAceptar.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+            labelAceptar.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+            labelAceptar.position = CGPoint(x: buttonAceptCenter.position.x+buttonAceptCenter.size.width/2, y: buttonAceptCenter.position.y-10)
+            ventanaEmergente.addChild(labelAceptar)
+        case 2:
+            //ventana de decision, se realiza una determinada accion dependiendo del jugador
+            let buttonAceptLeft = SKSpriteNode(texture: textureMenuTitleLeft)
+            buttonAceptLeft.name = "botonAcept1"
+            buttonAceptLeft.zPosition = 4.3
+            buttonAceptLeft.xScale = escalaMenu
+            buttonAceptLeft.yScale = escalaMenu
+            buttonAceptLeft.position = CGPoint(x: ventana1Bottom2.position.x, y: ventana1Bottom1.position.y-ventana1Bottom1.size.height+5)
+            ventanaEmergente.addChild(buttonAceptLeft)
+            
+            let buttonAceptCenter = SKSpriteNode(texture: textureMenuTitleCenter)
+            buttonAceptCenter.name = "botonAcept2"
+            buttonAceptCenter.zPosition = 4.3
+            buttonAceptCenter.xScale = escalaMenu * 1.5
+            buttonAceptCenter.yScale = escalaMenu
+            buttonAceptCenter.anchorPoint = CGPoint(x: 0, y: 0.5)
+            buttonAceptCenter.position = CGPoint(x: buttonAceptLeft.position.x+buttonAceptLeft.size.width/2, y: buttonAceptLeft.position.y)
+            ventanaEmergente.addChild(buttonAceptCenter)
+            
+            let buttonAceptRight = SKSpriteNode(texture: textureMenuTitleRight)
+            buttonAceptRight.name = "botonAcept3"
+            buttonAceptRight.zPosition = 4.3
+            buttonAceptRight.xScale = escalaMenu
+            buttonAceptRight.yScale = escalaMenu
+            buttonAceptRight.anchorPoint = CGPoint(x: 0, y: 0.5)
+            buttonAceptRight.position = CGPoint(x: buttonAceptCenter.position.x+buttonAceptCenter.size.width, y: buttonAceptCenter.position.y)
+            ventanaEmergente.addChild(buttonAceptRight)
+            
+            labelAceptar = SKLabelNode(text: "Aceptar")
+            labelAceptar.name = "labelAceptar"
+            labelAceptar.zPosition = 4.4
+            labelAceptar.fontSize = 30
+            labelAceptar.fontName = "Alagard"
+            labelAceptar.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+            labelAceptar.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+            labelAceptar.position = CGPoint(x: buttonAceptCenter.position.x+buttonAceptCenter.size.width/2, y: buttonAceptCenter.position.y-10)
+            ventanaEmergente.addChild(labelAceptar)
+            
+            let buttonRechazarLeft = SKSpriteNode(texture: textureMenuTitleLeft)
+            buttonRechazarLeft.name = "botonAcept1"
+            buttonRechazarLeft.zPosition = 4.3
+            buttonRechazarLeft.xScale = escalaMenu
+            buttonRechazarLeft.yScale = escalaMenu
+            buttonRechazarLeft.position = CGPoint(x: ventana1Bottom2.position.x+ventana1Bottom2.size.width*0.6, y: ventana1Bottom1.position.y-ventana1Bottom1.size.height+5)
+            ventanaEmergente.addChild(buttonRechazarLeft)
+            
+            let buttonRechazarCenter = SKSpriteNode(texture: textureMenuTitleCenter)
+            buttonRechazarCenter.name = "botonAcept2"
+            buttonRechazarCenter.zPosition = 4.3
+            buttonRechazarCenter.xScale = escalaMenu * 1.5
+            buttonRechazarCenter.yScale = escalaMenu
+            buttonRechazarCenter.anchorPoint = CGPoint(x: 0, y: 0.5)
+            buttonRechazarCenter.position = CGPoint(x: buttonRechazarLeft.position.x+buttonRechazarLeft.size.width/2, y: buttonRechazarLeft.position.y)
+            ventanaEmergente.addChild(buttonRechazarCenter)
+            
+            let buttonRechazarRight = SKSpriteNode(texture: textureMenuTitleRight)
+            buttonRechazarRight.name = "botonAcept3"
+            buttonRechazarRight.zPosition = 4.3
+            buttonRechazarRight.xScale = escalaMenu
+            buttonRechazarRight.yScale = escalaMenu
+            buttonRechazarRight.anchorPoint = CGPoint(x: 0, y: 0.5)
+            buttonRechazarRight.position = CGPoint(x: buttonRechazarCenter.position.x+buttonRechazarCenter.size.width, y: buttonRechazarCenter.position.y)
+            ventanaEmergente.addChild(buttonRechazarRight)
+            
+            labelRechazar = SKLabelNode(text: "Rechazar")
+            labelRechazar.name = "labelRechazar"
+            labelRechazar.zPosition = 4.4
+            labelRechazar.fontSize = 30
+            labelRechazar.fontName = "Alagard"
+            labelRechazar.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+            labelRechazar.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+            labelRechazar.position = CGPoint(x: buttonRechazarCenter.position.x+buttonRechazarCenter.size.width/2, y: buttonRechazarCenter.position.y-10)
+            ventanaEmergente.addChild(labelRechazar)
+        default:
+            break
+        }
+        
+        interfaz.addChild(ventanaEmergente)
     }
     
-    
+    func removeVentanaE(){
+        ventanaEmergente.removeFromParent()
+    }
     
     
     func removeTableroScore(){
@@ -1083,8 +1244,7 @@ open class GameUI {
     
     func healt(vida: Double, vidaMax: Double){
         lifePlayer = CGFloat(vida*1.0/vidaMax)
-        //statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: barScale * lifePlayer, duration: 1.0))
-        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: 10.0 * lifePlayer, duration: 0.1))
+        statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: 10.0 * lifePlayer, duration: 0.3))
     }
     
     

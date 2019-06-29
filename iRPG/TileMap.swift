@@ -599,6 +599,11 @@ open class TileMap{
         let halfWidth = CGFloat(columns) / 2.0 * tileSize.width //Valor del centro del mapa en x en pixeles
         let halfHeight = CGFloat(rows) / 2.0 * tileSize.height  //Valor del centro del mapa en y en pixeles
         
+        createFireAnimations()
+        animateFire()
+        
+        resizePB(tipo: 0)
+        
         //ciclos for anidados para recorrer la matriz del mapa
         // el ciclo externo recorre las lineas
         for row in 0..<rows {
@@ -753,16 +758,34 @@ open class TileMap{
     
     func animateFire() {
         bonfire = SKSpriteNode(imageNamed: "bonfireOff-1")
-        bonfire.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
-        bonfire.physicsBody?.categoryBitMask = interactionCategory
-        bonfire.physicsBody?.contactTestBitMask = playerCategory
-        bonfire.physicsBody?.collisionBitMask = 0
         bonfire.run(SKAction.repeatForever(SKAction.animate(with: bonfireOffAnimation, timePerFrame: 0.1)))
         bonfire.xScale = 0.3
         bonfire.yScale = 0.3
-        bonfire.position = CGPoint(x: 0.0, y: 0.0)
+        bonfire.position = CGPoint(x: 100.0, y: 100.0)
         bonfire.zPosition = 0.5
         map.addChild(bonfire)
+    }
+    
+    func getFireKey()-> Int{
+        return bonfire.physicsBody.hashValue
+    }
+    
+    func resizePB(tipo: Int){
+        switch tipo {
+        case 0:
+            bonfire.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(15))
+            bonfire.physicsBody?.categoryBitMask = interactionCategory
+            bonfire.physicsBody?.contactTestBitMask = playerCategory
+            bonfire.physicsBody?.collisionBitMask = 0
+           
+        case 1:
+            bonfire.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
+            bonfire.physicsBody?.categoryBitMask = interactionCategory
+            bonfire.physicsBody?.contactTestBitMask = playerCategory
+        default:
+            break
+        }
+        
     }
     
     

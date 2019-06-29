@@ -129,7 +129,7 @@ open class Enemy {
     }
     
     func dropItem(){
-        Enemigo.childNode(withName: "drop")!.run(SKAction.repeatForever(SKAction.animate(with: itemFire, timePerFrame: 0.1)))
+        Enemigo.childNode(withName: "drop")!.run(SKAction.repeatForever(SKAction.animate(with: itemFire, timePerFrame: 0.2)))
         Enemigo.childNode(withName: "drop")!.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
 
     }

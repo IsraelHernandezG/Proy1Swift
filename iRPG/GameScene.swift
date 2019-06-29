@@ -70,7 +70,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myPlayer = Player.init(posicion: CGPoint(x: 0.0 , y: 0.0), genero: generoPersonaje)
             
             //Elementos de la Interfaz Grafica
-            myInterface.createUI(self.frame)
+            myInterface.createUI(ventana: self.frame)
             //El Menu se crea de una vez pero no se agrega a la escena
             myInterface.createMenu(self.frame)
             //Mandar las listas de items del jugador a la interfaz
@@ -335,6 +335,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & myMapa.interactionCategory != 0)){
             
            //determinar que objeto a entrado en contacto
+            if (secondBody.hashValue == myMapa.getFireKey()){
+                //es una hoguera
+            }
+            
+            if banderaHoguera == 0{
+                banderaHoguera = 1
+                myInterface.ventanaEmergente(tipo: 2, frame: self.frame, texto: "Encender Hoguera?")
+            }else{
+                banderaHoguera = 0
+                myInterface.removeVentanaE()
+            }
+                
+            myMapa.resizePB(tipo: banderaHoguera)
             
             
         }
@@ -359,16 +372,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //enemigos[index].Enemigo.removeFromParent()
         
         //mostrar elemento dropeado
-        let proba = Int(arc4random_uniform(10))
+        let proba = Int(arc4random_uniform(2))
         switch proba {
         case 1:
-            //
-            
-            print("item drop")
+            enemigos[index].dropItem()
         default:
             break
         }
-        enemigos[index].dropItem()
+        
         
     }
     
@@ -636,6 +647,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             labelDead.removeFromParent()
             map.removeFromParent()
             myInterface.removeTableroScore()
+            myInterface.numItems = 5
+            myInterface.actualizaItem()
             
             removeAllEnemies()
             

@@ -59,6 +59,8 @@ open class Enemy {
     //ArmsCategory
     //ArmsCategory
     let playerArmCategory: UInt32 = 0x01 << 1
+    //los objetos con los que puede interactuar el personaje usaran este mecanismo
+    let interactionCategory: UInt32 = 0x01 << 28
     let enemyArmCategory: UInt32 = 0x01 << 29
     //
     let fireCategory: UInt32 = 0x01 << 28
@@ -131,6 +133,7 @@ open class Enemy {
     func dropItem(){
         Enemigo.childNode(withName: "drop")!.run(SKAction.repeatForever(SKAction.animate(with: itemFire, timePerFrame: 0.2)))
         Enemigo.childNode(withName: "drop")!.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
+        resizePB(tipo: 0)
 
     }
     
@@ -352,9 +355,6 @@ open class Enemy {
     func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
         if (isAlive==true){
             
-            if (velocidad != 0.0){
-                isAtack = false
-            }
             
             if isAtack == true {
                 setWeaponPhysicsBody()
@@ -366,7 +366,7 @@ open class Enemy {
             let distancia = ((playerPosition.x-selfPosition.x)*(playerPosition.x-selfPosition.x)+(playerPosition.y-selfPosition.y)*(playerPosition.y-selfPosition.y)).squareRoot()
             
             //movimiento del enemigo
-            if (velocidad > 0.0 ){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
+            if (velocidad != 0.0 ){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
                 if avatarEnemy.hasActions()==false{
                     animateMove()
                 }
@@ -398,7 +398,8 @@ open class Enemy {
                     }
                 }
                 
-            }else if (velocidad == 0.0){
+            }else{
+                isAtack = false
                 if (avatarEnemy.hasActions()==false && distancia < 100.0){
                     atack()
                 }else if (avatarEnemy.hasActions()==false && distancia > 100.0){
@@ -425,12 +426,21 @@ open class Enemy {
         if isAlive == true {
             resetpersonaje()
             avatarEnemy.run(SKAction.animate(with: deadEnemy, timePerFrame: 0.1))
-           
+            
             if equipEnemy.count >= 1 {
                 for i in 1...equipEnemy.count {
                     equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].deadequip, timePerFrame: 0.1))
                 }
             }
+            
+            let proba = Int(arc4random_uniform(2))
+            switch proba {
+            case 1:
+                dropItem()
+            default:
+                break
+            }
+            
             isAlive = false
         }
     }
@@ -466,6 +476,24 @@ open class Enemy {
         if(lifeEnemy >= 0.0){
             //Redimencionando la barra de vida de acuerdo a la vida del jugador
             Enemigo.childNode(withName: "enemyHP")?.run(SKAction.resize(toWidth: 10.0 * lifeEnemy, duration: 0.1))
+        }
+        
+    }
+    
+    func resizePB(tipo: Int){
+        switch tipo {
+        case 0:
+            Enemigo.childNode(withName: "drop")!.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(15))
+            Enemigo.childNode(withName: "drop")!.physicsBody?.categoryBitMask = interactionCategory
+            Enemigo.childNode(withName: "drop")!.physicsBody?.contactTestBitMask = playerCategory
+            Enemigo.childNode(withName: "drop")!.physicsBody?.collisionBitMask = 0
+        case 1:
+            Enemigo.childNode(withName: "drop")!.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
+            Enemigo.childNode(withName: "drop")!.physicsBody?.categoryBitMask = interactionCategory
+            Enemigo.childNode(withName: "drop")!.physicsBody?.contactTestBitMask = playerCategory
+            Enemigo.childNode(withName: "drop")!.physicsBody?.collisionBitMask = 0
+        default:
+            break
         }
         
     }

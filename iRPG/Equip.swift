@@ -125,7 +125,7 @@ open class Equip {
     }
     
     
-    init(tipo: String, nombre: String){ //Para lo enemigos sin genero
+    init(tipo: String, nombre: String){ //Para los enemigos sin genero
         
        
         //let sheet=SpriteSheet2(texture: Atlas.textureNamed("male_\(tipo)_\(nombre)"), rows: 21, columns: 13)

@@ -777,11 +777,11 @@ open class TileMap{
             bonfire.physicsBody?.categoryBitMask = interactionCategory
             bonfire.physicsBody?.contactTestBitMask = playerCategory
             bonfire.physicsBody?.collisionBitMask = 0
-           
         case 1:
             bonfire.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
             bonfire.physicsBody?.categoryBitMask = interactionCategory
             bonfire.physicsBody?.contactTestBitMask = playerCategory
+            bonfire.physicsBody?.collisionBitMask = 0
         default:
             break
         }

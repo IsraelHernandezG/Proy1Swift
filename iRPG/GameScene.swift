@@ -334,20 +334,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if ((firstBody.categoryBitMask & myPlayer.playerCategory != 0) &&
             (secondBody.categoryBitMask & myMapa.interactionCategory != 0)){
             
-           //determinar que objeto a entrado en contacto
+           //determinar que objeto o enemigo a entrado en contacto
             if (secondBody.hashValue == myMapa.getFireKey()){
                 //es una hoguera
             }
             
             if banderaHoguera == 0{
                 banderaHoguera = 1
-                myInterface.ventanaEmergente(tipo: 2, frame: self.frame, texto: "Encender Hoguera?")
+                myInterface.ventanaEmergente(tipo: 1, frame: self.frame, texto: "Recoger Objeto")
             }else{
                 banderaHoguera = 0
                 myInterface.removeVentanaE()
             }
-                
-            myMapa.resizePB(tipo: banderaHoguera)
+            //comprobar que enemigo dropeo el objeto
+            //enemigos[x].resizePB(tipo: banderaHoguera)
             
             
         }
@@ -369,18 +369,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func removeEnemy(index: Int){
+         //animacion de desaparicion de personaje, si dropeo un item se remueve todo el nodo hasta que lo toman
+         //sino se remueve de la escena
+        
         //enemigos[index].Enemigo.removeFromParent()
-        
-        //mostrar elemento dropeado
-        let proba = Int(arc4random_uniform(2))
-        switch proba {
-        case 1:
-            enemigos[index].dropItem()
-        default:
-            break
-        }
-        
-        
+       
     }
     
     func removeAllEnemies(){

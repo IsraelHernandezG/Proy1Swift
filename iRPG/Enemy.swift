@@ -72,11 +72,15 @@ open class Enemy {
     
     var orientaCaminata = 3
     
+    var enemyClass = ""
+    
     init(position: CGPoint, tipo: String, clase: String, categoria: UInt32){
         
         enemyCategory = 0x01 << 8 + categoria //esto permite tener hasta 256 enemigos en el mismo mapa
         
         createAnimations(tipo: tipo, clase : clase)
+        
+        enemyClass = clase
         
         avatarEnemy = SKSpriteNode(texture: enemyViewS) //textura inicial del enemigo
         // se añade un physicsbody al jugador para detectar colisiones
@@ -102,10 +106,20 @@ open class Enemy {
         
         Enemigo.addChild(enemyHP)
         
-        //Equipo del jugador
-        equipEnemy.append(Equip(tipo: "weapon", nombre: "short_sword"))
-    
-        equipEnemy[0].equipNode.zPosition = avatarEnemy.zPosition + 0.6 //weapon
+        //Equipo del enemigo dependiendo de su clase
+        switch clase {
+        case "warrior":
+            equipEnemy.append(Equip(genero: "male", arma: "sword"))
+            equipEnemy[0].equipNode.zPosition = avatarEnemy.zPosition + 0.6 //weapon
+        case "archer":
+            equipEnemy.append(Equip(genero: "male", arma: "bow"))
+            equipEnemy[0].equipNode.zPosition = avatarEnemy.zPosition + 0.6 //weapon
+        case "spearman":
+            equipEnemy.append(Equip(genero: "male", arma: "spear"))
+            equipEnemy[0].equipNode.zPosition = avatarEnemy.zPosition + 0.6 //weapon
+        default:
+            break
+        }
         
         if equipEnemy.count >= 1 {
             for i in 1...equipEnemy.count {
@@ -139,14 +153,15 @@ open class Enemy {
     
     func setWeaponPhysicsBody(){
         
-         let temp = SKPhysicsBody(texture: equipEnemy[equipEnemy.count-1].equipNode.texture!, size: equipEnemy[equipEnemy.count-1].equipNode.size)
-            equipEnemy[equipEnemy.count-1].equipNode.physicsBody = temp
+        if (enemyClass == "warrior" || enemyClass == "spearman"){
+            equipEnemy[equipEnemy.count-1].equipNode.physicsBody = SKPhysicsBody(texture: equipEnemy[equipEnemy.count-1].equipNode.texture!, size: equipEnemy[equipEnemy.count-1].equipNode.size)
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.categoryBitMask = enemyArmCategory // categoria del jugador
             // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.contactTestBitMask = WallCategory | playerCategory
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
             // estas configuraciones tambien son necesarias
             equipEnemy[equipEnemy.count-1].equipNode.physicsBody?.isDynamic=true
+        }
        
     }
     
@@ -207,9 +222,19 @@ open class Enemy {
             enemyAtackW.append(sheet.textureForColumn(column: 0, row: 17))
             enemyAtackS.append(sheet.textureForColumn(column: 0, row: 18))
             enemyAtackE.append(sheet.textureForColumn(column: 0, row: 19))
-            
+        case "spearman":
+            for i in 0...7 {
+                enemyAtackN.append(sheet.textureForColumn(column: i, row: 4))
+                enemyAtackW.append(sheet.textureForColumn(column: i, row: 5))
+                enemyAtackS.append(sheet.textureForColumn(column: i, row: 6))
+                enemyAtackE.append(sheet.textureForColumn(column: i, row: 7))
+            }
+            enemyAtackN.append(sheet.textureForColumn(column: 0, row: 4))
+            enemyAtackW.append(sheet.textureForColumn(column: 0, row: 5))
+            enemyAtackS.append(sheet.textureForColumn(column: 0, row: 6))
+            enemyAtackE.append(sheet.textureForColumn(column: 0, row: 7))
         default:
-            print("clase no contemplada")
+            break
         }
         
         for i in 0...5 {
@@ -353,12 +378,15 @@ open class Enemy {
     }
     
     func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
+        
+        var distanciaMin: CGFloat = 0.0
+        if (enemyClass == "warrior" || enemyClass == "spearman"){
+            distanciaMin = 100.0
+        }else{
+            distanciaMin = 400.0
+        }
+        
         if (isAlive==true){
-            
-            
-            if isAtack == true {
-                setWeaponPhysicsBody()
-            }
             
             enemyxPosition = selfPosition.x - playerPosition.x
             enemyyPosition = selfPosition.y - playerPosition.y
@@ -366,7 +394,9 @@ open class Enemy {
             let distancia = ((playerPosition.x-selfPosition.x)*(playerPosition.x-selfPosition.x)+(playerPosition.y-selfPosition.y)*(playerPosition.y-selfPosition.y)).squareRoot()
             
             //movimiento del enemigo
-            if (velocidad != 0.0 ){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
+            if (velocidad != 0.0){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
+                isAtack = false
+                
                 if avatarEnemy.hasActions()==false{
                     animateMove()
                 }
@@ -399,16 +429,20 @@ open class Enemy {
                 }
                 
             }else{
-                isAtack = false
-                if (avatarEnemy.hasActions()==false && distancia < 100.0){
+                if isAtack == true {
+                    setWeaponPhysicsBody()
+                }
+                if (avatarEnemy.hasActions()==false && distancia < distanciaMin){
                     atack()
-                }else if (avatarEnemy.hasActions()==false && distancia > 100.0){
+                }else if (avatarEnemy.hasActions()==false && distancia > distanciaMin){
                     orientarPersonaje()
                 }
             }
             
             //Control del movimiento del enemigo
-            if (distancia >= 100.0 && distancia < 1200.0) {
+            //dependiendo de la clase del enemigo, cambian los rangos de ataque
+           
+            if (distancia >= distanciaMin && distancia < 1200.0) {
                 velocidad = 1.0
                 stop = false
                 followPlayer() // desplaza al enemigo
@@ -454,7 +488,7 @@ open class Enemy {
         }
     }
     func followPlayer(){
-    
+        
         switch orientaCaminata {
         case 1: //N
             Enemigo.run(SKAction.moveBy(x: CGFloat(1)*velocidad, y: CGFloat(0), duration: 0.1))

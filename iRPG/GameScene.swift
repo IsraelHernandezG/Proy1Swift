@@ -23,6 +23,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var myPlayer = Player()
         // Enemigos
         var enemigos: [Enemy] = []
+        let enemyDictionary: Dictionary<Int,String> = [1:"skeleton",2:"zombie",3:"drake",4:"lizardman"]
+        let classDictionary: Dictionary<Int,String> = [1:"warrior",2:"sorcerer",3:"archer",4:"spearman"]
         //Direccion Personaje
         var direccionPersonaje = 3
     
@@ -293,7 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & myPlayer.enemyArmCategory != 0)){
         
             if myPlayer.vida >= 0 {
-                myPlayer.vida -= 0.3
+                myPlayer.vida -= 0.25
                 myInterface.damage(myPlayer.vida,myPlayer.vidaMax)
                 
             }else{
@@ -363,7 +365,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         coordX = coordX *  CGFloat(exp(valor: -1, potencia: Int(arc4random_uniform(6))))
         coordY = coordY *  CGFloat(exp(valor: -1, potencia: Int(arc4random_uniform(6))))
         
-        enemigos.append(Enemy(position: CGPoint(x: coordX*mapScale, y: coordY*mapScale), tipo: "skeleton", clase: "warrior", categoria: EnemyCategory))
+        let ale1 = Int((arc4random_uniform(31) % 4)+1)
+        let tipoM = enemyDictionary[ale1]!
+        
+        let ale2 = Int((arc4random_uniform(31) % 4)+1)
+        let classM = classDictionary[ale2]!
+        
+        enemigos.append(Enemy(position: CGPoint(x: coordX*mapScale, y: coordY*mapScale), tipo: tipoM, clase: classM, categoria: EnemyCategory))
         EnemyCategory += 1
         addChild(enemigos[enemigos.count-1].Enemigo)
     }

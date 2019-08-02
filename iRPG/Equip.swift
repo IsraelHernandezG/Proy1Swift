@@ -37,6 +37,61 @@ open class Equip {
     init(){
     }
     
+    
+    init (genero: String, arma: String){
+        let sheet=SpriteSheet(image: UIImage(named: "\(genero)_weapons")!, rows: 21, columns: 13)
+        
+        equipN = sheet.textureForColumn(column: 0, row: 0)
+        equipW = sheet.textureForColumn(column: 0, row: 1)
+        equipS = sheet.textureForColumn(column: 0, row: 2)
+        equipE = sheet.textureForColumn(column: 0, row: 3)
+        
+        let vacio = sheet.textureForColumn(column: 12, row: 0)
+        
+        for _ in 1...8 {
+            //Body
+            equipMoveN.append(vacio)
+            equipMoveW.append(vacio)
+            equipMoveS.append(vacio)
+            equipMoveE.append(vacio)
+        }
+        
+        for _ in 0...5 {
+            deadequip.append(vacio)
+        }
+        
+        if arma == "sword"{
+            for i in 0...5 {
+                equipAttackN.append(sheet.textureForColumn(column: i, row: 12))
+                equipAttackW.append(sheet.textureForColumn(column: i, row: 13))
+                equipAttackS.append(sheet.textureForColumn(column: i, row: 14))
+                equipAttackE.append(sheet.textureForColumn(column: i, row: 15))
+            }
+        }else if arma == "bow"{
+            for i in 0...12 {
+                equipAttackN.append(sheet.textureForColumn(column: i, row: 16))
+                equipAttackW.append(sheet.textureForColumn(column: i, row: 17))
+                equipAttackS.append(sheet.textureForColumn(column: i, row: 18))
+                equipAttackE.append(sheet.textureForColumn(column: i, row: 19))
+            }
+        }else if arma == "spear"{
+            for i in 0...7 {
+                equipAttackN.append(sheet.textureForColumn(column: i, row: 4))
+                equipAttackW.append(sheet.textureForColumn(column: i, row: 5))
+                equipAttackS.append(sheet.textureForColumn(column: i, row: 6))
+                equipAttackE.append(sheet.textureForColumn(column: i, row: 7))
+            }
+        }
+        
+        equipAttackN.append(equipAttackN[0])
+        equipAttackW.append(equipAttackW[0])
+        equipAttackS.append(equipAttackS[0])
+        equipAttackE.append(equipAttackE[0])
+        
+        equipNode = SKSpriteNode(texture: equipS) //textura inicial del arma
+    }
+    
+    
     init(genero: String, tipo: String, nombre: String){
         
         let sheet=SpriteSheet(image: UIImage(named: "\(genero)_\(tipo)_\(nombre)")!, rows: 21, columns: 13)

@@ -43,6 +43,8 @@ open class Player {
     var deadPlayer: [SKTexture] = []
     var deadPlayerHair: [SKTexture] = []
     
+    var keyTextures: [SKTexture] = []
+    
     var orientacionPersonaje: Int = 3
    
     
@@ -146,7 +148,7 @@ open class Player {
         equipPlayer.append(Equip(genero: gen, tipo: "armor", nombre: "legion_steel"))
         equipPlayer.append(Equip(genero: gen, tipo: "helmet", nombre: "bronze_legion_1"))
         equipPlayer.append(Equip(genero: gen, tipo: "shield", nombre: "spartan"))
-        equipPlayer.append(Equip(genero: gen, tipo: "weapon", nombre: "short_sword"))
+        equipPlayer.append(Equip(genero: gen, arma: "sword"))
         
         setZPosition()
         
@@ -202,15 +204,14 @@ open class Player {
     
     func setWeaponPhysicsBody(){
         //el arma debe ser el ultimo elemento del arreglo
-        if let temp = SKPhysicsBody(texture: equipPlayer[equipPlayer.count-1].equipNode.texture!, size: equipPlayer[equipPlayer.count-1].equipNode.size) as? SKPhysicsBody {
-            equipPlayer[equipPlayer.count-1].equipNode.physicsBody = temp
-            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.categoryBitMask = playerArmCategory // categoria del jugador
-            // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
-            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.contactTestBitMask = WallCategory | enemyCategory
-            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
-            // estas configuraciones tambien son necesarias
-            equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.isDynamic=true
-        }
+        equipPlayer[equipPlayer.count-1].equipNode.physicsBody = SKPhysicsBody(texture: equipPlayer[equipPlayer.count-1].equipNode.texture!, size: equipPlayer[equipPlayer.count-1].equipNode.size)
+        equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.categoryBitMask = playerArmCategory // categoria del jugador
+        // en contactTestBitMask se agregan todos los objetos con los que colisionara el jugador
+        equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.contactTestBitMask = WallCategory | enemyCategory
+        equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.collisionBitMask = 0 // esta opcion debe estar en 0
+        // estas configuraciones tambien son necesarias
+        equipPlayer[equipPlayer.count-1].equipNode.physicsBody?.isDynamic=true
+        
     }
     
     init(){

@@ -127,15 +127,6 @@ open class Enemy {
             }
         }
         
-        //item del enemigo
-        let drop = SKSpriteNode(texture: itemFire[0])
-        drop.name = "drop"
-        drop.alpha = 0.0
-        drop.zPosition = 1.0
-        drop.xScale = 1.5
-        drop.yScale = 1.5
-        Enemigo.addChild(drop)
-        
         //Juntando elementos del enemigo
         Enemigo.addChild(avatarEnemy)
  
@@ -144,12 +135,6 @@ open class Enemy {
         
     }
     
-    func dropItem(){
-        Enemigo.childNode(withName: "drop")!.run(SKAction.repeatForever(SKAction.animate(with: itemFire, timePerFrame: 0.2)))
-        Enemigo.childNode(withName: "drop")!.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
-        resizePB(tipo: 0)
-
-    }
     
     func setWeaponPhysicsBody(){
         
@@ -240,17 +225,6 @@ open class Enemy {
         for i in 0...5 {
             deadEnemy.append(sheet.textureForColumn(column: i, row: 20))
         }
-        
-        let fireSheet = SpriteSheet(image: UIImage(named: "fuegofatuo")!, rows: 3, columns: 4)
-        
-        itemFire.append(fireSheet.textureForColumn(column: 0, row: 0))
-        itemFire.append(fireSheet.textureForColumn(column: 1, row: 0))
-        itemFire.append(fireSheet.textureForColumn(column: 2, row: 0))
-        itemFire.append(fireSheet.textureForColumn(column: 3, row: 0))
-        itemFire.append(fireSheet.textureForColumn(column: 0, row: 1))
-        itemFire.append(fireSheet.textureForColumn(column: 1, row: 1))
-        itemFire.append(fireSheet.textureForColumn(column: 2, row: 1))
-        itemFire.append(fireSheet.textureForColumn(column: 3, row: 1))
         
     }
     
@@ -456,10 +430,20 @@ open class Enemy {
         }
     }
     
-    func muertePersonaje(){
+    func muerteEnemigo() -> Bool{
+        var droping = false
         if isAlive == true {
             resetpersonaje()
-            avatarEnemy.run(SKAction.animate(with: deadEnemy, timePerFrame: 0.1))
+            
+            let muerte = SKAction.animate(with: deadEnemy, timePerFrame: 0.1)
+            let desvanece = SKAction.fadeAlpha(by: -1.0, duration: 2.0)
+            let elimina = SKAction.run {
+                self.Enemigo.removeFromParent()
+            }
+            
+            let secuencia = SKAction.sequence([muerte,desvanece,elimina])
+            
+            avatarEnemy.run(secuencia)
             
             if equipEnemy.count >= 1 {
                 for i in 1...equipEnemy.count {
@@ -467,16 +451,14 @@ open class Enemy {
                 }
             }
             
-            let proba = Int(arc4random_uniform(2))
-            switch proba {
-            case 1:
-                dropItem()
-            default:
-                break
+            let proba = Int(arc4random_uniform(7)%4)
+            if proba == 1 {
+                droping = true
             }
-            
+           
             isAlive = false
         }
+        return droping
     }
     
     func resetpersonaje(){
@@ -514,22 +496,8 @@ open class Enemy {
         
     }
     
-    func resizePB(tipo: Int){
-        switch tipo {
-        case 0:
-            Enemigo.childNode(withName: "drop")!.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(15))
-            Enemigo.childNode(withName: "drop")!.physicsBody?.categoryBitMask = interactionCategory
-            Enemigo.childNode(withName: "drop")!.physicsBody?.contactTestBitMask = playerCategory
-            Enemigo.childNode(withName: "drop")!.physicsBody?.collisionBitMask = 0
-        case 1:
-            Enemigo.childNode(withName: "drop")!.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
-            Enemigo.childNode(withName: "drop")!.physicsBody?.categoryBitMask = interactionCategory
-            Enemigo.childNode(withName: "drop")!.physicsBody?.contactTestBitMask = playerCategory
-            Enemigo.childNode(withName: "drop")!.physicsBody?.collisionBitMask = 0
-        default:
-            break
-        }
-        
+    func getPosition() -> CGPoint{
+        return Enemigo.position
     }
     
 }

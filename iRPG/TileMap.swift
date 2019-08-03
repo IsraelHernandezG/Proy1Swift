@@ -599,8 +599,8 @@ open class TileMap{
         let halfWidth = CGFloat(columns) / 2.0 * tileSize.width //Valor del centro del mapa en x en pixeles
         let halfHeight = CGFloat(rows) / 2.0 * tileSize.height  //Valor del centro del mapa en y en pixeles
         
-        createFireAnimations()
-        animateFire()
+        //createFireAnimations()
+        //animateFire()
         
         resizePB(tipo: 0)
         

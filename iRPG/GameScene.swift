@@ -25,6 +25,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var enemigos: [Enemy] = []
         let enemyDictionary: Dictionary<Int,String> = [1:"skeleton",2:"zombie",3:"drake",4:"lizardman"]
         let classDictionary: Dictionary<Int,String> = [1:"warrior",2:"sorcerer",3:"archer",4:"spearman"]
+        //drops
+        var dropArray: [Drop] = []
         //Direccion Personaje
         var direccionPersonaje = 3
     
@@ -269,8 +271,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         enemigos[x-1].damage()
                     }else{
                         if(enemigos[x-1].isAlive == true){
-                            enemigos[x-1].muertePersonaje()
-                            enemigos[x-1].isAlive = false
+                            //si muertePersonaje devuelve true, se crea un item y se añade a la escena
+                            let pos = enemigos[x-1].getPosition()
+                            let temp = enemigos[x-1].muerteEnemigo()
+                            //remover al enemigo del arreglo
                             scoreJugador += 200
                             if (EnemyCategory > 10){
                                 generaEnemigo()
@@ -281,8 +285,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             if (EnemyCategory > 0){
                                 generaEnemigo()
                             }
-                            removeEnemy(index: x-1)
-                            //1 remover al enemigo del arreglo
+                            if (temp == true){
+                                let newDrop = Drop(position: pos)
+                                dropArray.append(newDrop)
+                                addChild(newDrop.dropNode)
+                                newDrop.showItem()
+                            }
                             
                         }
                         
@@ -377,10 +385,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func removeEnemy(index: Int){
-         //animacion de desaparicion de personaje, si dropeo un item se remueve todo el nodo hasta que lo toman
-         //sino se remueve de la escena
+         //animacion de desaparicion de personaje, el drop permanece en caso de existir
+       /* let desvanece = SKAction.run {
+            SKAction.fadeAlpha(by: -1.0, duration: 1.0)
+        }
         
-        //enemigos[index].Enemigo.removeFromParent()
+        let elimina = SKAction.run {
+            self.removeFromParent()
+        }
+        
+        let secuencia = SKAction.sequence([desvanece,elimina])
+        enemigos[index].Enemigo.run(secuencia)*/
+        //
+        enemigos[index].Enemigo.run(SKAction.fadeAlpha(by: -1.0, duration: 1.0))
+        
        
     }
     
@@ -393,6 +411,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         enemigos = []
         EnemyCategory = 0
+    }
+    
+    func removeAllDrops(){
+        if dropArray.count >= 1{
+            for i in 1...dropArray.count{
+                dropArray[i-1].dropNode.removeFromParent()
+            }
+        }
+        dropArray = []
     }
     
     func exp(valor: Int, potencia: Int) -> Int{
@@ -652,6 +679,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             myInterface.actualizaItem()
             
             removeAllEnemies()
+            //remover todos los objetos
+            removeAllDrops()
+            //quitar todas las ventanas por si acaso
             
             loadLevel(mapNum)
             

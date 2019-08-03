@@ -259,13 +259,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
+        //detectar que item es tomado
+        if dropArray.count >= 1 {
+            for j in 1...dropArray.count {
+                if ((firstBody.categoryBitMask == myPlayer.playerCategory) &&
+                    (secondBody.categoryBitMask == dropArray[j-1].interactionCategory)){
+                    //mostrar u ocultar ventana de despliegue
+                    dropArray[j-1].resizePB()
+                    //si no hay una ventana ya abierta, abrir una
+                    //sino, cerrarla y abrir la corerspondiente a este objeto
+                    /*if (banderaHoguera == 0 && dropArray[j-1].banderaDrop==0){
+                        banderaHoguera = 1
+                        myInterface.ventanaEmergente(tipo: 1, frame: self.frame, texto: "Recoger Objeto")
+                    }else{
+                        banderaHoguera = 0
+                        myInterface.removeVentanaE()
+                    }*/
+                }
+            }
+        }
+        
         //detectar que enemigo es golpeado
         if enemigos.count >= 1 {
             for x in 1...enemigos.count {
                 if ((firstBody.categoryBitMask & myPlayer.playerArmCategory != 0) &&
                     (secondBody.categoryBitMask == enemigos[x-1].enemyCategory )){
                     
-                    //print("cuerpo: \(secondBody.categoryBitMask), categoria: \(enemigos[x-1].enemyCategory)")
                     if enemigos[x-1].vida > 0{
                         enemigos[x-1].vida -=  1.2
                         enemigos[x-1].damage()
@@ -286,7 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 generaEnemigo()
                             }
                             if (temp == true){
-                                let newDrop = Drop(position: pos)
+                                let newDrop = Drop(position: pos, categoria: 0)
                                 dropArray.append(newDrop)
                                 addChild(newDrop.dropNode)
                                 newDrop.showItem()
@@ -341,7 +360,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        if ((firstBody.categoryBitMask & myPlayer.playerCategory != 0) &&
+        /*if ((firstBody.categoryBitMask & myPlayer.playerCategory != 0) &&
             (secondBody.categoryBitMask & myMapa.interactionCategory != 0)){
             
            //determinar que objeto o enemigo a entrado en contacto
@@ -360,7 +379,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //enemigos[x].resizePB(tipo: banderaHoguera)
             
             
-        }
+        }*/
 
         
     }

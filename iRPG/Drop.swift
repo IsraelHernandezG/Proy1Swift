@@ -13,13 +13,17 @@ class Drop{
     var dropNode = SKNode()
     var drop = SKSpriteNode()
     var itemFire: [SKTexture] = []
+    var banderaDrop = 0
     //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
     //los objetos con los que puede interactuar el personaje usaran este mecanismo
-    let interactionCategory: UInt32 = 0x01 << 28
+    var interactionCategory: UInt32 = 0x01 << 28
     
     
-    init(position: CGPoint){
+    init(position: CGPoint, categoria: UInt32){
+        
+        interactionCategory = 0x01 << 28 + categoria
+        
         createAnimations()
         
         drop = SKSpriteNode(texture: itemFire[0])
@@ -47,21 +51,23 @@ class Drop{
     func showItem(){
         drop.run(SKAction.repeatForever(SKAction.animate(with: itemFire, timePerFrame: 0.2)))
         drop.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
-        //resizePB(tipo: 0)
+        resizePB()
         
     }
-    func resizePB(tipo: Int){
-        switch tipo {
+    func resizePB(){
+        switch banderaDrop {
         case 0:
-            drop.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(15))
+            drop.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(30))
             drop.physicsBody?.categoryBitMask = interactionCategory
             drop.physicsBody?.contactTestBitMask = playerCategory
             drop.physicsBody?.collisionBitMask = 0
+            banderaDrop = 1
         case 1:
-            drop.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(40))
+            drop.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(150))
             drop.physicsBody?.categoryBitMask = interactionCategory
             drop.physicsBody?.contactTestBitMask = playerCategory
             drop.physicsBody?.collisionBitMask = 0
+            banderaDrop = 0
         default:
             break
         }

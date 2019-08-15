@@ -366,7 +366,6 @@ open class Enemy {
             enemyyPosition = selfPosition.y - playerPosition.y
             
             let distancia = ((playerPosition.x-selfPosition.x)*(playerPosition.x-selfPosition.x)+(playerPosition.y-selfPosition.y)*(playerPosition.y-selfPosition.y)).squareRoot()
-            
             //movimiento del enemigo
             if (velocidad != 0.0){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
                 isAtack = false
@@ -452,6 +451,7 @@ open class Enemy {
             }
             
             let proba = Int(arc4random_uniform(7)%4)
+            
             if proba == 1 {
                 droping = true
             }

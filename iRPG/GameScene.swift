@@ -24,9 +24,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Enemigos
         var enemigos: [Enemy] = []
         let enemyDictionary: Dictionary<Int,String> = [1:"skeleton",2:"zombie",3:"drake",4:"lizardman"]
-        let classDictionary: Dictionary<Int,String> = [1:"warrior",2:"sorcerer",3:"archer",4:"spearman"]
+        //let classDictionary: Dictionary<Int,String> = [1:"warrior",2:"sorcerer",3:"archer",4:"spearman"]
+        let classDictionary: Dictionary<Int,String> = [1:"warrior",2:"warrior",3:"spearman",4:"spearman"]
         //drops
         var dropArray: [Drop] = []
+        var dropActual = -1
+        var posItem: CGPoint = CGPoint(x: 0.0,y: 0.0)
+        var distanciaItem: CGFloat = 0.0
+    
         //Direccion Personaje
         var direccionPersonaje = 3
     
@@ -45,13 +50,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var bandera4 = 0
         let mapScale: CGFloat = 6.0
 
-        var banderaHoguera = 0
+        var banderaHoguera = false
         var banderaMapa = false
+        var estadoItem = 0
         var LoadScreen = SKSpriteNode()
     
         var EnemyCategory: UInt32 = 0
     
-    var numPotions : Int = 0
+        var numPotions : Int = 0
     
         // Poscion del personaje en el mapa
         var posX: CGFloat = 0.0
@@ -211,6 +217,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 myInterface.iniciaTableroScore(frame: self.frame)
                 
                 generaEnemigo()
+
                 
             }
             
@@ -230,6 +237,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 map.position = CGPoint(x: 0.0, y: 0.0)
                 //se agrega map a la vista
                 self.addChild(map)
+                
+                
+                myInterface.removeVentanaE()
                 
             }
         default:
@@ -263,18 +273,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if dropArray.count >= 1 {
             for j in 1...dropArray.count {
                 if ((firstBody.categoryBitMask == myPlayer.playerCategory) &&
-                    (secondBody.categoryBitMask == dropArray[j-1].interactionCategory)){
-                    //mostrar u ocultar ventana de despliegue
-                    dropArray[j-1].resizePB()
-                    //si no hay una ventana ya abierta, abrir una
-                    //sino, cerrarla y abrir la corerspondiente a este objeto
-                    /*if (banderaHoguera == 0 && dropArray[j-1].banderaDrop==0){
-                        banderaHoguera = 1
-                        myInterface.ventanaEmergente(tipo: 1, frame: self.frame, texto: "Recoger Objeto")
-                    }else{
-                        banderaHoguera = 0
-                        myInterface.removeVentanaE()
-                    }*/
+                    (secondBody.categoryBitMask == dropArray[j-1].interactionCategory && banderaHoguera == false)){
+                    
+                    //al detectar el item, marcar su posicion y si el personaje se aleja una cierta distancia
+                    // desaparece la ventana
+                    //en caso de que entre en contacto con otro item, se cambia la marca
+                    myInterface.ventanaEmergente(tipo: 1, frame: self.frame, texto: "Recoger Objeto")
+                    dropActual = j-1
+                    posItem = dropArray[j-1].getPosition()
+                    //print(posItem)
+                    banderaHoguera = true
                 }
             }
         }
@@ -292,6 +300,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if(enemigos[x-1].isAlive == true){
                             //si muertePersonaje devuelve true, se crea un item y se añade a la escena
                             let pos = enemigos[x-1].getPosition()
+                            
                             let temp = enemigos[x-1].muerteEnemigo()
                             //remover al enemigo del arreglo
                             scoreJugador += 200
@@ -305,10 +314,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 generaEnemigo()
                             }
                             if (temp == true){
+                                //print(pos)
                                 let newDrop = Drop(position: pos, categoria: 0)
                                 dropArray.append(newDrop)
                                 addChild(newDrop.dropNode)
                                 newDrop.showItem()
+                                
                             }
                             
                         }
@@ -359,29 +370,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             banderaMapa = true
             
         }
-        
-        /*if ((firstBody.categoryBitMask & myPlayer.playerCategory != 0) &&
-            (secondBody.categoryBitMask & myMapa.interactionCategory != 0)){
-            
-           //determinar que objeto o enemigo a entrado en contacto
-            if (secondBody.hashValue == myMapa.getFireKey()){
-                //es una hoguera
-            }
-            
-            if banderaHoguera == 0{
-                banderaHoguera = 1
-                myInterface.ventanaEmergente(tipo: 1, frame: self.frame, texto: "Recoger Objeto")
-            }else{
-                banderaHoguera = 0
-                myInterface.removeVentanaE()
-            }
-            //comprobar que enemigo dropeo el objeto
-            //enemigos[x].resizePB(tipo: banderaHoguera)
-            
-            
-        }*/
-
-        
     }
     
     func generaEnemigo(){
@@ -401,24 +389,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemigos.append(Enemy(position: CGPoint(x: coordX*mapScale, y: coordY*mapScale), tipo: tipoM, clase: classM, categoria: EnemyCategory))
         EnemyCategory += 1
         addChild(enemigos[enemigos.count-1].Enemigo)
-    }
-    
-    func removeEnemy(index: Int){
-         //animacion de desaparicion de personaje, el drop permanece en caso de existir
-       /* let desvanece = SKAction.run {
-            SKAction.fadeAlpha(by: -1.0, duration: 1.0)
-        }
-        
-        let elimina = SKAction.run {
-            self.removeFromParent()
-        }
-        
-        let secuencia = SKAction.sequence([desvanece,elimina])
-        enemigos[index].Enemigo.run(secuencia)*/
-        //
-        enemigos[index].Enemigo.run(SKAction.fadeAlpha(by: -1.0, duration: 1.0))
-        
-       
     }
     
     func removeAllEnemies(){
@@ -597,11 +567,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(myInterface.textureMenuTitleRightPress))
                     
                     myInterface.labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
+    
+                }else if (name == "botonAcept1" || name == "botonAcept2" || name == "botonAcept3" || name == "labelAceptar"){
                     
+                    myInterface.ventanaEmergente.childNode(withName: "botonAcept1")!.run(SKAction.setTexture(myInterface.textureMenuTitleLeftPress))
+                    myInterface.ventanaEmergente.childNode(withName: "botonAcept2")!.run(SKAction.setTexture(myInterface.textureMenuTitleCenterPress))
+                    myInterface.ventanaEmergente.childNode(withName: "botonAcept3")!.run(SKAction.setTexture(myInterface.textureMenuTitleRightPress))
+                    myInterface.labelAceptar.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
+                   
                     
-                }else if name == "drop"{
-                    print("tomar item")
-                    numPotions += 1
                 }
             }
             
@@ -669,8 +643,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //actualizar las listas del jugador
                     myPlayer.itemsEquiped = myInterface.itemsEquipedPlayer
                     myPlayer.reloadItems()
+                }else if (name == "botonAcept1" || name == "botonAcept2" || name == "botonAcept3" || name == "labelAceptar"){
+                   
+                    if estadoItem == 0{
+                        myInterface.recogerObjeto()
+                        //animacion desaparece item
+                        dropArray[dropActual].takeDrop()
+                        //reordenar arreglo de drops?
+                        estadoItem = 1
+                        //aumentar el contador de items
+                        myInterface.numItems += 1
+                        myInterface.actualizaItem()
+                        
+                    }else{
+                        myInterface.removeVentanaE()
+                        estadoItem = 0
+                    }
+                    
+                    myInterface.ventanaEmergente.childNode(withName: "botonAcept1")?.run(SKAction.setTexture(myInterface.textureMenuTitleLeft))
+                    myInterface.ventanaEmergente.childNode(withName: "botonAcept2")?.run(SKAction.setTexture(myInterface.textureMenuTitleCenter))
+                    myInterface.ventanaEmergente.childNode(withName: "botonAcept3")?.run(SKAction.setTexture(myInterface.textureMenuTitleRight))
+                    myInterface.labelAceptar.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+                    
+                    
                 }
-                
             }
         }
         
@@ -691,6 +687,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if (myPlayer.isAlive == false && banderaMapa == true && LoadScreen.alpha == 1.0){
+            
             labelDead.removeFromParent()
             map.removeFromParent()
             myInterface.removeTableroScore()
@@ -729,8 +726,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 myInterface.actualizaScore()
             }
             
-            
-            
             if enemigos.count >= 1 {
                 for i in 1...enemigos.count {
                     enemigos[i-1].enemyplay(selfPosition: enemigos[i-1].Enemigo.position, playerPosition: myPlayer.Jugador.position)
@@ -751,6 +746,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             let posJugador = myPlayer.Jugador.position
             
+            //control de la ventana del drop
+            if banderaHoguera == true{
+                distanciaItem = ((posJugador.x-posItem.x)*(posJugador.x-posItem.x)+(posJugador.y-posItem.y)*(posJugador.y-posItem.y)).squareRoot()
+                
+                //print(distanciaItem)
+                if distanciaItem > 100.0{
+                    myInterface.removeVentanaE()
+                    banderaHoguera = false
+                }
+            }
         
             if let camera = cam{
                 camera.position=posJugador

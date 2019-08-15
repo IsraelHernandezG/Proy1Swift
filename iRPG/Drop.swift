@@ -13,6 +13,7 @@ class Drop{
     var dropNode = SKNode()
     var drop = SKSpriteNode()
     var itemFire: [SKTexture] = []
+    //bandera que controla si el usuario esta cerca o lejos del item
     var banderaDrop = 0
     //PlayerCategory
     let playerCategory: UInt32 = 0x01 << 0
@@ -21,14 +22,17 @@ class Drop{
     
     
     init(position: CGPoint, categoria: UInt32){
-        
         interactionCategory = 0x01 << 28 + categoria
         
         createAnimations()
         
         drop = SKSpriteNode(texture: itemFire[0])
+        drop.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(6))
+        drop.physicsBody?.categoryBitMask = interactionCategory
+        drop.physicsBody?.contactTestBitMask = playerCategory
+        drop.physicsBody?.collisionBitMask = 0
         drop.alpha = 0.0
-        drop.zPosition = 1.0
+        drop.zPosition = 0.5
         drop.xScale = 4.5
         drop.yScale = 4.5
         drop.position = position
@@ -51,28 +55,20 @@ class Drop{
     func showItem(){
         drop.run(SKAction.repeatForever(SKAction.animate(with: itemFire, timePerFrame: 0.2)))
         drop.run(SKAction.fadeAlpha(by: 1.0, duration: 1.0))
-        resizePB()
-        
     }
-    func resizePB(){
-        switch banderaDrop {
-        case 0:
-            drop.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(30))
-            drop.physicsBody?.categoryBitMask = interactionCategory
-            drop.physicsBody?.contactTestBitMask = playerCategory
-            drop.physicsBody?.collisionBitMask = 0
-            banderaDrop = 1
-        case 1:
-            drop.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(150))
-            drop.physicsBody?.categoryBitMask = interactionCategory
-            drop.physicsBody?.contactTestBitMask = playerCategory
-            drop.physicsBody?.collisionBitMask = 0
-            banderaDrop = 0
-        default:
-            break
+    func takeDrop(){
+        let disapear = SKAction.fadeAlpha(by: -1.0, duration: 1.0)
+        let eliminate = SKAction.run {
+            self.drop.removeFromParent()
         }
-        
+        let secuencia = SKAction.sequence([disapear,eliminate])
+        drop.run(secuencia)
     }
+    
+    func getPosition() -> CGPoint{
+        return drop.position
+    }
+
     
     
 }

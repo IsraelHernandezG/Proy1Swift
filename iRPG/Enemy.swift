@@ -28,6 +28,10 @@ open class Enemy {
     var deadEnemy: [SKTexture] = []
     
     var itemFire: [SKTexture] = []
+    
+    var invocacion: [SKTexture] = []
+    var circuloMagico = SKTexture()
+    var vacio = SKTexture()
    
     //Velocidad enemigo
     var velocidad: CGFloat = 2.0
@@ -38,14 +42,18 @@ open class Enemy {
     // Controles de la fisica
     var Enemigo = SKNode()
     var avatarEnemy = SKSpriteNode()
+    //animaciones
+    var circulo = SKSpriteNode()
+    var magia = SKSpriteNode()
     
     //Equipo del enemigo
     var equipEnemy: [Equip] = []
     
     //vida
+    var enemyHP = SKSpriteNode()
     var vida = 200.0
     var vidaMax = 200.0
-    var isAlive: Bool  = true
+    var isAlive: Bool  = false
     var isAtack: Bool = false
     var stop: Bool = false
     // CategoriesitMasks: Determinan que objetos colisionan con que
@@ -91,17 +99,19 @@ open class Enemy {
         avatarEnemy.physicsBody!.collisionBitMask = WallCategory
         // estas configuraciones tambien son necesarias
         avatarEnemy.physicsBody!.isDynamic=true
+        avatarEnemy.alpha = 0.0
         avatarEnemy.zPosition = 0.9
         
         //barra de vida del enemigo, solo debe aparacer cuando es golpeado
         let fillBarSheet = SpriteSheet(image: UIImage(named: "fill_bars_GUI")!, rows: 4, columns: 4)
         
-        let enemyHP = SKSpriteNode(texture: fillBarSheet.textureForColumn(column: 1, row: 1))
+        enemyHP = SKSpriteNode(texture: fillBarSheet.textureForColumn(column: 1, row: 1))
         enemyHP.name = "enemyHP"
         enemyHP.yScale = 0.2
         enemyHP.xScale = 4.0
         enemyHP.anchorPoint = CGPoint(x: 0, y: 0.5)
         enemyHP.position = CGPoint(x: avatarEnemy.position.x-enemyHP.size.width/2, y: avatarEnemy.position.y + 21)
+        enemyHP.alpha = 0.0
         enemyHP.zPosition = avatarEnemy.zPosition
         
         Enemigo.addChild(enemyHP)
@@ -127,11 +137,44 @@ open class Enemy {
             }
         }
         
+        //agregando los nodos de las animaciones
+        circulo = SKSpriteNode(texture: circuloMagico)
+        circulo.alpha = 0.0
+        circulo.xScale = 1.5
+        circulo.yScale = 1.5
+        circulo.position = CGPoint(x: 0.0, y: -avatarEnemy.size.height*0.4)
+        circulo.zPosition = 0.1
+        
+        magia = SKSpriteNode(texture: vacio)
+        magia.zPosition = 0.99
+        
+        Enemigo.addChild(circulo)
+        Enemigo.addChild(magia)
+        
         //Juntando elementos del enemigo
         Enemigo.addChild(avatarEnemy)
  
         Enemigo.position = position
         Enemigo.setScale(escala)
+        
+    }
+    
+    func invocarEnemigo(){
+        let apareceCirculo = SKAction.fadeAlpha(to: 1.0, duration: 1.0)
+        let desapareceCirculo = SKAction.fadeAlpha(to: -1.0, duration: 1.0)
+        //let apareceMagia = SKAction.fadeAlpha(to: 1.0, duration: 1.0)
+        let activateMagia = SKAction.animate(with: invocacion, timePerFrame: 0.1)
+        let activate = SKAction.run {
+            self.isAlive = true
+        }
+        let apareceEnemigo = SKAction.run {
+            self.avatarEnemy.run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
+            self.magia.run(activateMagia)
+        }
+        
+        let secuencia1 = SKAction.sequence([apareceCirculo,apareceEnemigo,apareceCirculo,desapareceCirculo,activate])
+        circulo.run(secuencia1)
+        
         
     }
     
@@ -225,6 +268,16 @@ open class Enemy {
         for i in 0...5 {
             deadEnemy.append(sheet.textureForColumn(column: i, row: 20))
         }
+        
+        let animationsSheet = SpriteSheet(image: UIImage(named: "animaciones")!, rows: 7, columns: 18)
+        
+        circuloMagico = SKTexture(imageNamed: "magicCircle")
+        vacio = SKTexture(imageNamed: "default")
+        
+        for i in 0...13{
+            invocacion.append(animationsSheet.textureForColumn(column: i, row: 0))
+        }
+        invocacion.append(vacio)
         
     }
     
@@ -487,6 +540,11 @@ open class Enemy {
     }
     
     func damage(){
+       
+        if enemyHP.alpha == 0.0{
+            enemyHP.run(SKAction.fadeAlpha(to: 1.0, duration: 0.1))
+        }
+        
         // normalizando la vida del jugador al rango de [0,1]
         let lifeEnemy = CGFloat(vida*1.0/vidaMax)
         if(lifeEnemy >= 0.0){

@@ -373,12 +373,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func generaEnemigo(){
-        
-        var coordX : CGFloat = CGFloat(arc4random_uniform(80))
-        var coordY : CGFloat = CGFloat(arc4random_uniform(80))
+        //80
+        var coordX : CGFloat = CGFloat(arc4random_uniform(20))
+        var coordY : CGFloat = CGFloat(arc4random_uniform(20))
         
         coordX = coordX *  CGFloat(exp(valor: -1, potencia: Int(arc4random_uniform(6))))
         coordY = coordY *  CGFloat(exp(valor: -1, potencia: Int(arc4random_uniform(6))))
+        
+        
         
         let ale1 = Int((arc4random_uniform(31) % 4)+1)
         let tipoM = enemyDictionary[ale1]!
@@ -386,9 +388,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ale2 = Int((arc4random_uniform(31) % 4)+1)
         let classM = classDictionary[ale2]!
         
+        
+        
         enemigos.append(Enemy(position: CGPoint(x: coordX*mapScale, y: coordY*mapScale), tipo: tipoM, clase: classM, categoria: EnemyCategory))
         EnemyCategory += 1
         addChild(enemigos[enemigos.count-1].Enemigo)
+        //animacion de aparicion del enemigo
+        enemigos[enemigos.count-1].invocarEnemigo()
     }
     
     func removeAllEnemies(){
@@ -751,7 +757,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 distanciaItem = ((posJugador.x-posItem.x)*(posJugador.x-posItem.x)+(posJugador.y-posItem.y)*(posJugador.y-posItem.y)).squareRoot()
                 
                 //print(distanciaItem)
-                if distanciaItem > 100.0{
+                if distanciaItem > 40.0*mapScale{
                     myInterface.removeVentanaE()
                     banderaHoguera = false
                 }

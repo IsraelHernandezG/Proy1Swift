@@ -89,7 +89,8 @@ open class TileMap{
     //EnemyCategory
     let enemyCategory: UInt32 = 0x01 << 8
     
-    
+    //obstaculo
+    var obstaculo = SKSpriteNode()
     
     //bonfire
     var bonfire = SKSpriteNode()
@@ -104,7 +105,7 @@ open class TileMap{
     var ground : SpriteSheet = SpriteSheet()
     var terrain : SpriteSheet = SpriteSheet()
     var trees : SpriteSheet = SpriteSheet()
-    
+    var rocks : SpriteSheet = SpriteSheet()
     
     init(){
         
@@ -189,6 +190,11 @@ open class TileMap{
             textureEntrada4 = terrain.textureForColumn(column: 8, row: 10)
             textureEntrada5 = terrain.textureForColumn(column: 7, row: 11)
             textureEntrada6 = terrain.textureForColumn(column: 8, row: 11)
+            
+            //obstaculos
+            rocks = SpriteSheet(image: UIImage(named: "rocks")!, rows: 3, columns: 2)
+            textureRock = rocks.textureForColumn(column: 0, row: 1)
+            
         case 2:
 
             textureBosque1 = trees.textureForColumn(column: 2, row: 0)
@@ -553,14 +559,13 @@ open class TileMap{
             map.addChild(setFloor(CGPoint(x: x, y: y)))
             let tileTexture = textureVacio
             let tileNode = SKSpriteNode(texture: tileTexture)
-            /*tileNode.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: tileTexture!.size().width*2.5, height: tileTexture!.size().height))
-            tileNode.physicsBody!.isDynamic = false
-            tileNode.physicsBody!.categoryBitMask = caveEntrance
-            tileNode.physicsBody!.contactTestBitMask = playerCategory
-            tileNode.physicsBody!.collisionBitMask = 0*/
             tileNode.position = CGPoint(x: x, y: y)
             tileNode.zPosition = -2
             map.addChild(tileNode)
+            //obstaculo caverna
+            obstaculo.position = CGPoint(x: x, y: y)
+            map.addChild(obstaculo)
+            
         case "p":
             map.addChild(setFloor(CGPoint(x: x, y: y)))
             map.addChild(setBase(position: CGPoint(x: x, y: y)))
@@ -601,6 +606,17 @@ open class TileMap{
         
         //createFireAnimations()
         //animateFire()
+        
+        //create obstaculo
+        obstaculo = SKSpriteNode(texture: textureRock)
+        obstaculo.physicsBody = SKPhysicsBody(texture: textureRock!, size: obstaculo.size)
+        obstaculo.physicsBody!.categoryBitMask = WallCategory
+        obstaculo.physicsBody!.isDynamic = false // se crea un volumen estatico, no es afectado por colisiones pero su puede afectar a otros
+        // cuerpos
+        obstaculo.physicsBody!.collisionBitMask = playerCategory
+        
+        obstaculo.zPosition = 1.0
+       // obstaculo.position =
         
         resizePB(tipo: 0)
         
@@ -676,6 +692,11 @@ open class TileMap{
             }
         }
         
+    }
+    
+    func animacionRock(){
+        //caida roca
+        //temblor mapa
     }
     
     func setFloor(_ position: CGPoint) -> SKSpriteNode{

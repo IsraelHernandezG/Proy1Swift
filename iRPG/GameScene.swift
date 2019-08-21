@@ -64,6 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var posY: CGFloat = 0.0
         let generoPersonaje: String = "male"
         var scoreJugador : Int = 0
+        var daño = 0.0
     
         override func didMove(to view: SKView) {
             super.didMove(to: view)
@@ -294,7 +295,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     (secondBody.categoryBitMask == enemigos[x-1].enemyCategory )){
                     
                     if enemigos[x-1].vida > 0{
-                        enemigos[x-1].vida -=  1.2
+                        daño = ((myPlayer.lvl-1.0)*(0.25))
+                        enemigos[x-1].vida -=  1.2 + daño
                         enemigos[x-1].damage()
                     }else{
                         if(enemigos[x-1].isAlive == true){
@@ -304,6 +306,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             let temp = enemigos[x-1].muerteEnemigo()
                             //remover al enemigo del arreglo
                             scoreJugador += 200
+                            myPlayer.exp += 200
+                            if (myPlayer.exp >= 1000){
+                                myPlayer.exp = 0
+                                myPlayer.lvl += 1.0
+                            }
                             if (EnemyCategory > 10){
                                 generaEnemigo()
                             }
@@ -512,6 +519,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
                     
                     myInterface.cierraMenuEquip()
+                    myInterface.lanzaMenuDif()
                     
                 }else if name == "MenuButton2"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenterPress))
@@ -520,7 +528,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
-                    
+                   
                     myInterface.cierraMenuEquip()
                 }else if name == "MenuButton3"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenterPress))
@@ -538,7 +546,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRight))
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
                     myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
-                    
+                  
+
                     myInterface.lanzaMenuEquip()
                 }else if (name == "ranura0" || name == "ranura1" || name == "ranura2" || name == "labelranura1" || name == "ranuraA") {
                     myInterface.ranuraSel(numRanura: 1)

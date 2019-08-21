@@ -93,10 +93,14 @@ open class Player {
     let enemyCategory: UInt32 = 0x01 << 8
     
     //Stats personaje
+     var lvl = 1.0
     var vida = 200.0
     var vidaMax = 200.0
     var stamina = 50.0
     var staminaMax = 50.0
+    
+    var exp = 0.0
+    
     
     var isAlive: Bool = true
     var Atack: Bool = false // variable para saber si el jugador esta atacando

@@ -99,7 +99,7 @@ struct Enemy {
         avatarEnemy.physicsBody!.collisionBitMask = WallCategory
         // estas configuraciones tambien son necesarias
         avatarEnemy.physicsBody!.isDynamic=true
-        avatarEnemy.alpha = 0.0
+        avatarEnemy.alpha = 1.0
         avatarEnemy.zPosition = 0.9
         
         //barra de vida del enemigo, solo debe aparacer cuando es golpeado
@@ -489,7 +489,7 @@ struct Enemy {
             let muerte = SKAction.animate(with: deadEnemy, timePerFrame: 0.1)
             let desvanece = SKAction.fadeAlpha(by: -1.0, duration: 2.0)
             
-            let secuencia = SKAction.sequence([muerte,desvanece])
+            let secuencia = SKAction.sequence([muerte])
             
             avatarEnemy.run(secuencia)
             

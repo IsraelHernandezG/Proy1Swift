@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-open class GameUI {
+struct GameUI {
     
     // Menu
     var interfaz = SKNode()
@@ -159,7 +159,7 @@ open class GameUI {
     //Carga de las imagenes del joystick
     var joystickStickImageEnabled = true {
         didSet {
-            let stylesStick = SpriteSheet(image: UIImage(named: "stylesStick")!, rows: 4, columns: 4)
+            var stylesStick = SpriteSheet(image: UIImage(named: "stylesStick")!, rows: 4, columns: 4)
             
             //let image = joystickStickImageEnabled ? UIImage(named: "shadedLightStick") : nil
             
@@ -169,7 +169,7 @@ open class GameUI {
     
     var joystickSubstrateImageEnabled = true {
         didSet {
-            let stylesSubstrate = SpriteSheet(image: UIImage(named: "stylesSubstrate")!, rows: 4, columns: 4)
+            var stylesSubstrate = SpriteSheet(image: UIImage(named: "stylesSubstrate")!, rows: 4, columns: 4)
         
             //let image = joystickSubstrateImageEnabled ? UIImage(named: "shadedLightSubstrate") : nil
             rotateAnalogStick.substrate.image = stylesSubstrate.imageForColumn(column: 2, row: 1)
@@ -182,7 +182,7 @@ open class GameUI {
     init(){
         
         if let imagen = UIImage(named: "frame") {
-            let frameSheet = SpriteSheet(image: imagen, rows: 3, columns: 3)
+            var frameSheet = SpriteSheet(image: imagen, rows: 3, columns: 3)
             
             textureTop1 =  frameSheet.textureForColumn(column: 0, row: 0)
             textureTop2 =  frameSheet.textureForColumn(column: 1, row: 0)
@@ -196,7 +196,7 @@ open class GameUI {
         }
         
         if let imagen = UIImage(named: "fill_bars_GUI") {
-            let fillBarSheet = SpriteSheet(image: imagen, rows: 4, columns: 4)
+            var fillBarSheet = SpriteSheet(image: imagen, rows: 4, columns: 4)
             
             textureCenterBar = fillBarSheet.textureForColumn(column: 1, row: 0)
             textureCenterHP = fillBarSheet.textureForColumn(column: 1, row: 1)
@@ -205,7 +205,7 @@ open class GameUI {
         
         if let imagen = UIImage(named: "stylesButtons") {
             //let stylesArrows = SpriteSheet(image: UIImage(named: "stylesArrows")!, rows: 8, columns: 8)
-            let stylesButtons = SpriteSheet(image: imagen, rows: 8, columns: 8)
+            var stylesButtons = SpriteSheet(image: imagen, rows: 8, columns: 8)
             
             
             textureButtonDown = stylesButtons.textureForColumn(column: 3, row: 6)
@@ -222,7 +222,7 @@ open class GameUI {
         }
         
         if let imagen = UIImage(named: "potions") {
-            let potionSheet = SpriteSheet(image: imagen, rows: 13, columns: 19)
+            var potionSheet = SpriteSheet(image: imagen, rows: 13, columns: 19)
             
             for i in 0...7 {
                 //itemView.append(potionSheet.textureForColumn(column: 10+i, row: 5))
@@ -236,7 +236,7 @@ open class GameUI {
     
    
     
-    func createStatusBar(_ ventana: CGRect){
+    mutating func createStatusBar(_ ventana: CGRect){
         
         // Status Bar HUD
         let originBar = SKSpriteNode(texture: textureHud)
@@ -335,7 +335,7 @@ open class GameUI {
         
     }
     
-    open func createUI(ventana: CGRect){
+    public mutating func createUI(ventana: CGRect){
         
         let scaleControls : CGFloat = 2.0
         
@@ -427,7 +427,7 @@ open class GameUI {
 
     }
    
-    open func createMenu(_ ventana: CGRect){
+    mutating func createMenu(_ ventana: CGRect){
         
         //Encabezado Menu (Estatico)
         let TopMenu1 = SKSpriteNode(texture: textureTop1)
@@ -575,7 +575,7 @@ open class GameUI {
         
     }
     
-    open func createEquipWindow(_ ventana: CGRect, _ position: CGPoint){
+    mutating func createEquipWindow(_ ventana: CGRect, _ position: CGPoint){
         
         //ventana1.name = "ventana1"
         
@@ -1045,7 +1045,7 @@ open class GameUI {
         labelAceptar.text = "Aceptar"
     }
 
-    func ventanaEmergente(tipo: Int, frame: CGRect, texto: String){
+    mutating func ventanaEmergente(tipo: Int, frame: CGRect, texto: String){
         //
         if ventanaOn == false{
             ventanaOn = true
@@ -1229,7 +1229,7 @@ open class GameUI {
     
     
     
-    func removeVentanaE(){
+    mutating func removeVentanaE(){
         if ventanaOn == true{
             
             ventanaEmergente.removeFromParent()
@@ -1243,7 +1243,7 @@ open class GameUI {
         labelScore.removeFromParent()
     }
     
-    func iniciaTableroScore(frame: CGRect){
+    mutating func iniciaTableroScore(frame: CGRect){
         labelScore = SKLabelNode(text: "Score: \(scoreJugador)")
         labelScore.fontColor = UIColor(displayP3Red: CGFloat(0.9), green: CGFloat(0.9), blue: CGFloat(0.9), alpha: CGFloat(1.0))
         labelScore.zPosition = 4.4
@@ -1260,7 +1260,7 @@ open class GameUI {
     }
     
     
-    func damage(_ vida: Double, _ vidaMax: Double){
+    mutating func damage(_ vida: Double, _ vidaMax: Double){
         // normalizando la vida del jugador al rango de [0,1]
         lifePlayer = CGFloat(vida*1.0/vidaMax)
         if(lifePlayer >= 0.0){
@@ -1271,31 +1271,31 @@ open class GameUI {
         
     }
     
-    func healt(vida: Double, vidaMax: Double){
+    mutating func healt(vida: Double, vidaMax: Double){
         lifePlayer = CGFloat(vida*1.0/vidaMax)
         statusBar.childNode(withName: "lifeBar")?.run(SKAction.resize(toWidth: 10.0 * lifePlayer, duration: 0.3))
     }
     
     
-    func spendStamina(_ stamina: Double, _ staminaMax: Double){
+    mutating func spendStamina(_ stamina: Double, _ staminaMax: Double){
         staminaPlayer = CGFloat(stamina*1.0/staminaMax)
 
         statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: 10.0 * staminaPlayer, duration: 1.0))
     }
     
-    func restoreStamina(_ stamina: Double, _ staminaMax: Double){
+    mutating func restoreStamina(_ stamina: Double, _ staminaMax: Double){
         staminaPlayer = CGFloat(stamina*1.0/staminaMax)
         if(staminaPlayer <= CGFloat(staminaMax)){
             statusBar.childNode(withName: "staminaBar")?.run(SKAction.resize(toWidth: 10.0 * staminaPlayer, duration: 0.1))
         }
     }
     
-    open func cierraMenuDif(){
+    func cierraMenuDif(){
         //
         contextoMenu.addChild(ventana1)
         
     }
-    open func lanzaMenuDif(){
+    func lanzaMenuDif(){
         //
         contextoMenu.addChild(ventana1)
         
@@ -1303,18 +1303,18 @@ open class GameUI {
     
     
     
-    open func lanzaMenuEquip(){
+    func lanzaMenuEquip(){
         //
         contextoMenu.addChild(ventana1)
     
     }
     
-    open func cierraMenuEquip(){
+    func cierraMenuEquip(){
         ventana1.removeFromParent()
     }
     
     
-    open func selEquip(idEquip: Int){
+    mutating func selEquip(idEquip: Int){
         resetEquip()
         resetRanura()
         resetLabels()
@@ -1388,7 +1388,7 @@ open class GameUI {
         
     }
     
-    open func resetEquip(){
+    func resetEquip(){
         ventana1.childNode(withName: "helmet")?.run(SKAction.setTexture(textureRanuraHelmet))
         ventana1.childNode(withName: "amulet")?.run(SKAction.setTexture(textureRanuraAmulet))
         ventana1.childNode(withName: "armor")?.run(SKAction.setTexture(textureRanuraArmor))
@@ -1423,7 +1423,7 @@ open class GameUI {
         }
     }
     
-    open func equiparItem(){
+    mutating func equiparItem(){
         ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(textureMenuTitleLeft))
         ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(textureMenuTitleCenter))
         ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(textureMenuTitleRight))
@@ -1447,7 +1447,7 @@ open class GameUI {
         labelItem.text = "\(numItems)"
     }
     
-    func ranuraSel(numRanura: Int){
+    mutating func ranuraSel(numRanura: Int){
         resetRanura()
         
         switch numRanura {

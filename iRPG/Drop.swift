@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class Drop{
+struct Drop{
     var dropNode = SKNode()
     var drop = SKSpriteNode()
     var itemFire: [SKTexture] = []
@@ -39,8 +39,8 @@ class Drop{
         dropNode.addChild(drop)
     }
     
-    func createAnimations(){
-        let fireSheet = SpriteSheet(image: UIImage(named: "fuegofatuo")!, rows: 3, columns: 4)
+    mutating func createAnimations(){
+        var fireSheet = SpriteSheet(image: UIImage(named: "fuegofatuo")!, rows: 3, columns: 4)
         
         itemFire.append(fireSheet.textureForColumn(column: 0, row: 0))
         itemFire.append(fireSheet.textureForColumn(column: 1, row: 0))

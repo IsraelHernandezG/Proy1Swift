@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-open class Enemy {
+struct Enemy {
     // Texturas enemy
     var enemyViewN: SKTexture = SKTexture()
     var enemyViewS: SKTexture = SKTexture()
@@ -53,7 +53,7 @@ open class Enemy {
     var enemyHP = SKSpriteNode()
     var vida = 200.0
     var vidaMax = 200.0
-    var isAlive: Bool  = false
+    var isAlive: Bool  = true
     var isAtack: Bool = false
     var stop: Bool = false
     // CategoriesitMasks: Determinan que objetos colisionan con que
@@ -103,7 +103,7 @@ open class Enemy {
         avatarEnemy.zPosition = 0.9
         
         //barra de vida del enemigo, solo debe aparacer cuando es golpeado
-        let fillBarSheet = SpriteSheet(image: UIImage(named: "fill_bars_GUI")!, rows: 4, columns: 4)
+        var fillBarSheet = SpriteSheet(image: UIImage(named: "fill_bars_GUI")!, rows: 4, columns: 4)
         
         enemyHP = SKSpriteNode(texture: fillBarSheet.textureForColumn(column: 1, row: 1))
         enemyHP.name = "enemyHP"
@@ -159,17 +159,16 @@ open class Enemy {
         
     }
     
-    func invocarEnemigo(){
+    mutating func invocarEnemigo(){
         let apareceCirculo = SKAction.fadeAlpha(to: 1.0, duration: 1.0)
         let desapareceCirculo = SKAction.fadeAlpha(to: -1.0, duration: 1.0)
-        //let apareceMagia = SKAction.fadeAlpha(to: 1.0, duration: 1.0)
         let activateMagia = SKAction.animate(with: invocacion, timePerFrame: 0.1)
         let activate = SKAction.run {
-            self.isAlive = true
+            //isAlive = true
         }
         let apareceEnemigo = SKAction.run {
-            self.avatarEnemy.run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
-            self.magia.run(activateMagia)
+            //self.avatarEnemy.run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
+            //self.magia.run(activateMagia)
         }
         
         let secuencia1 = SKAction.sequence([apareceCirculo,apareceEnemigo,apareceCirculo,desapareceCirculo,activate])
@@ -197,9 +196,9 @@ open class Enemy {
     init(){
     }
     
-    func createAnimations(tipo: String, clase: String) {
+    mutating func createAnimations(tipo: String, clase: String) {
         
-        let sheet=SpriteSheet(image: UIImage(named: "\(tipo)")!, rows: 21, columns: 13)
+        var sheet=SpriteSheet(image: UIImage(named: "\(tipo)")!, rows: 21, columns: 13)
         
         enemyViewN = sheet.textureForColumn(column: 0, row: 0)
         enemyViewW = sheet.textureForColumn(column: 0, row: 1)
@@ -269,7 +268,7 @@ open class Enemy {
             deadEnemy.append(sheet.textureForColumn(column: i, row: 20))
         }
         
-        let animationsSheet = SpriteSheet(image: UIImage(named: "animaciones")!, rows: 7, columns: 18)
+        var animationsSheet = SpriteSheet(image: UIImage(named: "animaciones")!, rows: 7, columns: 18)
         
         circuloMagico = SKTexture(imageNamed: "magicCircle")
         vacio = SKTexture(imageNamed: "default")
@@ -324,7 +323,7 @@ open class Enemy {
         
     }
     
-    func atack(){
+    mutating func atack(){
         isAtack = true
         switch orientaCaminata {
         case 4:
@@ -404,7 +403,7 @@ open class Enemy {
         
     }
     
-    func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
+    mutating func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
         
         var distanciaMin: CGFloat = 0.0
         if (enemyClass == "warrior" || enemyClass == "spearman"){
@@ -482,18 +481,15 @@ open class Enemy {
         }
     }
     
-    func muerteEnemigo() -> Bool{
+    mutating func muerteEnemigo() -> Bool{
         var droping = false
         if isAlive == true {
             resetpersonaje()
             
             let muerte = SKAction.animate(with: deadEnemy, timePerFrame: 0.1)
             let desvanece = SKAction.fadeAlpha(by: -1.0, duration: 2.0)
-            let elimina = SKAction.run {
-                self.Enemigo.removeFromParent()
-            }
             
-            let secuencia = SKAction.sequence([muerte,desvanece,elimina])
+            let secuencia = SKAction.sequence([muerte,desvanece])
             
             avatarEnemy.run(secuencia)
             
@@ -510,8 +506,9 @@ open class Enemy {
             }
            
             isAlive = false
+            Enemigo.removeFromParent()
         }
-        return droping
+        return true //droping
     }
     
     func resetpersonaje(){

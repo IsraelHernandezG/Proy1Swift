@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-class SpriteSheet {
+struct SpriteSheet {
     
     let rows: Int
     let columns: Int
@@ -37,7 +37,7 @@ class SpriteSheet {
     }
     
     
-    func textureForColumn(column: Int, row: Int)->SKTexture {
+    mutating func textureForColumn(column: Int, row: Int)->SKTexture {
         
         xCoord = column*SpriteWidth
         yCoord = row*SpriteHeight
@@ -50,7 +50,7 @@ class SpriteSheet {
         
     }
     
-    func imageForColumn(column: Int, row: Int) -> UIImage{
+    mutating func imageForColumn(column: Int, row: Int) -> UIImage{
         
         xCoord = column*SpriteWidth
         yCoord = row*SpriteHeight

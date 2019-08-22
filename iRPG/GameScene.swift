@@ -318,7 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 generaEnemigo()
                             }
                             if (EnemyCategory > 0){
-                                generaEnemigo()
+                                //generaEnemigo()
                             }
                             if (temp == true){
                                 //print(pos)

@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-open class Equip {
+struct Equip {
     
     var equipNode = SKSpriteNode()
     
@@ -39,7 +39,7 @@ open class Equip {
     
     
     init (genero: String, arma: String){
-        let sheet=SpriteSheet(image: UIImage(named: "\(genero)_weapons")!, rows: 21, columns: 13)
+        var sheet=SpriteSheet(image: UIImage(named: "\(genero)_weapons")!, rows: 21, columns: 13)
         
         equipN = sheet.textureForColumn(column: 0, row: 0)
         equipW = sheet.textureForColumn(column: 0, row: 1)
@@ -94,7 +94,7 @@ open class Equip {
     
     init(genero: String, tipo: String, nombre: String){
         
-        let sheet=SpriteSheet(image: UIImage(named: "\(genero)_\(tipo)_\(nombre)")!, rows: 21, columns: 13)
+        var sheet=SpriteSheet(image: UIImage(named: "\(genero)_\(tipo)_\(nombre)")!, rows: 21, columns: 13)
         
         equipN = sheet.textureForColumn(column: 0, row: 0)
         equipW = sheet.textureForColumn(column: 0, row: 1)
@@ -131,7 +131,7 @@ open class Equip {
     
     init(genero: String, tipo: String, nombre: String, orientacion: Int){
         
-        let sheet=SpriteSheet(image: UIImage(named: "\(genero)_\(tipo)_\(nombre)")!, rows: 21, columns: 13)
+        var sheet=SpriteSheet(image: UIImage(named: "\(genero)_\(tipo)_\(nombre)")!, rows: 21, columns: 13)
         
         equipN = sheet.textureForColumn(column: 0, row: 0)
         equipW = sheet.textureForColumn(column: 0, row: 1)
@@ -184,7 +184,7 @@ open class Equip {
         
        
         //let sheet=SpriteSheet2(texture: Atlas.textureNamed("male_\(tipo)_\(nombre)"), rows: 21, columns: 13)
-        let sheet=SpriteSheet(image: UIImage(named: "male_\(tipo)_\(nombre)")!, rows: 21, columns: 13)
+        var sheet=SpriteSheet(image: UIImage(named: "male_\(tipo)_\(nombre)")!, rows: 21, columns: 13)
         
         equipN = sheet.textureForColumn(column: 0, row: 0)
         equipW = sheet.textureForColumn(column: 0, row: 1)
@@ -223,9 +223,7 @@ open class Equip {
     
     init(genero: String, nombre: String, color: String){ //Para el cabello
         
-        //let Atlas = SKTextureAtlas(named: nombre)
-        //let sheet=SpriteSheet2(texture: Atlas.textureNamed("male_\(tipo)_\(nombre)"), rows: 21, columns: 13)
-        let sheet=SpriteSheet(image: UIImage(named: "\(genero)_\(color)")!, rows: 21, columns: 13)
+        var sheet=SpriteSheet(image: UIImage(named: "\(genero)_\(color)")!, rows: 21, columns: 13)
         
         equipN = sheet.textureForColumn(column: 0, row: 0)
         equipW = sheet.textureForColumn(column: 0, row: 1)

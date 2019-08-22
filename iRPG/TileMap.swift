@@ -9,7 +9,7 @@
 import Foundation
 import SpriteKit
 
-open class TileMap{
+struct TileMap{
     
     // terrain
     var textureVacio : SKTexture?
@@ -131,7 +131,7 @@ open class TileMap{
         }
     }
     
-    func loadSprites(tipoMapa: Int){
+    mutating func loadSprites(tipoMapa: Int){
         
         switch tipoMapa {
         case 0:
@@ -207,7 +207,7 @@ open class TileMap{
             textureArbol3 = trees.textureForColumn(column: 0, row: 1)
             textureArbol4 = trees.textureForColumn(column: 1, row: 1)
             
-            let complementSheet = SpriteSheet(image: UIImage(named: "signpost-otros")!, rows: 4, columns: 4)
+            var complementSheet = SpriteSheet(image: UIImage(named: "signpost-otros")!, rows: 4, columns: 4)
             
             textureLetrero = complementSheet.textureForColumn(column: 0, row: 0)
             
@@ -563,8 +563,8 @@ open class TileMap{
             tileNode.zPosition = -2
             map.addChild(tileNode)
             //obstaculo caverna
-            obstaculo.position = CGPoint(x: x, y: y)
-            map.addChild(obstaculo)
+            //obstaculo.position = CGPoint(x: x, y: y)
+            //map.addChild(obstaculo)
             
         case "p":
             map.addChild(setFloor(CGPoint(x: x, y: y)))
@@ -759,7 +759,7 @@ open class TileMap{
     }
     
     
-    func createFireAnimations() {
+    mutating func createFireAnimations() {
         let bonfireAnimation = SKTextureAtlas(named: "bonfire")
         for i in 1...3 {
             let bonfireOff = "bonfireOff-\(i)"
@@ -777,7 +777,7 @@ open class TileMap{
         
     }
     
-    func animateFire() {
+    mutating func animateFire() {
         bonfire = SKSpriteNode(imageNamed: "bonfireOff-1")
         bonfire.run(SKAction.repeatForever(SKAction.animate(with: bonfireOffAnimation, timePerFrame: 0.1)))
         bonfire.xScale = 0.3

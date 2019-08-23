@@ -671,10 +671,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "MenuButton4"{
                     myInterface.labelName.text = "Equipo"
                 }else if (name == "botonEquip1" || name == "botonEquip2" || name == "botonEquip3" || name == "labelBoton") {
-                    myInterface.equiparItem()
-                    //actualizar las listas del jugador
-                    myPlayer.itemsEquiped = myInterface.itemsEquipedPlayer
-                    myPlayer.reloadItems()
+                    if  (myInterface.labelEquip.text == "Equipar" || myInterface.labelEquip.text == "Desequipar"){
+                        
+                        myInterface.equiparItem()
+                        //actualizar las listas del jugador
+                        myPlayer.itemsEquiped = myInterface.itemsEquipedPlayer
+                        myPlayer.reloadItems()
+                    }else{
+                        myInterface.ventana1.childNode(withName: "botonEquip1")?.run(SKAction.setTexture(myInterface.textureMenuTitleLeft))
+                        myInterface.ventana1.childNode(withName: "botonEquip2")?.run(SKAction.setTexture(myInterface.textureMenuTitleCenter))
+                        myInterface.ventana1.childNode(withName: "botonEquip3")?.run(SKAction.setTexture(myInterface.textureMenuTitleRight))
+                        
+                        myInterface.labelEquip.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
+                    }
+                    
                 }else if (name == "botonAcept1" || name == "botonAcept2" || name == "botonAcept3" || name == "labelAceptar"){
                    
                     if estadoItem == 0{

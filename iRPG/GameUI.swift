@@ -683,7 +683,7 @@ struct GameUI {
         ventana1.addChild(buttonEquipRight)
         
         // label Equipar/Desequipar item
-        labelEquip = SKLabelNode(text: "Equipar")
+        labelEquip = SKLabelNode(text: "-")
         labelEquip.name = "labelBoton"
         labelEquip.zPosition = 4.4
         labelEquip.fontSize = 30

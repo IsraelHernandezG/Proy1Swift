@@ -512,7 +512,7 @@ class Enemy {
                 droping = true
             }
         }
-        return false //droping
+        return droping
     }
     
     func resetpersonaje(){

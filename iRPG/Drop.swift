@@ -20,6 +20,9 @@ struct Drop{
     //los objetos con los que puede interactuar el personaje usaran este mecanismo
     var interactionCategory: UInt32 = 0x01 << 28
     
+    init(){
+        
+    }
     
     init(position: CGPoint, categoria: UInt32){
         interactionCategory = 0x01 << 28 + categoria
@@ -37,6 +40,10 @@ struct Drop{
         drop.yScale = 4.5
         drop.position = position
         dropNode.addChild(drop)
+    }
+    
+    mutating func setPosition(position: CGPoint){
+        drop.position = position
     }
     
     mutating func createAnimations(){
@@ -59,7 +66,7 @@ struct Drop{
     func takeDrop(){
         let disapear = SKAction.fadeAlpha(by: -1.0, duration: 1.0)
         let eliminate = SKAction.run {
-            self.drop.removeFromParent()
+            self.dropNode.removeFromParent()
         }
         let secuencia = SKAction.sequence([disapear,eliminate])
         drop.run(secuencia)

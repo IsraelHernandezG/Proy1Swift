@@ -29,7 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let classDictionary: Dictionary<Int,String> = [1:"warrior",2:"warrior",3:"spearman",4:"spearman"]
         //drops
         var dropArray: [Drop] = []
-        var dropActual = -1
+        var dropActual = 0
         var posItem: CGPoint = CGPoint(x: 0.0,y: 0.0)
         var distanciaItem: CGFloat = 0.0
     
@@ -80,8 +80,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //Creando al jugador
             myPlayer = Player.init(posicion: CGPoint(x: 0.0 , y: 0.0), genero: generoPersonaje)
             
-            //Creando los enemigos
-            generaEnemigo()
+            //Reservando memoria enemigos
+            arregloEnemigos()
+            
+            //creando drops
+            generaDrop()
             
             //Elementos de la Interfaz Grafica
             myInterface.createUI(ventana: self.frame)
@@ -220,6 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.addChild(map)
                 myInterface.iniciaTableroScore(frame: self.frame)
                 
+                generaEnemigo()
                 agregarEnemigo(index: numEnemigo)
                 numEnemigo += 1
             }
@@ -276,16 +280,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if dropArray.count >= 1 {
             for j in 1...dropArray.count {
                 if ((firstBody.categoryBitMask == myPlayer.playerCategory) &&
-                    (secondBody.categoryBitMask == dropArray[j-1].interactionCategory && banderaDrop == false)){
+                    (secondBody.categoryBitMask == dropArray[j-1].interactionCategory && banderaDrop == true)){
                     
                     //al detectar el item, marcar su posicion y si el personaje se aleja una cierta distancia
                     // desaparece la ventana
                     //en caso de que entre en contacto con otro item, se cambia la marca
                     myInterface.ventanaEmergente(tipo: 1, frame: self.frame, texto: "Recoger Objeto")
-                    dropActual = j-1
-                    posItem = dropArray[j-1].getPosition()
-                    //print(posItem)
-                    banderaDrop = true
+                    //dropActual = j-1
+                    //posItem = dropArray[j-1].getPosition()
                 }
             }
         }
@@ -303,9 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }else{
                         if(enemigos[x-1].isAlive == true){
                             //si muertePersonaje devuelve true, se crea un item y se añade a la escena
-                            //let pos = enemigos[x-1].getPosition()
-                            
-                            enemigos[x-1].muerteEnemigo()
+                            let temp = enemigos[x-1].muerteEnemigo()
                             
                             scoreJugador += 200
                             myPlayer.exp += 200
@@ -313,24 +313,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                 myPlayer.exp = 0
                                 myPlayer.lvl += 1.0
                             }
-                            /*if (numEnemigo > 5 && numEnemigo < 20 && banderaEnemigo == false){
+                            if (numEnemigo > 5 && numEnemigo < 20 ){
                                 agregarEnemigo(index: numEnemigo)
                                 numEnemigo += 1
-                                banderaEnemigo = true
-                            }*/
+                            }
                             if (numEnemigo < 20){
                                 agregarEnemigo(index: numEnemigo)
                                 numEnemigo += 1
                                 
                             }
-                            /*if (temp == true){
-                                //print(pos)
-                                let newDrop = Drop(position: pos, categoria: 0)
-                                dropArray.append(newDrop)
-                                addChild(newDrop.dropNode)
-                                newDrop.showItem()
-                                
-                            }*/
+                            if (temp == true && banderaDrop == false){
+                                posItem = enemigos[x-1].getPosition()
+                                agregarDrop(position: posItem)
+                                banderaDrop = true
+                            }
                             
                         }
                         
@@ -382,9 +378,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func arregloEnemigos(){
+        for _ in 0...20{
+            enemigos.append(Enemy())
+        }
+    }
+    
     func generaEnemigo(){
         //crea un arreglo de enemigos
-        for _ in 0...20{
+        for i in 0...20{
             var coordX : CGFloat = CGFloat(arc4random_uniform(80))
             var coordY : CGFloat = CGFloat(arc4random_uniform(80))
             
@@ -399,11 +401,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let classM = classDictionary[ale2]!
             
             
-            enemigos.append(Enemy(position: CGPoint(x: coordX*mapScale, y: coordY*mapScale), tipo: tipoM, clase: classM, categoria: EnemyCategory))
+            enemigos[i] = Enemy(position: CGPoint(x: coordX*mapScale, y: coordY*mapScale), tipo: tipoM, clase: classM, categoria: EnemyCategory)
             EnemyCategory += 1
         }
         
         //Agregar el enemigo a la escena
+    }
+    
+    func generaDrop(){
+        dropArray.append(Drop())
+    }
+    
+    func agregarDrop(position: CGPoint){
+        dropArray[0] = Drop(position: position, categoria: 0)
+        addChild(dropArray[0].dropNode)
+        dropArray[0].showItem()
     }
     
     func agregarEnemigo(index: Int){
@@ -418,6 +430,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             enemigos[i-1].Enemigo.removeFromParent()
         }
         numEnemigo = 0
+        EnemyCategory = 0
     }
     
     func removeAllDrops(){
@@ -426,7 +439,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 dropArray[i-1].dropNode.removeFromParent()
             }
         }
-        dropArray = []
     }
     
     func exp(valor: Int, potencia: Int) -> Int{
@@ -524,7 +536,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
                     
                     myInterface.cierraMenuEquip()
-                    myInterface.lanzaMenuDif()
+                    //myInterface.lanzaMenuDif()
                     
                 }else if name == "MenuButton2"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenterPress))
@@ -675,8 +687,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         myInterface.numItems += 1
                         myInterface.actualizaItem()
                         
-                        //banderaDrop = false
-                        //dropArray.remove(at: dropActual)
+                        banderaDrop = false
+                       
                     }else{
                         myInterface.removeVentanaE()
                         estadoItem = 0
@@ -775,7 +787,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //print(distanciaItem)
                 if distanciaItem > 40.0*mapScale{
                     myInterface.removeVentanaE()
-                    banderaDrop = false
+                    
                 }
             }
         

@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-struct Enemy {
+class Enemy {
     // Texturas enemy
     var enemyViewN: SKTexture = SKTexture()
     var enemyViewS: SKTexture = SKTexture()
@@ -49,11 +49,13 @@ struct Enemy {
     //Equipo del enemigo
     var equipEnemy: [Equip] = []
     
+    var distanciaMin: CGFloat = 100.0
+    
     //vida
     var enemyHP = SKSpriteNode()
     var vida = 200.0
     var vidaMax = 200.0
-    var isAlive: Bool  = true
+    var isAlive: Bool  = false
     var isAtack: Bool = false
     var stop: Bool = false
     // CategoriesitMasks: Determinan que objetos colisionan con que
@@ -159,16 +161,16 @@ struct Enemy {
         
     }
     
-    mutating func invocarEnemigo(){
+    func invocarEnemigo(){
         let apareceCirculo = SKAction.fadeAlpha(to: 1.0, duration: 1.0)
         let desapareceCirculo = SKAction.fadeAlpha(to: -1.0, duration: 1.0)
         let activateMagia = SKAction.animate(with: invocacion, timePerFrame: 0.1)
         let activate = SKAction.run {
-            //isAlive = true
+            self.isAlive = true
         }
         let apareceEnemigo = SKAction.run {
-            //self.avatarEnemy.run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
-            //self.magia.run(activateMagia)
+            self.avatarEnemy.run(SKAction.fadeAlpha(to: 1.0, duration: 1.0))
+            self.magia.run(activateMagia)
         }
         
         let secuencia1 = SKAction.sequence([apareceCirculo,apareceEnemigo,apareceCirculo,desapareceCirculo,activate])
@@ -196,7 +198,7 @@ struct Enemy {
     init(){
     }
     
-    mutating func createAnimations(tipo: String, clase: String) {
+    func createAnimations(tipo: String, clase: String) {
         
         var sheet=SpriteSheet(image: UIImage(named: "\(tipo)")!, rows: 21, columns: 13)
         
@@ -323,7 +325,7 @@ struct Enemy {
         
     }
     
-    mutating func atack(){
+    func atack(){
         isAtack = true
         switch orientaCaminata {
         case 4:
@@ -403,14 +405,14 @@ struct Enemy {
         
     }
     
-    mutating func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
+    func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
         
-        var distanciaMin: CGFloat = 0.0
-        if (enemyClass == "warrior" || enemyClass == "spearman"){
+       
+        /*if (enemyClass == "warrior" || enemyClass == "spearman"){
             distanciaMin = 100.0
         }else{
             distanciaMin = 400.0
-        }
+        }*/
         
         if (isAlive==true){
             
@@ -481,15 +483,20 @@ struct Enemy {
         }
     }
     
-    mutating func muerteEnemigo() -> Bool{
+    func muerteEnemigo() -> Bool{
         var droping = false
         if isAlive == true {
+            isAlive = false
             resetpersonaje()
             
             let muerte = SKAction.animate(with: deadEnemy, timePerFrame: 0.1)
             let desvanece = SKAction.fadeAlpha(by: -1.0, duration: 2.0)
-            
-            let secuencia = SKAction.sequence([muerte])
+            let remover = SKAction.run {
+                self.Enemigo.removeFromParent()
+                self.avatarEnemy = SKSpriteNode(texture: self.enemyViewS)
+            }
+            let secuencia = SKAction.sequence([muerte,desvanece,remover])
+    
             
             avatarEnemy.run(secuencia)
             
@@ -504,11 +511,8 @@ struct Enemy {
             if proba == 1 {
                 droping = true
             }
-           
-            isAlive = false
-            Enemigo.removeFromParent()
         }
-        return true //droping
+        return false //droping
     }
     
     func resetpersonaje(){

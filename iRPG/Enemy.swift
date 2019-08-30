@@ -86,6 +86,12 @@ class Enemy {
     
     init(position: CGPoint, tipo: String, clase: String, categoria: UInt32){
         
+        /*if (enemyClass == "warrior" || enemyClass == "spearman"){
+         distanciaMin = 100.0
+         }else{
+         distanciaMin = 400.0
+         }*/
+        
         enemyCategory = 0x01 << 8 + categoria //esto permite tener hasta 256 enemigos en el mismo mapa
         
         createAnimations(tipo: tipo, clase : clase)
@@ -327,9 +333,11 @@ class Enemy {
     
     func atack(){
         isAtack = true
+        let timer = SKAction.fadeAlpha(to: 1.0, duration: 0.6)
+       
         switch orientaCaminata {
         case 4:
-           avatarEnemy.run(SKAction.animate(with: enemyAtackN, timePerFrame: 0.1))
+           avatarEnemy.run(SKAction.sequence([SKAction.animate(with: enemyAtackN, timePerFrame: 0.1),timer]))
            
            if equipEnemy.count >= 1 {
             for i in 1...equipEnemy.count {
@@ -339,7 +347,9 @@ class Enemy {
            
             
         case 2:
-            avatarEnemy.run(SKAction.animate(with: enemyAtackW, timePerFrame: 0.1))
+            //avatarEnemy.run(SKAction.animate(with: enemyAtackW, timePerFrame: 0.1))
+            avatarEnemy.run(SKAction.sequence([SKAction.animate(with: enemyAtackW, timePerFrame: 0.1),timer]))
+            
             if equipEnemy.count >= 1 {
                 for i in 1...equipEnemy.count {
                     equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].equipAttackW, timePerFrame: 0.1))
@@ -347,14 +357,18 @@ class Enemy {
             }
             
         case 3:
-           avatarEnemy.run(SKAction.animate(with: enemyAtackS, timePerFrame: 0.1))
+           //avatarEnemy.run(SKAction.animate(with: enemyAtackS, timePerFrame: 0.1))
+           avatarEnemy.run(SKAction.sequence([SKAction.animate(with: enemyAtackS, timePerFrame: 0.1),timer]))
+           
            if equipEnemy.count >= 1 {
             for i in 1...equipEnemy.count {
                 equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].equipAttackS, timePerFrame: 0.1))
             }
             }
         case 1:
-            avatarEnemy.run(SKAction.animate(with: enemyAtackE, timePerFrame: 0.1))
+            //avatarEnemy.run(SKAction.animate(with: enemyAtackE, timePerFrame: 0.1))
+            avatarEnemy.run(SKAction.sequence([SKAction.animate(with: enemyAtackE, timePerFrame: 0.1),timer]))
+            
             if equipEnemy.count >= 1 {
                 for i in 1...equipEnemy.count {
                     equipEnemy[i-1].equipNode.run(SKAction.animate(with: equipEnemy[i-1].equipAttackE, timePerFrame: 0.1))
@@ -407,12 +421,7 @@ class Enemy {
     
     func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
         
-       
-        /*if (enemyClass == "warrior" || enemyClass == "spearman"){
-            distanciaMin = 100.0
-        }else{
-            distanciaMin = 400.0
-        }*/
+        
         
         if (isAlive==true){
             
@@ -428,26 +437,26 @@ class Enemy {
                     animateMove()
                 }
                 //Control de la orientacion del enemigo
-                if (deltaY < 0) && (abs(deltaY) > abs(deltaX)) //vista al N
+                if (deltaY < 0) && (abs(deltaY) > abs(deltaX)) //vista al W
                 {
                     if orientaCaminata != 4{ //unicamente cuando hay un cambio de direccion se resetea la animacion
                         orientaCaminata = 4
                         animateMove()
                     }
                     
-                }else if (deltaX < 0) && (abs(deltaX) > abs(deltaY)) //vista al W
+                }else if (deltaX < 0) && (abs(deltaX) > abs(deltaY)) //vista al N
                 {
                     if orientaCaminata != 1{
                         orientaCaminata = 1
                         animateMove()
                     }
-                }else if (deltaY > 0) && ( abs(deltaY) > abs(deltaX) ) //vista al S
+                }else if (deltaY > 0) && ( abs(deltaY) > abs(deltaX) ) //vista al E
                 {
                     if orientaCaminata != 3{
                         orientaCaminata = 3
                         animateMove()
                     }
-                }else if (deltaX > 0) && (abs(deltaX) > abs(deltaY)) // vista al E
+                }else if (deltaX > 0) && (abs(deltaX) > abs(deltaY)) // vista al W
                 {
                     if orientaCaminata != 2{
                         orientaCaminata = 2

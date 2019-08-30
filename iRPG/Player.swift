@@ -104,7 +104,7 @@ open class Player {
     
     var isAlive: Bool = true
     var Atack: Bool = false // variable para saber si el jugador esta atacando
-   
+    var Walking: Bool = false
     
     init(posicion position: CGPoint, genero gen: String){
         
@@ -447,7 +447,7 @@ open class Player {
     
     //funcion que muve el personaje en una direccion
     func movePlayer(){
-        if Atack == false {
+        if Atack == false{
             switch orientacionPersonaje {
             case 1: //N
                 Jugador.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad, duration: 0.1))

@@ -234,7 +234,8 @@ open class AnalogJoystick: SKNode {
             realDistantion = sqrt(pow(location.x, 2) + pow(location.y, 2)),
             needPosition = realDistantion <= maxDistantion ? CGPoint(x: location.x, y: location.y) : CGPoint(x: location.x / realDistantion * maxDistantion, y: location.y / realDistantion * maxDistantion)
             stick.position = needPosition
-            if (myPlayer.isAlive == true){
+            if (myPlayer.isAlive == true && myPlayer.Atack == false){
+                 myPlayer.Walking = true
                  myPlayer.animateMove()
                 
             }
@@ -247,6 +248,7 @@ open class AnalogJoystick: SKNode {
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         resetStick()
         myPlayer.velocidad = 0.0
+        myPlayer.Walking = false
          if (myPlayer.isAlive == true){
         myPlayer.resetpersonaje()
         myPlayer.orientarPersonaje()

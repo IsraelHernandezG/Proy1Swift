@@ -511,9 +511,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }else if name == "Abajo"{ // player use item
                     myInterface.interfaz.childNode(withName: "Abajo")?.run(SKAction.setTexture(myInterface.textureButtonDownPres))
                     
-                }else if name == "Der"{ //Player atack
+                }else if name == "Der" { //Player atack
                     myInterface.interfaz.childNode(withName: "Der")?.run(SKAction.setTexture(myInterface.textureButtonRightPres))
-                     if (myPlayer.isAlive == true && myPlayer.stamina >= 10 && myPlayer.velocidad == 0.0){
+                     if (myPlayer.isAlive == true && myPlayer.stamina >= 10 && myPlayer.Walking == false && myPlayer.Atack == false){
                         //myPlayer.Atack = true
                         myPlayer.atack()
                         myPlayer.stamina -= 20.0

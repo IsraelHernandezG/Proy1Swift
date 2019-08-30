@@ -77,8 +77,8 @@ class Enemy {
     //EnemyCategory
     var enemyCategory: UInt32 = 0x01 << 8
     
-    var enemyxPosition: CGFloat = 0.0
-    var enemyyPosition: CGFloat = 0.0
+    var deltaX: CGFloat = 0.0
+    var deltaY: CGFloat = 0.0
     
     var orientaCaminata = 3
     
@@ -370,28 +370,28 @@ class Enemy {
     func orientarPersonaje() {
         //resetpersonaje()
         switch orientaCaminata {
-        case 1:
+        case 1: // N
             avatarEnemy.run(SKAction.setTexture(enemyViewN))
             if equipEnemy.count >= 1 {
                 for i in 1...equipEnemy.count {
                     equipEnemy[i-1].equipNode.run(SKAction.setTexture(equipEnemy[i-1].equipN!))
                 }
             }
-        case 2:
+        case 2: // W
             avatarEnemy.run(SKAction.setTexture(enemyViewW))
             if equipEnemy.count >= 1 {
                 for i in 1...equipEnemy.count {
                     equipEnemy[i-1].equipNode.run(SKAction.setTexture(equipEnemy[i-1].equipW!))
                 }
             }
-        case 3:
+        case 3: // S
             avatarEnemy.run(SKAction.setTexture(enemyViewS))
             if equipEnemy.count >= 1 {
                 for i in 1...equipEnemy.count {
                     equipEnemy[i-1].equipNode.run(SKAction.setTexture(equipEnemy[i-1].equipS!))
                 }
             }
-        case 4:
+        case 4: // E
             avatarEnemy.run(SKAction.setTexture(enemyViewE))
             if equipEnemy.count >= 1 {
                 for i in 1...equipEnemy.count {
@@ -416,8 +416,8 @@ class Enemy {
         
         if (isAlive==true){
             
-            enemyxPosition = selfPosition.x - playerPosition.x
-            enemyyPosition = selfPosition.y - playerPosition.y
+            deltaX = selfPosition.x - playerPosition.x
+            deltaY = selfPosition.y - playerPosition.y
             
             let distancia = ((playerPosition.x-selfPosition.x)*(playerPosition.x-selfPosition.x)+(playerPosition.y-selfPosition.y)*(playerPosition.y-selfPosition.y)).squareRoot()
             //movimiento del enemigo
@@ -428,29 +428,29 @@ class Enemy {
                     animateMove()
                 }
                 //Control de la orientacion del enemigo
-                if (enemyxPosition <= 0) && (enemyyPosition <= 0) //vista al N
+                if (deltaY < 0) && (abs(deltaY) > abs(deltaX)) //vista al N
                 {
                     if orientaCaminata != 4{ //unicamente cuando hay un cambio de direccion se resetea la animacion
                         orientaCaminata = 4
                         animateMove()
                     }
                     
-                } else if (enemyxPosition <= 0) && ( enemyyPosition >= 0) //vista al E
+                }else if (deltaX < 0) && (abs(deltaX) > abs(deltaY)) //vista al W
                 {
                     if orientaCaminata != 1{
                         orientaCaminata = 1
                         animateMove()
                     }
-                }else if (enemyxPosition >= 0) && ( enemyyPosition <= 0) //vista al W
-                {
-                    if orientaCaminata != 2{
-                        orientaCaminata = 2
-                        animateMove()
-                    }
-                }else if (enemyxPosition >= 0) && ( enemyyPosition >= 0) // vista al S
+                }else if (deltaY > 0) && ( abs(deltaY) > abs(deltaX) ) //vista al S
                 {
                     if orientaCaminata != 3{
                         orientaCaminata = 3
+                        animateMove()
+                    }
+                }else if (deltaX > 0) && (abs(deltaX) > abs(deltaY)) // vista al E
+                {
+                    if orientaCaminata != 2{
+                        orientaCaminata = 2
                         animateMove()
                     }
                 }
@@ -472,7 +472,7 @@ class Enemy {
             if (distancia >= distanciaMin && distancia < 1200.0) {
                 velocidad = 1.0
                 stop = false
-                followPlayer() // desplaza al enemigo
+                followPlayer(x: deltaX, y: deltaY) // desplaza al enemigo
             }else{
                 velocidad = 0.0
                 if(stop == false){
@@ -492,6 +492,8 @@ class Enemy {
             let muerte = SKAction.animate(with: deadEnemy, timePerFrame: 0.1)
             let desvanece = SKAction.fadeAlpha(by: -1.0, duration: 2.0)
             let remover = SKAction.run {
+                //liberar texturas
+                //self.avatarEnemy.texture = nil
                 self.Enemigo.removeFromParent()
                 self.avatarEnemy = SKSpriteNode(texture: self.enemyViewS)
             }
@@ -523,21 +525,19 @@ class Enemy {
             }
         }
     }
-    func followPlayer(){
+    func followPlayer(x: CGFloat, y: CGFloat){
         
-        switch orientaCaminata {
-        case 1: //N
-            Enemigo.run(SKAction.moveBy(x: CGFloat(1)*velocidad, y: CGFloat(0), duration: 0.1))
-        case 2: //W
-            Enemigo.run(SKAction.moveBy(x: CGFloat(-1)*velocidad, y: CGFloat(0), duration: 0.1))
-        case 3: //S
-            Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(-1)*velocidad, duration: 0.1))
-        case 4: //E
-            Enemigo.run(SKAction.moveBy(x: CGFloat(0), y: CGFloat(1)*velocidad, duration: 0.1))
-
-        default:
-            break
+        let angulo = atan(Double(x/y))
+        
+        let dx = sin(angulo)
+        let dy = cos(angulo)
+        
+        if y < 0{
+            Enemigo.run(SKAction.moveBy(x: CGFloat(dx)*velocidad, y: CGFloat(dy)*velocidad, duration: 0.1))
+        }else{
+            Enemigo.run(SKAction.moveBy(x: CGFloat(-dx)*velocidad, y: CGFloat(-dy)*velocidad, duration: 0.1))
         }
+        
     }
     
     func damage(){

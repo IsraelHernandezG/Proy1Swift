@@ -623,6 +623,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for t in touches {
             
+            //var isUserInteractionEnabled: Bool
+            //A Boolean value that indicates whether the node receives touch events
             
             //self.touchUp(atPoint: t.location(in: self))
             let positionInScene = t.location(in: self)

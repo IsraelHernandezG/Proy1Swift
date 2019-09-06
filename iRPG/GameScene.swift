@@ -530,19 +530,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuWin")?.run(SKAction.setTexture(myInterface.textureMenuButtonPressed))
                 }else if name == "MenuButton1"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRightPress))
-                    //
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
                     myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
                     
                     myInterface.cierraMenuEquip()
-                    //myInterface.lanzaMenuDif()
                     
                 }else if name == "MenuButton2"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenterPress))
                     //
                     myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRight))
-                    //nodo.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
                     myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
                    
@@ -552,7 +549,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     //
                     myInterface.contextoMenu.childNode(withName: "MenuButton1")?.run(SKAction.setTexture(myInterface.textureMenuButtonRight))
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuButtonCenter))
-                    //nodo.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(nodo.textureMenuButtonCenter))
+                    
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuButtonLeft))
                     
                     myInterface.cierraMenuEquip()
@@ -647,6 +644,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if (myInterface.numItems > 0){
                         myInterface.numItems -= 1
                         myPlayer.vida += 75
+                        myPlayer.healPlayer()
                         if myPlayer.vida > myPlayer.vidaMax{
                             myPlayer.vida = myPlayer.vidaMax
                         }
@@ -668,6 +666,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.labelName.text = "Ajustes"
                 }else if name == "MenuButton2"{
                     myInterface.labelName.text = "Menu X"
+                    
                 }else if name == "MenuButton3"{
                     myInterface.labelName.text = "Inventario"
                 }else if name == "MenuButton4"{
@@ -774,7 +773,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if enemigos.count >= 1 {
                 for i in 1...enemigos.count {
-                    enemigos[i-1].enemyplay(selfPosition: enemigos[i-1].Enemigo.position, playerPosition: myPlayer.Jugador.position)
+                    enemigos[i-1].enemyplay(playerPosition: myPlayer.Jugador.position)
                 }
                 
             }

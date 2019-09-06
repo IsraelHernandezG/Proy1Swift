@@ -10,6 +10,7 @@
 		5802C54B22554FC1009A4B6A /* TileMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5802C54A22554FC1009A4B6A /* TileMap.swift */; };
 		580C2F2C22A01B7E0061FD1F /* SpriteSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580C2F2B22A01B7E0061FD1F /* SpriteSheet.swift */; };
 		580CF180229CA60C000FBE6E /* Equip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580CF17F229CA60C000FBE6E /* Equip.swift */; };
+		581747C82322F5380090DC79 /* ViewControllerScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581747C72322F5380090DC79 /* ViewControllerScore.swift */; };
 		5819EE0C2253C322000AE359 /* AnalogJoystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5819EE0B2253C322000AE359 /* AnalogJoystick.swift */; };
 		581C081D22A6CA6200637A60 /* alagard_by_pix3m-d6awiwp.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD22242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf */; };
 		581C081E22A6CA6600637A60 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 58086BD02242CED7002C9049 /* _bitmap_font____romulus_by_pix3m-d6aokem.ttf */; };
@@ -39,6 +40,7 @@
 		58086BD22242D01C002C9049 /* alagard_by_pix3m-d6awiwp.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "alagard_by_pix3m-d6awiwp.ttf"; sourceTree = "<group>"; };
 		580C2F2B22A01B7E0061FD1F /* SpriteSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteSheet.swift; sourceTree = "<group>"; };
 		580CF17F229CA60C000FBE6E /* Equip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Equip.swift; sourceTree = "<group>"; };
+		581747C72322F5380090DC79 /* ViewControllerScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerScore.swift; sourceTree = "<group>"; };
 		5819EE0B2253C322000AE359 /* AnalogJoystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalogJoystick.swift; sourceTree = "<group>"; };
 		581CFCCF22C54D6100884573 /* nivel_cueva_PB.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = nivel_cueva_PB.txt; sourceTree = "<group>"; };
 		58495DFB22ECC3010023F46F /* Drop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drop.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				58F74765220E43590060A5D3 /* Actions.sks */,
 				58F74769220E43590060A5D3 /* GameViewController.swift */,
 				58F7476B220E43590060A5D3 /* Main.storyboard */,
+				581747C72322F5380090DC79 /* ViewControllerScore.swift */,
 				58735FF9220E5EF4001C8075 /* CavernRockSet.sks */,
 				58F74770220E435B0060A5D3 /* LaunchScreen.storyboard */,
 				58F74773220E435B0060A5D3 /* Info.plist */,
@@ -227,6 +230,7 @@
 				5819EE0C2253C322000AE359 /* AnalogJoystick.swift in Sources */,
 				589F7A11223738200019DF1D /* GameUI.swift in Sources */,
 				59BA8B72225FD1B00026CB2A /* GameScene.swift in Sources */,
+				581747C82322F5380090DC79 /* ViewControllerScore.swift in Sources */,
 				58495DFC22ECC3010023F46F /* Drop.swift in Sources */,
 				5802C54B22554FC1009A4B6A /* TileMap.swift in Sources */,
 				E68D70DE22663AEE001BF6DE /* Enemy.swift in Sources */,

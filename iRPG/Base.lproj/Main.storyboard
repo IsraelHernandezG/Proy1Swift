@@ -9,6 +9,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="_bitmap_font____romulus_by_pix3m-d6aokem.ttf">
+            <string>Romulus</string>
+        </array>
         <array key="alagard_by_pix3m-d6awiwp.ttf">
             <string>Alagard</string>
         </array>
@@ -21,13 +24,25 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDv-pH-xdg" userLabel="Menu">
+                                <rect key="frame" x="251" y="29" width="78" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Alagard" family="Alagard" pointSize="22"/>
+                                <state key="normal" title=" Menu" image="botonAzul"/>
+                                <connections>
+                                    <segue destination="p6Z-ez-uSU" kind="show" id="ENg-D7-r3y"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
+                    <navigationItem key="navigationItem" id="bDl-Bl-eq9"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-103" y="112"/>
+            <point key="canvasLocation" x="-860.91549295774644" y="-849.375"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="ajL-sz-xlz">
@@ -37,39 +52,296 @@
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7aH-2n-kRC">
-                                <rect key="frame" x="242" y="138" width="86" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7aH-2n-kRC">
+                                <rect key="frame" x="240" y="137" width="88" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="7aH-2n-kRC" secondAttribute="height" multiplier="86:45" id="ZHo-3q-kor"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Alagard" family="Alagard" pointSize="35"/>
                                 <state key="normal" title="Jugar">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BV1-FR-VrT" kind="show" id="cnJ-IW-Shm"/>
+                                    <segue destination="BV1-FR-VrT" kind="show" id="D5v-fR-VAr"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tales of Illium" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKz-5A-MOV">
-                                <rect key="frame" x="90" y="40" width="388" height="55"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EpN-IB-pKq">
+                                <rect key="frame" x="175.5" y="191" width="217" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="EpN-IB-pKq" secondAttribute="height" multiplier="217:45" id="44S-tW-deh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Alagard" family="Alagard" pointSize="35"/>
+                                <state key="normal" title="Puntuaciones">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="euK-nS-yfx" kind="show" id="ZLg-dt-V70"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" preservesSuperviewLayoutMargins="YES" text="Tales of Illium" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aKz-5A-MOV">
+                                <rect key="frame" x="90" y="50" width="388" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="aKz-5A-MOV" secondAttribute="height" multiplier="388:55" id="KcG-ki-vwv"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="Alagard" family="Alagard" pointSize="58"/>
                                 <color key="textColor" red="0.61811852331606221" green="0.14974159653071048" blue="0.12012775338281502" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Puntuaciones" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uI2-1C-C8k">
-                                <rect key="frame" x="181" y="191" width="217" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Alagard" family="Alagard" pointSize="35"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="7aH-2n-kRC" firstAttribute="top" secondItem="aKz-5A-MOV" secondAttribute="bottom" constant="32" id="Iws-ZA-0vj"/>
+                            <constraint firstItem="7aH-2n-kRC" firstAttribute="centerX" secondItem="3Bs-RS-7eV" secondAttribute="centerX" id="Scx-q0-pEK"/>
+                            <constraint firstItem="EpN-IB-pKq" firstAttribute="top" secondItem="7aH-2n-kRC" secondAttribute="bottom" constant="8" id="Zgt-XE-U4T"/>
+                            <constraint firstItem="7aH-2n-kRC" firstAttribute="centerY" secondItem="3Bs-RS-7eV" secondAttribute="centerY" id="fFp-6F-HG9"/>
+                            <constraint firstItem="aKz-5A-MOV" firstAttribute="centerX" secondItem="3Bs-RS-7eV" secondAttribute="centerX" id="l05-fa-Hsp"/>
+                            <constraint firstItem="aKz-5A-MOV" firstAttribute="top" secondItem="SPp-Mr-7Op" secondAttribute="top" constant="50" id="n89-gJ-F0Y"/>
+                            <constraint firstItem="EpN-IB-pKq" firstAttribute="centerX" secondItem="3Bs-RS-7eV" secondAttribute="centerX" id="vIo-zW-RNF"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="SPp-Mr-7Op"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KXi-Ig-GRc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-858" y="112"/>
+            <point key="canvasLocation" x="-858.80281690140851" y="110.625"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="lRr-NA-KQk">
+            <objects>
+                <viewController id="ekg-MU-Lhi" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Zpn-QQ-fPZ">
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lEn-3C-0RQ">
+                                <rect key="frame" x="20" y="67" width="528" height="187"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Sfm-JH-luy"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p04-Qi-nSL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="177" y="673"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="r74-a0-yZf">
+            <objects>
+                <viewController id="euK-nS-yfx" customClass="ViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QZg-wF-9UP">
+                        <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2º" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vzm-gW-dxL">
+                                <rect key="frame" x="92" y="124" width="34" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="vzm-gW-dxL" secondAttribute="height" multiplier="17:14" id="ZZ9-Fl-AIq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3º" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UyZ-mH-WaL">
+                                <rect key="frame" x="92" y="160" width="34" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="UyZ-mH-WaL" secondAttribute="height" multiplier="17:14" id="iCm-1S-KQH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4º" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKx-A0-XBQ">
+                                <rect key="frame" x="92" y="196" width="34" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="MKx-A0-XBQ" secondAttribute="height" multiplier="17:14" id="MEX-Ew-TXz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5º" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L4U-se-Ggh">
+                                <rect key="frame" x="92" y="232" width="34" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="L4U-se-Ggh" secondAttribute="height" multiplier="17:14" id="3tV-b1-atV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C8f-U5-TKh">
+                                <rect key="frame" x="163" y="122" width="242" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="C8f-U5-TKh" secondAttribute="height" multiplier="121:14" id="Fag-Ui-g0J"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="________" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cH-18-8sh">
+                                <rect key="frame" x="163" y="158" width="242" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1cH-18-8sh" secondAttribute="height" multiplier="121:14" id="xvm-bO-BYp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="________" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PLL-Dq-wnd">
+                                <rect key="frame" x="163" y="194" width="242" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="PLL-Dq-wnd" secondAttribute="height" multiplier="121:14" id="qhh-nH-Lc3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="________" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PtO-jH-sLG">
+                                <rect key="frame" x="163" y="230" width="242" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="PtO-jH-sLG" secondAttribute="height" multiplier="121:14" id="h3b-t8-F72"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uja-Q6-A3o">
+                                <rect key="frame" x="418" y="88" width="56" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Uja-Q6-A3o" secondAttribute="height" multiplier="2:1" id="4yZ-X2-uu9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30h-mn-rEB">
+                                <rect key="frame" x="418" y="123" width="56" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="30h-mn-rEB" secondAttribute="height" multiplier="2:1" id="wGe-5f-t07"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hwU-cG-zqb">
+                                <rect key="frame" x="418" y="159" width="56" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="hwU-cG-zqb" secondAttribute="height" multiplier="2:1" id="sFA-gx-q2h"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sEu-GD-lbS">
+                                <rect key="frame" x="418" y="195" width="56" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="sEu-GD-lbS" secondAttribute="height" multiplier="2:1" id="W5v-gZ-VUh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="right" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xZT-Rk-3U1">
+                                <rect key="frame" x="418" y="231" width="56" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="xZT-Rk-3U1" secondAttribute="height" multiplier="2:1" id="wgB-NQ-wEL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kat-f1-279">
+                                <rect key="frame" x="249" y="261" width="70" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Kat-f1-279" secondAttribute="height" multiplier="35:19" id="l3N-r4-J4P"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Alagard" family="Alagard" pointSize="27"/>
+                                <state key="normal" title="Menu">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <segue destination="p6Z-ez-uSU" kind="show" id="3CZ-ew-TpX"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Puntuaciones" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3dO-Vr-Vxv">
+                                <rect key="frame" x="163" y="32" width="242" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="3dO-Vr-Vxv" secondAttribute="height" multiplier="242:37" id="U8y-Dq-2Rr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Alagard" family="Alagard" pointSize="39"/>
+                                <color key="textColor" red="0.0" green="0.5012058398732" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qwQ-57-sys">
+                                <rect key="frame" x="163" y="87" width="242" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="qwQ-57-sys" secondAttribute="height" multiplier="121:14" id="aVd-QP-JBh"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1º" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="haN-hX-TUy">
+                                <rect key="frame" x="92" y="88" width="34" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="haN-hX-TUy" secondAttribute="height" multiplier="17:14" id="t6f-Ot-0aJ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Romulus" family="Romulus" pointSize="32"/>
+                                <color key="textColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Uja-Q6-A3o" firstAttribute="top" secondItem="sfK-1b-wsQ" secondAttribute="top" constant="88" id="0lB-cH-yjv"/>
+                            <constraint firstItem="3dO-Vr-Vxv" firstAttribute="centerX" secondItem="QZg-wF-9UP" secondAttribute="centerX" id="2im-Cn-TlL"/>
+                            <constraint firstItem="Uja-Q6-A3o" firstAttribute="leading" secondItem="qwQ-57-sys" secondAttribute="trailing" constant="13" id="4j2-oj-COX"/>
+                            <constraint firstItem="PtO-jH-sLG" firstAttribute="centerX" secondItem="QZg-wF-9UP" secondAttribute="centerX" id="6K8-Lp-EEq"/>
+                            <constraint firstItem="Kat-f1-279" firstAttribute="leading" secondItem="sfK-1b-wsQ" secondAttribute="leading" constant="249" id="6fM-Vj-x7g"/>
+                            <constraint firstItem="30h-mn-rEB" firstAttribute="leading" secondItem="C8f-U5-TKh" secondAttribute="trailing" constant="13" id="7PE-Wh-yNj"/>
+                            <constraint firstItem="haN-hX-TUy" firstAttribute="top" secondItem="sfK-1b-wsQ" secondAttribute="top" constant="88" id="7mv-cF-Tzo"/>
+                            <constraint firstItem="Kat-f1-279" firstAttribute="top" secondItem="PtO-jH-sLG" secondAttribute="bottom" constant="3" id="97u-Oh-cbV"/>
+                            <constraint firstItem="sEu-GD-lbS" firstAttribute="leading" secondItem="PLL-Dq-wnd" secondAttribute="trailing" constant="13" id="BFA-lX-k8k"/>
+                            <constraint firstItem="qwQ-57-sys" firstAttribute="top" secondItem="3dO-Vr-Vxv" secondAttribute="bottom" constant="18" id="Eec-df-2SK"/>
+                            <constraint firstItem="PtO-jH-sLG" firstAttribute="leading" secondItem="L4U-se-Ggh" secondAttribute="trailing" constant="37" id="ExU-oV-67w"/>
+                            <constraint firstItem="xZT-Rk-3U1" firstAttribute="leading" secondItem="PtO-jH-sLG" secondAttribute="trailing" constant="13" id="G1X-pm-VNj"/>
+                            <constraint firstItem="PtO-jH-sLG" firstAttribute="top" secondItem="PLL-Dq-wnd" secondAttribute="bottom" constant="8" id="K1d-vD-0ph"/>
+                            <constraint firstItem="MKx-A0-XBQ" firstAttribute="top" secondItem="UyZ-mH-WaL" secondAttribute="bottom" constant="8" id="MRM-IZ-HXg"/>
+                            <constraint firstItem="qwQ-57-sys" firstAttribute="leading" secondItem="haN-hX-TUy" secondAttribute="trailing" constant="37" id="TcV-rV-z40"/>
+                            <constraint firstItem="PLL-Dq-wnd" firstAttribute="leading" secondItem="MKx-A0-XBQ" secondAttribute="trailing" constant="37" id="Uw6-4r-y46"/>
+                            <constraint firstItem="C8f-U5-TKh" firstAttribute="centerX" secondItem="QZg-wF-9UP" secondAttribute="centerX" id="YXv-Rx-HTr"/>
+                            <constraint firstItem="C8f-U5-TKh" firstAttribute="leading" secondItem="vzm-gW-dxL" secondAttribute="trailing" constant="37" id="ZMH-zp-UzX"/>
+                            <constraint firstItem="xZT-Rk-3U1" firstAttribute="top" secondItem="sEu-GD-lbS" secondAttribute="bottom" constant="8" id="b5l-Th-Yeh"/>
+                            <constraint firstItem="hwU-cG-zqb" firstAttribute="leading" secondItem="1cH-18-8sh" secondAttribute="trailing" constant="13" id="c6v-3H-saV"/>
+                            <constraint firstItem="L4U-se-Ggh" firstAttribute="top" secondItem="MKx-A0-XBQ" secondAttribute="bottom" constant="8" id="eay-Zl-hNU"/>
+                            <constraint firstItem="UyZ-mH-WaL" firstAttribute="top" secondItem="vzm-gW-dxL" secondAttribute="bottom" constant="8" id="eum-Ya-1cD"/>
+                            <constraint firstItem="PLL-Dq-wnd" firstAttribute="centerX" secondItem="QZg-wF-9UP" secondAttribute="centerX" id="fLj-e1-lhX"/>
+                            <constraint firstItem="qwQ-57-sys" firstAttribute="centerX" secondItem="QZg-wF-9UP" secondAttribute="centerX" id="hpj-Gg-gb4"/>
+                            <constraint firstItem="3dO-Vr-Vxv" firstAttribute="top" secondItem="sfK-1b-wsQ" secondAttribute="top" constant="32" id="ihM-Qf-asJ"/>
+                            <constraint firstItem="1cH-18-8sh" firstAttribute="centerX" secondItem="QZg-wF-9UP" secondAttribute="centerX" id="kCt-aO-KxA"/>
+                            <constraint firstItem="1cH-18-8sh" firstAttribute="top" secondItem="C8f-U5-TKh" secondAttribute="bottom" constant="8" id="kQ8-9Z-Jrg"/>
+                            <constraint firstItem="PLL-Dq-wnd" firstAttribute="top" secondItem="1cH-18-8sh" secondAttribute="bottom" constant="8" id="nLP-z2-4bU"/>
+                            <constraint firstItem="1cH-18-8sh" firstAttribute="leading" secondItem="UyZ-mH-WaL" secondAttribute="trailing" constant="37" id="ptx-Jt-YDY"/>
+                            <constraint firstItem="C8f-U5-TKh" firstAttribute="top" secondItem="qwQ-57-sys" secondAttribute="bottom" constant="7" id="q8B-By-znk"/>
+                            <constraint firstItem="sEu-GD-lbS" firstAttribute="top" secondItem="hwU-cG-zqb" secondAttribute="bottom" constant="8" id="qN6-Zu-Lrw"/>
+                            <constraint firstItem="30h-mn-rEB" firstAttribute="top" secondItem="Uja-Q6-A3o" secondAttribute="bottom" constant="7" id="qqL-Dg-oW3"/>
+                            <constraint firstItem="vzm-gW-dxL" firstAttribute="top" secondItem="haN-hX-TUy" secondAttribute="bottom" constant="8" id="rNZ-Yi-Vxi"/>
+                            <constraint firstItem="hwU-cG-zqb" firstAttribute="top" secondItem="30h-mn-rEB" secondAttribute="bottom" constant="8" id="wWW-6l-L8n"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="sfK-1b-wsQ"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HW0-t0-Z9f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-859" y="1086"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="botonAzul" width="14" height="14"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ENg-D7-r3y"/>
+    </inferredMetricsTieBreakers>
 </document>

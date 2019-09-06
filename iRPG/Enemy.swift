@@ -80,7 +80,8 @@ class Enemy {
     var deltaX: CGFloat = 0.0
     var deltaY: CGFloat = 0.0
     
-    var orientaCaminata = 3
+    var orientacion = 3
+    var playerPosition: CGPoint = CGPoint(x: 0, y: 0)
     
     var enemyClass = ""
     
@@ -289,7 +290,7 @@ class Enemy {
     }
     
     func animateMove() {
-        switch orientaCaminata {
+        switch orientacion {
         case 1:
             avatarEnemy.run(SKAction.repeatForever(SKAction.animate(with: enemyWalkingFramesE,timePerFrame: 0.1)))
             
@@ -334,8 +335,8 @@ class Enemy {
     func atack(){
         isAtack = true
         let timer = SKAction.fadeAlpha(to: 1.0, duration: 0.6)
-       
-        switch orientaCaminata {
+        //getOrientation()
+        switch orientacion {
         case 4:
            avatarEnemy.run(SKAction.sequence([SKAction.animate(with: enemyAtackN, timePerFrame: 0.1),timer]))
            
@@ -377,13 +378,15 @@ class Enemy {
         default:
             break
         }
+        //recalcular orientaCaminata
+        //getOrientation()
         //orientarPersonaje()
     }
     
     
     func orientarPersonaje() {
         //resetpersonaje()
-        switch orientaCaminata {
+        switch orientacion {
         case 1: // N
             avatarEnemy.run(SKAction.setTexture(enemyViewN))
             if equipEnemy.count >= 1 {
@@ -419,16 +422,37 @@ class Enemy {
         
     }
     
-    func enemyplay(selfPosition: CGPoint, playerPosition: CGPoint){
+    func getOrientation(){
         
+        deltaX = Enemigo.position.x - playerPosition.x
+        deltaY = Enemigo.position.y - playerPosition.y
+    
+        //Control de la orientacion del enemigo
+        if (deltaY < 0) && (abs(deltaY) > abs(deltaX)) //vista al W
+        {
+            orientacion = 4
+        }else if (deltaX < 0) && (abs(deltaX) > abs(deltaY)) //vista al N
+        {
+            orientacion = 1
+        }else if (deltaY > 0) && ( abs(deltaY) > abs(deltaX) ) //vista al E
+        {
+            orientacion = 3
+        }else if (deltaX > 0) && (abs(deltaX) > abs(deltaY)) // vista al W
+        {
+            orientacion = 2
+        }
         
+    }
+    
+    func enemyplay(playerPosition: CGPoint){
+        self.playerPosition = playerPosition
         
         if (isAlive==true){
             
-            deltaX = selfPosition.x - playerPosition.x
-            deltaY = selfPosition.y - playerPosition.y
+            deltaX = Enemigo.position.x - playerPosition.x
+            deltaY = Enemigo.position.y - playerPosition.y
             
-            let distancia = ((playerPosition.x-selfPosition.x)*(playerPosition.x-selfPosition.x)+(playerPosition.y-selfPosition.y)*(playerPosition.y-selfPosition.y)).squareRoot()
+            let distancia = ((playerPosition.x-Enemigo.position.x)*(playerPosition.x-Enemigo.position.x)+(playerPosition.y-Enemigo.position.y)*(playerPosition.y-Enemigo.position.y)).squareRoot()
             //movimiento del enemigo
             if (velocidad != 0.0){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
                 isAtack = false
@@ -439,30 +463,31 @@ class Enemy {
                 //Control de la orientacion del enemigo
                 if (deltaY < 0) && (abs(deltaY) > abs(deltaX)) //vista al W
                 {
-                    if orientaCaminata != 4{ //unicamente cuando hay un cambio de direccion se resetea la animacion
-                        orientaCaminata = 4
+                    if orientacion != 4{ //unicamente cuando hay un cambio de direccion se resetea la animacion
+                        orientacion = 4
                         animateMove()
                     }
                     
                 }else if (deltaX < 0) && (abs(deltaX) > abs(deltaY)) //vista al N
                 {
-                    if orientaCaminata != 1{
-                        orientaCaminata = 1
+                    if orientacion != 1{
+                        orientacion = 1
                         animateMove()
                     }
                 }else if (deltaY > 0) && ( abs(deltaY) > abs(deltaX) ) //vista al E
                 {
-                    if orientaCaminata != 3{
-                        orientaCaminata = 3
+                    if orientacion != 3{
+                        orientacion = 3
                         animateMove()
                     }
                 }else if (deltaX > 0) && (abs(deltaX) > abs(deltaY)) // vista al W
                 {
-                    if orientaCaminata != 2{
-                        orientaCaminata = 2
+                    if orientacion != 2{
+                        orientacion = 2
                         animateMove()
                     }
                 }
+                
                 
             }else{
                 if isAtack == true {
@@ -478,7 +503,7 @@ class Enemy {
             //Control del movimiento del enemigo
             //dependiendo de la clase del enemigo, cambian los rangos de ataque
            
-            if (distancia >= distanciaMin && distancia < 1200.0) {
+            if (distancia >= distanciaMin && distancia < 1200.0 && isAtack == false) {
                 velocidad = 1.0
                 stop = false
                 followPlayer(x: deltaX, y: deltaY) // desplaza al enemigo

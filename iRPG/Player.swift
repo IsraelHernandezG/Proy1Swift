@@ -43,6 +43,9 @@ open class Player {
     var deadPlayer: [SKTexture] = []
     var deadPlayerHair: [SKTexture] = []
     
+    var healing: [SKTexture] = []
+    var vacio = SKTexture()
+    
     var keyTextures: [SKTexture] = []
     
     var orientacionPersonaje: Int = 3
@@ -55,6 +58,8 @@ open class Player {
     var hair = SKSpriteNode()
     //items equipados por el jugador
     var equipPlayer: [Equip] = []
+    //nodo animaciones
+    var effects = SKSpriteNode()
     //items del jugador
     var items: [(String,String)] = []
     var itemsEquiped: [(String,String)] = []
@@ -91,6 +96,7 @@ open class Player {
     let fireCategory: UInt32 = 0x01 << 28
     //EnemyCategory
     let enemyCategory: UInt32 = 0x01 << 8
+    
     
     //Stats personaje
      var lvl = 1.0
@@ -162,9 +168,15 @@ open class Player {
             }
         }
         
+        //animacion curacion
+        effects = SKSpriteNode(texture: vacio)
+        effects.zPosition = 1.5
+        
+        
         //Juntando elementos del jugador
         Jugador.addChild(avatarPlayer)
         Jugador.addChild(hair)
+        Jugador.addChild(effects)
         
         Jugador.position = position
         Jugador.setScale(escala)
@@ -224,8 +236,10 @@ open class Player {
     func createAnimations(_ genero: String) {
         
         var sheet=SpriteSheet(image: UIImage(named: "\(genero)_white")!, rows: 21, columns: 13)
-        
         var sheet2=SpriteSheet(image: UIImage(named: "\(genero)_raven")!, rows: 21, columns: 13)
+        var healingSheet = SpriteSheet(image: UIImage(named: "healing")!, rows: 2, columns: 4)
+        
+        vacio = SKTexture(imageNamed: "default")
         
         playerViewN = sheet.textureForColumn(column: 0, row: 0)
         playerViewW = sheet.textureForColumn(column: 0, row: 1)
@@ -278,7 +292,12 @@ open class Player {
             deadPlayerHair.append(sheet2.textureForColumn(column: i, row: 20))
         }
         
-        
+        for i in 0...3 {
+            healing.append(healingSheet.textureForColumn(column: i, row: 0))
+        }
+        for i in 0...3 {
+            healing.append(healingSheet.textureForColumn(column: i, row: 1))
+        }
         
         
     }
@@ -510,6 +529,14 @@ open class Player {
         if (vida >= 0){
             vida -= value
         }
+    }
+    
+    func healPlayer(){
+        let animacion = SKAction.animate(with: healing, timePerFrame: 0.1)
+        let reset = SKAction.setTexture(vacio)
+        let secuencia1 = SKAction.sequence([animacion,reset])
+        
+        effects.run(secuencia1)
     }
     
     func action() -> Double{

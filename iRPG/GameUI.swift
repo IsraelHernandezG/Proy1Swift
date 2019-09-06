@@ -346,6 +346,7 @@ struct GameUI {
         menuButton.xScale = 2
         menuButton.yScale = 2
         menuButton.position = CGPoint(x: ventana.maxX-80, y: ventana.maxY-80)
+        menuButton.isUserInteractionEnabled = true
         interfaz.addChild(menuButton)
         
         // Controls

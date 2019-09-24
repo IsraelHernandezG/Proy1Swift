@@ -61,8 +61,8 @@ open class Player {
     //nodo animaciones
     var effects = SKSpriteNode()
     //items del jugador
-    var items: [(String,String)] = []
-    var itemsEquiped: [(String,String)] = []
+    var items: [[String]] = []
+    var itemsEquiped: [[String]] = []
     
     //information Player
     var level: Int?
@@ -128,30 +128,30 @@ open class Player {
         hair.zPosition = avatarPlayer.zPosition + 0.3
      
         //Items del jugador (de 0 a infinito)
-        items.append(("leggings","legion"))
-        items.append(("armor","bronze"))
-        items.append(("armor","legion_steel"))
-        items.append(("armor","legion_bronze"))
-        items.append(("armor","legion_gold"))
-        items.append(("helmet","bronze_legion_1"))
-        items.append(("helmet","steel_legion_2"))
-        items.append(("helmet","gold_legion_3"))
-        items.append(("helmet","bronze_legion_2"))
-        items.append(("helmet","bronze_legion_3"))
-        items.append(("helmet","steel_legion_1"))
-        items.append(("helmet","steel_legion_3"))
-        items.append(("helmet","gold_legion_1"))
-        items.append(("helmet","gold_legion_2"))
-        items.append(("shield","spartan"))
-        items.append(("shield","crusader"))
-        items.append(("weapon","short_sword"))
+        items.append(["leggings","legion","Caligae"])
+        items.append(["armor","bronze","Armadura de Legionario"])
+        items.append(["armor","legion_steel", "Armadura de Hierro"])
+        items.append(["armor","legion_bronze","Armadura de Bronce"])
+        //items.append(["armor","legion_gold","Armadura de Oro"])
+        items.append(["helmet","bronze_legion_1", "Yelmo de Legionario"])
+        items.append(["helmet","steel_legion_2","Yelmo de Decurion"])
+        items.append(["helmet","gold_legion_3", "Yelmo de Centurion"])
+        //items.append(["helmet","bronze_legion_2"])
+        //items.append(["helmet","bronze_legion_3"])
+        //items.append(["helmet","steel_legion_1"])
+        //items.append(["helmet","steel_legion_3"])
+        //items.append(["helmet","gold_legion_1"])
+        //items.append(["helmet","gold_legion_2"])
+        items.append(["shield","spartan","Escudo Redondo"])
+        items.append(["shield","crusader","Escudo Templario"])
+        items.append(["weapon","short_sword", "Espada corta"])
         
-        //Items equipados del jugador (de 0 a 5)
-        itemsEquiped.append(("leggings","legion"))
-        itemsEquiped.append(("armor","legion_steel"))
-        itemsEquiped.append(("helmet","bronze_legion_1"))
-        itemsEquiped.append(("shield","spartan"))
-        itemsEquiped.append(("weapon","short_sword"))
+        //Items equipados del jugador (de 0 a 4)
+        itemsEquiped.append(["leggings","legion","Caligae"])
+        itemsEquiped.append(["armor","legion_steel", "Armadura de Hierro"])
+        itemsEquiped.append(["helmet","bronze_legion_1", "Yelmo de Legionario"])
+        itemsEquiped.append(["shield","spartan","Escudo Redondo"])
+        itemsEquiped.append(["weapon","short_sword","Espada corta"])
         
         //Equipo del jugador (se van a contruir los objetos a partir de los nombres de los items)
         equipPlayer.append(Equip(genero: gen, tipo: "leggings", nombre: "legion"))
@@ -196,7 +196,7 @@ open class Player {
     }
 
     func addItem(tipo: String, nombre: String){
-        items.append((tipo,nombre))
+        items.append([tipo,nombre])
     }
     
     
@@ -547,12 +547,12 @@ open class Player {
     }
     
     func reloadItems(){
-        
-        for i in 0...(itemsEquiped.count-1){
+        for i in 0...(equipPlayer.count-1){
+           
             equipPlayer[i].equipNode.removeFromParent()
-            if (itemsEquiped[i].1 != "null"){
+            if (itemsEquiped[i][1] != "null"){
                 equipPlayer[i].equipNode.removeFromParent()
-                equipPlayer[i] = Equip(genero: generoPersonaje, tipo: itemsEquiped[i].0, nombre: itemsEquiped[i].1,orientacion: orientacionPersonaje)
+                equipPlayer[i] = Equip(genero: generoPersonaje, tipo: itemsEquiped[i][0], nombre: itemsEquiped[i][1],orientacion: orientacionPersonaje)
                 Jugador.addChild(equipPlayer[i].equipNode)
             }
         }

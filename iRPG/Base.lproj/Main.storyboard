@@ -24,17 +24,6 @@
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDv-pH-xdg" userLabel="Menu">
-                                <rect key="frame" x="251" y="29" width="78" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="Alagard" family="Alagard" pointSize="22"/>
-                                <state key="normal" title=" Menu" image="botonAzul"/>
-                                <connections>
-                                    <segue destination="p6Z-ez-uSU" kind="show" id="ENg-D7-r3y"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
@@ -125,7 +114,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p04-Qi-nSL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="177" y="673"/>
+            <point key="canvasLocation" x="-123" y="396"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="r74-a0-yZf">
@@ -338,10 +327,4 @@
             <point key="canvasLocation" x="-859" y="1086"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="botonAzul" width="14" height="14"/>
-    </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="ENg-D7-r3y"/>
-    </inferredMetricsTieBreakers>
 </document>

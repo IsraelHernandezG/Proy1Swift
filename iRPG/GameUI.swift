@@ -68,17 +68,20 @@ struct GameUI {
     var textureBottom2 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     var textureBottom3 =  SKTexture(image: UIImage(imageLiteralResourceName: "default"))
     //botones
-    let textureMenuButton = SKTexture(image: UIImage(named: "menuButton")!)
-    let textureMenuButtonPressed = SKTexture(image: UIImage(named: "menuButtonPressed")!)
+    let textureMenuButton = SKTexture(image: UIImage(named: "Icon_home")!)
+    let textureMenuButtonPressed = SKTexture(image: UIImage(named: "Icon_home_p")!)
     
     let textureBotonAzulFijo =  SKTexture(image: UIImage(named: "botonAzulFijo")!)
+    //botones submenus
+    var textureMenuEquip: SKTexture = SKTexture()
+    var textureMenuEquipPress: SKTexture = SKTexture()
+    var textureMenuInventory: SKTexture = SKTexture()
+    var textureMenuInventoryPress: SKTexture = SKTexture()
+    var textureMenuStats: SKTexture = SKTexture()
+    var textureMenuStatsPress: SKTexture = SKTexture()
+    var textureMenuSettings: SKTexture = SKTexture()
+    var textureMenuSettingsPress: SKTexture = SKTexture()
     
-    let textureMenuButtonRight = SKTexture(image: UIImage(named: "buttonSettings")!)
-    let textureMenuButtonCenter = SKTexture(image: UIImage(named: "CenterGenButton")!)
-    let textureMenuButtonLeft = SKTexture(image: UIImage(named: "equipmentButton")!)
-    let textureMenuButtonRightPress = SKTexture(image: UIImage(named: "buttonSettingsPress")!)
-    let textureMenuButtonCenterPress = SKTexture(image: UIImage(named: "CenterGenButtonPress")!)
-    let textureMenuButtonLeftPress = SKTexture(image: UIImage(named: "equipmentButtonPress")!)
     //Ranura Inventario
     let textureRanura1 = SKTexture(image: UIImage(named: "ranuraItemSquare")!)
     let textureRanura1Press = SKTexture(image: UIImage(named: "ranuraItemSquarePress")!)
@@ -144,15 +147,20 @@ struct GameUI {
     var ventanaOn: Bool = false
     
     //Items del Jugador
-    var itemsPlayer: [(String,String)] = []
+    var itemsPlayer: [[String]] = []
     //Items equipados del Jugador
-    var itemsEquipedPlayer: [(String,String)] = []
+    var itemsEquipedPlayer: [[String]] = []
     //
     var indexItem: Int = 0
     //
     let arrayEquip: [String] = ["leggings","armor","helmet","shield","weapon"]
     //
     var itemActual: String = ""
+    var nomItemActual: String = ""
+    var label1: String = ""
+    var label2: String = ""
+    var label3: String = ""
+    var label4: String = ""
     //genero del jugador
     var generoP: String = ""
     
@@ -228,6 +236,20 @@ struct GameUI {
                 //itemView.append(potionSheet.textureForColumn(column: 10+i, row: 5))
                 itemView.append(potionSheet.textureForColumn(column: 1+i, row: 11))
             }
+            
+        }
+        
+        if let imagenIconos = UIImage(named: "Icons_menu") {
+            var iconsMenus = SpriteSheet(image: imagenIconos, rows: 2, columns: 4)
+            
+            textureMenuEquip = iconsMenus.textureForColumn(column: 0, row: 0)
+            textureMenuEquipPress = iconsMenus.textureForColumn(column: 0, row: 1)
+            textureMenuInventory = iconsMenus.textureForColumn(column: 1, row: 0)
+            textureMenuInventoryPress = iconsMenus.textureForColumn(column: 1, row: 1)
+            textureMenuStats = iconsMenus.textureForColumn(column: 2, row: 0)
+            textureMenuStatsPress = iconsMenus.textureForColumn(column: 2, row: 1)
+            textureMenuSettings = iconsMenus.textureForColumn(column: 3, row: 0)
+            textureMenuSettingsPress = iconsMenus.textureForColumn(column: 3, row: 1)
             
         }
         
@@ -346,7 +368,7 @@ struct GameUI {
         menuButton.xScale = 2
         menuButton.yScale = 2
         menuButton.position = CGPoint(x: ventana.maxX-80, y: ventana.maxY-80)
-        menuButton.isUserInteractionEnabled = true
+        //menuButton.isUserInteractionEnabled = true
         interfaz.addChild(menuButton)
         
         // Controls
@@ -514,39 +536,40 @@ struct GameUI {
         menuBottom3.position = CGPoint(x: menuBottom2.position.x+menuBottom2.size.width, y: menuBottom2.position.y)
         contextoMenu.addChild(menuBottom3)
         
-        // Botones de Navegacion
-        let MenuButton1 = SKSpriteNode(texture: textureMenuButtonRight)
+        // Botones de Navegacion entre menus
+        //menu Ajustes
+        let MenuButton1 = SKSpriteNode(texture: textureMenuSettings)
         MenuButton1.name = "MenuButton1"
         MenuButton1.zPosition = 4.2
-        MenuButton1.xScale = escalaMenu * 3/4
-        MenuButton1.yScale = escalaMenu * 3/4
+        MenuButton1.xScale = escalaMenu * 1.25
+        MenuButton1.yScale = escalaMenu * 1.25
         MenuButton1.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         MenuButton1.position = CGPoint(x: menuBottom3.position.x, y: menuBottom3.position.y+8)
         contextoMenu.addChild(MenuButton1)
-        let MenuButton2 = SKSpriteNode(texture: textureMenuButtonCenter)
+        //menu Stats
+        let MenuButton2 = SKSpriteNode(texture: textureMenuStats)
         MenuButton2.name = "MenuButton2"
         MenuButton2.zPosition = 4.2
-        MenuButton2.xScale = escalaMenu
-        MenuButton2.yScale = escalaMenu
+        MenuButton2.xScale = escalaMenu * 1.25
+        MenuButton2.yScale = escalaMenu * 1.25
         MenuButton2.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         MenuButton2.position = CGPoint(x: MenuButton1.position.x-MenuButton1.size.width, y: MenuButton1.position.y)
         contextoMenu.addChild(MenuButton2)
-        let MenuButton3 = SKSpriteNode(texture: textureMenuButtonCenter)
+        //menu Inventario
+        let MenuButton3 = SKSpriteNode(texture: textureMenuInventory)
         MenuButton3.name = "MenuButton3"
         MenuButton3.zPosition = 4.2
-        MenuButton3.xScale = escalaMenu
-        MenuButton3.yScale = escalaMenu
+        MenuButton3.xScale = escalaMenu * 1.25
+        MenuButton3.yScale = escalaMenu * 1.25
         MenuButton3.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         MenuButton3.position = CGPoint(x: MenuButton2.position.x-MenuButton2.size.width, y: MenuButton2.position.y)
         contextoMenu.addChild(MenuButton3)
-        
-        
-        
-        let MenuButton4 = SKSpriteNode(texture: textureMenuButtonLeftPress)
+        // menu Equipo
+        let MenuButton4 = SKSpriteNode(texture: textureMenuEquipPress)
         MenuButton4.name = "MenuButton4"
         MenuButton4.zPosition = 4.2
-        MenuButton4.xScale = escalaMenu * 3/4
-        MenuButton4.yScale = escalaMenu * 3/4
+        MenuButton4.xScale = escalaMenu * 1.25
+        MenuButton4.yScale = escalaMenu * 1.25
         MenuButton4.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         MenuButton4.position = CGPoint(x: MenuButton3.position.x-MenuButton3.size.width, y: MenuButton3.position.y)
         contextoMenu.addChild(MenuButton4)
@@ -879,8 +902,6 @@ struct GameUI {
         ranura4Right.anchorPoint = CGPoint(x: 0, y: 0.5)
         ranura4Right.position = CGPoint(x: ranura4Center.position.x+ranura4Center.size.width, y: ranura4Center.position.y)
         ventana1.addChild(ranura4Right)
-        
-        
         
         //Ventana Equipo ranuras
         let ventana2Top3 = SKSpriteNode(texture: textureTop3)
@@ -1306,7 +1327,9 @@ struct GameUI {
     
     func lanzaMenuEquip(){
         //
-        contextoMenu.addChild(ventana1)
+        if ventana1.parent == nil {
+            contextoMenu.addChild(ventana1)
+        }
     
     }
     
@@ -1329,7 +1352,10 @@ struct GameUI {
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
-                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                    // obtener el nombre del item
+                    // obtener la imagen del item
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i][1], label: arrayI[i][2])
+                   
                 } //else{ print("no hay mas elementos") }
             }
             
@@ -1343,7 +1369,8 @@ struct GameUI {
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
-                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i][1], label: arrayI[i][2])
+                   
                 } //else{ print("no hay mas elementos") }
             }
         case 4:
@@ -1354,7 +1381,8 @@ struct GameUI {
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
-                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i][1], label: arrayI[i][2])
+                   
                 } //else{ print("no hay mas elementos") }
             }
         case 5:
@@ -1364,7 +1392,8 @@ struct GameUI {
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
-                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i][1], label: arrayI[i][2])
+                   
                 } //else{ print("no hay mas elementos") }
             }
         case 6:
@@ -1374,7 +1403,8 @@ struct GameUI {
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
-                    cargaRanura(numRanura: i+1, nombre: arrayI[i])
+                    cargaRanura(numRanura: i+1, nombre: arrayI[i][1], label: arrayI[i][2])
+                    //itemActual = arrayI[i][1]
                 } //else{ print("no hay mas elementos") }
             }
         case 7:
@@ -1401,23 +1431,27 @@ struct GameUI {
         ventana1.childNode(withName: "ring3")?.run(SKAction.setTexture(textureRanuraRing))
     }
     
-    func cargaRanura(numRanura: Int, nombre: String){
+    mutating func cargaRanura(numRanura: Int, nombre: String, label: String){
         switch numRanura {
         case 1:
             //agregar icono del item a la ranura
-            labelranura1.text = nombre
+            labelranura1.text = label
+            label1 = nombre
             ventana1.addChild(labelranura1)
         case 2:
             //agregar icono del item a la ranura
-            labelranura2.text = nombre
+            labelranura2.text = label
+            label2 = nombre
             ventana1.addChild(labelranura2)
         case 3:
             //agregar icono del item a la ranura
-            labelranura3.text = nombre
+            labelranura3.text = label
+            label3 = nombre
             ventana1.addChild(labelranura3)
         case 4:
             //agregar icono del item a la ranura
-            labelranura4.text = nombre
+            labelranura4.text = label
+            label4 = nombre
             ventana1.addChild(labelranura4)
         default:
             print("default")
@@ -1433,12 +1467,13 @@ struct GameUI {
         if (labelEquip.text == "Equipar"){
             labelEquip.text = "Desequipar"
             //sustituir el item actual por el nuevo item, actualizar la lista de elementos equipados
-            itemsEquipedPlayer[indexItem] = (arrayEquip[indexItem],itemActual)
+            
+            itemsEquipedPlayer[indexItem] = [arrayEquip[indexItem],nomItemActual,itemActual]
         }else{
             labelEquip.text = "Equipar"
             //"remover" el item de la lista de equipados del jugador
             itemsEquipedPlayer.remove(at: indexItem)
-            itemsEquipedPlayer.insert((arrayEquip[indexItem],"null"), at: indexItem)
+            itemsEquipedPlayer.insert([arrayEquip[indexItem],"null","null"], at: indexItem)
         }
         
         
@@ -1460,9 +1495,10 @@ struct GameUI {
             //comprobar si hay un item asociado a la ranura
             if ventana1.childNode(withName: "labelranura1") != nil {
                 itemActual = labelranura1.text!
+                nomItemActual = label1
                 ventana1.addChild(labelEquip)
                 //comprobar si el item esta equipado
-                if comparar(nombre: itemActual) == true{
+                if comparar(nombre: nomItemActual) == true{
                     labelEquip.text = "Desequipar"
                 }else{
                     labelEquip.text = "Equipar"
@@ -1479,9 +1515,10 @@ struct GameUI {
             //comprobar si hay un item asociado a la ranura
             if ventana1.childNode(withName: "labelranura2") != nil {
                 itemActual = labelranura2.text!
+                nomItemActual = label2
                 ventana1.addChild(labelEquip)
                 //comprobar si el item esta equipado
-                if comparar(nombre: itemActual) == true{
+                if comparar(nombre: nomItemActual) == true{
                     labelEquip.text = "Desequipar"
                 }else{
                     labelEquip.text = "Equipar"
@@ -1497,9 +1534,10 @@ struct GameUI {
             //comprobar si hay un item asociado a la ranura
             if ventana1.childNode(withName: "labelranura3") != nil {
                 itemActual = labelranura3.text!
+                nomItemActual = label3
                 ventana1.addChild(labelEquip)
                 //comprobar si el item esta equipado
-                if comparar(nombre: itemActual) == true{
+                if comparar(nombre: nomItemActual) == true{
                     labelEquip.text = "Desequipar"
                 }else{
                     labelEquip.text = "Equipar"
@@ -1515,9 +1553,10 @@ struct GameUI {
             //comprobar si hay un item asociado a la ranura
             if ventana1.childNode(withName: "labelranura4") != nil {
                 itemActual = labelranura4.text!
+                nomItemActual = label4
                 ventana1.addChild(labelEquip)
                 //comprobar si el item esta equipado
-                if comparar(nombre: itemActual) == true{
+                if comparar(nombre: nomItemActual) == true{
                     labelEquip.text = "Desequipar"
                 }else{
                     labelEquip.text = "Equipar"
@@ -1560,11 +1599,11 @@ struct GameUI {
         //
     }
     
-    func parseItem(tipo: String) -> [String]{
-        var arrayItems: [String] = []
+    func parseItem(tipo: String) -> [[String]]{
+        var arrayItems: [[String]] = []
         for i in 0...(itemsPlayer.count-1) {
-            if itemsPlayer[i].0 == tipo{
-                arrayItems.append(itemsPlayer[i].1)
+            if itemsPlayer[i][0] == tipo{
+                arrayItems.append(itemsPlayer[i])
             }
         }
         return arrayItems
@@ -1573,7 +1612,7 @@ struct GameUI {
     func comparar(nombre: String) -> Bool{
         var ok: Bool = false
         for i in 0...(itemsEquipedPlayer.count-1){
-            if itemsEquipedPlayer[i].1 == nombre{
+            if itemsEquipedPlayer[i][1] == nombre{
                 ok = true
                 break
             }

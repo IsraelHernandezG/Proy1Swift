@@ -536,6 +536,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuEquip))
                     
                     myInterface.cierraMenuEquip()
+                    myInterface.cierraMenuInventory()
                     
                 }else if name == "MenuButton2"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuStatsPress))
@@ -545,6 +546,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuEquip))
                    
                     myInterface.cierraMenuEquip()
+                    myInterface.cierraMenuInventory()
                     
                 }else if name == "MenuButton3"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuInventoryPress))
@@ -554,6 +556,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuEquip))
                     
                     myInterface.cierraMenuEquip()
+                    myInterface.lanzaMenuInventory()
                     
                 }else if name == "MenuButton4"{
                     myInterface.contextoMenu.childNode(withName: "MenuButton4")?.run(SKAction.setTexture(myInterface.textureMenuEquipPress))
@@ -562,6 +565,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.contextoMenu.childNode(withName: "MenuButton2")?.run(SKAction.setTexture(myInterface.textureMenuStats))
                     myInterface.contextoMenu.childNode(withName: "MenuButton3")?.run(SKAction.setTexture(myInterface.textureMenuInventory))
                 
+                    myInterface.cierraMenuInventory()
                     myInterface.lanzaMenuEquip()
                     
                 }else if (name == "ranura0" || name == "ranura1" || name == "ranura2" || name == "labelranura1" || name == "ranuraA") {
@@ -606,6 +610,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.labelAceptar.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
                    
                     
+                }else if (name == "sliderUp"){
+                    myInterface.ventana1.childNode(withName: "sliderUp")!.run(SKAction.setTexture(myInterface.textureSlideUpPress))
+                }else if (name == "sliderDown"){
+                    myInterface.ventana1.childNode(withName: "sliderDown")!.run(SKAction.setTexture(myInterface.textureSlideDownPress))
                 }
             }
             
@@ -712,6 +720,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.labelAceptar.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
                     
                     
+                }else if (name == "sliderUp"){
+                    myInterface.ventana1.childNode(withName: "sliderUp")!.run(SKAction.setTexture(myInterface.textureSlideUp))
+                }else if (name == "sliderDown"){
+                    myInterface.ventana1.childNode(withName: "sliderDown")!.run(SKAction.setTexture(myInterface.textureSlideDown))
                 }
             }
         }

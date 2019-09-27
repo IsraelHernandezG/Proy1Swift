@@ -29,9 +29,12 @@ struct Equip {
     
     //stats equip
     var damagePhysical: Double?
+    var damageMagic: Double?
     var defensePhysical: Double?
+    var defenseMagic: Double?
     var durability: Int?
     var weight: Double?
+    var tipo: Int?
     
     
     init(){

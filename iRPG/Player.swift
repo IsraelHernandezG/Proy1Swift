@@ -129,7 +129,7 @@ open class Player {
      
         //Items del jugador (de 0 a infinito)
         items.append(["leggings","legion","Caligae"])
-        items.append(["armor","bronze","Armadura de Legionario"])
+        items.append(["armor","bronze","Coraza de Legionario"])
         items.append(["armor","legion_steel", "Armadura de Hierro"])
         items.append(["armor","legion_bronze","Armadura de Bronce"])
         //items.append(["armor","legion_gold","Armadura de Oro"])

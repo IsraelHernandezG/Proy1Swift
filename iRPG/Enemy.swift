@@ -34,7 +34,7 @@ class Enemy {
     var vacio = SKTexture()
    
     //Velocidad enemigo
-    var velocidad: CGFloat = 2.0
+    var velocidad: CGFloat = 2.5
 
     //var orientacionPersonaje: Int = 3
     
@@ -504,7 +504,7 @@ class Enemy {
             //dependiendo de la clase del enemigo, cambian los rangos de ataque
            
             if (distancia >= distanciaMin && distancia < 1200.0 && isAtack == false) {
-                velocidad = 1.0
+                velocidad = 2.5
                 stop = false
                 followPlayer(x: deltaX, y: deltaY) // desplaza al enemigo
             }else{

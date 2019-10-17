@@ -70,6 +70,8 @@ struct GameUI {
     //botones
     let textureMenuButton = SKTexture(image: UIImage(named: "Icon_home")!)
     let textureMenuButtonPressed = SKTexture(image: UIImage(named: "Icon_home_p")!)
+    let textureMainMenu = SKTexture(image: UIImage(named: "Icon_exit")!)
+    let textureMainMenuPressed = SKTexture(image: UIImage(named: "Icon_exit_p")!)
     
     let textureBotonAzulFijo =  SKTexture(image: UIImage(named: "botonAzulFijo")!)
     
@@ -85,6 +87,12 @@ struct GameUI {
     var valorMaxS: CGFloat = 0.0
     var valorMinS: CGFloat = 0.0
     var valorActualS: CGFloat = 0.0
+    var rango: CGFloat = 0.0
+    var numDivisiones: Int = 0
+    var offset: Int = 0
+    var desUnitario: CGFloat = 0.0
+    var banderaSliderUP: Bool = false
+    var banderaSliderDown: Bool = false
     
     //botones submenus
     var textureMenuEquip: SKTexture = SKTexture()
@@ -166,6 +174,7 @@ struct GameUI {
     var itemsEquipedPlayer: [[String]] = []
     //
     var indexItem: Int = 0
+    var idEquipActual: Int = 0
     //
     let arrayEquip: [String] = ["leggings","armor","helmet","shield","weapon"]
     //
@@ -391,12 +400,21 @@ struct GameUI {
         //Menu Button
         let menuButton = SKSpriteNode(texture: textureMenuButton)
         menuButton.name = "Menu"
-        menuButton.zPosition = 3
-        menuButton.xScale = 2
-        menuButton.yScale = 2
+        menuButton.zPosition = 4
+        menuButton.xScale = 1.5
+        menuButton.yScale = 1.5
         menuButton.position = CGPoint(x: ventana.maxX-80, y: ventana.maxY-80)
         //menuButton.isUserInteractionEnabled = true
         interfaz.addChild(menuButton)
+        
+        let mainMenu = SKSpriteNode(texture: textureMainMenu)
+        mainMenu.name = "mainMenu"
+        mainMenu.zPosition = 3
+        mainMenu.xScale = 1.5
+        mainMenu.yScale = 1.5
+        mainMenu.position = CGPoint(x: menuButton.position.x, y: menuButton.position.y - 1.2*menuButton.size.height)
+        //menuButton.isUserInteractionEnabled = true
+        interfaz.addChild(mainMenu)
         
         // Controls
         let buttonUp = SKSpriteNode(texture: textureButtonUp)
@@ -537,8 +555,8 @@ struct GameUI {
         let menuButton = SKSpriteNode(texture: textureMenuButton)
         menuButton.name = "MenuWin"
         menuButton.zPosition = 3
-        menuButton.xScale = 2
-        menuButton.yScale = 2
+        menuButton.xScale = 1.5
+        menuButton.yScale = 1.5
         menuButton.position = CGPoint(x: ventana.maxX-80, y: ventana.maxY-80)
         contextoMenu.addChild(menuButton)
         
@@ -745,6 +763,9 @@ struct GameUI {
         
         slider.position = CGPoint(x: sliderBar.position.x, y: valorActualS)
         ventana1.addChild(slider)
+        
+        //
+        mathSlice(numItems: 0)
         
         // Boton Equipar/Desequipar item //*****************************************************************************************************
         let buttonEquipLeft = SKSpriteNode(texture: textureMenuTitleLeft)
@@ -1137,7 +1158,7 @@ struct GameUI {
         
         let ventana1Top2 = SKSpriteNode(texture: textureTop2)
         ventana1Top2.zPosition = 4
-        ventana1Top2.xScale = escalaMenu * 4.5
+        ventana1Top2.xScale = escalaMenu * 10
         ventana1Top2.yScale = escalaMenu
         ventana1Top2.anchorPoint = CGPoint(x: 0, y: 0.5)
         ventana1Top2.position = CGPoint(x: ventana1Top1.position.x+ventana1Top1.size.width/2, y: ventana1Top1.position.y)
@@ -1161,7 +1182,7 @@ struct GameUI {
         
         let ventana1Middle2 = SKSpriteNode(texture: textureMiddle2)
         ventana1Middle2.zPosition = 4
-        ventana1Middle2.xScale = escalaMenu * 4.5
+        ventana1Middle2.xScale = escalaMenu * 10
         ventana1Middle2.yScale = escalaMenu * 4.3
         ventana1Middle2.anchorPoint = CGPoint(x: 0, y: 1)
         ventana1Middle2.position = CGPoint(x: ventana1Middle1.position.x+ventana1Middle1.size.width/2, y: ventana1Middle1.position.y)
@@ -1185,7 +1206,7 @@ struct GameUI {
         
         let ventana1Bottom2 = SKSpriteNode(texture: textureBottom2)
         ventana1Bottom2.zPosition = 4
-        ventana1Bottom2.xScale = escalaMenu * 4.5
+        ventana1Bottom2.xScale = escalaMenu * 10
         ventana1Bottom2.yScale = escalaMenu
         ventana1Bottom2.anchorPoint = CGPoint(x: 0, y: 1)
         ventana1Bottom2.position = CGPoint(x: ventana1Bottom1.position.x+ventana1Bottom1.size.width/2, y: ventana1Bottom1.position.y)
@@ -1199,7 +1220,51 @@ struct GameUI {
         ventana1Bottom3.position = CGPoint(x: ventana1Bottom2.position.x+ventana1Bottom2.size.width, y: ventana1Bottom2.position.y)
         ventana2.addChild(ventana1Bottom3)
         
-        //Ranuras
+        // Slider //*****************************************************************************************************************************
+        let sliderUp = SKSpriteNode(texture: textureSlideUp)
+        sliderUp.name = "sliderUp1"
+        sliderUp.zPosition = 4
+        sliderUp.xScale = escalaMenu * 1.25
+        sliderUp.yScale = escalaMenu * 1.25
+        sliderUp.position = CGPoint(x: ventana1Top1.position.x-ventana1Top1.size.width/2-sliderUp.size.width/2, y: ventana1Top1.position.y)
+        ventana2.addChild(sliderUp)
+        
+        let sliderBar = SKSpriteNode(texture: textureSlideBar)
+        //sliderBar.name = "sliderBar"
+        sliderBar.zPosition = 4
+        sliderBar.xScale = escalaMenu * 1.25
+        sliderBar.yScale = escalaMenu * 1.25 * 4
+        sliderBar.anchorPoint = CGPoint(x: 0.5, y: 1.0)
+        sliderBar.position = CGPoint(x: sliderUp.position.x, y: sliderUp.position.y-sliderUp.size.height/2)
+        ventana2.addChild(sliderBar)
+        
+        let sliderDown = SKSpriteNode(texture: textureSlideDown)
+        sliderDown.name = "sliderDown1"
+        sliderDown.zPosition = 4
+        sliderDown.xScale = escalaMenu * 1.25
+        sliderDown.yScale = escalaMenu * 1.25
+        sliderDown.position = CGPoint(x: sliderBar.position.x, y: sliderBar.position.y-sliderBar.size.height-sliderDown.size.height/2)
+        ventana2.addChild(sliderDown)
+        
+        //
+        let slider = SKSpriteNode(texture: textureSlide)
+        slider.name = "slider1"
+        slider.zPosition = 4.3
+        slider.xScale = escalaMenu * 1.25
+        slider.yScale = escalaMenu * 1.25
+        
+        valorMaxS = sliderBar.position.y-slider.size.height/4
+        valorActualS = valorMaxS
+        valorMinS = sliderBar.position.y-sliderBar.size.height+slider.size.height/4
+        
+        slider.position = CGPoint(x: sliderBar.position.x, y: valorActualS)
+        ventana2.addChild(slider)
+        
+        //
+        mathSlice(numItems: 0)
+        
+        
+        //Ranuras de Inventario
         //Ranura 1
         let ranura1Square = SKSpriteNode(texture: textureRanura1)
         ranura1Square.name = "ranuraA"
@@ -1384,74 +1449,15 @@ struct GameUI {
         ranura4Right.position = CGPoint(x: ranura4Center.position.x+ranura4Center.size.width, y: ranura4Center.position.y)
         ventana2.addChild(ranura4Right)
         
+        //Menu tipo de Item
+        //consumibles
+        
+        //armas
+        
+        //armaduras
+        
         //Frame informacion
-        let ventana2Top3 = SKSpriteNode(texture: textureTop3)
-        ventana2Top3.zPosition = 4
-        ventana2Top3.xScale = escalaMenu
-        ventana2Top3.yScale = escalaMenu
-        ventana2Top3.anchorPoint = CGPoint(x: 0, y: 0.5)
-        ventana2Top3.position = CGPoint(x: position.x, y: ventana.maxY-210)
-        ventana2.addChild(ventana2Top3)
-        
-        let ventana2Top2 = SKSpriteNode(texture: textureTop2)
-        ventana2Top2.zPosition = 4
-        ventana2Top2.xScale = escalaMenu * 3
-        ventana2Top2.yScale = escalaMenu
-        ventana2Top2.anchorPoint = CGPoint(x: 1, y: 0.5)
-        ventana2Top2.position = CGPoint(x: ventana2Top3.position.x, y: ventana2Top3.position.y)
-        ventana2.addChild(ventana2Top2)
-        
-        let ventana2Top1 = SKSpriteNode(texture: textureTop1)
-        ventana2Top1.zPosition = 4
-        ventana2Top1.xScale = escalaMenu
-        ventana2Top1.yScale = escalaMenu
-        ventana2Top1.anchorPoint = CGPoint(x: 1, y: 0.5)
-        ventana2Top1.position = CGPoint(x: ventana2Top2.position.x-ventana2Top2.size.width, y: ventana2Top2.position.y)
-        ventana2.addChild(ventana2Top1)
-        
-        let ventana2Middle1 = SKSpriteNode(texture: textureMiddle1)
-        ventana2Middle1.zPosition = 4
-        ventana2Middle1.xScale = escalaMenu
-        ventana2Middle1.yScale = escalaMenu * 4.3
-        ventana2Middle1.anchorPoint = CGPoint(x: 1, y: 1)
-        ventana2Middle1.position = CGPoint(x: ventana2Top1.position.x, y: ventana2Top1.position.y-ventana2Top1.size.width/2)
-        ventana2.addChild(ventana2Middle1)
-        let ventana2Middle2 = SKSpriteNode(texture: textureMiddle2)
-        ventana2Middle2.zPosition = 4
-        ventana2Middle2.xScale = escalaMenu * 3
-        ventana2Middle2.yScale = escalaMenu * 4.3
-        ventana2Middle2.anchorPoint = CGPoint(x: 0, y: 1)
-        ventana2Middle2.position = CGPoint(x: ventana2Middle1.position.x, y: ventana2Middle1.position.y)
-        ventana2.addChild(ventana2Middle2)
-        let ventana2Middle3 = SKSpriteNode(texture: textureMiddle3)
-        ventana2Middle3.zPosition = 4
-        ventana2Middle3.xScale = escalaMenu
-        ventana2Middle3.yScale = escalaMenu * 4.3
-        ventana2Middle3.anchorPoint = CGPoint(x: 0, y: 1)
-        ventana2Middle3.position = CGPoint(x: ventana2Middle2.position.x+ventana2Middle2.size.width, y: ventana2Middle2.position.y)
-        ventana2.addChild(ventana2Middle3)
-        
-        let ventana2Bottom1 = SKSpriteNode(texture: textureBottom1)
-        ventana2Bottom1.zPosition = 4
-        ventana2Bottom1.xScale = escalaMenu
-        ventana2Bottom1.yScale = escalaMenu
-        ventana2Bottom1.anchorPoint = CGPoint(x: 0, y: 1)
-        ventana2Bottom1.position = CGPoint(x: ventana2Middle1.position.x-ventana2Middle1.size.width, y: ventana2Middle1.position.y-ventana2Middle1.size.height)
-        ventana2.addChild(ventana2Bottom1)
-        let ventana2Bottom2 = SKSpriteNode(texture: textureBottom2)
-        ventana2Bottom2.zPosition = 4
-        ventana2Bottom2.xScale = escalaMenu * 3
-        ventana2Bottom2.yScale = escalaMenu
-        ventana2Bottom2.anchorPoint = CGPoint(x: 0, y: 1)
-        ventana2Bottom2.position = CGPoint(x: ventana2Bottom1.position.x+ventana2Middle1.size.width, y: ventana2Bottom1.position.y)
-        ventana2.addChild(ventana2Bottom2)
-        let ventana2Bottom3 = SKSpriteNode(texture: textureBottom3)
-        ventana2Bottom3.zPosition = 4
-        ventana2Bottom3.xScale = escalaMenu
-        ventana2Bottom3.yScale = escalaMenu
-        ventana2Bottom3.anchorPoint = CGPoint(x: 0, y: 1)
-        ventana2Bottom3.position = CGPoint(x: ventana2Bottom2.position.x+ventana2Bottom2.size.width, y: ventana2Bottom2.position.y)
-        ventana2.addChild(ventana2Bottom3)
+       
     }
     
     func controlVentana() -> Bool{
@@ -1733,8 +1739,55 @@ struct GameUI {
         }
     }
     
+    mutating func mathSlice(numItems: Int){
+        rango = valorMaxS-valorMinS
+        numDivisiones = numItems - 4
+        if numDivisiones <= 0 {
+            desUnitario = 0
+            //deshabilitar botones
+            banderaSliderUP = false
+            banderaSliderDown = false
+            ventana1.childNode(withName: "sliderUp")!.run(SKAction.setTexture(textureSlideUpBlock))
+            ventana1.childNode(withName: "sliderDown")!.run(SKAction.setTexture(textureSlideDownBlock))
+        }else{
+            banderaSliderUP = true
+            banderaSliderDown = true
+            ventana1.childNode(withName: "sliderUp")!.run(SKAction.setTexture(textureSlideUp))
+            ventana1.childNode(withName: "sliderDown")!.run(SKAction.setTexture(textureSlideDown))
+            desUnitario = rango/CGFloat(numDivisiones)
+        }
+        
+        
+    }
+    
+    mutating func sliceUp(){
+        if valorActualS < valorMaxS{
+            valorActualS = valorActualS + desUnitario
+            offset -= 1
+            let posX = ventana1.childNode(withName: "slider")!.position.x
+            ventana1.childNode(withName: "slider")!.run(SKAction.move(to: CGPoint(x: posX, y: valorActualS), duration: 0.1))
+            //actualiza lista de items
+            selEquip(idEquip: idEquipActual)
+        }
+    }
+    
+    mutating func sliceDown(){
+        if valorActualS > valorMinS{
+            valorActualS = valorActualS - desUnitario
+            offset += 1
+            let posX = ventana1.childNode(withName: "slider")!.position.x
+            ventana1.childNode(withName: "slider")!.run(SKAction.move(to: CGPoint(x: posX, y: valorActualS), duration: 0.1))
+            //actualiza lista de items
+            selEquip(idEquip: idEquipActual)
+        }
+    }
+    
+    func desactivaSliderUp(){
+        
+    }
     
     mutating func selEquip(idEquip: Int){
+        idEquipActual = idEquip
         resetEquip()
         resetRanura()
         resetLabels()
@@ -1744,23 +1797,28 @@ struct GameUI {
             ventana1.childNode(withName: "helmet")?.run(SKAction.setTexture(textureRanuraHelmetPress))
             //cargar lista de objetos
             let arrayI = parseItem(tipo: "helmet")
+            mathSlice(numItems: arrayI.count)
             indexItem = 2
-            for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
+            let min = 0 + offset
+            let max = 3 + offset
+            for i in min...max{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
                     //existe el elemento, y se manda a cargar a una ranura
                     // obtener el nombre del item
                     // obtener la imagen del item
-                    cargaRanura(numRanura: i+1, nombre: arrayI[i][1], label: arrayI[i][2])
+                    cargaRanura(numRanura: i-offset+1, nombre: arrayI[i][1], label: arrayI[i][2])
                    
                 } //else{ print("no hay mas elementos") }
             }
             
         case 2:
             ventana1.childNode(withName: "amulet")?.run(SKAction.setTexture(textureRanuraAmuletPress))
+            mathSlice(numItems: 0)
         case 3:
             ventana1.childNode(withName: "armor")?.run(SKAction.setTexture(textureRanuraArmorPress))
             
             let arrayI = parseItem(tipo: "armor")
+            mathSlice(numItems: arrayI.count)
             indexItem = 1
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
@@ -1773,6 +1831,7 @@ struct GameUI {
             ventana1.childNode(withName: "weapon")?.run(SKAction.setTexture(textureRanuraWeaponPress))
             
             let arrayI = parseItem(tipo: "weapon")
+            mathSlice(numItems: arrayI.count)
             indexItem = 4
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
@@ -1784,6 +1843,7 @@ struct GameUI {
         case 5:
             ventana1.childNode(withName: "shield")?.run(SKAction.setTexture(textureRanuraShieldPress))
             let arrayI = parseItem(tipo: "shield")
+            mathSlice(numItems: arrayI.count)
             indexItem = 3
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
@@ -1795,6 +1855,7 @@ struct GameUI {
         case 6:
             ventana1.childNode(withName: "graves")?.run(SKAction.setTexture(textureRanuraGravesPress))
             let arrayI = parseItem(tipo: "leggings")
+            mathSlice(numItems: arrayI.count)
             indexItem = 0
             for i in 0...3{ //solo se pueden desplegar 4 elementos a la vez en el menu
                 if arrayI.count-1 >= i {
@@ -1805,10 +1866,13 @@ struct GameUI {
             }
         case 7:
             ventana1.childNode(withName: "ring1")?.run(SKAction.setTexture(textureRanuraRingPress))
+            mathSlice(numItems: 0)
         case 8:
             ventana1.childNode(withName: "ring2")?.run(SKAction.setTexture(textureRanuraRingPress))
+            mathSlice(numItems: 0)
         case 9:
             ventana1.childNode(withName: "ring3")?.run(SKAction.setTexture(textureRanuraRingPress))
+            mathSlice(numItems: 0)
         default:
             print("default")
         }

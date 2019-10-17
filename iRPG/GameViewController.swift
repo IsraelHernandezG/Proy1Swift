@@ -17,19 +17,28 @@ class GameViewController: UIViewController {
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            if let gameScene = SKScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
-                scene.scaleMode = .aspectFill
+                gameScene.scaleMode = .aspectFill
                 
                 // Present the scene
-                view.presentScene(scene)
-                view.ignoresSiblingOrder = true
+                view.presentScene(gameScene)
+                view.ignoresSiblingOrder = false
             }
+    
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
             view.showsPhysics = false
+            
         }
+    }
+    
+    func mainMenuLoad(){
+        self.dismiss(animated: true, completion: nil)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let ViewControllerDos = storyBoard.instantiateViewController(withIdentifier: "MainMenu")
+        self.present(ViewControllerDos, animated: true, completion: nil)
     }
 
     override var shouldAutorotate: Bool {

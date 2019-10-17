@@ -114,7 +114,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if (jData.angular == 0){
                     self.myPlayer.velocidad = 0.0
                 }else{
-                    self.myPlayer.velocidad = 5.0
+                    self.myPlayer.velocidad = 6.5
                     
                     if (jData.angular >= -0.375 && jData.angular < 0.375){
                         //vista N
@@ -505,6 +505,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             {
                 if name == "Menu"{
                     myInterface.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(myInterface.textureMenuButtonPressed))
+                }else if name == "mainMenu"{
+                    myInterface.interfaz.childNode(withName: "mainMenu")?.run(SKAction.setTexture(myInterface.textureMainMenuPressed))
+                    
                 }else if name == "Arriba"{
                     myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUpPres))
                    
@@ -610,9 +613,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.labelAceptar.fontColor = UIColor(displayP3Red: CGFloat(0.5), green: CGFloat(0.5), blue: CGFloat(0.5), alpha: CGFloat(1.0))
                    
                     
-                }else if (name == "sliderUp"){
+                }else if (name == "sliderUp" && myInterface.banderaSliderUP == true){
                     myInterface.ventana1.childNode(withName: "sliderUp")!.run(SKAction.setTexture(myInterface.textureSlideUpPress))
-                }else if (name == "sliderDown"){
+                }else if (name == "sliderDown" && myInterface.banderaSliderDown == true){
                     myInterface.ventana1.childNode(withName: "sliderDown")!.run(SKAction.setTexture(myInterface.textureSlideDownPress))
                 }
             }
@@ -644,6 +647,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.selEquip(idEquip: 1)
                     myInterface.interfaz.removeFromParent()
                     myInterface.interfaz.childNode(withName: "Menu")?.run(SKAction.setTexture(myInterface.textureMenuButton))
+                }else if name == "mainMenu"{
+                    myInterface.interfaz.childNode(withName: "mainMenu")?.run(SKAction.setTexture(myInterface.textureMainMenu))
+                    //mostrar vista Main menu
+                    //let gameViewControler = GameViewController.init()
+                    //gameViewControler.mainMenuLoad()
+                 
                 }else if name == "Arriba"{
                     myInterface.interfaz.childNode(withName: "Arriba")?.run(SKAction.setTexture(myInterface.textureButtonUp))
                     
@@ -720,10 +729,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     myInterface.labelAceptar.fontColor = UIColor(displayP3Red: CGFloat(0.0), green: CGFloat(0.0), blue: CGFloat(0.0), alpha: CGFloat(1.0))
                     
                     
-                }else if (name == "sliderUp"){
+                }else if (name == "sliderUp" && myInterface.banderaSliderUP == true){
                     myInterface.ventana1.childNode(withName: "sliderUp")!.run(SKAction.setTexture(myInterface.textureSlideUp))
-                }else if (name == "sliderDown"){
+                    myInterface.sliceUp()
+                }else if (name == "sliderDown" && myInterface.banderaSliderDown == true){
                     myInterface.ventana1.childNode(withName: "sliderDown")!.run(SKAction.setTexture(myInterface.textureSlideDown))
+                    myInterface.sliceDown()
                 }
             }
         }

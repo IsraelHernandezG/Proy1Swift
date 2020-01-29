@@ -453,10 +453,44 @@ class Enemy {
             deltaY = Enemigo.position.y - playerPosition.y
             
             let distancia = ((playerPosition.x-Enemigo.position.x)*(playerPosition.x-Enemigo.position.x)+(playerPosition.y-Enemigo.position.y)*(playerPosition.y-Enemigo.position.y)).squareRoot()
-            //movimiento del enemigo
-            if (velocidad != 0.0){ //Mientras que el enemigo esta en movimiento reproducir las animaciones de caminata
+            
+            //Control del movimiento del enemigo
+            //dependiendo de la distancia y clase del enemigo, cambian los rangos de ataque
+            if (distancia > 1200.0) {
+                velocidad = 0.0
+                stop = true
+                isAtack = false
+            }else if (distancia >= distanciaMin && distancia <= 1200.0  ) {
+                velocidad = 2.5
+                isAtack = false
+                stop = false
+                followPlayer(x: deltaX, y: deltaY) // desplaza al enemigo
+            }else if(distancia < distanciaMin && stop == false){
+                velocidad = 0.0
+                stop = true
+                resetpersonaje()
+                
+            }else if(distancia < distanciaMin && avatarEnemy.hasActions()==false){
+                velocidad = 0.0
+                stop = true
+                isAtack = true
+                //ataca al jugador y despues de cada ataque reorientarse
+                //orientarPersonaje()
+                atack()
+            }
+            
+            if (isAtack == true){
+                setWeaponPhysicsBody()
+            }
+            
+            
+            
+            // Si el enemigo se esta desplazando, reproducir animacion y cambiar orientacion dependiendo de la posicion
+            // relativa con el juegador
+            if (stop == false){
                 isAtack = false
                 
+                //detener las acciones anteriores del enenmigo
                 if avatarEnemy.hasActions()==false{
                     animateMove()
                 }
@@ -487,33 +521,8 @@ class Enemy {
                         animateMove()
                     }
                 }
-                
-                
-            }else{
-                if isAtack == true {
-                    setWeaponPhysicsBody()
-                }
-                if (avatarEnemy.hasActions()==false && distancia < distanciaMin){
-                    atack()
-                }else if (avatarEnemy.hasActions()==false && distancia > distanciaMin){
-                    orientarPersonaje()
-                }
             }
             
-            //Control del movimiento del enemigo
-            //dependiendo de la clase del enemigo, cambian los rangos de ataque
-           
-            if (distancia >= distanciaMin && distancia < 1200.0 && isAtack == false) {
-                velocidad = 2.5
-                stop = false
-                followPlayer(x: deltaX, y: deltaY) // desplaza al enemigo
-            }else{
-                velocidad = 0.0
-                if(stop == false){
-                    stop = true
-                    resetpersonaje()
-                }
-            }
         }
     }
     
